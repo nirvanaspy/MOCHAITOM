@@ -7,10 +7,13 @@ import App from './App'
 // import TreeView from 'vue-json-tree-view'
 import router from './router'
 //import Axios from 'axios'
-
+import ElementUI from 'element-ui'
+import 'element-ui/lib/theme-chalk/index.css'
 
 //Vue.config.productionTip = false
 // vue.use(TreeView)v
+
+Vue.use(ElementUI)
 
 //设置cookie
 Vue.prototype.setCookie = (c_name, value, expiredays) => {
@@ -45,5 +48,6 @@ new Vue({
     el: '#app',
     router,
     template: '<App/>',
-    components: { App }
+    components: { App },
+    render: h => h(App)
 })
