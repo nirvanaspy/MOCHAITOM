@@ -19,11 +19,12 @@ import signin from '@/pages/signin'
 import selectProject from '@/pages/selectProject'
 import addProject from '@/pages/addProject'
 import scan from '@/pages/scan'
+import deploy from '@/pages/deploy'
 
 /* eslint-disable */
 import Axios from 'axios'
 
-Axios.defaults.baseURL = 'http://127.0.0.1:8080/'  //路径提取出来，简化代码
+Axios.defaults.baseURL = 'http://192.168.0.104:8080/'  //路径提取出来，简化代码
 
 //Axios.defaults.baseURL = 'http://' + this.getCookie('ip') + '/'
 Vue.use(Router)
@@ -132,8 +133,13 @@ export default new Router({
                     name: 'scan',
                     component: scan
                 },
+                {
+                    path: '/deploy',
+                    name: 'deploy',
+                    component: deploy
+                },
             ]
         }
-
+            
     ]
 })
