@@ -2,7 +2,7 @@
 	<div>
 
 	    <div class="row-fluid login-wrapper">
-	        <a href="#">
+	        <a href="#" style="text-decoration:none">
 	            <!-- <img class="logo" src="img/logo-white.png" /> -->
               <h1 style="color:white;">一体化运维管理平台</h1>
 	        </a>
