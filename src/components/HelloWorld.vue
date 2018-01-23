@@ -214,7 +214,7 @@
 
          <li>
           <router-link to="/deploy">
-            <i class=""></i>
+            <i class="icon-edit"></i>
             <span>部署</span>
           </router-link>
         </li>
