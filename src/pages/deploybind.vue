@@ -238,7 +238,7 @@
                                         			<!-- <i class="icon-laptop" style="margin-left: 10px;"></i> -->
                                         			<div id="todo-list-example" class="addli">
 			                                            <ul class="bindul">
-			                                                <li v-for="(devcomp, index) in deviceArr.comppp" :key="index">
+			                                                <li v-for="(devcomp, index) in device.comppp" :key="index">
 			                                                    {{devcomp.name}}
 			                                                </li>
 			                                            </ul>
@@ -386,7 +386,7 @@
 	设备名：{{deviceArr}}
 </div>
 
-<hr/>
+<!-- <hr/>
 <div>
 	设备id：{{deviceIdArr}}
 </div>
@@ -414,7 +414,7 @@
 <hr/>
 <div>
 	{{deployplanId}}
-</div> 
+</div>  -->
 
     </div>
 
@@ -423,10 +423,10 @@
 <script>
 /* eslint-disable */
 let dom = null;
-var deviceArr = [];   //设备名称
+let deviceArr = [];   //设备名称
 let deviceIdArr = [];       //设备的ID信息
 let compArr1 = {};   //组件名称
-var compArr = [];
+let compArr = [];
 let compIddArr = [];       //组件的ID信息
 let nameArr = [];   //设备及组件的名称
 let idAll = [];     //设备及组件的id
@@ -598,7 +598,7 @@ methods: {
 		var id;
 
 	    var target = e.target || e.srcElement;
-	    debugger;
+	    //debugger;
 	    if (target.parentNode.parentNode.tagName.toLowerCase() == "td") {
 	        var rowIndex = target.parentNode.parentNode.parentNode.rowIndex;
 	        //alert(rowIndex);
@@ -618,7 +618,7 @@ methods: {
 	        //nameArr.push(name.substring(33));
 	        //$("#div2").remove(obj);
 	        //$("#moveContent").append(name);
-	        deviceArr.push({   //将设备的id和名称加入设备数组中
+	        this.deviceArr.push({   //将设备的id和名称加入设备数组中
 		        id: id,
 		        name:name.substring(33)
 			});
@@ -662,8 +662,8 @@ methods: {
 
 		    var target = e.target || e.srcElement;
 
-		    alert("A");
-		    debugger;
+		    //alert("A");
+		    //debugger;
 		    if (target.parentNode.parentNode.tagName.toLowerCase() == "td") {
 		        var rowIndex = target.parentNode.parentNode.parentNode.rowIndex;
 		        //alert(rowIndex);
@@ -685,13 +685,13 @@ methods: {
 		        /*compArr1.id = id;
 		        compArr1.name = name;
 		        compArr.push(compArr1);*/
-		        compArr.push({   //将设备的id和名称加入设备数组中
+		        this.compArr.push({   //将设备的id和名称加入设备数组中
 			        id: id,
 			        name: name.substring(43)
 				});
 
 				console.log("yeyeyeyeye");
-		        this.compArr = compArr;
+		        //this.compArr = compArr;
 
 		        console.log(this.compArr);
 		    	console.log(compArr);
@@ -717,34 +717,43 @@ methods: {
 	moveSure: function(){
 		//debugger;
 		deviceId = this.selectedDev;  //所选择的设备的id
-		alert(deviceId);
+		//alert(deviceId);
 
 		var deviceName = '';
 		console.log(this.compArr);
 		console.log(compArr);
 		//遍历设备数组，找到id相同的，获取其name的值
-		for(var i=0;i<deviceArr.length;i++){
-			if(deviceId == deviceArr[i].id){
-				//deviceName = deviceArr[i].name;
-				deviceArr[i].comppp = [];
-				deviceArr[i].comppp = this.compArr;
+		//debugger;
+		for(var i=0;i<this.deviceArr.length;i++){
+			if(deviceId == this.deviceArr[i].id){
+				deviceName = this.deviceArr[i].name;
+				this.deviceArr[i].comppp = [];
+				//this.deviceArr[i].comppp = compArr;
+
+				for(var j=0;j<this.compArr.length;j++){
+					this.deviceArr[i].comppp.push(this.compArr[j]);
+				}
+				
 			}
+
+			/*for(var j=0;j<this.deviceArr[i].comppp.length;j++){
+				console.log(this.deviceArr[i].comppp[j].name);
+			}*/
 		}
+
+
+
 
 		//alert(deviceName);
 
 		//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!第二次添加会有问题，不是在组件里再加组件。
 		//将设备的id、名称和组件加入设备数组中
-		/*this.devcomps.push({   
+		this.devcomps.push({   
 			id: deviceId,  //设备的id
 			name: deviceName,  //设备的名称
 	        devcompBinds:compArr
 		})
 
-		bindComps = this.devcomps[0].devcompBinds;
-
-		alert(this.devcomps[0].name);
-		alert(this.devcomps[0].devcompBinds[0].name);*/
 
 console.log("---------------------------");
 		console.log(deviceArr);
@@ -785,7 +794,7 @@ console.log("---------------------------");
 	},
 	changeDevice: function() {
     	deviceId = this.selectedDev;
-     	alert(deviceId);
+     	//alert(deviceId);
         
     },
 	changeDeployPlan: function() {
