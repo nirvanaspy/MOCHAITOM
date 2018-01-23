@@ -147,26 +147,6 @@
                 </div>
         </div>
 
-
-   <!--    <hr/>
-   <div>
-       {{componentEntity}}
-   </div>
-   
-   <hr/>
-   <div>
-       {{entity}}
-   </div>
-   
-   <hr/>
-   <div>
-       {{scanDevice}}
-   </div>
-   
-   <hr/>
-   <div>
-       {{scanComponent}}
-   </div> -->
        
     </div>
     </template>
@@ -186,14 +166,15 @@ function getCurrentRoot(treeNode) {
   }
 }
 
-let projectId = "edf55612-86ab-4dc3-a505-8c418a7e75c3";
+//let projectId = "edf55612-86ab-4dc3-a505-8c418a7e75c3";
 
 let deviceNodeId;
 let deployPlanId;
 let deviceId;
 let componentNodeId;
-let deployPlanDetailEntities;
 
+
+let deployPlanDetailEntities;
 let deployplanZtreeId;
 
 let zNodes=[];
@@ -214,9 +195,7 @@ export default {
       currentPage: 0,
       pages: [],
       jumpPage: 0,
-
-      deviceItem: {},
-      componentItem: {},
+  
 
       components: [],
       entity:[],
@@ -250,7 +229,7 @@ export default {
   },
   created() {
 
-    //var projectId = this.getCookie('projectId');
+    var projectId = this.getCookie('projectId');
     var username = this.getCookie('username');
     var password = this.getCookie('password');
 
@@ -284,9 +263,11 @@ export default {
              })
         }
 
+
       }).catch(err => {
         console.log(err);
       });
+
   },
 
   methods: {
@@ -297,32 +278,26 @@ export default {
 
     },
     
-    handleInfo:function(info){
+    handleInfo:function(root,path){
 
-        for(let i = 0; i<info.length; i++){
-            for(let j = i+1; j<info.length; j++){
-                if(info[i].name==info[j].name){
-                    for(let k = 0; k<info[j].children.length; k++){
-                    info[i].children.push(info[j].children[k]);
-                    };
-                    info[j].children.length=0;
-                }   
+            if(root.name==path[1]){
+              root=path[1];
+              path.splice(1,1);
+
+            }else{
+              if(root.hasOwnProperty("children")==false){
+                  root.children=[];
+                  root.children.push({"name":path[0]});
+                  root=path[1];
+                  path.splice(1,1);
+              }else{
+                  root.children.push({"name":path[0]});
+                  root=path[1];
+                  path.splice(1,1);
+              } 
             }
-        };
 
-        let rest=[];
-        for(let i = 0; i<info.length; i++){
-            if(info[i].hasOwnProperty("children")==false){
-                rest.push(info[i]);
-            }else if(info[i].children.length>0){
-                rest.push(info[i]); 
-            }
-        }
-       
-
-        rest.componentEntityId=info.componentEntityId;
-        
-        return rest;
+         this.handleInfo(root,path); 
 
     },
 
@@ -388,6 +363,7 @@ export default {
               deployPlanDetailEntities[j].deviceEntity.id; 
           
             componentNode.componentNodeInfo=deployPlanDetailEntities[j].componentEntity.componentFileEntities;
+         
 
             componentNode.state = "--";
 
@@ -415,18 +391,18 @@ export default {
                  }  
               }
 
-              if(flag){
-                  deviceNode.name =
-                  deployPlanDetailEntities[j].deviceEntity.name +
-                  deployPlanDetailEntities[j].deviceEntity.ip;
+                if(flag){
+                    deviceNode.name =
+                    deployPlanDetailEntities[j].deviceEntity.name +
+                    deployPlanDetailEntities[j].deviceEntity.ip;
 
-                 deviceNode.deployPlanId = deployplanZtreeId;
-                
-                 let children = [];
-                 children.push(componentNode);
-                 deviceNode.children = children;
-                 zNodes.push(deviceNode);
-              }
+                   deviceNode.deployPlanId = deployplanZtreeId;
+                  
+                   let children = [];
+                   children.push(componentNode);
+                   deviceNode.children = children;
+                   zNodes.push(deviceNode);
+                }
                
             }else{
             
@@ -444,68 +420,137 @@ export default {
             
             }
 
-    };
-
-      
-      let allInfo=[];
-      let tempName=[];
-      for(let k=0;k<deployPlanDetailEntities.length;k++){
-       
-        allInfo=[];
-        childrenInfo.push(deployPlanDetailEntities[k].componentEntity.componentFileEntities);
-    
-        for (let i = 0; i < deployPlanDetailEntities[k].componentEntity.componentFileEntities.length; i++) {
-
-            let path=(deployPlanDetailEntities[k].componentEntity.componentFileEntities[i].path).split('/');
-
-            let pathInfo=[];
-            allInfo.componentEntityId=deployPlanDetailEntities[k].componentEntity.id;
-
-
-            for(let j=1;j<path.length;j++){
-               let temp={};
-               temp.name=path[j];
-
-               if(pathInfo.length>0){
-
-                 if(pathInfo[0].hasOwnProperty("children")==true){
-                
-                    tempName[0].children=[];
-                    tempName[0].children.push(temp);
-
-                    tempName=tempName[0].children;
-
-                 }else{
-
-                    pathInfo[0].children=[];
-                    pathInfo[0].children.push(temp);
-
-                    tempName=pathInfo[0].children;
-                 }
-
-               }else{
-
-                 pathInfo.push(temp);
-
-               } 
-            }
-
-           allInfo.push(pathInfo[0]);
            
-        }
+           
+            for(let j=0;j<zNodes.length;j++){
+                for(let l=0;l<zNodes[j].children.length;l++){
+                  //对于设备下的每个组件而言，操作组件文件
+                  let componentFile=zNodes[j].children[l].componentNodeInfo;//组件    
+                  let path=(componentFile[0].path).split('/');
+                  let pathInfo=[];//存放第一次生成的树
+                  let tempName=[];//第三方变量
 
-     };
-    let restInfo=this.$options.methods.handleInfo(allInfo);
+                  for(let m=1;m<path.length;m++){
+                          
 
-    
-    for(let i = 0; i<zNodes.length; i++){
-        for(let j = 0; j<zNodes[i].children.length; j++){
-            if(zNodes[i].children[j].id==restInfo.componentEntityId){
-                zNodes[i].children[j].children=[];
-                zNodes[i].children[j].children=restInfo;
+                         let temp={};
+                         temp.name=path[m];
+
+                         if(pathInfo.length>0){
+
+                           if(pathInfo[0].hasOwnProperty("children")==true){
+                          
+                              tempName[0].children=[];
+                              tempName[0].children.push(temp);
+
+                              tempName=tempName[0].children;
+
+                           }else{
+
+                              pathInfo[0].children=[];
+                              pathInfo[0].children.push(temp);
+
+                              tempName=pathInfo[0].children;
+                           }
+
+                         }else{
+
+                           pathInfo.push(temp);
+
+                         } 
+                      
+                  }
+
+                  console.log(pathInfo);
+               
+
+
+                  for(let m=1;m<componentFile.length;m++){
+                      let path=(componentFile[m].path).split('/');
+                     
+                      for(let s=1;s<path.length;s++){
+                          for(let n=0;n<pathInfo.length;n++){
+                              let root=pathInfo[n];
+                              if(path[s]==root.name){
+                                  path.splice(1,1);
+                              }else{
+                                  if(root.hasOwnProperty("children")==true){
+                                      for(let t=0;t<pathInfo[n].children.length;t++){
+                                          root=pathInfo[n].children[t];
+                                          if(root.name==path[s]){
+                                              path.splice(1,1);
+
+                                          }else{
+                                              if(root.hasOwnProperty("children")==true){
+                                                  for(let r=0;r<pathInfo[n].children[t].children.length;r++){
+                                                      root=pathInfo[n].children[t].children[r];
+                                                      if(root.name==path[s]){
+                                                          path.splice(1,1);
+
+                                                      }else{
+                                                          if(root.hasOwnProperty("children")==true){
+                                                              for(let h=0;h<pathInfo[n].children[t].children[r].children.length;h++){
+                                                                  root=pathInfo[n].children[t].children[r].children[h];
+                                                                  if(root.name==path[s]){
+                                                                      path.splice(1,1);
+
+                                                                  }else{
+                                                                      if(root.hasOwnProperty("children")==true){
+                                                                          for(let f=0;f<pathInfo[n].children[t].children[r].children[h].children.length;f++){
+                                                                              root=pathInfo[n].children[t].children[r].children[h].children[f];
+                                                                              if(root.name==path[s]){
+                                                                                  path.splice(1,1);
+
+                                                                              }else{
+                                                                                  if(root.hasOwnProperty("children")==true){
+                                                                                      for(let f=0;f<pathInfo[n].children[t].children[r].children[h].children[f].children.length;f++){
+                                                                                          
+                                                                                      }
+                                                                                  }
+                                                                              }
+                                                                          }
+                                                                      }else{
+                                                                          root.children=[];
+                                                                          root.children.push({"name":path[1]});
+                                                                      }
+                                                                  }
+                                                              }
+                                                          }else{
+                                                              root.children=[];
+                                                              root.children.push({"name":path[1]});
+                                                          }
+                                                      }
+                                                  }
+                                              }else{
+                                                  root.children=[];
+                                                  root.children.push({"name":path[1]});
+                                              }
+
+                                          }
+
+                                      }
+                                  }else{
+                                      root.children=[];
+                                      root.children.push({"name":path[1]});
+                                  }
+                              }
+                          }
+
+                      }
+
+                  }
+                
+
             }
-        }
+  
+        }   
+
     };
+   
+
+
+
+
 
     $.fn.zTree.init($("#treeDemo"), setting, zNodes);
         
@@ -627,8 +672,7 @@ export default {
               this.componentEntity.push(res.data.data.componentFileEntities[i]);
     
           };
-  
-       
+
         }).catch(err => {
         
         });
@@ -729,6 +773,7 @@ export default {
           for(let i=0;i<res.data.data.length;i++){
 
             for(let j=0;j<res.data.data[i].correctComponentFiles.length;j++){
+              
 
                for(let k=0;k<this.componentEntity.length;k++){
 
