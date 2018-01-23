@@ -74,11 +74,11 @@
 													</ul>
 													<div class="tab-content" style="margin-left: 2px;">
 														<div class="tab-pane active" id="panel-173637">
-															
-
-															<div class="row-fluid table">
-																<input class="search" type="text" placeholder="搜索设备.." v-model="searchQuery"/>
+															<input class="search" type="text" placeholder="搜索设备.." v-model="searchQuery"/>
 															<br/><br/>
+
+															<div class="row-fluid table leftchose">
+																
 											                    <table class="table table-hover" id="table_value">
 											                        <thead>
 											                        <tr>
@@ -107,8 +107,8 @@
 											                            </td>
 											                            <td>
 											                        		<div class="btn-group small" style="margin-right: 3px">
-											                        			<button class="btn-glow" @click="moveDevice($event)">
-											                        				<i class="icon-random"></i>
+											                        			<button class="btn-glow  icon-random" @click="moveDevice($event)">
+											                        				<!-- <i class="icon-random"></i> -->
 											                        			</button>
 											                        		</div>
 											                        		
@@ -152,11 +152,11 @@
 															</p>
 														</div>
 														<div class="tab-pane" id="panel-776434">
-															
-
-															<div class="row-fluid table">
-																<input class="search" type="text" placeholder="搜索组件.."  v-model="searchQuery"/>
+															<input class="search" type="text" placeholder="搜索组件.."  v-model="searchQuery"/>
 															<br/><br/>
+
+															<div class="row-fluid table leftchose">
+																
 											                    <table class="table table-hover" id="table_value2">
 											                        <thead>
 											                        <tr>
@@ -196,13 +196,13 @@
 												                               {{component.version}} 
 												                            </td>
 												                            <td>
-											                        		<div class="btn-group small" style="margin-right: 3px">
-											                        			<button class="btn-glow" @click="moveComp($event)">
-											                        				<i class="icon-random"></i>
-											                        			</button>
-											                        		</div>
-											                        		
-											                        	</td>
+												                        		<div class="btn-group small" style="margin-right: 3px">
+												                        			<button class="btn-glow icon-random"  data-toggle="modal" @click="moveComp($event)" value="aa">
+												                        				<!-- <i class="icon-random"></i> -->
+												                        			</button>
+												                        		</div>
+												                        		
+												                        	</td>
 												                           
 												                        </tr>
 
@@ -230,31 +230,104 @@
                                         	</div>
                                         	
                                         	<!-- 部署设计拖动区域 -->
-                                        	<div class="move span7" id="moveContent" style="min-height: 400px;font-size: 25px;">
+                                        	<div class="move span7" id="moveContent" style="min-height: 400px;">
                                         		<div style="margin-top:20px;margin-left: 30%;">
                                         			<h3>部署设计</h3>
                                         		</div>
-                                        		<div class="moveChild span4" v-for="(name,index) in nameArr" :key="index" style="margin-top: 40px;">
-                                        			<i class="icon-laptop" style="margin-left: 10px;"></i>
-                                        			<br/><br/>
-                                        			{{name}}
+                                        		<div class="moveChild span4" v-for="(device,index) in deviceArr" :key="index" style="margin-top: 40px;">
+                                        			<!-- <i class="icon-laptop" style="margin-left: 10px;"></i> -->
+                                        			<div id="todo-list-example" class="addli">
+			                                            <ul class="bindul">
+			                                                <li v-for="(devcomp, index) in deviceArr.comppp" :key="index">
+			                                                    {{devcomp.name}}
+			                                                </li>
+			                                            </ul>
+			                                        </div>
+                                        			<!-- <br/> -->
+                                        			<div class="bindDevName">
+                                        				{{device.name}}
+                                        			</div>
+                                        			
                                         		</div>
                                         	</div> 										  
 										</div>
 
                                     </div>
                                 </div>
+
+								<!-- 选择设备的弹框 -->
+                                <div class="modal fade" id="modal-select">
+						            <div class="modal-dialog">
+						                <div class="modal-content">
+						                    <div class="modal-header">
+						                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="reset()">
+						                            <span aria-hidden="true">&times;</span></button>
+						                        <h4 class="modal-title">请选择您要移入哪台设备</h4>
+						                    </div>
+						                    <div class="modal-body">
+						                        <!-- form start -->
+						                        <form class="form-horizontal">
+		                                            <div class="field-box" style="margin-top: 30px;">
+		                                            	<div style="float:left;">
+		                                            		<label>设备:</label>
+		                                            	</div>
+		                                                <div>
+		                                                	<select v-model="selectedDev" style="height:30px;margin-left: 20px;"  @change="changeDevice">
+								                            	<!-- v-model="selected" -->
+								                                <option v-for="(devicechoose, index) in deviceArr" v-bind:value="devicechoose.id">
+							                                    	{{devicechoose.name}}
+								                                </option>
+								                            </select>
+		                                                </div>
+		                                                
+							                            
+
+		                                            </div>
+						                            <!-- /.box-body -->
+						                            <div class="box-footer">
+						                                
+						                                <button type="submit" class="btn btn-info pull-right"  @click="moveSure">确定</button>
+						                            </div>
+						                            <!-- /.box-footer -->
+						                        </form>
+
+						                    </div>
+						                </div>
+						            </div>
+						        </div>
                             </div>
                             <div class="step-pane" id="step3">
                                 <div class="row-fluid form-wrapper">
                                     <div class="span8">
                                         <form />
-                                        	<div>
-                                        		<h3>请填写路径：</h3>
+                                        	<!-- <div>
+                                        		<h3>请选择设备：</h3>
                                         	</div>
+                                        	<br/> -->
+                                            <div class="field-box" style="margin-top: 30px;">
+                                                <label>请选择设备:</label>
+					                            <select style="height:30px;">
+					                            	<!-- v-model="selected" -->
+					                                <option >
+					                                    xy
+					                                </option>
+					                                <option >
+					                                    han
+					                                </option>
+					                            </select>
+
+                                            </div>
+
+                                        	<!-- <div>
+                                        		<h3>请填写路径：</h3>
+                                        	</div> -->
                                         	<br/>
                                             <div class="field-box" style="margin-top: 30px;">
-                                                <label>路径:</label>
+                                                <label>组件1路径:</label>
+                                                <input class="span8" type="text" id="path" name="deployPath" placeholder="路径"/>
+                                            </div>
+                                            <div class="field-box" style="margin-top: 30px;">
+                                                <label>组件2路径:</label>
                                                 <input class="span8" type="text" id="path" name="deployPath" placeholder="路径"/>
                                             </div>
                                             
@@ -292,15 +365,21 @@
             </div>
         </div>
 
+
 <div>
-	部署设计：{{deployplans}}
-	<!-- planId: {{deployplanId[0].id}}   -->
+	绑定组件的设备：{{devcomps}}
+
 </div>
+
+<!--<hr/>
+ <div>
+	部署设计：{{deployplans}}
+</div> 
 
 <hr/>
 <div>
 	设备：{{devices}}
-</div>
+</div>-->
 
 <hr/>
 <div>
@@ -335,8 +414,7 @@
 <hr/>
 <div>
 	{{deployplanId}}
-	<!-- planId: {{deployplanId[0].id}}   -->
-</div>
+</div> 
 
     </div>
 
@@ -345,38 +423,43 @@
 <script>
 /* eslint-disable */
 let dom = null;
-let deviceArr = [];   //设备名称
+var deviceArr = [];   //设备名称
 let deviceIdArr = [];       //设备的ID信息
-let compArr = [];   //组件名称
+let compArr1 = {};   //组件名称
+var compArr = [];
 let compIddArr = [];       //组件的ID信息
 let nameArr = [];   //设备及组件的名称
 let idAll = [];     //设备及组件的id
-let deployplanId = '';
+let deployplanId = ''; //下拉框所选中的部署设计的id
+let deviceId = '';  //下拉框所选中的设备的id
 /*let projectId = "5a922835-a587-4dad-b3b7-bb5005ef4c99";*/
 export default{
 data(){
 	return{
 		selected: '',
+		selectedDev: '',
 		searchQuery: '',
 		devices:[],
 		comps:[],
-		deviceArr:[],
+		deviceArr:[],        //移动的设备的信息
 		deviceIdArr:[],
 		compArr:[],
 		compIddArr:[],
 		nameArr:[],
 		idAll:[],
 		deployplanId: '',
+		deviceId: '',
 		deployplans:[],
-		deployplanInfos: [
-	        
-	    ]
+		deployplanInfos: [],    //部署设计信息
+	    devcomps: []  //设备上绑定的组件
 	  
     }
 },created(){
 	var projectId = this.getCookie('projectId');
     var username = this.getCookie('username');
     var password = this.getCookie('password');
+
+    var compArr = [];
 	//获取设备
     this.$axios.get('project/'+projectId+'/device',{
         //设置头
@@ -393,6 +476,7 @@ data(){
     .catch(err=>{
         console.log(err);
     });
+
 	//获取组件
     this.$axios.get('components',{           
         //设置头
@@ -410,51 +494,34 @@ data(){
         console.log(err);
     });
 
-    /*this.$axios.get('deployplan',{
-    	params:{  //get请求在第二个位置，post在第三个位置
-			ID:projectId
-		},           
+    
+
+	//获取部署设计的相关信息
+    this.$axios.get('project/'+projectId+'/deployplan',{
         //设置头
         headers:{
             'content-type':'application/x-www-form-urlencoded'
         },
         auth: {
-            username: 'admin',
-            password: 'admin'
+            username: username,
+            password: password
         }
     }).then(res=>{
-        this.deployplanId = res.data.data
+    	this.deployplans = res.data.data;
+    	console.log(this.deployplans);
+        for (var i = 0; i < this.deployplans.length; i++) {
+            this.deployplanInfos.push({
+		        id: this.deployplans[i].id,
+		        name: this.deployplans[i].name
+		    })
+        }
+        console.log(this.deployplans);
+        //alert("xydp");
+
     })
-    .catch(err=>{
-        console.log(err);
-    });*/
-
-	//获取部署设计的相关信息
-    this.$axios.get('project/'+projectId+'/deployplan',{
-            //设置头
-            headers:{
-                'content-type':'application/x-www-form-urlencoded'
-            },
-            auth: {
-                username: username,
-                password: password
-            }
-        }).then(res=>{
-        	this.deployplans = res.data.data;
-        	console.log(this.deployplans);
-            for (var i = 0; i < this.deployplans.length; i++) {
-	            this.deployplanInfos.push({
-			        id: this.deployplans[i].id,
-			        name: this.deployplans[i].name
-			    })
-            }
-            console.log(this.deployplans);
-            //alert("xydp");
-
-        })
-        .catch(err => {
-          console.log("hhh");
-        });
+    .catch(err => {
+      console.log("hhh");
+    });
 
 },
 mounted: function(){
@@ -509,27 +576,29 @@ mounted: function(){
 },
 methods: {
 	drag:function(event){
-		event=event||window.event;
-		event.dataTransfer.effectAllowed = 'all';
-		dom = event.currentTarget;
-		//alert(dom);
+    	event=event||window.event;
+    	event.dataTransfer.effectAllowed = 'all'; 
+    	dom = event.currentTarget;
+    	//alert(dom);
 
-	},
-	drop:function(event){
-		event=event||window.event;
-	    event.preventDefault();
-	    event.dataTransfer.dropEffect = "copy";
-	    event.target.appendChild(dom);
-	},
-	allowDrop:function(event){
-	  event.preventDefault();
-	},
+    },
+    drop:function(event){
+    	event=event||window.event;
+        event.preventDefault();
+        event.dataTransfer.dropEffect = "copy";
+        event.target.appendChild(dom);
+    },
+    allowDrop:function(event){
+      event.preventDefault();
+    },
 	moveDevice: function (event){
 		var e = event || window.event;
 		//var nameArr = [];
 		var name;
+		var id;
 
 	    var target = e.target || e.srcElement;
+	    debugger;
 	    if (target.parentNode.parentNode.tagName.toLowerCase() == "td") {
 	        var rowIndex = target.parentNode.parentNode.parentNode.rowIndex;
 	        //alert(rowIndex);
@@ -545,48 +614,144 @@ methods: {
 	        //alert(deviceArr);
 	        deviceIdArr.push(id);
 	        
-	        deviceArr.push(name.substring(33));
-	        nameArr.push(name.substring(33));
+	        //deviceArr.push(name.substring(33));
+	        //nameArr.push(name.substring(33));
 	        //$("#div2").remove(obj);
 	        //$("#moveContent").append(name);
+	        deviceArr.push({   //将设备的id和名称加入设备数组中
+		        id: id,
+		        name:name.substring(33)
+			});
 	    }
 	    this.deviceIdArr = deviceIdArr;
 
 	    this.deviceArr = deviceArr;
-	    this.nameArr = nameArr;
+	    //this.nameArr = nameArr;
+
+	    
 	    //alert(deviceArr);
 	},
 	moveComp: function (event){
-		var e = event || window.event;
-		//var nameArr = [];
-		var name;
 
-	    var target = e.target || e.srcElement;
-	    if (target.parentNode.parentNode.tagName.toLowerCase() == "td") {
-	        var rowIndex = target.parentNode.parentNode.parentNode.rowIndex;
-	        //alert(rowIndex);
-	        
-	        name = document.getElementById("table_value2").rows[rowIndex].cells[1].innerHTML;
-	        //alert(name);
+		/*
+			1、移入设备，将所选的设备的名称和id分别加到对应的数组中 --->加到同一个数组中deviceArr
+			2、在拖动区域遍历设备名称的数组，并显示。
+			3、点击组件按钮，判断是否有已拖入的设备：
+			    1)有：继续向下执行；
+			    2)无：弹出框提示：请先选择设备。
+			4、将组件的名称和id传到对应的数组中。   --->加到同一个数组中compArr
+			5、弹出弹框，从设备的拖动数组中获取以拖入的设备，遍历放到下拉框
+			6、选择设备，获取设备的名称和id，将组件作为设备的属性传过去
+			7、点击确定
+			    1)遍历设备（放到拖动区域）
+			    2)判断拖动区域的设备名称和所选名称一致，则将组件加到此设备对应的列表里
+			    3)遍历此设备的组件
+			8、清空组件数组
 
-	        id = document.getElementById("table_value2").rows[rowIndex].cells[0].innerHTML;
-	        //alert(id);
+			注意：因为外层遍历的是设备，所以还是应该将组件加入设备的数组，不能再另起一个数组，否则里层的li无法遍历。
+			猜测：或许可以判断外层的device变量和里层的变量的名称（即设备名称）是否相同，相同则直接拿相同的那个的值去遍历
+			      里层的li循环。  --->可能会用到v-if,还有vue的数组，需学习。
+		*/
 
-	        //alert(name);
-	        
-	        //alert(compArr);
-	        compIddArr.push(id);
+		if(deviceArr.length != 0){
+			
+			var e = event || window.event;
+			//var nameArr = [];
+			var name;
+			var id;
 
-	        compArr.push(name.substring(43));
-	        nameArr.push(name.substring(43));
-	        //$("#div2").remove(obj);
-	        //$("#moveContent").append(name);
-	    }
-	    this.compIddArr = compIddArr;
+		    var target = e.target || e.srcElement;
 
-	    this.compArr = compArr;
-	    this.nameArr = nameArr;
-	    //alert(compArr);
+		    alert("A");
+		    debugger;
+		    if (target.parentNode.parentNode.tagName.toLowerCase() == "td") {
+		        var rowIndex = target.parentNode.parentNode.parentNode.rowIndex;
+		        //alert(rowIndex);
+		        
+		        name = document.getElementById("table_value2").rows[rowIndex].cells[1].innerHTML;
+		        //alert(name);
+
+		        id = document.getElementById("table_value2").rows[rowIndex].cells[0].innerHTML;
+		        //alert(id);
+
+		        //alert(name);
+		        
+		        //alert(compArr);
+		        //debugger;
+		        compIddArr.push(id);                //要移动的组件的id
+
+		        //compArr.push(name.substring(43));   //要移动的组件的name
+		        //nameArr.push(name.substring(43));   //将组件的name加入拖动部分遍历的数组里
+		        /*compArr1.id = id;
+		        compArr1.name = name;
+		        compArr.push(compArr1);*/
+		        compArr.push({   //将设备的id和名称加入设备数组中
+			        id: id,
+			        name: name.substring(43)
+				});
+
+				console.log("yeyeyeyeye");
+		        this.compArr = compArr;
+
+		        console.log(this.compArr);
+		    	console.log(compArr);
+		    }
+		    this.compIddArr = compIddArr;
+
+		    //this.compArr = compArr;
+		    //this.nameArr = nameArr;
+		    console.log("---------------------");
+		    console.log(this.compArr);
+		    console.log(compArr);
+		    //alert(compArr);
+
+		    $("#modal-select").modal('show');
+		}else{
+			$("#modal-select").modal('hide');
+			alert("请先选择设备");
+
+		}
+
+		
+	},
+	moveSure: function(){
+		//debugger;
+		deviceId = this.selectedDev;  //所选择的设备的id
+		alert(deviceId);
+
+		var deviceName = '';
+		console.log(this.compArr);
+		console.log(compArr);
+		//遍历设备数组，找到id相同的，获取其name的值
+		for(var i=0;i<deviceArr.length;i++){
+			if(deviceId == deviceArr[i].id){
+				//deviceName = deviceArr[i].name;
+				deviceArr[i].comppp = [];
+				deviceArr[i].comppp = this.compArr;
+			}
+		}
+
+		//alert(deviceName);
+
+		//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!第二次添加会有问题，不是在组件里再加组件。
+		//将设备的id、名称和组件加入设备数组中
+		/*this.devcomps.push({   
+			id: deviceId,  //设备的id
+			name: deviceName,  //设备的名称
+	        devcompBinds:compArr
+		})
+
+		bindComps = this.devcomps[0].devcompBinds;
+
+		alert(this.devcomps[0].name);
+		alert(this.devcomps[0].devcompBinds[0].name);*/
+
+console.log("---------------------------");
+		console.log(deviceArr);
+		console.log(this.deviceArr);
+		$("#modal-select").modal('hide');
+
+		/*this.deviceArr['devcomps'] = compArr*/
 	},
 	submit: function (){
 		//alert("hh");
@@ -616,30 +781,16 @@ methods: {
         .catch(err=>{
             alert("提交失败！");
         })
-	    /*this.$axios.put('deployplan/'+ this.deployplanId[0].id + "/devices/" + deviceIdArr[0] + "/components/" + compIddArr[0],qs.stringify({
-	        "deployPath": $("input[name='deployPath']").val()
-	    }),{
-	        
-	        //设置头
-	        headers:{
-	            'content-type':'application/x-www-form-urlencoded'
-	        },
-	        auth: {
-	            username: 'admin',
-	            password: 'admin'
-	        }
-	    }).then(res=>{
-	        
-	        this.$router.replace({ path: '/deploy'})
-	    })
-        .catch(err=>{
-            alert("提交失败！");
-        })*/
+	   
 	},
+	changeDevice: function() {
+    	deviceId = this.selectedDev;
+     	alert(deviceId);
+        
+    },
 	changeDeployPlan: function() {
-     deployplanId = this.selected;
-     //alert(deployplanId);
-
+    	deployplanId = this.selected;
+    	//alert(deployplanId);
         
     }
 
@@ -658,19 +809,6 @@ computed: {
         })  
     }  
 } 
-/*computed:{
-    devices: function(){
-    	var self = this
-    	self.devices.filter(function (device){
-    		var searchRegex = new RegExp(self.searchQuery, 'i')
-			return device.isActive && (
-				searchRegex.test(device.name) 
-			)
-    	})
-        
-        return arr;
-    }
- }*/
 
 }
 
@@ -687,6 +825,26 @@ computed: {
 	.move{
 		border: 1px solid rgba(204, 204, 204, 1);
 		min-height: 350px;
+	}
+
+	.addli{
+        max-height: 90px;
+        overflow: auto;
+        border: 1px solid lightgrey;
+        width: 110px;
+    }
+
+    .bindul{
+		list-style-type: decimal;
+    }
+
+    .bindDevName{
+    	margin-left: 30%;
+    } 
+
+	.leftchose{
+		height: 240px;
+		overflow: auto;
 	}
 
 

@@ -24,7 +24,7 @@ import deploy from '@/pages/deploy'
 /* eslint-disable */
 import Axios from 'axios'
 
-Axios.defaults.baseURL = 'http://192.168.0.104:8080/'  //路径提取出来，简化代码
+Axios.defaults.baseURL = 'http://192.168.0.103:8080/'  //路径提取出来，简化代码
 
 //Axios.defaults.baseURL = 'http://' + this.getCookie('ip') + '/'
 Vue.use(Router)
