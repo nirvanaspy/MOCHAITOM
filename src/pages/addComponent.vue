@@ -28,6 +28,13 @@
                                 </div>
 
                                 <div class="span12 field-box">
+                                    
+                                    <label>路径:</label>
+                                    <input class="span9" type="text" name="add-deployPath"/>
+                                    <span class="muststar">*</span>
+                                </div>
+
+                                <div class="span12 field-box">
                                     <label>描述信息:</label>
                                     <input class="span9" type="text" name="add-describle"/>
                                 </div>
@@ -129,6 +136,7 @@ export default {
                 name:'',
                 version:'',
                 size: '',
+                deployPath: '',
                 describle: '',
                 folders: [
                     
@@ -284,10 +292,13 @@ export default {
                 this.name = $("input[name='add-name']").val();
                 this.version = $("input[name='add-version']").val();
                 this.describle = $("input[name='add-describle']").val();
+                this.deployPath = $("input[name='add-deployPath']").val();
+                
                 //alert(this.name);
 
                 formData.append('name', this.name);
                 formData.append('version', this.version);
+                formData.append('deployPath', this.deployPath);
                 //formData.append('size', this.size);
                 formData.append('describle', this.describle);
 
