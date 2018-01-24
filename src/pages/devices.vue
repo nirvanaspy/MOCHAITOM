@@ -64,6 +64,9 @@
                             <th class="span3 sortable">
                                 <span class="line"></span>IP
                             </th>
+                            <th class="span3 sortable">
+                                <span class="line"></span>路径
+                            </th>
                             <th class="span3">
                                 <span class="line"></span>设备详情
                             </th>
@@ -81,6 +84,9 @@
                             </td>
                             <td>
                                {{device.ip}}
+                            </td>
+                            <td>
+                               {{device.path}}
                             </td>
                             <td class="description">
                                 {{device.description}}
