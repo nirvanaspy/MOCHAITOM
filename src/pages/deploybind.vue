@@ -38,10 +38,10 @@
 				                        </thead>
 				                        <tbody>
 				                        <!-- row -->
-				                        <tr class="first" v-for="(device,index) in devicesA" :key="index">
+				                        <tr class="first" v-for="(device,index) in devicesA" @click="deviceClick($event)" :id="device.id">
 				                        	<td style="display:none" id="id">{{device.id}}</td>
 				                            <td class="wrap">
-				                            	<div class="wrap" :title="device.name">
+				                            	<div class="wrap" :id="device.id" :title="device.name" >
 				                            		<i class="icon-laptop"></i>&nbsp;
 				                            		{{device.name}} ({{device.ip}})
 				                            	</div>
@@ -67,18 +67,16 @@
                         		<div style="margin-top:20px;margin-left: 35%;">
                         			<h3>部署设计</h3>
                         		</div>
-                        		<div class="moveChild span4" v-for="(device,index) in deviceArr" :key="index" style="margin-top: 40px;">
-                        			<!-- <i class="icon-laptop" style="margin-left: 10px;"></i> -->
-                        			<div id="todo-list-example" class="addli">
-                                        <ul class="bindul">
-                                            <li v-for="(devcomp, index) in device.comppp" :key="index">
-                                                {{devcomp.name}}
-                                            </li>
-                                        </ul>
-                                    </div>
+                        		<div class="moveChild span4" v-for="(device,index) in devicecomps" :key="index" style="margin-top: 40px;">
+
+									<div>
+										<img src="img/files.png" style="height: 90px;"/>
+									</div>
+                        			 
+                        			
                         			<!-- <br/> -->
                         			<div class="bindDevName">
-                        				{{device.name}}
+                        				{{device.componentEntity.name}}
                         			</div>
                         			
                         		</div>
@@ -152,209 +150,20 @@
 						
 
 						<br/>
-                        	<!-- <div class="choice span5" style="min-height: 400px;">
-								   	<div class="tabbable" id="tabs-259071">
-	  									<ul class="nav nav-tabs">
-	  										<li class="active">
-	  											<a href="#panel-173637" data-toggle="tab">设备</a>
-	  										</li>
-	  										<li>
-	  											<a href="#panel-776434" data-toggle="tab">组件</a>
-	  										</li>
-	  									</ul>
-	  									<div class="tab-content" style="margin-left: 2px;">
-	  										<div class="tab-pane active" id="panel-173637">
-	  											<input class="search" type="text" placeholder="搜索设备.." v-model="searchQuery"/>
-	  											<br/><br/>
-	  
-	  											<div class="row-fluid table leftchose">
-	  												
-	  							                    <table class="table table-hover" id="table_value">
-	  							                        <thead>
-	  							                        <tr>
-	  							                            <th class="span4 sortable">
-	  							                               设备名称
-	  							                            </th>
-	  							                            <th class="span3 sortable">
-	  							                                <span class="line"></span>设备状态
-	  							                            </th>
-	  							                            <th class="span3 sortable">
-	  							                            	移入
-	  							                            </th>
-	  
-	  							                        </tr>
-	  							                        </thead>
-	  							                        <tbody>
-	  							                        row
-	  							                        <tr class="first" v-for="(device,index) in devicesA" :key="index">
-	  							                        	<td style="display:none" id="id">{{device.id}}</td>
-	  							                            <td>
-	  							                               <i class="icon-laptop"></i>&nbsp;{{device.name}} 
-	  							                            </td>
-	  							                            <td>    
-	  							                               <span class="label label-primary" v-if="device.online == false">离线</span>
-	  							                               <span class="label label-success" v-if="device.online == true">在线</span>
-	  							                            </td>
-	  							                            <td>
-	  							                        		<div class="btn-group small" style="margin-right: 3px">
-	  							                        			<button class="btn-glow  icon-random" @click="moveDevice($event)">
-	  							                        				<i class="icon-random"></i>
-	  							                        			</button>
-	  							                        		</div>
-	  							                        		
-	  							                        	</td>
-	  							                        </tr>
-	  
-	  							                        
-	  
-	  							                        </tbody>
-	  							                    </table>
-	  							                </div>
-	  
-	  											<p>
-	  												设备内容.
-	  											</p>
-	  										</div>
-	  										<div class="tab-pane" id="panel-776434">
-	  											<input class="search" type="text" placeholder="搜索组件.."  v-model="searchQuery"/>
-	  											<br/><br/>
-	  
-	  											<div class="row-fluid table leftchose">
-	  												
-	  							                    <table class="table table-hover" id="table_value2">
-	  							                        <thead>
-	  							                        <tr>
-	  							                            <th class="span5 sortable">
-	  							                               组件名称
-	  							                            </th>
-	  							                            <th class="span2 sortable">
-	  							                                <span class="line"></span>大小(MB)
-	  							                            </th>
-	  							                            <th class="span2 sortable">
-	  							                                <span class="line"></span>版本
-	  							                            </th>
-	  							                            <th class="span3 sortable">
-	  							                            	移入
-	  							                            </th>
-	  
-	  							                        </tr>
-	  							                        </thead>
-	  							                        <tbody>
-	  							                        <tr>
-	  							                        	<td>
-	  							                        		组件树
-	  							                        		<ul id="treeDemo" class="ztree"></ul>
-	  							                        	</td>
-	  							                        	<td>1024</td>
-	  							                        	<td>V1.2.1</td>
-	  							                        </tr>
-	  								                        <tr class="first" v-for="(component,index) in compsA" :key="index">
-	  								                            <td style="display:none">{{component.id}}</td>
-	  								                            <td>
-	  								                               <i class="icon-folder-close-alt"></i>&nbsp;{{component.name}} 
-	  								                            </td>
-	  								                            <td>
-	  								                               {{component.size}} 
-	  								                            </td>
-	  								                            <td>
-	  								                               {{component.version}} 
-	  								                            </td>
-	  								                            <td>
-	  								                        		<div class="btn-group small" style="margin-right: 3px">
-	  								                        			<button class="btn-glow icon-random"  data-toggle="modal" @click="moveComp($event)" value="aa">
-	  								                        				<i class="icon-random"></i>
-	  								                        			</button>
-	  								                        		</div>
-	  								                        		
-	  								                        	</td>
-	  								                           
-	  								                        </tr>
-	  
-	  							                        </tbody>
-	  							                    </table>
-	  							                </div>
-	  											<p>
-	  												组件内容.
-	  											</p>
-	  										</div>
-	  									</div>
-	  								</div>
-								  	
-								  </div>
-								  
-								  部署设计拖动区域
-								  <div class="move span7" id="moveContent" style="min-height: 400px;">
-								  	<div style="margin-top:20px;margin-left: 30%;">
-								  		<h3>部署设计</h3>
-								  	</div>
-								  	<div class="moveChild span4" v-for="(device,index) in deviceArr" :key="index" style="margin-top: 40px;">
-								  		<i class="icon-laptop" style="margin-left: 10px;"></i>
-								  		<div id="todo-list-example" class="addli">
-                                          <ul class="bindul">
-                                              <li v-for="(devcomp, index) in device.comppp" :key="index">
-                                                  {{devcomp.name}}
-                                              </li>
-                                          </ul>
-                                        </div>
-								  		<br/>
-								  		<div class="bindDevName">
-								  			{{device.name}}
-								  		</div>
-								  		
-								  	</div>
-								  </div>  -->										  
+                        	
 						
 						</div>
 
                     </div>
                 </div>
 
-				<!-- 选择设备的弹框 -->
-                <!-- <div class="modal fade" id="modal-select">
-                		            <div class="modal-dialog">
-                		                <div class="modal-content">
-                		                    <div class="modal-header">
-                		                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="reset()">
-                		                            <span aria-hidden="true">&times;</span></button>
-                		                        <h4 class="modal-title">请选择您要移入哪台设备</h4>
-                		                    </div>
-                		                    <div class="modal-body">
-                		                        form start
-                		                        <form class="form-horizontal">
-                                    <div class="field-box" style="margin-top: 30px;">
-                                    	<div style="float:left;">
-                                    		<label>设备:</label>
-                                    	</div>
-                                        <div>
-                                        	<select v-model="selectedDev" style="height:30px;margin-left: 20px;"  @change="changeDevice">
-                				                            	v-model="selected"
-                				                                <option v-for="(devicechoose, index) in deviceArr" v-bind:value="devicechoose.id">
-                			                                    	{{devicechoose.name}}
-                				                                </option>
-                				                            </select>
-                                        </div>
-                                        
-                			                            
-                
-                                    </div>
-                		                            /.box-body
-                		                            <div class="box-footer">
-                		                                
-                		                                <button type="submit" class="btn btn-info pull-right"  @click="moveSure">确定</button>
-                		                            </div>
-                		                            /.box-footer
-                		                        </form>
-                
-                		                    </div>
-                		                </div>
-                		            </div>
-                		        </div> -->
+				
             </div>
         </div>
 
 
 <div>
-	绑定组件的设备：{{devcomps}}
+	设备上原有的组件：{{devicecomps}}
 
 </div>
 
@@ -374,29 +183,6 @@
 </div>
 
 <!-- <hr/>
-<div>
-	设备id：{{deviceIdArr}}
-</div>
-
-<hr/>
-<div>
-	组件名：{{compArr}}
-</div>
-
-<hr/>
-<div>
-	组件id：{{compIddArr}}
-</div>
-
-<hr/>
-<div>
-	所有名称：{{nameArr}}
-</div>
-
-<hr/>
-<div>
-	所有id：{{idAll}}
-</div>
 
 <hr/>
 <div>
@@ -419,15 +205,18 @@ let nameArr = [];   //设备及组件的名称
 let idAll = [];     //设备及组件的id
 let deployplanId = ''; //下拉框所选中的部署设计的id
 let deviceId = '';  //下拉框所选中的设备的id
-/*let projectId = "5a922835-a587-4dad-b3b7-bb5005ef4c99";*/
+
+let diveceCHIp = ''; //左侧表格中点击的设备的ip
+let deviceCHId = '';  //左侧表格中点击的设备的id
+
 export default{
 data(){
 	return{
 		selected: '',
 		selectedDev: '',
 		searchQuery: '',
-		devices:[],
-		comps:[],
+		devices:[],          //左侧表格查询出来的设备的信息
+		comps:[],            //左侧表格查询出来的组件的信息
 		deviceArr:[],        //移动的设备的信息
 		deviceIdArr:[],
 		compArr:[],
@@ -438,7 +227,9 @@ data(){
 		deviceId: '',
 		deployplans:[],
 		deployplanInfos: [],    //部署设计信息
-	    devcomps: []  //设备上绑定的组件
+	    devcomps: [],  //设备上绑定的组件
+
+	    devicecomps: []  //设备上原有的组件
 	  
     }
 },created(){
@@ -528,6 +319,40 @@ methods: {
     allowDrop:function(event){
       event.preventDefault();
     },
+
+    deviceClick: function(event){
+    	var e = event || window.event;
+	    var target = e.target || e.srcElement;
+
+	    var username = this.getCookie('username');
+        var password = this.getCookie('password');
+
+		console.log(target);
+		console.log(target.id);
+	    deviceCHId = target.id;     //左侧表格所点击的设备的id
+
+	    var deployPlanId = this.$route.params.id;  //所选择的部署设计的id
+        //alert(compId);
+        console.log(deployPlanId); 
+
+        this.$axios.get('deployplan/'+deployPlanId+'/devices/'+deviceCHId,{
+            //设置头
+            headers:{
+                'content-type':'application/x-www-form-urlencoded'
+            },
+            auth: {
+                username: username,
+                password: password
+            }
+        }).then(res=>{
+            this.devicecomps = res.data.data
+        })
+        .catch(err=>{
+            console.log(err);
+        })
+	    
+    },
+
 	moveDevice: function (event){
 		var e = event || window.event;
 		//var nameArr = [];
