@@ -3,365 +3,214 @@
     <div>
         <div class="container-fluid">
             <div id="pad-wrapper">
+            	<div class="row-fluid header">
+                    <h3>设计</h3>
+                    
+                </div>
 
-                <div class="row-fluid">
-                    <div class="span12">
-                        <div id="fuelux-wizard" class="wizard row-fluid">
-                            <ul class="wizard-steps">
-                            	<li data-target="#step1" class="active">
-                                    <span class="step">1</span>
-                                    <span class="title">选择部署 <br /> 设计</span>
-                                </li>
-                                <li data-target="#step2">
-                                    <span class="step">2</span>
-                                    <span class="title">部署</span>
-                                </li>
-                                <li data-target="#step3">
-                                    <span class="step">3</span>
-                                    <span class="title">选择 <br /> 路径</span>
-                                </li>
-                                <li data-target="#step4">
-                                    <span class="step">4</span>
-                                    <span class="title">提交</span>
-                                </li>
-                                <!-- <li data-target="#step4">
-                                    <span class="step">4</span>
-                                    <span class="title">再次 <br /> 部署</span>
-                                </li> -->
-                            </ul>
-                        </div>
-                        <div class="step-content">
-                        	<div class="step-pane active" id="step1">
-                                <div class="row-fluid form-wrapper">
-                                    <div class="span8">
-                                        <form />
-                                        	<div>
-                                        		<h3>请选择要操作的部署设计：</h3>
-                                        	</div>
-                                        	<br/>
-                                            <div class="field-box" style="margin-top: 30px;">
-                                                <label>部署设计:</label>
-					                            <select v-model="selected" style="height:30px;" @change="changeDeployPlan">
-					                            	<!-- v-model="selected" -->
-					                                <option v-for="deployplan in deployplanInfos" v-bind:value="deployplan.id">
-					                                    {{ deployplan.name }}
-					                                </option>
-					                            </select>
+                <div class="row-fluid form-wrapper">
+                    <div class="span11">
 
-                                            </div>
-                                            
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="step-pane" id="step2">
-                                <div class="row-fluid form-wrapper">
-                                    <div class="span11">
+                        <div class="drag-content span12"  style="min-height: 400px;">
 
-                                        <div class="drag-content span12"  style="min-height: 400px;">
+                        	
 
-                                        	
+                        	<div class="choice span5" style="min-height: 400px;">
+                        	 	<div class="tabbable" id="tabs-259071">
+									<ul class="nav nav-tabs">
+										<li class="active">
+											<a href="#panel-173637" data-toggle="tab">设备</a>
+										</li>
+										<li>
+											<a href="#panel-776434" data-toggle="tab">组件</a>
+										</li>
+									</ul>
+									<div class="tab-content" style="margin-left: 2px;">
+										<div class="tab-pane active" id="panel-173637">
+											<input class="search" type="text" placeholder="搜索设备.." v-model="searchQuery"/>
+											<br/><br/>
 
-                                        	<div class="choice span5" style="min-height: 400px;">
-                                        	 	<div class="tabbable" id="tabs-259071">
-													<ul class="nav nav-tabs">
-														<li class="active">
-															<a href="#panel-173637" data-toggle="tab">设备</a>
-														</li>
-														<li>
-															<a href="#panel-776434" data-toggle="tab">组件</a>
-														</li>
-													</ul>
-													<div class="tab-content" style="margin-left: 2px;">
-														<div class="tab-pane active" id="panel-173637">
-															<input class="search" type="text" placeholder="搜索设备.." v-model="searchQuery"/>
-															<br/><br/>
+											<div class="row-fluid table leftchose">
+												
+							                    <table class="table table-hover" id="table_value">
+							                        <thead>
+							                        <tr>
+							                            <th class="span4 sortable">
+							                               设备名称
+							                            </th>
+							                            <th class="span3 sortable">
+							                                <span class="line"></span>设备状态
+							                            </th>
+							                            <th class="span3 sortable">
+							                            	移入
+							                            </th>
 
-															<div class="row-fluid table leftchose">
-																
-											                    <table class="table table-hover" id="table_value">
-											                        <thead>
-											                        <tr>
-											                            <th class="span4 sortable">
-											                               设备名称
-											                            </th>
-											                            <th class="span3 sortable">
-											                                <span class="line"></span>设备状态
-											                            </th>
-											                            <th class="span3 sortable">
-											                            	移入
-											                            </th>
+							                        </tr>
+							                        </thead>
+							                        <tbody>
+							                        <!-- row -->
+							                        <tr class="first" v-for="(device,index) in devicesA" :key="index">
+							                        	<td style="display:none" id="id">{{device.id}}</td>
+							                            <td>
+							                               <i class="icon-laptop"></i>&nbsp;{{device.name}} 
+							                            </td>
+							                            <td>    
+							                               <span class="label label-primary" v-if="device.online == false">离线</span>
+							                               <span class="label label-success" v-if="device.online == true">在线</span>
+							                            </td>
+							                            <td>
+							                        		<div class="btn-group small" style="margin-right: 3px">
+							                        			<button class="btn-glow  icon-random" @click="moveDevice($event)">
+							                        				<!-- <i class="icon-random"></i> -->
+							                        			</button>
+							                        		</div>
+							                        		
+							                        	</td>
+							                        </tr>
 
-											                        </tr>
-											                        </thead>
-											                        <tbody>
-											                        <!-- row -->
-											                        <tr class="first" v-for="(device,index) in devicesA" :key="index">
-											                        	<td style="display:none" id="id">{{device.id}}</td>
-											                            <td>
-											                               <i class="icon-laptop"></i>&nbsp;{{device.name}} 
-											                            </td>
-											                            <td>    
-											                               <span class="label label-primary" v-if="device.online == false">离线</span>
-											                               <span class="label label-success" v-if="device.online == true">在线</span>
-											                            </td>
-											                            <td>
-											                        		<div class="btn-group small" style="margin-right: 3px">
-											                        			<button class="btn-glow  icon-random" @click="moveDevice($event)">
-											                        				<!-- <i class="icon-random"></i> -->
-											                        			</button>
-											                        		</div>
-											                        		
-											                        	</td>
-											                        </tr>
+							                        
 
-											                        <!-- row -->
-											                        <!-- <tr>
-											                         	<td style="display:none" id="id">1001</td>
-											                         	<td><i class="icon-laptop"></i>&nbsp;设备1</td>
-											                         	<td>在线</td>
-											                         	<td>
-											                         		<div class="btn-group small" style="margin-right: 3px">
-											                         			<button class="btn-glow" @click="move($event)">
-											                         				<i class="icon-random"></i>
-											                         			</button>
-											                         		</div>
-											                         		
-											                         	</td>
-											                         </tr> 
-											                         <tr>
-											                         	<td style="display:none" id="id">1002</td>
-											                         	<td><i class="icon-laptop"></i>&nbsp;设备2</td>
-											                         	<td>在线</td>
-											                         	<td>
-											                         		<div class="btn-group small" style="margin-right: 3px">
-											                         			<button class="btn-glow" @click="move($event)">
-											                         				<i class="icon-random"></i>
-											                         			</button>
-											                         		</div>
-											                         		
-											                         	</td>
-											                         </tr> --> 
+							                        </tbody>
+							                    </table>
+							                </div>
 
-											                        </tbody>
-											                    </table>
-											                </div>
-
-															<p>
-																设备内容.
-															</p>
-														</div>
-														<div class="tab-pane" id="panel-776434">
-															<input class="search" type="text" placeholder="搜索组件.."  v-model="searchQuery"/>
-															<br/><br/>
-
-															<div class="row-fluid table leftchose">
-																
-											                    <table class="table table-hover" id="table_value2">
-											                        <thead>
-											                        <tr>
-											                            <th class="span5 sortable">
-											                               组件名称
-											                            </th>
-											                            <th class="span2 sortable">
-											                                <span class="line"></span>大小(MB)
-											                            </th>
-											                            <th class="span2 sortable">
-											                                <span class="line"></span>版本
-											                            </th>
-											                            <th class="span3 sortable">
-											                            	移入
-											                            </th>
-
-											                        </tr>
-											                        </thead>
-											                        <tbody>
-											                        <!-- <tr>
-											                        	<td>
-											                        		组件树
-											                        		<ul id="treeDemo" class="ztree"></ul>
-											                        	</td>
-											                        	<td>1024</td>
-											                        	<td>V1.2.1</td>
-											                        </tr> -->
-												                        <tr class="first" v-for="(component,index) in compsA" :key="index">
-												                            <td style="display:none">{{component.id}}</td>
-												                            <td>
-												                               <i class="icon-folder-close-alt"></i>&nbsp;{{component.name}} 
-												                            </td>
-												                            <td>
-												                               {{component.size}} 
-												                            </td>
-												                            <td>
-												                               {{component.version}} 
-												                            </td>
-												                            <td>
-												                        		<div class="btn-group small" style="margin-right: 3px">
-												                        			<button class="btn-glow icon-random"  data-toggle="modal" @click="moveComp($event)" value="aa">
-												                        				<!-- <i class="icon-random"></i> -->
-												                        			</button>
-												                        		</div>
-												                        		
-												                        	</td>
-												                           
-												                        </tr>
-
-											                        </tbody>
-											                    </table>
-											                </div>
-															<p>
-																组件内容.
-															</p>
-														</div>
-													</div>
-												</div>
-                                        		<!-- <div class="devices">
-                                        			<h4>设备</h4>
-                                        			<br/>
-                                        			<div class='select-device' draggable='true' @dragstart='drag($event)' v-for='device in devices'>{{device.name}}</div>
-                                        		</div>
-                                        		                                        	
-                                        		<br/><br/>
-                                        		<div class="component">
-                                        			<h4>组件</h4>
-                                        			<br/>
-                                        			<div class='select-comp' draggable='true' @dragstart='drag($event)' v-for='component in comps'>{{component.name}}</div>
-                                        		</div> -->
-                                        	</div>
-                                        	
-                                        	<!-- 部署设计拖动区域 -->
-                                        	<div class="move span7" id="moveContent" style="min-height: 400px;">
-                                        		<div style="margin-top:20px;margin-left: 30%;">
-                                        			<h3>部署设计</h3>
-                                        		</div>
-                                        		<div class="moveChild span4" v-for="(device,index) in deviceArr" :key="index" style="margin-top: 40px;">
-                                        			<!-- <i class="icon-laptop" style="margin-left: 10px;"></i> -->
-                                        			<div id="todo-list-example" class="addli">
-			                                            <ul class="bindul">
-			                                                <li v-for="(devcomp, index) in device.comppp" :key="index">
-			                                                    {{devcomp.name}}
-			                                                </li>
-			                                            </ul>
-			                                        </div>
-                                        			<!-- <br/> -->
-                                        			<div class="bindDevName">
-                                        				{{device.name}}
-                                        			</div>
-                                        			
-                                        		</div>
-                                        	</div> 										  
+											<p>
+												设备内容.
+											</p>
 										</div>
+										<div class="tab-pane" id="panel-776434">
+											<input class="search" type="text" placeholder="搜索组件.."  v-model="searchQuery"/>
+											<br/><br/>
 
+											<div class="row-fluid table leftchose">
+												
+							                    <table class="table table-hover" id="table_value2">
+							                        <thead>
+							                        <tr>
+							                            <th class="span5 sortable">
+							                               组件名称
+							                            </th>
+							                            <th class="span2 sortable">
+							                                <span class="line"></span>大小(MB)
+							                            </th>
+							                            <th class="span2 sortable">
+							                                <span class="line"></span>版本
+							                            </th>
+							                            <th class="span3 sortable">
+							                            	移入
+							                            </th>
+
+							                        </tr>
+							                        </thead>
+							                        <tbody>
+							                        <!-- <tr>
+							                        	<td>
+							                        		组件树
+							                        		<ul id="treeDemo" class="ztree"></ul>
+							                        	</td>
+							                        	<td>1024</td>
+							                        	<td>V1.2.1</td>
+							                        </tr> -->
+								                        <tr class="first" v-for="(component,index) in compsA" :key="index">
+								                            <td style="display:none">{{component.id}}</td>
+								                            <td>
+								                               <i class="icon-folder-close-alt"></i>&nbsp;{{component.name}} 
+								                            </td>
+								                            <td>
+								                               {{component.size}} 
+								                            </td>
+								                            <td>
+								                               {{component.version}} 
+								                            </td>
+								                            <td>
+								                        		<div class="btn-group small" style="margin-right: 3px">
+								                        			<button class="btn-glow icon-random"  data-toggle="modal" @click="moveComp($event)" value="aa">
+								                        				<!-- <i class="icon-random"></i> -->
+								                        			</button>
+								                        		</div>
+								                        		
+								                        	</td>
+								                           
+								                        </tr>
+
+							                        </tbody>
+							                    </table>
+							                </div>
+											<p>
+												组件内容.
+											</p>
+										</div>
+									</div>
+								</div>
+                        		
+                        	</div>
+                        	
+                        	<!-- 部署设计拖动区域 -->
+                        	<div class="move span7" id="moveContent" style="min-height: 400px;">
+                        		<div style="margin-top:20px;margin-left: 30%;">
+                        			<h3>部署设计</h3>
+                        		</div>
+                        		<div class="moveChild span4" v-for="(device,index) in deviceArr" :key="index" style="margin-top: 40px;">
+                        			<!-- <i class="icon-laptop" style="margin-left: 10px;"></i> -->
+                        			<div id="todo-list-example" class="addli">
+                                        <ul class="bindul">
+                                            <li v-for="(devcomp, index) in device.comppp" :key="index">
+                                                {{devcomp.name}}
+                                            </li>
+                                        </ul>
                                     </div>
-                                </div>
+                        			<!-- <br/> -->
+                        			<div class="bindDevName">
+                        				{{device.name}}
+                        			</div>
+                        			
+                        		</div>
+                        	</div> 										  
+						</div>
 
-								<!-- 选择设备的弹框 -->
-                                <div class="modal fade" id="modal-select">
-						            <div class="modal-dialog">
-						                <div class="modal-content">
-						                    <div class="modal-header">
-						                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="reset()">
-						                            <span aria-hidden="true">&times;</span></button>
-						                        <h4 class="modal-title">请选择您要移入哪台设备</h4>
-						                    </div>
-						                    <div class="modal-body">
-						                        <!-- form start -->
-						                        <form class="form-horizontal">
-		                                            <div class="field-box" style="margin-top: 30px;">
-		                                            	<div style="float:left;">
-		                                            		<label>设备:</label>
-		                                            	</div>
-		                                                <div>
-		                                                	<select v-model="selectedDev" style="height:30px;margin-left: 20px;"  @change="changeDevice">
-								                            	<!-- v-model="selected" -->
-								                                <option v-for="(devicechoose, index) in deviceArr" v-bind:value="devicechoose.id">
-							                                    	{{devicechoose.name}}
-								                                </option>
-								                            </select>
-		                                                </div>
-		                                                
-							                            
-
-		                                            </div>
-						                            <!-- /.box-body -->
-						                            <div class="box-footer">
-						                                
-						                                <button type="submit" class="btn btn-info pull-right"  @click="moveSure">确定</button>
-						                            </div>
-						                            <!-- /.box-footer -->
-						                        </form>
-
-						                    </div>
-						                </div>
-						            </div>
-						        </div>
-                            </div>
-                            <div class="step-pane" id="step3">
-                                <div class="row-fluid form-wrapper">
-                                    <div class="span8">
-                                        <form />
-                                        	<!-- <div>
-                                        		<h3>请选择设备：</h3>
-                                        	</div>
-                                        	<br/> -->
-                                            <div class="field-box" style="margin-top: 30px;">
-                                                <label>请选择设备:</label>
-					                            <select style="height:30px;">
-					                            	<!-- v-model="selected" -->
-					                                <option >
-					                                    xy
-					                                </option>
-					                                <option >
-					                                    han
-					                                </option>
-					                            </select>
-
-                                            </div>
-
-                                        	<!-- <div>
-                                        		<h3>请填写路径：</h3>
-                                        	</div> -->
-                                        	<br/>
-                                            <div class="field-box" style="margin-top: 30px;">
-                                                <label>组件1路径:</label>
-                                                <input class="span8" type="text" id="path" name="deployPath" placeholder="路径"/>
-                                            </div>
-                                            <div class="field-box" style="margin-top: 30px;">
-                                                <label>组件2路径:</label>
-                                                <input class="span8" type="text" id="path" name="deployPath" placeholder="路径"/>
-                                            </div>
-                                            
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="step-pane" id="step4">
-                                <div class="row-fluid form-wrapper">
-                                    <div class="span8">
-                                        <form />
-                                            <div class="alert alert-info" style="margin-top: 10%;">
-				                                <i class="icon-exclamation-sign"></i>
-				                                如确认无误，请提交您的部署方案(^_^)
-				                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-     
-                        </div>
-                        <div class="wizard-actions">
-                            <button type="button" disabled="" class="btn-glow primary btn-prev">
-                                <i class="icon-chevron-left"></i> 上一步
-                            </button>
-                            <button type="button" class="btn-glow primary btn-next" data-last="Finish">
-                                下一步 <i class="icon-chevron-right"></i>
-                            </button>
-                            <button type="button" class="btn-glow success btn-finish" @click="submit()">
-                                提交
-                            </button>
-                        </div>
                     </div>
                 </div>
+
+				<!-- 选择设备的弹框 -->
+                <!-- <div class="modal fade" id="modal-select">
+                		            <div class="modal-dialog">
+                		                <div class="modal-content">
+                		                    <div class="modal-header">
+                		                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="reset()">
+                		                            <span aria-hidden="true">&times;</span></button>
+                		                        <h4 class="modal-title">请选择您要移入哪台设备</h4>
+                		                    </div>
+                		                    <div class="modal-body">
+                		                        form start
+                		                        <form class="form-horizontal">
+                                    <div class="field-box" style="margin-top: 30px;">
+                                    	<div style="float:left;">
+                                    		<label>设备:</label>
+                                    	</div>
+                                        <div>
+                                        	<select v-model="selectedDev" style="height:30px;margin-left: 20px;"  @change="changeDevice">
+                				                            	v-model="selected"
+                				                                <option v-for="(devicechoose, index) in deviceArr" v-bind:value="devicechoose.id">
+                			                                    	{{devicechoose.name}}
+                				                                </option>
+                				                            </select>
+                                        </div>
+                                        
+                			                            
+                
+                                    </div>
+                		                            /.box-body
+                		                            <div class="box-footer">
+                		                                
+                		                                <button type="submit" class="btn btn-info pull-right"  @click="moveSure">确定</button>
+                		                            </div>
+                		                            /.box-footer
+                		                        </form>
+                
+                		                    </div>
+                		                </div>
+                		            </div>
+                		        </div> -->
             </div>
         </div>
 
@@ -522,56 +371,6 @@ data(){
     .catch(err => {
       console.log("hhh");
     });
-
-},
-mounted: function(){
-	this.$nextTick(function () {
-    	var $wizard = $('#fuelux-wizard'),
-	        $btnPrev = $('.wizard-actions .btn-prev'),
-	        $btnNext = $('.wizard-actions .btn-next'),
-	        $btnFinish = $(".wizard-actions .btn-finish");
-
-	    $wizard.wizard().on('finished', function(e) {
-	        // wizard complete code
-	    }).on("changed", function(e) {
-	        var step = $wizard.wizard("selectedItem");
-	        // reset states
-	        $btnNext.removeAttr("disabled");
-	        $btnPrev.removeAttr("disabled");
-	        $btnNext.show();
-	        $btnFinish.hide();
-
-	        if (step.step === 1) {
-	            $btnPrev.attr("disabled", "disabled");
-	        } else if (step.step === 4) {
-	            $btnNext.hide();
-	            $btnFinish.show();
-	        }
-	    });
-
-	    $btnPrev.on('click', function() {
-	        $wizard.wizard('previous');
-	    });
-	    $btnNext.on('click', function() {
-	        $wizard.wizard('next');
-	    });
-
-
-	    //树
-	    var zTreeObj;
-	   // zTree 的参数配置，深入使用请参考 API 文档（setting 配置详解）
-		var setting = {};
-	   // zTree 的数据属性，深入使用请参考 API 文档（zTreeNode 节点数据详解）
-		var zNodes = [
-	    {name:"test1", open:true, children:[
-	    {name:"test1_1"}, {name:"test1_2"}]},
-	    {name:"test2", open:true, children:[
-	    {name:"test2_1"}, {name:"test2_2"}]}
-	    ];
-	    $(document).ready(function(){
-	    	zTreeObj = $.fn.zTree.init($("#treeDemo"), setting, zNodes);
-	    });
-    })
 
 },
 methods: {
