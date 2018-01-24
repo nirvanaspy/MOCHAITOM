@@ -67,6 +67,9 @@
 							<th class="span3">
 								<span class="line"></span>大小
 							</th> 
+							<th class="span3 sortable">
+                                <span class="line"></span>路径
+                            </th>
 							<th class="span3">
 								<span class="line"></span>描述
 							</th>
@@ -88,6 +91,9 @@
 							</td>
 							<td>
 								{{component.size}}
+							</td>
+							<td>
+								{{component.deployPath}}
 							</td>
 							<td class="description">
 								{{component.description}}
