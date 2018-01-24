@@ -9,145 +9,62 @@
                 </div>
 
                 <div class="row-fluid form-wrapper">
-                    <div class="span11">
+                    <div class="span12" style="margin-top: -30px;">
 
-                        <div class="drag-content span12"  style="min-height: 400px;">
+                        <div class="drag-content span12">
 
-                        	
-
-                        	<div class="choice span5" style="min-height: 400px;">
-                        	 	<div class="tabbable" id="tabs-259071">
-									<ul class="nav nav-tabs">
-										<li class="active">
-											<a href="#panel-173637" data-toggle="tab">设备</a>
-										</li>
-										<li>
-											<a href="#panel-776434" data-toggle="tab">组件</a>
-										</li>
-									</ul>
-									<div class="tab-content" style="margin-left: 2px;">
-										<div class="tab-pane active" id="panel-173637">
-											<input class="search" type="text" placeholder="搜索设备.." v-model="searchQuery"/>
-											<br/><br/>
-
-											<div class="row-fluid table leftchose">
-												
-							                    <table class="table table-hover" id="table_value">
-							                        <thead>
-							                        <tr>
-							                            <th class="span4 sortable">
-							                               设备名称
-							                            </th>
-							                            <th class="span3 sortable">
-							                                <span class="line"></span>设备状态
-							                            </th>
-							                            <th class="span3 sortable">
-							                            	移入
-							                            </th>
-
-							                        </tr>
-							                        </thead>
-							                        <tbody>
-							                        <!-- row -->
-							                        <tr class="first" v-for="(device,index) in devicesA" :key="index">
-							                        	<td style="display:none" id="id">{{device.id}}</td>
-							                            <td>
-							                               <i class="icon-laptop"></i>&nbsp;{{device.name}} 
-							                            </td>
-							                            <td>    
-							                               <span class="label label-primary" v-if="device.online == false">离线</span>
-							                               <span class="label label-success" v-if="device.online == true">在线</span>
-							                            </td>
-							                            <td>
-							                        		<div class="btn-group small" style="margin-right: 3px">
-							                        			<button class="btn-glow  icon-random" @click="moveDevice($event)">
-							                        				<!-- <i class="icon-random"></i> -->
-							                        			</button>
-							                        		</div>
-							                        		
-							                        	</td>
-							                        </tr>
-
-							                        
-
-							                        </tbody>
-							                    </table>
-							                </div>
-
-											<p>
-												设备内容.
-											</p>
-										</div>
-										<div class="tab-pane" id="panel-776434">
-											<input class="search" type="text" placeholder="搜索组件.."  v-model="searchQuery"/>
-											<br/><br/>
-
-											<div class="row-fluid table leftchose">
-												
-							                    <table class="table table-hover" id="table_value2">
-							                        <thead>
-							                        <tr>
-							                            <th class="span5 sortable">
-							                               组件名称
-							                            </th>
-							                            <th class="span2 sortable">
-							                                <span class="line"></span>大小(MB)
-							                            </th>
-							                            <th class="span2 sortable">
-							                                <span class="line"></span>版本
-							                            </th>
-							                            <th class="span3 sortable">
-							                            	移入
-							                            </th>
-
-							                        </tr>
-							                        </thead>
-							                        <tbody>
-							                        <!-- <tr>
-							                        	<td>
-							                        		组件树
-							                        		<ul id="treeDemo" class="ztree"></ul>
-							                        	</td>
-							                        	<td>1024</td>
-							                        	<td>V1.2.1</td>
-							                        </tr> -->
-								                        <tr class="first" v-for="(component,index) in compsA" :key="index">
-								                            <td style="display:none">{{component.id}}</td>
-								                            <td>
-								                               <i class="icon-folder-close-alt"></i>&nbsp;{{component.name}} 
-								                            </td>
-								                            <td>
-								                               {{component.size}} 
-								                            </td>
-								                            <td>
-								                               {{component.version}} 
-								                            </td>
-								                            <td>
-								                        		<div class="btn-group small" style="margin-right: 3px">
-								                        			<button class="btn-glow icon-random"  data-toggle="modal" @click="moveComp($event)" value="aa">
-								                        				<!-- <i class="icon-random"></i> -->
-								                        			</button>
-								                        		</div>
-								                        		
-								                        	</td>
-								                           
-								                        </tr>
-
-							                        </tbody>
-							                    </table>
-							                </div>
-											<p>
-												组件内容.
-											</p>
-										</div>
-									</div>
-								</div>
+							<!-- 设备 -->
+                        	<div class="span3"  style="height: 480px;">
+                        		<div class="devcompfind">
+                        			<input class="search" type="text" placeholder="搜索设备.." v-model="searchQuery"/>
+                        		</div>
                         		
+								<br/>
+
+								<div class="row-fluid table devcompchose">
+									
+				                    <table class="table table-hover" id="table_value">
+				                        <thead>
+				                        <tr>
+				                            <th class="span7 wrap">
+				                               设备名称
+				                            </th>
+				                            <th class="span5 sortable">
+				                                <span class="line"></span>设备状态
+				                            </th>
+				                            
+
+				                        </tr>
+				                        </thead>
+				                        <tbody>
+				                        <!-- row -->
+				                        <tr class="first" v-for="(device,index) in devicesA" :key="index">
+				                        	<td style="display:none" id="id">{{device.id}}</td>
+				                            <td class="wrap">
+				                            	<div class="wrap" :title="device.name">
+				                            		<i class="icon-laptop"></i>&nbsp;
+				                            		{{device.name}} ({{device.ip}})
+				                            	</div>
+				                            	
+				                               
+				                            </td>
+				                            <td>    
+				                               <span class="label label-primary" v-if="device.online == false">离线</span>
+				                               <span class="label label-success" v-if="device.online == true">在线</span>
+				                            </td>
+				                        </tr>
+
+				                        
+
+				                        </tbody>
+				                    </table>
+				                </div>
+
                         	</div>
-                        	
-                        	<!-- 部署设计拖动区域 -->
-                        	<div class="move span7" id="moveContent" style="min-height: 400px;">
-                        		<div style="margin-top:20px;margin-left: 30%;">
+
+							<!-- 拖动区域 -->
+                        	<div class="move span6" id="moveContent" style="height: 481px;margin-top: -1px;">
+                        		<div style="margin-top:20px;margin-left: 35%;">
                         			<h3>部署设计</h3>
                         		</div>
                         		<div class="moveChild span4" v-for="(device,index) in deviceArr" :key="index" style="margin-top: 40px;">
@@ -165,7 +82,228 @@
                         			</div>
                         			
                         		</div>
-                        	</div> 										  
+                        	</div>
+
+							<!-- 组件 -->
+                        	<div class="span3"  style="height: 480px;margin-left: 8px;width:262px;">
+                        		<div class="devcompfind">
+                        			<input class="search" type="text" placeholder="搜索组件.."  v-model="searchQuery"/>
+                        		</div>
+                        		
+								<br/>
+
+								<div class="row-fluid table devcompchose">
+									
+				                    <table class="table table-hover" id="table_value2">
+				                        <thead>
+				                        <tr>
+				                            <th class="span5 wrap" style="width: 80px;">
+				                               组件名称
+				                            </th>
+				                            <th class="span2 sortable">
+				                                <span class="line"></span>大小(MB)
+				                            </th>
+				                            <th class="span2 sortable">
+				                                <span class="line"></span>版本
+				                            </th>
+				                            <th class="span3 sortable">
+				                            	移入
+				                            </th>
+
+				                        </tr>
+				                        </thead>
+				                        <tbody>
+				                        
+					                        <tr class="first" v-for="(component,index) in compsA" :key="index">
+					                            <td style="display:none">{{component.id}}</td>
+					                            <td class="wrap" style="width: 80px;">
+					                            	<div class="wrap" :title="component.name" style="width: 80px;">
+					                            		<i class="icon-folder-close-alt"></i>&nbsp;
+					                            		{{component.name}} 
+					                            	</div>
+					                            	<!-- <div class="icon-folder-close-alt" style="float:left;">
+					                            		{{component.name}} 
+					                            	</div> -->
+					                               
+					                            </td>
+					                            <td>
+					                               {{component.size}} 
+					                            </td>
+					                            <td>
+					                               {{component.version}} 
+					                            </td>
+					                            <td>
+					                        		<div class="btn-group small" style="margin-right: 3px">
+					                        			<button class="btn-glow icon-random"  data-toggle="modal" @click="moveComp($event)" value="aa">
+					                        				<!-- <i class="icon-random"></i> -->
+					                        			</button>
+					                        		</div>
+					                        		
+					                        	</td>
+					                           
+					                        </tr>
+
+				                        </tbody>
+				                    </table>
+				                </div>
+
+                        	</div>
+
+						
+
+						<br/>
+                        	<!-- <div class="choice span5" style="min-height: 400px;">
+								   	<div class="tabbable" id="tabs-259071">
+	  									<ul class="nav nav-tabs">
+	  										<li class="active">
+	  											<a href="#panel-173637" data-toggle="tab">设备</a>
+	  										</li>
+	  										<li>
+	  											<a href="#panel-776434" data-toggle="tab">组件</a>
+	  										</li>
+	  									</ul>
+	  									<div class="tab-content" style="margin-left: 2px;">
+	  										<div class="tab-pane active" id="panel-173637">
+	  											<input class="search" type="text" placeholder="搜索设备.." v-model="searchQuery"/>
+	  											<br/><br/>
+	  
+	  											<div class="row-fluid table leftchose">
+	  												
+	  							                    <table class="table table-hover" id="table_value">
+	  							                        <thead>
+	  							                        <tr>
+	  							                            <th class="span4 sortable">
+	  							                               设备名称
+	  							                            </th>
+	  							                            <th class="span3 sortable">
+	  							                                <span class="line"></span>设备状态
+	  							                            </th>
+	  							                            <th class="span3 sortable">
+	  							                            	移入
+	  							                            </th>
+	  
+	  							                        </tr>
+	  							                        </thead>
+	  							                        <tbody>
+	  							                        row
+	  							                        <tr class="first" v-for="(device,index) in devicesA" :key="index">
+	  							                        	<td style="display:none" id="id">{{device.id}}</td>
+	  							                            <td>
+	  							                               <i class="icon-laptop"></i>&nbsp;{{device.name}} 
+	  							                            </td>
+	  							                            <td>    
+	  							                               <span class="label label-primary" v-if="device.online == false">离线</span>
+	  							                               <span class="label label-success" v-if="device.online == true">在线</span>
+	  							                            </td>
+	  							                            <td>
+	  							                        		<div class="btn-group small" style="margin-right: 3px">
+	  							                        			<button class="btn-glow  icon-random" @click="moveDevice($event)">
+	  							                        				<i class="icon-random"></i>
+	  							                        			</button>
+	  							                        		</div>
+	  							                        		
+	  							                        	</td>
+	  							                        </tr>
+	  
+	  							                        
+	  
+	  							                        </tbody>
+	  							                    </table>
+	  							                </div>
+	  
+	  											<p>
+	  												设备内容.
+	  											</p>
+	  										</div>
+	  										<div class="tab-pane" id="panel-776434">
+	  											<input class="search" type="text" placeholder="搜索组件.."  v-model="searchQuery"/>
+	  											<br/><br/>
+	  
+	  											<div class="row-fluid table leftchose">
+	  												
+	  							                    <table class="table table-hover" id="table_value2">
+	  							                        <thead>
+	  							                        <tr>
+	  							                            <th class="span5 sortable">
+	  							                               组件名称
+	  							                            </th>
+	  							                            <th class="span2 sortable">
+	  							                                <span class="line"></span>大小(MB)
+	  							                            </th>
+	  							                            <th class="span2 sortable">
+	  							                                <span class="line"></span>版本
+	  							                            </th>
+	  							                            <th class="span3 sortable">
+	  							                            	移入
+	  							                            </th>
+	  
+	  							                        </tr>
+	  							                        </thead>
+	  							                        <tbody>
+	  							                        <tr>
+	  							                        	<td>
+	  							                        		组件树
+	  							                        		<ul id="treeDemo" class="ztree"></ul>
+	  							                        	</td>
+	  							                        	<td>1024</td>
+	  							                        	<td>V1.2.1</td>
+	  							                        </tr>
+	  								                        <tr class="first" v-for="(component,index) in compsA" :key="index">
+	  								                            <td style="display:none">{{component.id}}</td>
+	  								                            <td>
+	  								                               <i class="icon-folder-close-alt"></i>&nbsp;{{component.name}} 
+	  								                            </td>
+	  								                            <td>
+	  								                               {{component.size}} 
+	  								                            </td>
+	  								                            <td>
+	  								                               {{component.version}} 
+	  								                            </td>
+	  								                            <td>
+	  								                        		<div class="btn-group small" style="margin-right: 3px">
+	  								                        			<button class="btn-glow icon-random"  data-toggle="modal" @click="moveComp($event)" value="aa">
+	  								                        				<i class="icon-random"></i>
+	  								                        			</button>
+	  								                        		</div>
+	  								                        		
+	  								                        	</td>
+	  								                           
+	  								                        </tr>
+	  
+	  							                        </tbody>
+	  							                    </table>
+	  							                </div>
+	  											<p>
+	  												组件内容.
+	  											</p>
+	  										</div>
+	  									</div>
+	  								</div>
+								  	
+								  </div>
+								  
+								  部署设计拖动区域
+								  <div class="move span7" id="moveContent" style="min-height: 400px;">
+								  	<div style="margin-top:20px;margin-left: 30%;">
+								  		<h3>部署设计</h3>
+								  	</div>
+								  	<div class="moveChild span4" v-for="(device,index) in deviceArr" :key="index" style="margin-top: 40px;">
+								  		<i class="icon-laptop" style="margin-left: 10px;"></i>
+								  		<div id="todo-list-example" class="addli">
+                                          <ul class="bindul">
+                                              <li v-for="(devcomp, index) in device.comppp" :key="index">
+                                                  {{devcomp.name}}
+                                              </li>
+                                          </ul>
+                                        </div>
+								  		<br/>
+								  		<div class="bindDevName">
+								  			{{device.name}}
+								  		</div>
+								  		
+								  	</div>
+								  </div>  -->										  
+						
 						</div>
 
                     </div>
@@ -622,9 +760,24 @@ computed: {
 
 </script>
 <style>
+
+	.wrap{  
+		width: 150px;   
+		white-space: nowrap;
+		text-overflow: ellipsis;  
+		overflow: hidden;  
+	} 
+
+
+	.devcompfind{
+	    margin-top: 5px;
+	    margin-left: 2px;
+	}
+
 	.drag-content {
 	    border: 2px solid rgba(204, 204, 204, 1);
-	    min-height: 350px;
+	    min-height: 481px;
+	    overflow: auto;
 	}
 	.choice {
 	    /* border-right: 2px solid rgba(204, 204, 204, 1); */
@@ -650,8 +803,8 @@ computed: {
     	margin-left: 30%;
     } 
 
-	.leftchose{
-		height: 240px;
+	.devcompchose{
+		height: 410px;
 		overflow: auto;
 	}
 
