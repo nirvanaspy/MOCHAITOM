@@ -5,6 +5,15 @@
             <div id="pad-wrapper">
             	<div class="row-fluid header">
                     <h3>设计</h3>
+
+                    <div class="span10 pull-right">
+
+                        <button type="button" class="btn-flat primary icon-magic pull-right" @click="submit()">
+                        	<!-- <span>&#43;</span> -->
+                            绑定
+                        </button>
+
+                    </div>
                     
                 </div>
 
@@ -63,9 +72,11 @@
                         	</div>
 
 							<!-- 拖动区域 -->
-                        	<div class="move span6" id="moveContent" style="height: 481px;margin-top: -1px;">
-                        		<div style="margin-top:20px;margin-left: 35%;">
+                        	<div class="move span6" id="moveContent" style="height: 481px;margin-top: -1px;overflow: auto;">
+                        		<div style="margin-top:20px;text-align: center;">
                         			<h3>部署设计</h3>
+                        			<br/>
+                        			<h2>{{deviceName}}</h2>
                         		</div>
                         		<div class="moveChild span4" v-for="(device,index) in devicecomps" :key="index" style="margin-top: 40px;text-align: center;">
 
@@ -86,7 +97,7 @@
                         	</div>
 
 							<!-- 组件 -->
-                        	<div class="span3"  style="height: 480px;margin-left: 8px;width:262px;">
+                        	<div class="span3"  style="height: 480px;margin-left: 8px;">
                         		<div class="devcompfind">
                         			<input class="search" type="text" placeholder="搜索组件.."  v-model="searchQuery"/>
                         		</div>
@@ -210,10 +221,10 @@ let deployplanId = ''; //下拉框所选中的部署设计的id
 let deviceId = '';  //下拉框所选中的设备的id
 
 let diveceCHIp = ''; //左侧表格中点击的设备的ip
-let deviceCHId = '';  //左侧表格中点击的设备的id
+//let deviceCHId = '';  //左侧表格中点击的设备的id
 
-let diveceIdPass = '';  //要传给后台的设备的id数组
-let compsIdPass = '';  //要传给后台的组件的id数组
+let diveceIdPass = [];  //要传给后台的设备的id数组
+let compsIdPass = [];  //要传给后台的组件的id数组
 
 export default{
 data(){
@@ -239,8 +250,14 @@ data(){
 
 	    componentEntity: [],   //组件的id
 
+	    deviceEntity: [],      //新加入的组件的设备的id
+
 	    diveceIdPass: [],    //要传给后台的设备的id数组
-	    compsIdPass:[]       //要传给后台的组件的id数组
+	    compsIdPass:[],       //要传给后台的组件的id数组
+
+	    deviceName: '',        //显示在拖动区域的设备的名称
+
+	    deviceCHId: ''         //左侧表格中点击的设备的id
 	  
     }
 },created(){
@@ -331,7 +348,7 @@ methods: {
       event.preventDefault();
     },
 
-    deviceClick: function(event){
+    deviceClick: function(event){      //设备点击事件
     	var e = event || window.event;
 	    var target = e.target || e.srcElement;
 
@@ -340,13 +357,22 @@ methods: {
 
 		console.log(target);
 		console.log(target.id);
-	    deviceCHId = target.id;     //左侧表格所点击的设备的id
+	    this.deviceCHId = target.id;     //左侧表格所点击的设备的id
+
+	    //根据设备的id得到设备的 名称
+	    for(var i=0;i<this.devices.length;i++){
+	    	if(this.deviceCHId == this.devices[i].id){
+	    		this.deviceName = this.devices[i].name;
+	    		break;
+	    	}
+
+	    }
 
 	    var deployPlanId = this.$route.params.id;  //所选择的部署设计的id
         //alert(compId);
         console.log(deployPlanId); 
 
-        this.$axios.get('deployplan/'+deployPlanId+'/devices/'+deviceCHId,{
+        this.$axios.get('deployplan/'+deployPlanId+'/devices/'+this.deviceCHId,{
             //设置头
             headers:{
                 'content-type':'application/x-www-form-urlencoded'
@@ -385,38 +411,61 @@ methods: {
 
 		var deviceIdPa = '';                    //要传给后台的组件的id
 
+		this.deviceEntity.push({
+			id: this.deviceCHId            //将此设备的id存入组件所在的设备的id数组中
+		});
+
+		console.log(this.deviceEntity);
+
 		//console.log(id);
 
-		//console.log(this.devicecomps);
-		//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!因为后添加了组件进设备，但并没有传给后台，所以根据id查不出来，可能哈市要根据名称和版本查。
-		if(this.devicecomps.length > 0){  //判断是否已选择设备
-			for(var i=0;i<this.devicecomps.length;i++){  //在查询出来的设备的原有组件数组中添加移入的组件
+		
+		/*if(this.devicecomps.length > 0){*/  //判断是否已选择设备
+			console.log("拖动区域的设备名--------------");
+			console.log(this.deviceName);
+		if(this.deviceName.length != 0){    //判断是否已选择设备,即看拖动区域是否有设备名
+			
+			if(this.devicecomps.length > 0){    //判断此设备上是否有原有的绑定组件
+				for(var i=0;i<this.devicecomps.length;i++){  //在查询出来的设备的原有组件数组中添加移入的组件
         	
-        		/*
-        		 判断要添加的组件的id在原有数组中是否已存在
-        		    存在：提示组件已存在
-        		    不存在：将此组件加入此数组中*/
+	        		/*
+	        		 判断要添加的组件的id在原有数组中是否已存在
+	        		    存在：提示组件已存在
+	        		    不存在：将此组件加入此数组中*/
 
-        		//查询出此设备下的组件，并将这些组件添加到一个组件id的数组里去。
-        		this.compIddArr.push(this.devicecomps[i].componentEntity.id);
+	        		//查询出此设备下的组件，并将这些组件添加到一个组件id的数组里去。
+	        		this.compIddArr.push(this.devicecomps[i].componentEntity.id);
 
-        		deviceIdPa = this.devicecomps[i].deviceEntity.id;
+	        		//deviceIdPa = this.devicecomps[i].deviceEntity.id;         //此设备的id
 
-        	}
+	        		/*this.deviceEntity.push({
+	        			id: this.devicecomps[i].deviceEntity.id               //将设备的id存入组件所在的设备的id数组中
+	        		}); 
+*/
+	        	}
+			}else{
+				this.compIddArr.length = 0;
+			}
+			
 
         	console.log("组件的id------------");
         	console.log(this.compIddArr);
-        	for(var j=0;j<this.compIddArr.length;j++){   //遍历组件的id数组，看此组件是否已绑定到设备
-        		if(id == this.compIddArr[j]){  //组件已存在
-        			flag = true;             //组件存在则将标记改为true，并退出
-	    			alert("组件已存在");
-	    			return;
-	    		}else{
+        	if(this.compIddArr.length != 0){    //判断设备下的组件数组是否存在
+        		for(var j=0;j<this.compIddArr.length;j++){   //遍历组件的id数组，看此组件是否已绑定到设备
+	        		if(id == this.compIddArr[j]){  //组件已存在
+	        			flag = true;             //组件存在则将标记改为true，并退出
+		    			alert("组件已存在");
+		    			return;
+		    		}else{
 
-	    			flag = false;
-	    			
-	    		}
-	        }
+		    			flag = false;
+		    			
+		    		}
+		        }
+        	}else{
+        		flag = false;
+        	}
+        	
 
 	        if(!flag){  //如果不存在
 	        	for(var k=0;k<this.comps.length;k++){  //遍历右侧组件的数组，找到与此id相等的组件，获取需要的信息
@@ -442,14 +491,16 @@ methods: {
     			console.log("添加");
     			//console.log(this.componentEntity);
 
-    			this.devicecomps.push({  //将组件数组作为属性加入到设备中去
-					componentEntity: this.componentEntity
+    			this.devicecomps.push({  
+					componentEntity: this.componentEntity,     //将组件数组作为属性加入到设备中去
+					deviceEntity: this.deviceEntity
 				});
 
 
     			console.log("传给后台的设备和组件的id数组--------------------");
     			//将此设备的id加入要传给后台的设备的id数组
-    			this.diveceIdPass.push(deviceIdPa);
+    			//this.diveceIdPass.push(deviceIdPa);
+    			this.diveceIdPass.push(this.deviceCHId);
     			console.log(this.diveceIdPass);
     			//将此组件的id加入要传给后台的组件的id数组
     			this.compsIdPass.push(this.componentEntity.id);
@@ -474,66 +525,29 @@ methods: {
 
 		
 	},
-	moveSure: function(){
-		//debugger;
-		deviceId = this.selectedDev;  //所选择的设备的id
-		//alert(deviceId);
-
-		var deviceName = '';
-		console.log(this.compArr);
-		console.log(compArr);
-		//遍历设备数组，找到id相同的，获取其name的值
-		//debugger;
-		for(var i=0;i<this.deviceArr.length;i++){
-			if(deviceId == this.deviceArr[i].id){
-				deviceName = this.deviceArr[i].name;
-				this.deviceArr[i].comppp = [];
-				//this.deviceArr[i].comppp = compArr;
-
-				for(var j=0;j<this.compArr.length;j++){
-					this.deviceArr[i].comppp.push(this.compArr[j]);
-				}
-				
-			}
-
-			/*for(var j=0;j<this.deviceArr[i].comppp.length;j++){
-				console.log(this.deviceArr[i].comppp[j].name);
-			}*/
-		}
-
-
-
-
-		//alert(deviceName);
-
-		//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!第二次添加会有问题，不是在组件里再加组件。
-		//将设备的id、名称和组件加入设备数组中
-		this.devcomps.push({   
-			id: deviceId,  //设备的id
-			name: deviceName,  //设备的名称
-	        devcompBinds:compArr
-		})
-
-
-console.log("---------------------------");
-		console.log(deviceArr);
-		console.log(this.deviceArr);
-		$("#modal-select").modal('hide');
-
-		/*this.deviceArr['devcomps'] = compArr*/
-	},
+	
 	submit: function (){
 		//alert("hh");
 	    var qs = require('qs');
 	    var username = this.getCookie('username');
     	var password = this.getCookie('password');
-	    //alert("yy");
-	    //alert(deployplanId);
-	    /*alert(this.deployplanId[0].id);
-	    alert(deviceIdArr[0]);*/
-	    this.$axios.put('deployplan/'+ deployplanId + "/devices/" + deviceIdArr[0] + "/components/" + compIddArr[0],qs.stringify({
-	        "deployPath": $("input[name='deployPath']").val()
-	    }),{
+
+	    var deployPlanId = this.$route.params.id;  //所选择的部署设计的id
+	    console.log("所选择的部署设计的id-----------------");
+	    console.log(deployPlanId);
+
+	    /*var deviceIds = {};
+	    var componentIds = {};
+
+	    deviceIds = this.diveceIdPass;*/
+
+	    let formData = new FormData();
+	    formData.append('deviceIds', this.diveceIdPass);
+	    formData.append('componentIds', this.compsIdPass);
+
+	    this.$axios.post('deployplan/'+ deployPlanId + "/deployplandetails",formData,
+	    
+	    {
 	        
 	        //设置头
 	        headers:{
@@ -544,11 +558,11 @@ console.log("---------------------------");
                 password: password
 	        }
 	    }).then(res=>{
-	        
+	        alert("绑定成功");
 	        this.$router.replace({ path: '/deployplan'})
 	    })
         .catch(err=>{
-            alert("提交失败！");
+            alert("绑定失败！");
         })
 	   
 	},
