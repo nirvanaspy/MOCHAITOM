@@ -77,7 +77,7 @@
                         </thead>
                         <tbody>
                         <!-- row -->
-                        <tr class="first" v-for="(device,index) in devicesA" :key="index">
+                        <tr class="first" v-for="(device,index) in devicesA" :id="device.id">
                             <td style="display:none">{{device.id}}</td>
                             <td>
                                 {{device.name}}
@@ -98,9 +98,13 @@
                                          <input type="button" class="btn-flat primary" value="修改" @click="modifyDevice($event)"/>
                                         </router-link>
                                     </li>
-                                    <li class="last">
+                                    <li>
                                         <!-- <router-link to="/devices" @click="deleteDevice">删除</router-link>  -->
                                         <input type="button" class="btn-flat primary" value="删除" @click="deleteDevice($event)"/>
+                                    </li>
+                                    <li class="last">
+                                        <!-- <router-link to="/devices" @click="deleteDevice">删除</router-link>  -->
+                                        <input type="button" class="btn-flat primary" value="复制" @click="copyDevice($event)"/>
                                     </li>
                                 </ul>
                             </td>
@@ -198,6 +202,65 @@ export default{
                     })
                 }
 
+            },
+
+            copyDevice: function (event){
+                var e = event || window.event;
+
+                var name;
+                var version;
+
+                var target = e.target || e.srcElement;
+
+                var copyDeviceInfo = target.parentNode.parentNode.parentNode.parentNode;
+
+                var id = copyDeviceInfo.id; 
+                console.log(copyDeviceInfo);
+                console.log(id);
+
+                var projectId = this.getCookie('projectId');
+                var username = this.getCookie('username');
+                var password = this.getCookie('password');
+
+                var qs = require('qs');
+                this.$axios.post('devices/copy/'+id,
+                qs.stringify({
+                    "name": $("input[name='add-name']").val(),
+                    
+                }),{
+                    /*params:{  //get请求在第二个位置，post在第三个位置
+                     ID:'c02da6e9-a334-4e41-b842-c59eb7d0d3f3'
+                     },*/
+                    //设置头
+                    headers:{
+                        'content-type':'application/x-www-form-urlencoded'
+                    },
+                    auth: {
+                        username: username,
+                        password: password
+                    }
+                }).then(res=>{
+                    alert("拷贝成功");
+                    this.$axios.get('project/'+projectId+'/device',{
+                        //设置头
+                        headers:{
+                            'content-type':'application/x-www-form-urlencoded'
+                        },
+                        auth: {
+                            username: username,
+                            password: password
+                        }
+                    }).then(res=>{
+                        this.devices = res.data.data
+                    })
+                    .catch(err=>{
+                        console.log(err);
+                    })
+                })
+                .catch(err=>{
+
+                    alert("拷贝失败！");
+                })
             }
 
             /*,
@@ -240,30 +303,6 @@ export default{
                 return self.devices.filter(function (item) {  
                     return item.name.toLowerCase().indexOf(self.searchQuery.toLowerCase()) !== -1;  
                 })
-
-                /*self.devices.filter(function (device) {
-                    var searchRegex = new RegExp(self.searchQuery, 'i');
-                    var arr=[];
-                    for(var i= 0, j = items.length; i < j; i++){
-                        arr[i] = {};
-                        arr[i].contacters = [];
-                        for(var item = 0, len = items[i].contacters.length; item < len; item++){
-                            if(searchRegex.test(items[i].contacters[item].name) || searchRegex.test(items[i].contacters[item].enterpriseName) || searchRegex.test(items[i].contacters[item].phoneNumber) || searchRegex.test(items[i].contacters[item].uniqueID)){
-                                arr[i].firstLetter = items[i].firstLetter;
-                                arr[i].contacters.push(items[i].contacters[item]);
-                            }
-                        }
-                    }
-                    return arr;
-                    alert(device.name);
-                    alert(device.ip);
-                    console.log(device);
-                    alert(searchRegex.test(device.name) );
-                    return device.isActive && (
-                        searchRegex.test(device.name) ||
-                        searchRegex.test(device.ip)
-                    )
-                }) */
 
             } 
         } 
