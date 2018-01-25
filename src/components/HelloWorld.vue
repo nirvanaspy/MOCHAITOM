@@ -181,7 +181,7 @@
         <li>
           <router-link to="/deployplan">
             <i class="icon-magnet"></i>
-            <span>部署管理</span>
+            <span>部署设计</span>
           </router-link>
         </li>
 
@@ -214,7 +214,7 @@
 
          <li>
           <router-link to="/deploy">
-            <i class=""></i>
+            <i class="icon-edit"></i>
             <span>部署</span>
           </router-link>
         </li>

@@ -97,6 +97,11 @@
                             <td>
                                 <ul class="ulactions">
                                     <li>
+                                        <router-link :to='{name:"deploybind",params:{id:deployplan.id}}'>
+                                         <input type="button" class="btn-flat primary" value="设计"/>
+                                        </router-link>
+                                    </li>
+                                    <li>
                                         <router-link to="#">
                                          <input type="button" class="btn-flat primary" value="修改"/>
                                         </router-link>

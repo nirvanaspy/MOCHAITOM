@@ -28,6 +28,13 @@
                                 </div>
 
                                 <div class="span12 field-box">
+                                    <label>路径:</label>
+                                    <input class="span9" type="text" name="add-path"/>
+                                    <span class="muststar">*</span>
+
+                                </div>
+
+                                <div class="span12 field-box">
                                     <label>描述:</label>
 
                                     <input class="span9" type="text" name="add-des"/>
@@ -74,6 +81,7 @@
                 this.$axios.post('project/'+projectId+'/device',qs.stringify({
                     "name": $("input[name='add-name']").val(),
                     "ip": $("input[name='add-ip']").val(),
+                    "path": $("input[name='add-path']").val(),
                     "description": $("input[name='add-des']").val()
                 }),{
                     /*params:{  //get请求在第二个位置，post在第三个位置
