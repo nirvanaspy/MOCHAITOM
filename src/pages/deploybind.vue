@@ -67,16 +67,19 @@
                         		<div style="margin-top:20px;margin-left: 35%;">
                         			<h3>部署设计</h3>
                         		</div>
-                        		<div class="moveChild span4" v-for="(device,index) in devicecomps" :key="index" style="margin-top: 40px;">
+                        		<div class="moveChild span4" v-for="(device,index) in devicecomps" :key="index" style="margin-top: 40px;text-align: center;">
 
 									<div>
 										<img src="img/files.png" style="height: 90px;"/>
 									</div>
-                        			 
                         			
                         			<!-- <br/> -->
-                        			<div class="bindDevName">
+                        			<div>
                         				{{device.componentEntity.name}}
+                        			</div>
+
+                        			<div>
+                        				{{device.componentEntity.version}}
                         			</div>
                         			
                         		</div>
@@ -112,7 +115,7 @@
 				                        </thead>
 				                        <tbody>
 				                        
-					                        <tr class="first" v-for="(component,index) in compsA" :key="index">
+					                        <tr class="first" v-for="(component,index) in compsA" :id="component.id">
 					                            <td style="display:none">{{component.id}}</td>
 					                            <td class="wrap" style="width: 80px;">
 					                            	<div class="wrap" :title="component.name" style="width: 80px;">
@@ -132,7 +135,7 @@
 					                            </td>
 					                            <td>
 					                        		<div class="btn-group small" style="margin-right: 3px">
-					                        			<button class="btn-glow icon-random"  data-toggle="modal" @click="moveComp($event)" value="aa">
+					                        			<button class="btn-glow icon-random" @click="moveComp($event)" value="aa">
 					                        				<!-- <i class="icon-random"></i> -->
 					                        			</button>
 					                        		</div>
@@ -209,6 +212,9 @@ let deviceId = '';  //下拉框所选中的设备的id
 let diveceCHIp = ''; //左侧表格中点击的设备的ip
 let deviceCHId = '';  //左侧表格中点击的设备的id
 
+let diveceIdPass = '';  //要传给后台的设备的id数组
+let compsIdPass = '';  //要传给后台的组件的id数组
+
 export default{
 data(){
 	return{
@@ -220,7 +226,7 @@ data(){
 		deviceArr:[],        //移动的设备的信息
 		deviceIdArr:[],
 		compArr:[],
-		compIddArr:[],
+		compIddArr:[],       //左侧表格中的点击的设备的组件的id数组
 		nameArr:[],
 		idAll:[],
 		deployplanId: '',
@@ -229,7 +235,12 @@ data(){
 		deployplanInfos: [],    //部署设计信息
 	    devcomps: [],  //设备上绑定的组件
 
-	    devicecomps: []  //设备上原有的组件
+	    devicecomps: [],  //设备上原有的组件
+
+	    componentEntity: [],   //组件的id
+
+	    diveceIdPass: [],    //要传给后台的设备的id数组
+	    compsIdPass:[]       //要传给后台的组件的id数组
 	  
     }
 },created(){
@@ -353,126 +364,113 @@ methods: {
 	    
     },
 
-	moveDevice: function (event){
+	moveComp: function (event){   //移动组件
+			
 		var e = event || window.event;
-		//var nameArr = [];
+
 		var name;
-		var id;
+		var version;
 
 	    var target = e.target || e.srcElement;
+
 	    //debugger;
-	    if (target.parentNode.parentNode.tagName.toLowerCase() == "td") {
-	        var rowIndex = target.parentNode.parentNode.parentNode.rowIndex;
-	        //alert(rowIndex);
-	        
-	        name = document.getElementById("table_value").rows[rowIndex].cells[1].innerHTML;
-	        //alert(name);
 
-	        id = document.getElementById("table_value").rows[rowIndex].cells[0].innerHTML;
-	        //alert(id);
+	    //console.log(target.parentNode.parentNode.parentNode);
 
-	        //alert(name);
-	        
-	        //alert(deviceArr);
-	        deviceIdArr.push(id);
-	        
-	        //deviceArr.push(name.substring(33));
-	        //nameArr.push(name.substring(33));
-	        //$("#div2").remove(obj);
-	        //$("#moveContent").append(name);
-	        this.deviceArr.push({   //将设备的id和名称加入设备数组中
-		        id: id,
-		        name:name.substring(33)
-			});
-	    }
-	    this.deviceIdArr = deviceIdArr;
+	    var comptrInfo = target.parentNode.parentNode.parentNode;
 
-	    this.deviceArr = deviceArr;
-	    //this.nameArr = nameArr;
+		var id = comptrInfo.id;            //要移动的组件的id
 
-	    
-	    //alert(deviceArr);
-	},
-	moveComp: function (event){
+		var flag = false;                  //组件是否已存在的标志,false为不存在
 
-		/*
-			1、移入设备，将所选的设备的名称和id分别加到对应的数组中 --->加到同一个数组中deviceArr
-			2、在拖动区域遍历设备名称的数组，并显示。
-			3、点击组件按钮，判断是否有已拖入的设备：
-			    1)有：继续向下执行；
-			    2)无：弹出框提示：请先选择设备。
-			4、将组件的名称和id传到对应的数组中。   --->加到同一个数组中compArr
-			5、弹出弹框，从设备的拖动数组中获取以拖入的设备，遍历放到下拉框
-			6、选择设备，获取设备的名称和id，将组件作为设备的属性传过去
-			7、点击确定
-			    1)遍历设备（放到拖动区域）
-			    2)判断拖动区域的设备名称和所选名称一致，则将组件加到此设备对应的列表里
-			    3)遍历此设备的组件
-			8、清空组件数组
+		var deviceIdPa = '';                    //要传给后台的组件的id
 
-			注意：因为外层遍历的是设备，所以还是应该将组件加入设备的数组，不能再另起一个数组，否则里层的li无法遍历。
-			猜测：或许可以判断外层的device变量和里层的变量的名称（即设备名称）是否相同，相同则直接拿相同的那个的值去遍历
-			      里层的li循环。  --->可能会用到v-if,还有vue的数组，需学习。
-		*/
+		//console.log(id);
 
-		if(deviceArr.length != 0){
-			
-			var e = event || window.event;
-			//var nameArr = [];
-			var name;
-			var id;
+		//console.log(this.devicecomps);
+		//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!因为后添加了组件进设备，但并没有传给后台，所以根据id查不出来，可能哈市要根据名称和版本查。
+		if(this.devicecomps.length > 0){  //判断是否已选择设备
+			for(var i=0;i<this.devicecomps.length;i++){  //在查询出来的设备的原有组件数组中添加移入的组件
+        	
+        		/*
+        		 判断要添加的组件的id在原有数组中是否已存在
+        		    存在：提示组件已存在
+        		    不存在：将此组件加入此数组中*/
 
-		    var target = e.target || e.srcElement;
+        		//查询出此设备下的组件，并将这些组件添加到一个组件id的数组里去。
+        		this.compIddArr.push(this.devicecomps[i].componentEntity.id);
 
-		    //alert("A");
-		    //debugger;
-		    if (target.parentNode.parentNode.tagName.toLowerCase() == "td") {
-		        var rowIndex = target.parentNode.parentNode.parentNode.rowIndex;
-		        //alert(rowIndex);
-		        
-		        name = document.getElementById("table_value2").rows[rowIndex].cells[1].innerHTML;
-		        //alert(name);
+        		deviceIdPa = this.devicecomps[i].deviceEntity.id;
 
-		        id = document.getElementById("table_value2").rows[rowIndex].cells[0].innerHTML;
-		        //alert(id);
+        	}
 
-		        //alert(name);
-		        
-		        //alert(compArr);
-		        //debugger;
-		        compIddArr.push(id);                //要移动的组件的id
+        	console.log("组件的id------------");
+        	console.log(this.compIddArr);
+        	for(var j=0;j<this.compIddArr.length;j++){   //遍历组件的id数组，看此组件是否已绑定到设备
+        		if(id == this.compIddArr[j]){  //组件已存在
+        			flag = true;             //组件存在则将标记改为true，并退出
+	    			alert("组件已存在");
+	    			return;
+	    		}else{
 
-		        //compArr.push(name.substring(43));   //要移动的组件的name
-		        //nameArr.push(name.substring(43));   //将组件的name加入拖动部分遍历的数组里
-		        /*compArr1.id = id;
-		        compArr1.name = name;
-		        compArr.push(compArr1);*/
-		        this.compArr.push({   //将设备的id和名称加入设备数组中
-			        id: id,
-			        name: name.substring(43)
+	    			flag = false;
+	    			
+	    		}
+	        }
+
+	        if(!flag){  //如果不存在
+	        	for(var k=0;k<this.comps.length;k++){  //遍历右侧组件的数组，找到与此id相等的组件，获取需要的信息
+    				//根据id获取组件的名称和版本
+    				if(id == this.comps[k].id){
+    					/*name = this.compIddArr[k].name;
+    					version = this.compIddArr[k].version;*/
+
+    					this.componentEntity = this.comps[k];
+    					/*console.log("要插入的组件信息--------");
+    					console.log(this.componentEntity);*/
+
+    					/*this.componentEntity.push({  //将此组件的名称id加到组件数组中
+	    					name : name,
+	    					version : version
+	    				});*/
+    				}else{
+    					this.componentEntity.length = 0;
+    				}
+	
+    			}
+
+    			console.log("添加");
+    			//console.log(this.componentEntity);
+
+    			this.devicecomps.push({  //将组件数组作为属性加入到设备中去
+					componentEntity: this.componentEntity
 				});
 
-				console.log("yeyeyeyeye");
-		        //this.compArr = compArr;
 
-		        console.log(this.compArr);
-		    	console.log(compArr);
-		    }
-		    this.compIddArr = compIddArr;
+    			console.log("传给后台的设备和组件的id数组--------------------");
+    			//将此设备的id加入要传给后台的设备的id数组
+    			this.diveceIdPass.push(deviceIdPa);
+    			console.log(this.diveceIdPass);
+    			//将此组件的id加入要传给后台的组件的id数组
+    			this.compsIdPass.push(this.componentEntity.id);
+    			console.log(this.compsIdPass);
 
-		    //this.compArr = compArr;
-		    //this.nameArr = nameArr;
-		    console.log("---------------------");
-		    console.log(this.compArr);
-		    console.log(compArr);
-		    //alert(compArr);
-
-		    $("#modal-select").modal('show');
+	        }
+	        
+	    			
+	        //判断要添加的组件数组是否存在，  存在则不添加，否则添加
+	        /*if(this.componentEntity.length > 0){
+	        	this.devicecomps.push({  //将组件数组作为属性加入到设备中去
+					componentEntity: this.componentEntity
+				});
+	        }*/
+			
+        	
 		}else{
-			$("#modal-select").modal('hide');
 			alert("请先选择设备");
-
 		}
+        
+	    console.log("---------------------");
 
 		
 	},
