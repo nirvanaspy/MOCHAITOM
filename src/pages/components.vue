@@ -81,7 +81,7 @@
 						</thead>
 						<tbody>
 						<!-- row -->
-						<tr class="first" v-for="(component,index) in componentsA" :key="index">
+						<tr class="first" v-for="(component,index) in componentsA" :id="component.id">
 							<td style="display:none">{{component.id}}</td>
 							<td>
 								{{component.name}}
@@ -109,11 +109,15 @@
                                         	<input type="button" class="btn-flat primary" value="修改"/>
                                         </router-link>
                                     </li>
-                                    <li class="last">
+                                    <li>
                                         <input type="button" class="btn-flat primary" value="删除" @click="deleteComp($event)"/>
                                     </li>
-                                    <li class="last">
+                                    <li>
                                         <input type="button" class="btn-flat primary" value="导出" @click="exportComp($event)"/>
+                                    </li>
+                                    <li class="last">
+                                        <!-- <router-link to="/devices" @click="deleteDevice">删除</router-link>  -->
+                                        <input type="button" class="btn-flat primary" value="复制" @click="copyComp($event)"/>
                                     </li>
 								</ul>
 							</td>
@@ -238,6 +242,66 @@ export default{
                     })
                 }
 
+            },
+
+            copyComp: function (event){
+                var e = event || window.event;
+
+                var name;
+                var version;
+
+                var target = e.target || e.srcElement;
+
+                var copyDeviceInfo = target.parentNode.parentNode.parentNode.parentNode;
+
+                var id = copyDeviceInfo.id; 
+                console.log(copyDeviceInfo);
+                console.log(id);
+
+                var projectId = this.getCookie('projectId');
+                var username = this.getCookie('username');
+                var password = this.getCookie('password');
+
+                var qs = require('qs');
+                this.$axios.post('components/copy/'+id,
+                qs.stringify({
+                    "name": $("input[name='add-name']").val(),
+                    
+                }),{
+                    /*params:{  //get请求在第二个位置，post在第三个位置
+                     ID:'c02da6e9-a334-4e41-b842-c59eb7d0d3f3'
+                     },*/
+                    //设置头
+                    headers:{
+                        'content-type':'application/x-www-form-urlencoded'
+                    },
+                    auth: {
+                        username: username,
+                        password: password
+                    }
+                }).then(res=>{
+                    alert("拷贝成功");
+                    this.$axios.get('components',{
+                
+		                //设置头
+		                headers:{
+		                    'content-type':'application/x-www-form-urlencoded'
+		                },
+		                auth: {
+		                    username: 'admin',
+		                    password: 'admin'
+		                }
+		            }).then(res=>{
+		                this.components = res.data.data
+		            })
+		            .catch(err=>{
+		                console.log(err);
+		            })
+                })
+                .catch(err=>{
+
+                    alert("拷贝失败！");
+                })
             }
         },
 		computed: {  
