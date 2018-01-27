@@ -94,8 +94,9 @@
                             <td>
                                 <ul class="ulactions">
                                     <li>
-                                        <router-link to="/modifyDevice">
-                                         <input type="button" class="btn-flat primary" value="修改" @click="modifyDevice($event)"/>
+                                    
+                                        <router-link :to='{name:"modifyDevice",params:{id:device.id}}'>
+                                         <input type="button" class="btn-flat primary" value="修改"/>
                                         </router-link>
                                     </li>
                                     <li>
@@ -138,9 +139,6 @@
 
 <script>
 /* eslint-disable */
-import modifyDevice from '@/pages/modifyDevice'
-
-/*let projectId = "5a922835-a587-4dad-b3b7-bb5005ef4c99";*/
 
 export default{
         data(){
@@ -194,9 +192,27 @@ export default{
                             password: 'admin'
                         }
                     }).then(res=>{
-                        //this.users = res.data.data
-                        //console.log(res);
-                        this.$router.replace({ path: '/devices'})
+
+                        //删除完再次查询
+                        var projectId = this.getCookie('projectId');
+                        var username = this.getCookie('username');
+                        var password = this.getCookie('password');
+                        this.$axios.get('project/'+projectId+'/device',{
+                            //设置头
+                            headers:{
+                                'content-type':'application/x-www-form-urlencoded'
+                            },
+                            auth: {
+                                username: username,
+                                password: password
+                            }
+                        }).then(res=>{
+                            this.devices = res.data.data
+                        })
+                        .catch(err=>{
+                            console.log(err);
+                        })
+
                     }).catch(err=>{
                         alert("删除失败！");
                     })
