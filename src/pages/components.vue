@@ -157,6 +157,9 @@ export default{
                 searchQuery: '',
             }
         },created(){
+        	var username = this.getCookie('username');
+            var password = this.getCookie('password');
+
             this.$axios.get('components',{
                 
                 //设置头
@@ -164,8 +167,8 @@ export default{
                     'content-type':'application/x-www-form-urlencoded'
                 },
                 auth: {
-                    username: 'admin',
-                    password: 'admin'
+                    username: username,
+                    password: password
                 }
             }).then(res=>{
                 this.components = res.data.data
@@ -200,9 +203,27 @@ export default{
                             password: 'admin'
                         }
                     }).then(res=>{
-                        //this.users = res.data.data
-                        //console.log(res);
-                        this.$router.replace({ path: '/components'})
+                    	alert("删除成功");
+
+                        var username = this.getCookie('username');
+			            var password = this.getCookie('password');
+			        	
+			            this.$axios.get('components',{
+			                
+			                //设置头
+			                headers:{
+			                    'content-type':'application/x-www-form-urlencoded'
+			                },
+			                auth: {
+			                    username: username,
+			                    password: password
+			                }
+			            }).then(res=>{
+			                this.components = res.data.data
+			            })
+			            .catch(err=>{
+			                console.log(err);
+			            })
                     }).catch(err=>{
                         alert("删除失败！");
                     })
