@@ -7,11 +7,21 @@
                     <h3>设计</h3>
 
                     <div class="span10 pull-right">
-
-                        <button type="button" class="btn-flat primary icon-magic pull-right" @click="submit()">
-                        	<!-- <span>&#43;</span> -->
+						<button type="button" class="btn-flat primary icon-magic pull-right" @click="submit()">
                             绑定
                         </button>
+						
+						<button type="button" class="btn-flat default icon-check pull-right" @click="paste()">
+                            粘贴
+                        </button>
+
+						<button type="button" class="btn-flat default icon-print pull-right" style="margin-right: 5px;" @click="copy()">
+                            复制
+                        </button>
+
+                        
+
+                        
 
                     </div>
                     
@@ -24,13 +34,15 @@
 
 							<!-- 设备 -->
                         	<div class="span3"  style="height: 480px;">
-                        		<div class="devcompfind">
-                        			<input class="search" type="text" placeholder="搜索设备.." v-model="searchQuery"/>
-                        		</div>
                         		
-								<br/>
 
 								<div class="row-fluid table devcompchose">
+
+									<div class="devcompfind">
+	                        			<input class="search" type="text" placeholder="设备名称.." style="width: 90%;" v-model="searchQuery"/>
+	                        		</div>
+                        		
+								<br/>
 									
 				                    <table class="table table-hover" id="table_value">
 				                        <thead>
@@ -47,7 +59,7 @@
 				                        </thead>
 				                        <tbody>
 				                        <!-- row -->
-				                        <tr class="first" v-for="(device,index) in devicesA" @click="deviceClick($event)" :id="device.id">
+				                        <tr class="first"  style="cursor: pointer;" v-for="(device,index) in devicesA" @click="deviceClick($event)" :id="device.id">
 				                        	<td style="display:none" id="id">{{device.id}}</td>
 				                            <td class="wrap">
 				                            	<div class="wrap" :id="device.id" :title="device.name" >
@@ -97,15 +109,15 @@
                         	</div>
 
 							<!-- 组件 -->
-                        	<div class="span3"  style="height: 480px;margin-left: 8px;">
-                        		<div class="devcompfind">
-                        			<input class="search" type="text" placeholder="搜索组件.."  v-model="searchQuery"/>
-                        		</div>
-                        		
-								<br/>
+                        	<div class="span3"  style="height: 480px;margin-left: 8px;">                		
 
 								<div class="row-fluid table devcompchose">
-									
+									<div class="devcompfind">
+	                        			<input class="search" type="text" placeholder="组件名称.." style="width: 90%;" v-model="searchQuery"/>
+	                        		</div>
+	                        		
+									<br/>
+
 				                    <table class="table table-hover" id="table_value2">
 				                        <thead>
 				                        <tr>
@@ -120,6 +132,9 @@
 				                            </th>
 				                            <th class="span3 sortable">
 				                            	移入
+				                            </th>
+				                            <th class="span3 sortable">
+				                            	删除
 				                            </th>
 
 				                        </tr>
@@ -148,6 +163,14 @@
 					                        		<div class="btn-group small" style="margin-right: 3px">
 					                        			<button class="btn-glow icon-random" @click="moveComp($event)" value="aa">
 					                        				<!-- <i class="icon-random"></i> -->
+					                        			</button>
+					                        		</div>
+					                        		
+					                        	</td>
+					                        	<td>
+					                        		<div class="btn-group small" style="margin-right: 3px">
+					                        			<button class="btn-glow icon-trash" @click="moveoutComp($event)">
+					                        				
 					                        			</button>
 					                        		</div>
 					                        		
@@ -257,7 +280,13 @@ data(){
 
 	    deviceName: '',        //显示在拖动区域的设备的名称
 
-	    deviceCHId: ''         //左侧表格中点击的设备的id
+	    deviceCHId: '',         //左侧表格中点击的设备的id
+
+	    detailIds: [],          //要删除的绑定的id
+
+	    devcompInfo: []         //存在cookie中的复制的信息
+
+
 	  
     }
 },created(){
@@ -426,6 +455,7 @@ methods: {
 		if(this.deviceName.length != 0){    //判断是否已选择设备,即看拖动区域是否有设备名
 			
 			if(this.devicecomps.length > 0){    //判断此设备上是否有原有的绑定组件
+				this.compIddArr.splice(0,this.compIddArr.length);   //清空数组
 				for(var i=0;i<this.devicecomps.length;i++){  //在查询出来的设备的原有组件数组中添加移入的组件
         	
 	        		/*
@@ -507,16 +537,120 @@ methods: {
     			console.log(this.compsIdPass);
 
 	        }
-	        
-	    			
-	        //判断要添加的组件数组是否存在，  存在则不添加，否则添加
-	        /*if(this.componentEntity.length > 0){
-	        	this.devicecomps.push({  //将组件数组作为属性加入到设备中去
-					componentEntity: this.componentEntity
-				});
-	        }*/
+
 			
         	
+		}else{
+			alert("请先选择设备");
+		}
+        
+	    console.log("---------------------");
+
+		
+	},
+
+	moveoutComp: function (event){   //移除组件
+			
+		var e = event || window.event;
+
+		var name;
+		var version;
+
+	    var target = e.target || e.srcElement;
+
+	    //debugger;
+
+	    //console.log(target.parentNode.parentNode.parentNode);
+
+	    var compdeleteInfo = target.parentNode.parentNode.parentNode;
+
+		var idDel = compdeleteInfo.id;            //要删除的组件的id
+
+		var flagDel = false;                  //绑定关系是否已存在的标志,false为不存在
+
+		var deviceIdPa = '';                    //要传给后台的组件的id
+
+		this.deviceEntity.push({
+			id: this.deviceCHId            //将此设备的id存入组件所在的设备的id数组中
+		});
+
+		console.log(this.deviceEntity);
+
+		//console.log(id);
+
+			console.log("拖动区域的设备名--------------");
+			console.log(this.deviceName);
+		if(this.deviceName.length != 0){    //判断是否已选择设备,即看拖动区域是否有设备名
+			
+			if(this.devicecomps.length > 0){    //判断此设备上是否有原有的绑定组件
+				for(var i=0;i<this.devicecomps.length;i++){  
+
+					if(idDel == this.devicecomps[i].componentEntity.id){  //在移动区域找到此组件，再判断是否是已绑定组件
+						if(typeof(this.devicecomps[i].id) == "undefined"){   //获取绑定的id，若不存在，则此组件只是在前端移入还未绑定
+							alert("hhhh");
+							this.devicecomps.splice(i,1);      //从移动区域删除自己加上的数组
+
+							var deviceIndex = this.diveceIdPass.indexOf(this.deviceCHId);
+							var compIndex = this.compsIdPass.indexOf(this.componentEntity.id);
+							//var compIndex2 = this.compIddArr.indexOf(this.componentEntity.id);
+							
+
+							//从传给后台的绑定数组中删除此设备和组件信息
+							console.log("与绑定相关-----------");
+							this.diveceIdPass.splice(deviceIndex,1);
+							console.log(this.diveceIdPass);
+
+			    			this.compsIdPass.splice(compIndex,1);
+			    			console.log(this.compsIdPass);
+
+			    			/*this.compIddArr.splice(compIndex2,1);
+			    			console.log(this.compIddArr);*/
+
+
+						}else{    //此设备是已经绑定的了，则将绑定的id获取到，传给后台
+
+							//this.detailIds.push(this.devicecomps[i].id);
+
+							console.log("要传给后台的删除的绑定的关系------------------");
+							console.log(this.devicecomps[i].id);
+
+
+							var qs = require('qs');
+						    var username = this.getCookie('username');
+					    	var password = this.getCookie('password');
+
+					    	
+				    		this.$axios.delete('deployplan/deployplandetails/'+ this.devicecomps[i].id,
+						    {
+						        //设置头
+						        headers:{
+						            'content-type':'application/x-www-form-urlencoded'
+						        },
+						        auth: {
+						            username: username,
+					                password: password
+						        }
+						    }).then(res=>{
+						        alert("删除成功!");
+						    })
+					        .catch(err=>{
+					            alert("删除失败！");
+					        })
+					    	
+						}
+					}
+
+					
+
+
+	        	}
+			}else{
+				this.compIddArr.length = 0;
+				alert("此设备还未绑定组件,不能删除！");
+			}
+				
+        	
+
 		}else{
 			alert("请先选择设备");
 		}
@@ -566,6 +700,29 @@ methods: {
         })
 	   
 	},
+
+	copy: function(){
+		if(this.deviceName.length != 0){    //判断是否已选择设备,即看拖动区域是否有设备名
+			let expireDays = 1000 * 60 * 60 * 24 * 15;
+			this.setCookie('devicecomps', this.devicecomps, expireDays);
+		}else{
+			alert("请先选择设备");
+		}
+		
+	},
+
+	paste: function(){
+		this.devcompInfo = this.getCookie('devicecomps');
+		console.log(this.devcompInfo);
+
+		if(this.devcompInfo.length != 0){    //判断是否已选择设备,即看拖动区域是否有设备名
+			
+		}else{
+			alert("请先复制");
+		}
+		
+	},
+
 	changeDevice: function() {
     	deviceId = this.selectedDev;
      	//alert(deviceId);
