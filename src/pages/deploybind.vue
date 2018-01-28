@@ -284,7 +284,13 @@ data(){
 
 	    detailIds: [],          //要删除的绑定的id
 
-	    devcompInfo: []         //存在cookie中的复制的信息
+	    devcompInfo: [],         //存在cookie中的复制的信息
+
+	    copyValue: [],           //复制的内容
+
+	    compIddCopyArr: [],       //复制的内容的组件的id
+
+	    compIddPasteArr: []        //粘贴的内容的组件的id
 
 
 	  
@@ -453,7 +459,6 @@ methods: {
 			console.log("拖动区域的设备名--------------");
 			console.log(this.deviceName);
 		if(this.deviceName.length != 0){    //判断是否已选择设备,即看拖动区域是否有设备名
-			
 			if(this.devicecomps.length > 0){    //判断此设备上是否有原有的绑定组件
 				this.compIddArr.splice(0,this.compIddArr.length);   //清空数组
 				for(var i=0;i<this.devicecomps.length;i++){  //在查询出来的设备的原有组件数组中添加移入的组件
@@ -583,6 +588,7 @@ methods: {
 		if(this.deviceName.length != 0){    //判断是否已选择设备,即看拖动区域是否有设备名
 			
 			if(this.devicecomps.length > 0){    //判断此设备上是否有原有的绑定组件
+				console.log(this.devicecomps);
 				for(var i=0;i<this.devicecomps.length;i++){  
 
 					if(idDel == this.devicecomps[i].componentEntity.id){  //在移动区域找到此组件，再判断是否是已绑定组件
@@ -619,23 +625,28 @@ methods: {
 						    var username = this.getCookie('username');
 					    	var password = this.getCookie('password');
 
-					    	
-				    		this.$axios.delete('deployplan/deployplandetails/'+ this.devicecomps[i].id,
-						    {
-						        //设置头
-						        headers:{
-						            'content-type':'application/x-www-form-urlencoded'
-						        },
-						        auth: {
-						            username: username,
-					                password: password
-						        }
-						    }).then(res=>{
-						        alert("删除成功!");
-						    })
-					        .catch(err=>{
-					            alert("删除失败！");
-					        })
+					    	var msg = "您确定删除吗？";
+					        if (confirm(msg) == true) {
+					            this.$axios.delete('deployplan/deployplandetails/'+ this.devicecomps[i].id,
+							    {
+							        //设置头
+							        headers:{
+							            'content-type':'application/x-www-form-urlencoded'
+							        },
+							        auth: {
+							            username: username,
+						                password: password
+							        }
+							    }).then(res=>{
+							        alert("删除成功!");
+							    })
+						        .catch(err=>{
+						            alert("删除失败！");
+						        })
+					        } else {
+					            return false;
+					        }
+
 					    	
 						}
 					}
@@ -675,36 +686,62 @@ methods: {
 
 	    deviceIds = this.diveceIdPass;*/
 
-	    let formData = new FormData();
-	    formData.append('deviceIds', this.diveceIdPass);
-	    formData.append('componentIds', this.compsIdPass);
+	    if(this.diveceIdPass.length != 0){   //是否有要绑定的数据
+	    	let formData = new FormData();
+		    formData.append('deviceIds', this.diveceIdPass);
+		    formData.append('componentIds', this.compsIdPass);
 
-	    this.$axios.post('deployplan/'+ deployPlanId + "/deployplandetails",formData,
+		    this.$axios.post('deployplan/'+ deployPlanId + "/deployplandetails",formData,
+		    
+		    {
+		        
+		        //设置头
+		        headers:{
+		            'content-type':'application/x-www-form-urlencoded'
+		        },
+		        auth: {
+		            username: username,
+	                password: password
+		        }
+		    }).then(res=>{
+		        alert("绑定成功");
+		        this.$router.replace({ path: '/deployplan'})
+		    })
+	        .catch(err=>{
+	            alert("绑定失败！");
+	        })
+	    }else{
+	    	alert("无绑定信息");
+	    }
+
 	    
-	    {
-	        
-	        //设置头
-	        headers:{
-	            'content-type':'application/x-www-form-urlencoded'
-	        },
-	        auth: {
-	            username: username,
-                password: password
-	        }
-	    }).then(res=>{
-	        alert("绑定成功");
-	        this.$router.replace({ path: '/deployplan'})
-	    })
-        .catch(err=>{
-            alert("绑定失败！");
-        })
 	   
 	},
 
 	copy: function(){
 		if(this.deviceName.length != 0){    //判断是否已选择设备,即看拖动区域是否有设备名
-			let expireDays = 1000 * 60 * 60 * 24 * 15;
-			this.setCookie('devicecomps', this.devicecomps, expireDays);
+			this.copyValue.splice(0,this.copyValue.length);    //清空复制内容的数组
+			
+			if(this.devicecomps.length > 0){    //判断此设备上是否有原有的绑定组件
+				this.compIddCopyArr.splice(0,this.compIddCopyArr.length);   //清空数组
+				for(var i=0;i<this.devicecomps.length;i++){  //在查询出来的设备的原有组件数组中添加移入的组件
+        	
+	        		this.compIddCopyArr.push(this.devicecomps[i].componentEntity.id);
+
+	        	}
+			}else{
+				this.compIddCopyArr.length = 0;
+			}
+			
+			console.log("组件的id------------");
+        	if(this.compIddCopyArr.length != 0){
+				this.copyValue = this.compIddCopyArr;
+				console.log(this.copyValue);
+        	}else{
+        		alert("无组件可以复制！");
+        	}
+
+			
 		}else{
 			alert("请先选择设备");
 		}
@@ -712,14 +749,170 @@ methods: {
 	},
 
 	paste: function(){
-		this.devcompInfo = this.getCookie('devicecomps');
-		console.log(this.devcompInfo);
+		var compIndex;    //重复的文件下标
 
-		if(this.devcompInfo.length != 0){    //判断是否已选择设备,即看拖动区域是否有设备名
+		this.deviceEntity.push({
+			id: this.deviceCHId            //将此设备的id存入组件所在的设备的id数组中
+		});
+
+
+		if(this.deviceName.length != 0){    //判断是否已选择设备,即看拖动区域是否有设备名
+			
+			if(this.devicecomps.length > 0){    //判断此设备上是否有原有的绑定组件
+				this.compIddPasteArr.splice(0,this.compIddPasteArr.length);   //清空数组
+				for(var i=0;i<this.devicecomps.length;i++){  //在查询出来的设备的原有组件数组中添加移入的组件
+        	
+	        		this.compIddPasteArr.push(this.devicecomps[i].componentEntity.id);
+
+	        	}
+			}else{
+				this.compIddPasteArr.length = 0;
+			}
+			
+			console.log("粘贴组件的id------------");
+        	console.log(this.compIddPasteArr);
+
+
+
+        	if(this.copyValue.length != 0){    //判断复制数组中是否有数据
+
+        		var msg = "您确定粘贴吗？";
+		        if (confirm(msg) == true) {
+		            console.log("找相同前-----------");
+					console.log(this.devicecomps);
+					console.log(this.copyValue);
+
+
+					let res1 = this.compIddPasteArr.filter((x)=>{
+					  return this.copyValue.includes(x)
+					})
+
+					if(res1.length != 0){  //判断是否有同名文件存在
+						console.log("有" + res1.length + "个文件已存在---------");
+						var msg1 = "有" + res1.length + "个文件已存在,是否跳过？";
+				        if (confirm(msg1) == true) {  //是否跳过
+				            //从复制的文件中删除已存在的
+				            for(var x=0;x<res1.length;x++){
+				            	compIndex = this.copyValue.indexOf(res1[x]);
+				            	this.copyValue.splice(compIndex,1);
+
+				            }
+
+				            //将删除后的所有内容加入区域数组中
+				            for(var i=0;i<this.copyValue.length;i++){   //将所有复制内容加入区域数组中
+
+								for(var k=0;k<this.comps.length;k++){  //遍历右侧组件的数组，找到与此id相等的组件，获取需要的信息
+				    				//根据id获取组件的名称和版本
+				    				if(this.copyValue[i] == this.comps[k].id){
+
+				    					this.componentEntity = this.comps[k];
+
+				    				}
+				    			}
+
+								this.devicecomps.push({  
+									componentEntity: this.componentEntity,     //将组件数组作为属性加入到设备中去
+									deviceEntity: this.deviceEntity
+								});
+
+								console.log("粘贴--传给后台的设备和组件的id数组------------------");
+				    			//将此设备的id加入要传给后台的设备的id数组
+				    			//this.diveceIdPass.push(deviceIdPa);
+				    			this.diveceIdPass.push(this.deviceCHId);
+				    			console.log(this.diveceIdPass);
+				    			//将此组件的id加入要传给后台的组件的id数组
+				    			this.compsIdPass.push(this.componentEntity.id);
+				    			console.log(this.compsIdPass);
+							}
+				            
+
+				        } else {   //不跳过
+				            //从复制的文件中删除已存在的
+				            for(var x=0;x<res1.length;x++){
+				            	compIndex = this.copyValue.indexOf(res1[x]);
+				            	this.copyValue.splice(compIndex,1);
+
+				            }
+
+				            //将删除后的所有内容加入区域数组中
+				            for(var i=0;i<this.copyValue.length;i++){   //将所有复制内容加入区域数组中
+
+								for(var k=0;k<this.comps.length;k++){  //遍历右侧组件的数组，找到与此id相等的组件，获取需要的信息
+				    				//根据id获取组件的名称和版本
+				    				if(this.copyValue[i] == this.comps[k].id){
+
+				    					this.componentEntity = this.comps[k];
+
+				    				}
+				    			}
+
+								this.devicecomps.push({  
+									componentEntity: this.componentEntity,     //将组件数组作为属性加入到设备中去
+									deviceEntity: this.deviceEntity
+								});
+
+								console.log("粘贴--传给后台的设备和组件的id数组------------------");
+				    			//将此设备的id加入要传给后台的设备的id数组
+				    			//this.diveceIdPass.push(deviceIdPa);
+				    			this.diveceIdPass.push(this.deviceCHId);
+				    			console.log(this.diveceIdPass);
+				    			//将此组件的id加入要传给后台的组件的id数组
+				    			this.compsIdPass.push(this.componentEntity.id);
+				    			console.log(this.compsIdPass);
+							}
+				        }
+					}else{   //无同名文件,直接将所有的组件添加进区域遍历的数组中
+		
+
+						for(var i=0;i<this.copyValue.length;i++){   //将所有复制内容加入区域数组中
+
+							for(var k=0;k<this.comps.length;k++){  //遍历右侧组件的数组，找到与此id相等的组件，获取需要的信息
+			    				//根据id获取组件的名称和版本
+			    				if(this.copyValue[i] == this.comps[k].id){
+
+			    					this.componentEntity = this.comps[k];
+
+			    				}
+			    			}
+
+							this.devicecomps.push({  
+								componentEntity: this.componentEntity,     //将组件数组作为属性加入到设备中去
+								deviceEntity: this.deviceEntity
+							});
+
+							console.log("粘贴--传给后台的设备和组件的id数组------------------");
+			    			//将此设备的id加入要传给后台的设备的id数组
+			    			//this.diveceIdPass.push(deviceIdPa);
+			    			this.diveceIdPass.push(this.deviceCHId);
+			    			console.log(this.diveceIdPass);
+			    			//将此组件的id加入要传给后台的组件的id数组
+			    			this.compsIdPass.push(this.componentEntity.id);
+			    			console.log(this.compsIdPass);
+						}
+							
+
+					}
+
+					
+
+					
+					console.log(res1);
+		        } else {
+		            return false;
+		        }
+
+				
+
+			}else{
+				alert("请先复制");
+			}
 			
 		}else{
-			alert("请先复制");
+			alert("请先选择设备");
 		}
+		
+
+		
 		
 	},
 
