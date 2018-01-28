@@ -185,49 +185,59 @@ export default{
                 var e = event || window.event;
                 //alert("B");
                 var target = e.target || e.srcElement;
-                if (target.parentNode.parentNode.parentNode.tagName.toLowerCase() == "td") {
-                    //alert("C");
-                    var rowIndex = target.parentNode.parentNode.parentNode.parentNode.rowIndex;
-                    //alert(rowIndex);
-                    var id = document.getElementById("table_value").rows[rowIndex].cells[0].innerHTML;
-                    //alert(id);
-                    var qs = require('qs');
-                    this.$axios.delete('components/'+id,{
 
-                        //设置头
-                        headers:{
-                            'content-type':'application/x-www-form-urlencoded'
-                        },
-                        auth: {
-                            username: 'admin',
-                            password: 'admin'
-                        }
-                    }).then(res=>{
-                    	alert("删除成功");
+                var msg = "您确定删除吗？";
+		        if (confirm(msg) == true) {
+		            
+		        	if (target.parentNode.parentNode.parentNode.tagName.toLowerCase() == "td") {
+	                    //alert("C");
+	                    var rowIndex = target.parentNode.parentNode.parentNode.parentNode.rowIndex;
+	                    //alert(rowIndex);
+	                    var id = document.getElementById("table_value").rows[rowIndex].cells[0].innerHTML;
+	                    //alert(id);
+	                    var qs = require('qs');
+	                    this.$axios.delete('components/'+id,{
 
-                        var username = this.getCookie('username');
-			            var password = this.getCookie('password');
-			        	
-			            this.$axios.get('components',{
-			                
-			                //设置头
-			                headers:{
-			                    'content-type':'application/x-www-form-urlencoded'
-			                },
-			                auth: {
-			                    username: username,
-			                    password: password
-			                }
-			            }).then(res=>{
-			                this.components = res.data.data
-			            })
-			            .catch(err=>{
-			                console.log(err);
-			            })
-                    }).catch(err=>{
-                        alert("删除失败！");
-                    })
-                }
+	                        //设置头
+	                        headers:{
+	                            'content-type':'application/x-www-form-urlencoded'
+	                        },
+	                        auth: {
+	                            username: 'admin',
+	                            password: 'admin'
+	                        }
+	                    }).then(res=>{
+	                    	alert("删除成功");
+
+	                        var username = this.getCookie('username');
+				            var password = this.getCookie('password');
+				        	
+				            this.$axios.get('components',{
+				                
+				                //设置头
+				                headers:{
+				                    'content-type':'application/x-www-form-urlencoded'
+				                },
+				                auth: {
+				                    username: username,
+				                    password: password
+				                }
+				            }).then(res=>{
+				                this.components = res.data.data
+				            })
+				            .catch(err=>{
+				                console.log(err);
+				            })
+	                    }).catch(err=>{
+	                        alert("删除失败！");
+	                    })
+	                }
+		            
+		        } else {
+		            return false;
+		        }
+
+                
 
             },
 
