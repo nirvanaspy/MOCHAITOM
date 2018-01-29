@@ -95,7 +95,7 @@
         <li>
           <router-link to="/scan">
             <i class="icon-headphones"></i>
-            <span>部署状态</span>
+            <span>在线监控</span>
           </router-link>
         </li>
 

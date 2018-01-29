@@ -98,10 +98,12 @@
                 }).then(res=>{
                     //this.users = res.data.data
                     //console.log(res);
+                    layer.msg('添加成功！');
                     this.$router.replace({ path: '/devices'})
                 })
                     .catch(err=>{
-                        alert("请重新输入用户名！");
+                        //alert("请重新输入用户名！");
+                        layer.msg('请重新输');
                     })
             },
 

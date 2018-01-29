@@ -1,9 +1,8 @@
 <template>
     <div id="addUser">
-        
 
 
-        <div class="container-fluid">
+        <div class="container-fluid" style="height:632px">
             <div id="pad-wrapper" class="new-user">
                 <div class="row-fluid header">
                     <h3>创建项目</h3>
@@ -14,22 +13,25 @@
                     <div class="span10 with-sidebar">
                         <div class="container">
                             <form class="new_user_form inline-input" />
-                            <div class="span12 field-box">
-                                <label>项目名:</label>
-                                <input class="span9" type="text" name="add-name"/>
-                            </div>
+                                <div class="span12 field-box">
+                                    <label>项目名:</label>
+                                    <input class="span9" type="text" name="add-name"/>
+                                    <span class="muststar">*</span>
 
-                            <div class="span12 field-box">
-                                <label>描述:</label>
+                                </div>
 
-                                <input class="span9" type="text" name="add-des"/>
+                                <div class="span12 field-box">
 
-                            </div>
+                                    <label>描述:</label>
+                                    <input class="span9" type="text" name="add-des"/>
+                                   
+                                </div>
 
-                            <div class="span7 field-box actions">
-                                <input type="button" class="btn-glow primary" value="创建" style="width: 100px;" @click="addUser"/>
-                            </div>
-
+                                <div class="span7 field-box actions">
+                                    <button type="submit" class="btn-glow primary" @click="addProject($event)">创建</button>
+                                    <button type="submit" class="btn-glow primary" @click="formReset">取消</button>
+                                    <!-- <input type="button" class="btn-glow primary" value="添加组件" style="width: 100px;" @click="addComp($event)"/> -->
+                                </div>
                             </form>
                         </div>
                     </div>
@@ -38,12 +40,14 @@
                 </div>
             </div>
         </div>
+
+
     </div>
 </template>
 
 <script>
 /* eslint-disable */
-let projectId = "5d0bccf0-1298-4be9-bcfa-2fc5571d9460";
+//let projectId = "5d0bccf0-1298-4be9-bcfa-2fc5571d9460";
     export default{
 
         data(){
@@ -52,8 +56,11 @@ let projectId = "5d0bccf0-1298-4be9-bcfa-2fc5571d9460";
             }
         },
         methods: {
-            addUser: function (){
+            addProject: function (){
                 var qs = require('qs');
+                var projectId = this.getCookie('projectId');
+                var username = this.getCookie('username');
+                var password = this.getCookie('password');
                 this.$axios.post('project/',qs.stringify({
                     "name": $("input[name='add-name']").val(),
                     "description": $("input[name='add-des']").val()
@@ -68,16 +75,26 @@ let projectId = "5d0bccf0-1298-4be9-bcfa-2fc5571d9460";
                         password: 'admin'
                     }
                 }).then(res=>{
-
+                    layer.msg('添加成功！');
                     this.$router.replace({ path: '/selectProject'})
                 })
                     .catch(err=>{
-                        alert("请重新输入！");
+                       // alert("请重新输入！");
+                        layer.msg('请重新输入！');
+
                     })
+            },
+            formReset: function(){
+                $("input").val('');
+                this.$router.replace({ path: '/selectProject'});
             }
         }
     }
 </script>
 <style>
-
+    .new-user .actions {
+    margin-top: 30px;
+    text-align: right;
+    padding-right: 120px;
+}
 </style>

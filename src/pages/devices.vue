@@ -94,7 +94,7 @@
                             <td>
                                 <ul class="ulactions">
                                     <li>
-                                    
+
                                         <router-link :to='{name:"modifyDevice",params:{id:device.id}}'>
                                          <input type="button" class="btn-flat primary" value="修改"/>
                                         </router-link>
@@ -177,7 +177,7 @@ export default{
 
                 var msg = "您确定删除吗？";
                 if (confirm(msg) == true) {
-                    
+
                     if (target.parentNode.parentNode.parentNode.tagName.toLowerCase() == "td") {
                         //alert("C");
                         var rowIndex = target.parentNode.parentNode.parentNode.parentNode.rowIndex;
@@ -221,12 +221,12 @@ export default{
                             alert("删除失败！");
                         })
                     }
-                    
+
                 } else {
                     return false;
                 }
 
-                
+
 
             },
 
@@ -240,7 +240,7 @@ export default{
 
                 var copyDeviceInfo = target.parentNode.parentNode.parentNode.parentNode;
 
-                var id = copyDeviceInfo.id; 
+                var id = copyDeviceInfo.id;
                 console.log(copyDeviceInfo);
                 console.log(id);
 
@@ -252,7 +252,7 @@ export default{
                 this.$axios.post('devices/copy/'+id,
                 qs.stringify({
                     "name": $("input[name='add-name']").val(),
-                    
+
                 }),{
                     /*params:{  //get请求在第二个位置，post在第三个位置
                      ID:'c02da6e9-a334-4e41-b842-c59eb7d0d3f3'
@@ -289,17 +289,17 @@ export default{
                 })
             }
 
-            
+
         },
-        computed: {  
-            devicesA: function () {  
-                var self = this;  
-                return self.devices.filter(function (item) {  
-                    return item.name.toLowerCase().indexOf(self.searchQuery.toLowerCase()) !== -1;  
+        computed: {
+            devicesA: function () {
+                var self = this;
+                return self.devices.filter(function (item) {
+                    return item.name.toLowerCase().indexOf(self.searchQuery.toLowerCase()) !== -1;
                 })
 
-            } 
-        } 
+            }
+        }
     }
 </script>
 <style>

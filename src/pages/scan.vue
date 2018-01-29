@@ -3,7 +3,7 @@
         <div class="container-fluid">
                 <div id="pad-wrapper" class="users-list span12">
                        
-                        <div style="float:left;" class="span3">
+                        <div class="span3">
                                 <div>
                                <!--  <input class="search" type="text" placeholder="搜索设备.." v-model="searchQuery" @change="change"/> -->
                                 <h3>扫描</h3>
@@ -11,8 +11,8 @@
                                 </div>
                                     
                                 <br/> 
-                                    <div class="row-fluid table drag-content" style="width:220px">
-                                        <select v-model="selected" style="height: 26px;width: 199px; margin-top: 5px; margin-left: 9px;" @change="changeDeployPlan">
+                                    <div class="row-fluid table drag-content" style="width:258px;">
+                                        <select v-model="selected" style="height: 26px;width: 233px; margin-top: 5px; margin-left: 7px;" @change="changeDeployPlan">
                                                     <!-- v-model="selected" -->
                                                     <option v-for="deployplan in deployplanInfos" v-bind:value="deployplan.id">
                                                         {{ deployplan.name }}
@@ -22,25 +22,25 @@
                                             <thead>
                                             <tr>
                                                 <th>
-                                                   设备/软件名
+                                                   设备(IP)/软件名
                                                 </th>
                                                
-                                                <th>
-                                                    软件状态
+                                               <th>
+                                                
                                                 </th>
 
                                                 <th>
-                                                    设备状态
+                                                    设备状态/软件状态
                                                 </th>
 
                                             </tr>
                                             </thead>
                                         </table>
 
-                                        <div id="areaTree" style="margin-left: 15px;">
+                                        <div id="areaTree" style="margin-left: -1px; height: 335px; overflow: auto;margin-top: -33px;white-space:pre;">
                                             <div class="tree-box">
                                                 <div class="zTreeDemoBackground left">
-                                                    <ul id="treeDemo" class="ztree">
+                                                    <ul id="treeDemo" class="ztree" style="white-space: nowrap;">
                                                     </ul>
                                                 </div>
                                             </div>
@@ -49,110 +49,132 @@
                                     </div>
 
                                     <div class="btn-group">
-                                        <button class="btn-glow"  @click="scanAll()"><i class="icon-wrench"></i>全盘扫描</button>  
-                                        <button class="btn-glow"  @click="scanQuick()"><i class="icon-wrench"></i>快速扫描</button>  
+                                        <button class="btn-glow"  style="width:130px" @click="scanAll()"><i class="icon-wrench"></i>完整扫描</button>  
+                                        <button class="btn-glow" style="width:130px" @click="scanQuick()"><i class="icon-wrench"></i>快速扫描</button>  
 
                                     </div>
                         </div>
 
-                        <div style="float:right" class="span8">   
-                        <div style="margin-bottom: -5px;margin-left: -40px;">            
-                            <label style="float:left">查找:</label>
-                            <label style="float:left">文件名</label>
-                            <input type="text" style="float:left;width:100px;height:15px" class="input-large"/>
+                        <div class="span8">   
+                            <div style="margin-bottom: -5px;margin-left: -40px;">            
+<!--                               <label style="float:left">查找:</label>
+                               -->
+                              <label style="float:left">文件名</label>
+                              <input class="search" type="text" placeholder="搜索.." v-model="searchQuery" style="float:left;width:100px;height:19px"/>
+                              <!-- <input type="text" style="float:left;width:100px;height:15px" class="input-large"/> -->
 
-                                <!-- <span>Selected: {{ selected }}</span> -->
-                            
-                            <label style="float:left">后缀名</label>
-                              <select v-model="selected" style="float:left" @change="changeExtension">
-                                  <option v-for="extension in extensions" v-bind:value="extension.value">
-                                    {{ extension.text }}
-                                  </option>
-                            </select>
-                                <!-- <span>Selected: {{ selected }}</span> -->
-                           
-                           <!--  <label style="float:left">日期</label>
-                           <input type="text" style="float:left;width:94px;height:15px"  class="input-large datepicker" data-date-format="yyyy-mm-dd"/>
-                           <label style="float:left">到</label>
-                           <input type="text" style="float:left;width:94px;height:15px"  class="input-large datepicker" data-date-format="yyyy-mm-dd"/> -->
-                      
-                            <label style="float:left">设备状态</label>
-                                <select v-model="selected" @change="changeState">
-                                    <option v-for="state in states" v-bind:value="state.value">
-                                    {{ state.text }}
+                                  <!-- <span>Selected: {{ selected }}</span> -->
+                              
+                              <label style="float:left">后缀名</label>
+                                <select v-model="selectede" style="float:left" @change="changeExtension">
+                                    <option v-for="extension in extensions" v-bind:value="extension.value">
+                                      {{ extension.text }}
                                     </option>
-                                </select>
+                              </select>
+                           
+                        
+                              <label style="float:left">设备状态</label>
+                                  <select v-model="selecteds" @change="changeState">
+                                      <option v-for="state in states" v-bind:value="state.value">
+                                      {{ state.text }}
+                                      </option>
+                                  </select>
+                              </div>
+
+                              <br/>
+
+
+                              <div class="drag-content" style="margin-left: -40px;height: 400px;overflow: auto;">
+                                <div class="row-fluid table">
+                                  <table class="table table-hover" id="table_value">
+                                      <thead>
+                                      <tr>
+                                         
+                                          <th class="span4 sortable">
+                                             文件名
+                                          </th>
+                                          <th class="span3 sortable">
+                                              <span class="line"></span>路径
+                                          </th>
+                                          <th class="span3">
+                                              <span class="line"></span>文件类型
+                                          </th>
+                                          <th class="span3">
+                                              <span class="line"></span>修改日期
+                                          </th>
+                                         
+                                          <th class="span3">
+                                              <span class="line"></span>文件大小
+                                          </th>
+                                          <th class="span3">
+                                              <span class="line"></span>版本状态
+                                          </th>
+                                      
+                                      </tr>
+                                      </thead>
+                                      <tbody>
+                                      <!-- row -->
+                                      <tr class="first" v-for="(component,index) in componentEntityA" :key="index" id="tabel_info">
+                                              <td style="display:none">{{component.id}}</td>
+                                              <td>{{component.name}}</td>
+                                              <td>
+                                                  {{component.path}}
+                                              </td>
+                                              <td>
+                                                 {{component.type}}
+                                              </td>
+                                              <td>
+                                                  {{component.createTime}}
+                                              </td>
+                                              <td>
+                                                 {{component.size}}
+                                              </td>
+                                              <td>
+                                                 {{component.state}}
+                                              </td>
+                                  
+                                          </tr>
+                                      <!-- row -->
+
+                                      </tbody>
+                                  </table>
+                             </div>
                             </div>
-
-                            <br/>
-
-
-                            <div class="drag-content" style="margin-left: -40px;">
-                              <div class="row-fluid table">
-                                <table class="table table-hover" id="table_value">
-                                    <thead>
-                                    <tr>
-                                       
-                                        <th class="span4 sortable">
-                                           文件名
-                                        </th>
-                                        <th class="span3 sortable">
-                                            <span class="line"></span>路径
-                                        </th>
-                                        <th class="span3">
-                                            <span class="line"></span>文件类型
-                                        </th>
-                                        <th class="span3">
-                                            <span class="line"></span>修改日期
-                                        </th>
-                                       
-                                        <th class="span3">
-                                            <span class="line"></span>文件大小
-                                        </th>
-                                        <th class="span3">
-                                            <span class="line"></span>版本状态
-                                        </th>
-                                    
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <!-- row -->
-                                    <tr class="first" v-for="(component,index) in componentEntity" :key="index" id="tabel_info">
-                                            <td style="display:none">{{component.id}}</td>
-                                            <td>{{component.name}}</td>
-                                            <td>
-                                                {{component.path}}
-                                            </td>
-                                            <td>
-                                               {{component.type}}
-                                            </td>
-                                            <td>
-                                                {{component.createTime}}
-                                            </td>
-                                            <td>
-                                               {{component.size}}
-                                            </td>
-                                            <td>
-                                               {{component.state}}
-                                            </td>
-                                
-                                        </tr>
-                                    <!-- row -->
-
-                                    </tbody>
-                                </table>
-                           </div>
-                        </div>
-
-                            <br/>
                               
                         </div>
   
                 </div>
         </div>
 
-    </div>
+         <div class="modal fade" id="modal-select">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-body">
+                                    <!-- form start -->
+                                    <form class="form-horizontal">
+                                        <div>
+                                          <span>后缀名:</span>
+                                          <input type="text" id="input-extensions" data-toggle="tooltip" title="输入后缀名，并用,号隔开" style="height:25px">(例如:exe,txt)
+                                        </div>
 
+                                        <div style="margin-top: 17px;">
+                                          <span>路径:</span>
+                                          <input type="text" id="input-path" style="margin-left: 12px;height:25px">
+                                        </div>
+
+                                         <div style="margin-left: 148px;margin-top: 22px;">
+                                            <button type="submit" class="btn-glow primary" @click="addInfo">确认</button>
+                                            <button type="submit" class="btn-glow primary" @click="formReset">取消</button>
+                                        </div>
+                                       
+                                           
+                                    </form>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+         </div>
 
     </template>
 
@@ -178,6 +200,10 @@ let deployPlanId;
 let deviceId;
 let componentNodeId;
 
+let componentQuickId;
+let deviceAllId;
+let deployAllId;
+
 let deployPlanDetailEntities;
 let deployplanZtreeId;
 
@@ -198,8 +224,7 @@ export default {
 
       currentPage: 0,
       pages: [],
-      jumpPage: 0,
-  
+      jumpPage: 0,  
 
       components: [],
       entity:[],
@@ -208,13 +233,14 @@ export default {
       scanComponent: [],
 
       selected: "",
+      selecteds:"",
+      selectede:"",
      
       deployplanInfos: [
             
         ],
 
       extensions: [
-        { text: "全部", value: "all" },
         { text: "exe", value: "exe" },
         { text: "xml", value: "xml" },
         { text: "dll", value: "dll" },
@@ -228,7 +254,7 @@ export default {
         { text: "doc", value: "doc" },
     
       ],
-      states: [{ text: "全部" }, { text: "在线" }, { text: "离线" }]
+      states: [{ text: "在线" }, { text: "离线" }]
     };
   },
   created() {
@@ -236,6 +262,8 @@ export default {
     var projectId = this.getCookie('projectId');
     var username = this.getCookie('username');
     var password = this.getCookie('password');
+
+    $("#modal-select").modal('hide');
 
     this.$nextTick(function() {
       $(document).ready(function() {
@@ -277,10 +305,34 @@ export default {
   methods: {
 
 
+      addInfo(event) {
+
+          layer.load();
+
+          let extensions=document.getElementById("input-extensions").value;
+          let path=document.getElementById("input-path").value;
+
+          $("#modal-select").modal('hide');
+
+          let expireDays = 1000 * 60 * 60 * 24 * 15;
+          this.setCookie('extensions', extensions, expireDays);
+          this.setCookie('path', path, expireDays);
+
+
+
+      },
+
+
+      formReset: function(){
+          $("input").val('');
+           $("#modal-select").modal('hide');
+      },
+
+
      changeState: function() {
        //alert(this.selected);
 
-    },
+      },
     
      handleInfo:function(item,path){
         if(item==null)
@@ -310,7 +362,7 @@ export default {
             return item;
         }
 
-    },
+     },
     
     changeDeployPlan: function() {
 
@@ -320,12 +372,11 @@ export default {
       setting = {
           view: {
             dblClickExpand: false,
-            addHoverDom: this.addHoverDom,
-            removeHoverDom: this.removeHoverDom,
-            selectedMulti: this.true
           },
           edit: {
-            enable: true
+                    enable: true,
+                    showRenameBtn: false,
+                    showRemoveBtn: false
           },
           data: {
             simpleData: {
@@ -333,18 +384,14 @@ export default {
             }
           },
           callback: {
-            beforeDrag: this.beforeDrag,
-            beforeEditName: this.beforeEditName,
-            beforeRemove: this.beforeRemove,
-            beforeRename: this.beforeRename,
-            onRemove: this.onRemove,
-            onRename: this.onRename,
-            onClick: this.zTreeOnClick
+            
+            onClick: this.zTreeOnClick,
+            onDblClick: this.zTreeOnDblClick
           }
         };
 
 
-     this.$axios.get('deployplan/' + deployplanZtreeId, {
+      this.$axios.get('deployplan/' + deployplanZtreeId, {
         //设置头
         headers: {
           "content-type": "application/x-www-form-urlencoded"
@@ -404,9 +451,21 @@ export default {
               }
 
                 if(flag){
+
+                    if(deployPlanDetailEntities[j].deviceEntity.online==false){
+                        deployPlanDetailEntities[j].deviceEntity.online="离线";
+                    }else{
+                        deployPlanDetailEntities[j].deviceEntity.online="在线";
+
+                    }
                     deviceNode.name =
-                    deployPlanDetailEntities[j].deviceEntity.name +
-                    deployPlanDetailEntities[j].deviceEntity.ip;
+                    deployPlanDetailEntities[j].deviceEntity.name +"("+
+                    deployPlanDetailEntities[j].deviceEntity.ip+")"+""+deployPlanDetailEntities[j].deviceEntity.online;
+
+                    var ary=deviceNode.name.split(")");
+                    deviceNode.name = deviceNode.name.replace(')', ')     '); 
+
+                   
 
                    deviceNode.deployPlanId = deployplanZtreeId;
                   
@@ -417,10 +476,21 @@ export default {
                 }
                
             }else{
-            
-             deviceNode.name =
-              deployPlanDetailEntities[j].deviceEntity.name +
-              deployPlanDetailEntities[j].deviceEntity.ip;
+             if(deployPlanDetailEntities[j].deviceEntity.online==false){
+                        deployPlanDetailEntities[j].deviceEntity.online="离线";
+                    }else{
+                        deployPlanDetailEntities[j].deviceEntity.online="在线";
+
+                    }
+               deviceNode.name =
+              deployPlanDetailEntities[j].deviceEntity.name +"("+
+              deployPlanDetailEntities[j].deviceEntity.ip+")"+""+deployPlanDetailEntities[j].deviceEntity.online;
+
+              var ary=deviceNode.name.split(")");
+              deviceNode.name = deviceNode.name.replace(')', ')     '); 
+
+              //console.log(ary.join(" "));
+
 
              deviceNode.deployPlanId = deployplanZtreeId;
             
@@ -450,47 +520,51 @@ export default {
                 }  
 
               }
+            }
           }
 
-    };
-   
-      $.fn.zTree.init($("#treeDemo"), setting, zNodes);
-        
-
+           $.fn.zTree.init($("#treeDemo"), setting, zNodes);
+           var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+           var nodes = zTree.getNodes();
+             
       }).catch(err => {
         console.log(err);
       });
-        
-    },
- 
 
+    },
+        
     changeExtension: function() {
 
         let oldInfo=[];
+
+        
         let mytable = document.getElementById("table_value");
 
         if(mytable.rows.length>0){
-          
-          for(var i=1,rows=mytable.rows.length; i<rows; i++){
-         
-            if(mytable.rows[i].cells[3].innerText!=this.selected){
+            for(var i=1,rows=mytable.rows.length; i<rows; i++){
+                oldInfo.push(mytable.rows[i].innerText);
+            }
+        console.log(oldInfo); 
 
-              oldInfo.push(mytable.rows[i].innerText);
-              
+          for(var i=1,rows=mytable.rows.length; i<rows; i++){
+            if(mytable.rows[i].cells[3].innerText!=this.selectede){
+
               document.getElementById('table_value').deleteRow(i);
 
-              i--;
+                i=i-1;
+                if(i==mytable.rows.length-1){
+                  break;
+                }
             }   
           }
-        }  
-        console.log(oldInfo); 
-  },
+        } 
 
+        
 
+    },
+   
 
-    zTreeOnClick: function(e, treeId, treeNode) {
-
-
+    zTreeOnDblClick: function(e, treeId, treeNode) {
       deviceNodeId='';
       deployPlanId='';
       componentNodeId='';
@@ -498,6 +572,7 @@ export default {
 
       this.componentEntity = [];
       let zTree = $.fn.zTree.getZTreeObj("treeDemo");
+      zTree.expandNode(treeNode);
      
       if(zTree.getSelectedNodes()[0].deviceId){
           componentNodeId=zTree.getSelectedNodes()[0].id;
@@ -577,16 +652,26 @@ export default {
       } 
     },
 
+    zTreeOnClick:function(e, treeId, treeNode){
+      let zTree = $.fn.zTree.getZTreeObj("treeDemo");
+      if(zTree.getSelectedNodes()[0].deviceId){
+          componentQuickId=zTree.getSelectedNodes()[0].id;
+      }else if(zTree.getSelectedNodes()[0].deployPlanId){
+          deviceAllId = zTree.getSelectedNodes()[0].id;
+          deployAllId = zTree.getSelectedNodes()[0].deployPlanId;
+      }
+
+    },
 
     scanAll: function() {
-  
+      layer.load();
       this.$axios
         .get(
           "deployplan/" +
             "scan/" +
-            deployPlanId +
+            deployAllId +
             "/devices/" +
-            deviceNodeId,
+            deviceAllId,
           {
             //设置头
             headers: {
@@ -600,60 +685,62 @@ export default {
           this.scanDevice = res.data.data;
 
           if(res.data.data.length>0){
-          for(let i=0;i<res.data.data.length;i++){
+            for(let i=0;i<res.data.data.length;i++){
 
-            for(let j=0;j<res.data.data[i].correctComponentFiles.length;j++){
-              
-
-               for(let k=0;k<this.componentEntity.length;k++){
-
-                 if(res.data.data[i].correctComponentFiles[j].id==this.componentEntity[k].id){
-                       this.componentEntity[k].state='√';
+              for(let j=0;j<res.data.data[i].correctComponentFiles.length;j++){
                 
-                       break;
-                }
 
-               }
-                
-            } 
-          };
-          for(let i=0;i<res.data.data.length;i++){
+                 for(let k=0;k<this.componentEntity.length;k++){
 
-            for(let j=0;j<res.data.data[i].modifyedComponentFiles.length;j++){
+                   if(res.data.data[i].correctComponentFiles[j].id==this.componentEntity[k].id){
+                         this.componentEntity[k].state='√';
+                  
+                         break;
+                  }
 
-               for(let k=0;k<this.componentEntity.length;k++){
+                 }
+                  
+              } 
+            };
+           
+            for(let i=0;i<res.data.data.length;i++){
 
-                if(res.data.data[i].modifyedComponentFiles[j].id==this.componentEntity[k].id){
-                      this.componentEntity[k].state='×';
-                     
-                      break;
-                }
+              for(let j=0;j<res.data.data[i].unknownFiles.length;j++){
 
-               }
-                
-            } 
-          };
-          for(let i=0;i<res.data.data.length;i++){
-
-            for(let j=0;j<res.data.data[i].unknownFiles.length;j++){
-
-               for(let k=0;k<this.componentEntity.length;k++){
+                 for(let k=0;k<this.componentEntity.length;k++){
 
 
-               
-                 if(res.data.data[i].unknownFiles[j].id==this.componentEntity[k].id){
-                      this.componentEntity[k].state='?';
                  
-                      break;
-                      
-                }
+                   if(res.data.data[i].unknownFiles[j].id==this.componentEntity[k].id){
+                        this.componentEntity[k].state='?';
+                   
+                        break;
+                        
+                  }
 
-               }
-                
-            } 
-          };
+                 }
+                  
+              } 
+            };
+
+             for(let i=0;i<res.data.data.length;i++){
+
+              for(let j=0;j<res.data.data[i].modifyedComponentFiles.length;j++){
+
+                 for(let k=0;k<this.componentEntity.length;k++){
+
+                  if(res.data.data[i].modifyedComponentFiles[j].id==this.componentEntity[k].id){
+                        this.componentEntity[k].state='×';
+                       
+                        break;
+                  }
+
+                 }
+                  
+              } 
+            };
      
-          }
+          };
 
           
             for(let k=0;k<this.componentEntity.length;k++){
@@ -662,7 +749,9 @@ export default {
 
                     this.componentEntity[k].state="不存在";
                 }
-            }
+            };
+
+            layer.closeAll('loading');
         
         }).catch(err => {
           console.log(err);
@@ -672,78 +761,16 @@ export default {
 
     scanQuick: function() {
  
+      $("#modal-select").modal('show');
+      if(this.getCookie('extensions')&&this.getCookie('path')){
+          document.getElementById("input-extensions").value=this.getCookie('extensions');
 
-      this.$axios
-        .get(
-          "deployplan/" +
-            "scan/" +
-            deployPlanId +
-            "/devices/" +
-            deviceId +
-            "/components/" +
-            componentNodeId,
-          {
-            //设置头
-            headers: {
-              "content-type": "application/x-www-form-urlencoded"
-            },
-            auth: {
-              username: "admin",
-              password: "admin"
-            }
-          }
-        )
-        .then(res => {
-          this.scanComponent = res.data.data;
-
-            for(let i=0;i<res.data.data.length;i++){
-
-            for(let j=0;j<res.data.data[i].correctComponentFiles.length;j++){
-
-               for(let k=0;k<this.componentEntity.length;k++){
-
-                 if(res.data.data[i].correctComponentFiles[j].id==this.componentEntity[k].id){
-                       this.componentEntity.state='√';
-
-                }
-
-               }
-                
-            } 
-          };
-          for(let i=0;i<res.data.data.length;i++){
-
-            for(let j=0;j<res.data.data[i].modifyedComponentFiles.length;j++){
-
-               for(let k=0;k<this.componentEntity.length;k++){
-
-                if(res.data.data[i].modifyedComponentFiles[j].id==this.componentEntity[k].id){
-                      this.componentEntity.state='×';
-                }
-
-               }
-                
-            } 
-          };
-          for(let i=0;i<res.data.data.length;i++){
-
-            for(let j=0;j<res.data.data[i].unknownFiles.length;j++){
-
-               for(let k=0;k<this.componentEntity.length;k++){
-
-                 if(res.data.data[i].unknownFiles[j].id==this.componentEntity[k].id){
-                      this.componentEntity.state='?';
-                }
-
-               }
-                
-            } 
-          }
-        })
-        .catch(err => {
-          console.log(err);
-      
-        });
+          document.getElementById("input-path").value=decodeURIComponent(this.getCookie('path'));
+      }else if(this.getCookie('path')){
+          document.getElementById("input-path").value=decodeURIComponent(this.getCookie('path'));
+      }else if(this.getCookie('extensions')){
+          document.getElementById("input-extensions").value=this.getCookie('extensions');
+      }
     },
 
     beforeDrag: function(treeId, treeNodes) {
@@ -785,12 +812,7 @@ export default {
       return confirm("确认删除 节点 -- " + treeNode.name + " 吗？");
     },
     onRemove: function(e, treeId, treeNode) {
-      this.showLog(
-        "[ " +
-          this.getTime() +
-          " onRemove ]&nbsp;&nbsp;&nbsp;&nbsp; " +
-          treeNode.name
-      );
+     
     },
 
     beforeRename: function(treeId, treeNode, newName, isCancel) {
@@ -830,7 +852,15 @@ export default {
     showRenameBtn: function(treeId, treeNode) {
       return !treeNode.isLastNode;
     }
-  }
+  },
+  computed: {  
+        componentEntityA: function () {  
+            var self = this;  
+            return self.componentEntity.filter(function (item) {  
+                return item.name.toLowerCase().indexOf(self.searchQuery.toLowerCase()) !== -1;  
+            })  
+        }  
+    } 
 };
 </script>
 
@@ -857,18 +887,37 @@ select {
 
 button {
   height: 29px;
-  width: 110px;
+  width: 70px;
 }
 
 .drag-content {
     border: 2px solid rgba(204, 204, 204, 1);
-    height: 350px;
+    min-height: 400px;
     width: 736px;
-    overflow: auto;
+
 }
 
 label {
   font-size: 13px;
   line-height: 26px;
 }
+
+.modal {
+  
+    left: 57%;
+  
+    width: 414px;
+}
+
+.level0{
+  width: 275px;
+display: inline;
+overflow: hidden;
+white-space: pre-wrap;
+text-overflow: ellipsis;
+font-family: Verdana, Arial, Helvetica, AppleGothic, sans-serif;
+display: table-cell;
+}
+
+
 </style>
