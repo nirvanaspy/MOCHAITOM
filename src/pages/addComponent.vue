@@ -17,18 +17,18 @@
                                     <label>组件名:</label>
                                     <input class="span9" type="text" name="add-name"/>
                                     <span class="muststar">*</span>
-                                    
+
                                 </div>
 
                                 <div class="span12 field-box">
-                                    
+
                                     <label>版本:</label>
                                     <input class="span9" type="text" name="add-version"/>
                                     <span class="muststar">*</span>
                                 </div>
 
                                 <div class="span12 field-box">
-                                    
+
                                     <label>路径:</label>
                                     <input class="span9" type="text" name="add-deployPath"/>
                                     <span class="muststar">*</span>
@@ -73,11 +73,11 @@
                                                 <!-- <li is="todo-item" v-for="(file, index) in files"  v-text="sv2"></li> -->
                                             </ul>
                                         </div>
-                                        
+
                                         <div class="upbtn">
                                                 <input type='file' name="filein" id="fileupload"  @change="getFile($event)">
                                                 <button v-on:click="fileclick($event)">upload</button>
-                                        </div> 
+                                        </div>
                                     </div>
                                 </div>
 
@@ -139,10 +139,10 @@ export default {
                 deployPath: '',
                 describle: '',
                 folders: [
-                    
+
                 ],
                 files: [
-                    
+
                 ],
                 allArr: [
 
@@ -165,7 +165,7 @@ export default {
                     this.folders.push(this.sv1);
 
                     this.allArr.push(this.sv1);
-                    var obj = document.getElementById('fileupload') ; 
+                    var obj = document.getElementById('fileupload') ;
                     obj.outerHTML=obj.outerHTML;
                 }else{
                     alert("请选择文件夹");
@@ -178,7 +178,7 @@ export default {
             },
             folderclick(event) {
                 //alert(this.sv);
-                //this.sv1 = event.target.files[0];; 
+                //this.sv1 = event.target.files[0];;
                 event.preventDefault();
                 //alert(this.sv1);
                 //alert(this.sv1.name);
@@ -210,7 +210,7 @@ export default {
                     console.log(this.allArr);
 
                     //alert(fieList);
-                    var obj = document.getElementById('folderupload') ; 
+                    var obj = document.getElementById('folderupload') ;
                     //alert("ffff");
                     obj.outerHTML=obj.outerHTML;
                     //alert("vvvv");
@@ -240,7 +240,7 @@ export default {
                     console.log(this.allArr);
 
                    // alert(this.sv1);
-                    var obj = document.getElementById('folderupload') ; 
+                    var obj = document.getElementById('folderupload') ;
                    // alert("ffff");
                     obj.outerHTML=obj.outerHTML;
                    // alert("vvvv");
@@ -249,13 +249,13 @@ export default {
                 }else{
                     alert("请选择文件夹");
                 }*/
-                
-                
+
+
             },
 
             fileclick(event) {
                 event.preventDefault();
- 
+
                // alert("xy");
 
                 var sv12 = document.getElementById("fileupload");
@@ -274,7 +274,7 @@ export default {
                     console.log(this.allArr);
 
                     //alert(fieList2);
-                    var obj = document.getElementById('fileupload') ; 
+                    var obj = document.getElementById('fileupload') ;
 
                     obj.outerHTML=obj.outerHTML;
                 }else{
@@ -284,16 +284,17 @@ export default {
 
             addComp(event) {
                // alert("A");
+                layer.load();
                 event.preventDefault();
                 let formData = new FormData();
 
                // alert("hh");
-                
+
                 this.name = $("input[name='add-name']").val();
                 this.version = $("input[name='add-version']").val();
                 this.describle = $("input[name='add-describle']").val();
                 this.deployPath = $("input[name='add-deployPath']").val();
-                
+
                 //alert(this.name);
 
                 formData.append('name', this.name);
@@ -343,9 +344,13 @@ export default {
                         //this.users = res.data.data
                         //console.log(res);
                         //alert("添加成功");
+                        layer.closeAll('loading');
+
                         this.$router.replace({ path: '/components'})
                     }).catch(err=>{
+                        layer.closeAll('loading');
                         alert("添加失败！");
+
                 })
             },
 
@@ -370,7 +375,7 @@ export default {
     }
 
     .addli{
-        
+
         max-height: 90px;
         overflow: auto;
     }
