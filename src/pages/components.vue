@@ -99,8 +99,8 @@
 								{{component.description}}
 							</td>
 							
-							<td>
-								<ul class="ulactions">
+							<td style="width:304px">
+								<ul class="ulactions" >
 									<li>
                                         <!-- <router-link to="/modifyComponent">
                                         	<input type="button" class="btn-glow primary" value="修改" @click="modifyComp($event)"/>
@@ -179,6 +179,7 @@ export default{
 
         },
         methods: {
+
 
             deleteComp: function (event){
                 //alert("A");
