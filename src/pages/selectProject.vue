@@ -84,13 +84,13 @@
             </div>
         </div> -->
 
-      <div id="your_pros" class="span4 box" style="height:374px;margin-top: 38px;">
+      <div id="your_pros" class="span4 box" style="height:374px;margin-top: 39px;background: rgba(255, 255, 255, 0.65);">
         <div class="content-wrap">
           <!-- 按钮 -->
           <div>
             <h4 style="float:left">
               项目
-              <span class="Counter">7</span>
+              <span class="Counter">{{length}}</span>
             </h4>
             <div class="boxed-group-action" >
               <router-link to="/addProject" class="btn-flat success pull-right" style="margin: -10px -10px 0 0;height: 28px;">
@@ -101,16 +101,15 @@
           </div>
 
           <div class="">
-            <input class="form-control input-sm input-block search" type="text" style="margin-top: 16px; height: 20px" placeholder="搜索.."/>
+            <input class="form-control input-sm input-block search" type="text" style="margin-top: 16px; height: 20px" placeholder="搜索.." v-model="searchQuery"/>
+
           </div>
         
-          
-
           <div class="">            
-            <div class="list" style="height: 245px; overflow: auto;width: 400px;margin-left: -28px;">
+            <div class="list" style="height: 245px; overflow: auto;width: 400px;margin-left: -28px;background: rgba(255, 255, 255, 0.65);">
               <ul class="mini-repo-list" id="ulId" data-filterable-for="your-repos-filter"
-                  data-filterable-type="substring" style="background-color: #fafbfc;">
-                <li class="pubic fork" v-for="project in projectInfo">
+                  data-filterable-type="substring" style="background: rgba(255, 255, 255, 0.65);">
+                <li class="pubic fork" v-for="project in projectInfoA">
                   <router-link to="/main" class="mini-repo-list-item">
                     <span v-bind:id="project.id" name='project.id' @click="clicked($event)">{{project.name}}</span>
                   </router-link>
@@ -138,9 +137,8 @@
   /* eslint-disable */
   import Vue from 'vue'
   let projectId = '';
-  /*alert(projectId);*/
+ 
   let projectInfo = [];
-  /*const projectIdc = projectId;*/
   Vue.component('todo-item', {
     template: '\
     <li>\
@@ -153,6 +151,9 @@
   export default {
     data() {
       return {
+        length:'',
+        searchQuery:'',
+
         newTodoText: '',
         projectInfo: [],
         todos: [
@@ -173,6 +174,9 @@
       }
     },
     created() {
+      var projectId = this.getCookie('projectId');
+      var username = this.getCookie('username');
+      var password = this.getCookie('password');
       this.$axios.get('project/', {
         //设置头
         headers: {
@@ -184,6 +188,8 @@
         }
       }).then(res => {
         this.projectInfo = res.data.data;
+        this.length=res.data.data.length;
+      
         $("html").css("background-image", "url('img/bgs/10.jpg')");
         //alert("hh");
         var ul = document.getElementById('ulId');
@@ -193,6 +199,7 @@
         var spans = ul.getElementsByTagName('span');
         console.log(spans);
         //alert(spans.length);
+        
         for (var i = 0; i < spans.length; i++) {
           //alert("A");
           //var spansv = this.innerHTML;
@@ -202,8 +209,14 @@
           console.log(err);
         });
     },
-    mounted: function () {
-    },
+    computed: {  
+        projectInfoA: function () {  
+            var self = this;  
+            return self.projectInfo.filter(function (item) {  
+                return item.name.toLowerCase().indexOf(self.searchQuery.toLowerCase()) !== -1;  
+            })  
+        }  
+    } ,
     methods: {
       addNewTodo: function () {
         this.todos.push({
