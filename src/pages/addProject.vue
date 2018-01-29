@@ -2,7 +2,7 @@
     <div id="addUser">
 
 
-        <div class="container-fluid" style="height:632px">
+        <div class="container-fluid" style="height:window.innerWidth">
             <div id="pad-wrapper" class="new-user">
                 <div class="row-fluid header">
                     <h3>创建项目</h3>

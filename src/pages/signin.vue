@@ -12,7 +12,7 @@
                   <h6>登录</h6>
                   <input id ="username" class="span12" type="text" placeholder="用户名" />
                   <input id ="password" class="span12" type="password" placeholder="密码"/>
-                  <input id ="ip" class="span12" type="text" placeholder="请输入IP"/>
+                  <input id ="ip" class="span12" type="text" placeholder="请输入IP" :value="info.ip" />
                   <a href="#" class="forgot">忘记密码?</a>
                   <div class="remember">
                       <input id="remember-me" type="checkbox" />
@@ -22,10 +22,10 @@
               </div>
           </div>
 
-          <div class="span4 no-account">
-  
+          <!-- <div class="span4 no-account">
+            
               <a href="signup.html">注册</a>
-          </div>
+          </div> -->
       </div>
   </div>
 </template>
@@ -36,8 +36,11 @@ export default {
   data() {
     username: "";
     password: "";
+    
  
-    return {};
+    return {
+      info:{},
+    };
   },
   methods: {
     login: function() {
@@ -74,7 +77,7 @@ export default {
           this.setCookie('username', username, expireDays);
           this.setCookie('password', password, expireDays);
           this.setCookie('ip', ip, expireDays);
-          console.log(this.getCookie('ip'));   
+          
         })
         .catch(function(error) {
           //alert("请输入正确的用户名或密码。");
@@ -88,8 +91,11 @@ export default {
         $("html").css("background-image", "url('img/bgs/10.jpg')");
 
         if(this.getCookie('ip')){
-            //document.getElementById("ip").value=this.getCookie('ip');
-            document.getElementById("ip").value="333";
+           
+            this.info.ip=this.getCookie('ip');
+
+            console.log(this.info);
+   
         }
         
    }
