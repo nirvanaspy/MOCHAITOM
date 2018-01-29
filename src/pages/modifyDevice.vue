@@ -12,12 +12,7 @@
           <div class="span10 with-sidebar">
             <div class="container">
               <form class="new_user_form inline-input"/>
-              <div v-for="(device,index) in devices" :key="index">
 
-                  <div class="span12 field-box">
-                    <label></label>
-                    <input class="span9" type="hidden" name="edit-id" :value="device.id"/>
-                  </div>
 
                   <div class="span12 field-box">
                     <label>设备名:</label>
@@ -28,6 +23,11 @@
                     <label>IP:</label>
                     <input class="span9" type="text" name="edit-ip" :value="device.ip"/>
                   </div>
+
+                  <div class="span12 field-box">
+                    <label>路径:</label>
+                    <input class="span9" type="text" name="edit-path" :value="device.path"/>
+                  </div>
                   
                   <div class="span12 field-box">
                     <label>描述:</label>
@@ -35,17 +35,12 @@
                   </div>
                   
                   <div class="span7 field-box actions">
-                    <input type="button" class="btn-glow primary" value="保存" style="width: 100px;" @click="editDevice"/>
+                    <input type="button" class="btn-glow primary" value="保存" style="width: 100px;" @click="modifyDevice"/>
                   </div>  
-              </div>  
+ 
 
               </form>
             </div>
-          </div>
-
-          <hr/>
-          <div>
-              {{devices}}
           </div>
 
 
@@ -57,15 +52,18 @@
 
 <script>
 /* eslint-disable */
-import devices from '@/pages/devices'
 export default{
 
         data(){
             return{
-                devices:[]
+                device:[]
             }
-        },/*created(){
-            this.$axios.get('devices',{
+        },
+        created(){
+            var deviceId = this.$route.params.id;  //所选择的部署设计的id
+            console.log(deviceId);
+
+            this.$axios.get('devices/' + deviceId,{
                 //设置头
                 headers:{
                     'content-type':'application/x-www-form-urlencoded'
@@ -75,75 +73,44 @@ export default{
                     password: 'admin'
                 }
             }).then(res=>{
-                this.devices = res.data.data
+                this.device = res.data.data
             })
             .catch(err=>{
                 console.log(err);
             })
 
-        },*/
+        },
         methods: {
 
-          modifyDevice: function (event){
-                //alert("A");
-                var e = event || window.event;
-                //alert("B");
-                var target = e.target || e.srcElement;
-                if (target.parentNode.parentNode.parentNode.parentNode.tagName.toLowerCase() == "td") {
-                    //alert("C");
-                    var rowIndex = target.parentNode.parentNode.parentNode.parentNode.parentNode.rowIndex;
-                    //alert(rowIndex);
-                    var id = document.getElementById("table_value").rows[rowIndex].cells[0].innerHTML;
-                    //alert(id);
-                    var qs = require('qs');
-                    this.$axios.get('devices/'+id,
-                      {
-                          //设置头
-                          headers:{
-                              'content-type':'application/x-www-form-urlencoded'
-                          },
-                          auth: {
-                              username: 'admin',
-                              password: 'admin'
-                          }
-                      }).then(res=>{
-                          console.log(res);
-                      })
-                      .catch(err=>{
-                          console.log(err);
-                      })
-                }
-                
-            },
+            modifyDevice: function (){
+                var deviceId = this.$route.params.id;
 
+                var username = this.getCookie('username');
+                var password = this.getCookie('password');
 
-            editDevice: function (){
-                var id = $("input[name='edit-id']").val();
-                //alert(id);
                 var qs = require('qs');
-                this.$axios.patch('devices/'+id ,qs.stringify({
-                    "id": $("input[name='edit-id']").val(),
+                this.$axios.patch('devices/' + deviceId ,qs.stringify({
+
                     "name": $("input[name='edit-name']").val(),
                     "ip": $("input[name='edit-ip']").val(),
+                    "path": $("input[name='edit-path']").val(),
                     "description": $("input[name='edit-des']").val()
                 }),{
-                    /*params:{  //get请求在第二个位置，post在第三个位置
-                     ID: $("input[name='edit-id']").val()
-                    },*/
+                    
                     //设置头
                     headers:{
                         'content-type':'application/x-www-form-urlencoded'
                     },
                     auth: {
-                        username: 'admin',
-                        password: 'admin'
+                        username: username,
+                        password: password
                     }
                 }).then(res=>{
                     //this.users = res.data.data
                     //console.log(res);
                     this.$router.replace({ path: '/devices'})
                 }).catch(err=>{
-                    alert("请重新输入用户名！");
+                    alert("修改失败！");
                 })
             }
         }
