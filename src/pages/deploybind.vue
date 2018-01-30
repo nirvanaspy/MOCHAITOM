@@ -121,7 +121,7 @@
 				                    <table class="table table-hover" id="table_value2">
 				                        <thead>
 				                        <tr>
-				                            <th class="span5 wrap" style="width: 80px;">
+				                            <th class="span4 wrap" style="width: 80px;">
 				                               组件名称
 				                            </th>
 				                            <th class="span2 sortable">
@@ -130,11 +130,11 @@
 				                            <th class="span2 sortable">
 				                                <span class="line"></span>版本
 				                            </th>
-				                            <th class="span3 sortable">
-				                            	移入
+				                            <th class="span2 sortable">
+				                            	<span class="line"></span>移入
 				                            </th>
-				                            <th class="span3 sortable">
-				                            	删除
+				                            <th class="span2 sortable">
+				                            	<span class="line"></span>删除
 				                            </th>
 
 				                        </tr>
@@ -257,6 +257,7 @@ data(){
 		searchQuery: '',
 		devices:[],          //左侧表格查询出来的设备的信息
 		comps:[],            //左侧表格查询出来的组件的信息
+		comps1:[],
 		deviceArr:[],        //移动的设备的信息
 		deviceIdArr:[],
 		compArr:[],
@@ -328,8 +329,15 @@ data(){
             username: username,
             password: password
         }
-    }).then(res=>{
-        this.comps = res.data.data
+    }).then(res=>{      
+
+        this.comps = res.data.data;
+        for(var j=0;j<this.comps.length;j++){
+        	this.comps[j].size = ((this.comps[j].size)/1024/1024).toFixed(3); 
+        }
+
+        
+
     })
     .catch(err=>{
         console.log(err);
@@ -649,11 +657,14 @@ methods: {
 
 					    	
 						}
+					}else{
+						flagDel = false;  //此组件未绑定到设备上
 					}
 
-					
+	        	}
 
-
+	        	if(!flagDel){
+	        		alert("此组件未绑定到设备上");
 	        	}
 			}else{
 				this.compIddArr.length = 0;
@@ -737,6 +748,8 @@ methods: {
         	if(this.compIddCopyArr.length != 0){
 				this.copyValue = this.compIddCopyArr;
 				console.log(this.copyValue);
+
+				layer.msg('复制成功！');
         	}else{
         		alert("无组件可以复制！");
         	}
