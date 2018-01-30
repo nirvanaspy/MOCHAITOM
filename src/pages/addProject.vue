@@ -1,5 +1,5 @@
 <template>
-    <div id="addUser">
+    <div id="addUser" :style="{backgroundImage: 'url(img/bgs/10.jpg)' }">
 
 
         <div class="container-fluid" style="height:window.innerWidth">
@@ -92,9 +92,8 @@
     }
 </script>
 <style>
-    .new-user .actions {
-    margin-top: 30px;
-    text-align: right;
-    padding-right: 120px;
-}
+    .muststar{
+        margin-left: 10px;
+        color: red;
+    }
 </style>
