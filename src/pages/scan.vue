@@ -26,11 +26,11 @@
                                                 </th>
                                                
                                                <th>
-                                                
+                                                软件状态
                                                 </th>
 
                                                 <th>
-                                                    设备状态/软件状态
+                                                    设备状态
                                                 </th>
 
                                             </tr>
@@ -59,32 +59,32 @@
                             <div style="margin-bottom: -5px;margin-left: -40px;">            
 <!--                               <label style="float:left">查找:</label>
                                -->
-                              <label style="float:left">文件名</label>
-                              <input class="search" type="text" placeholder="搜索.." v-model="searchQuery" style="float:left;width:100px;height:19px"/>
+                              <label style="float:left">文件名：</label>
+                              <input class="search" type="text" placeholder="搜索.." v-model="searchQuery" style="float:left;width:160px;height:19px"/>
                               <!-- <input type="text" style="float:left;width:100px;height:15px" class="input-large"/> -->
 
                                   <!-- <span>Selected: {{ selected }}</span> -->
                               
-                              <label style="float:left">后缀名</label>
-                                <select v-model="selectede" style="float:left" @change="changeExtension">
-                                    <option v-for="extension in extensions" v-bind:value="extension.value">
-                                      {{ extension.text }}
-                                    </option>
-                              </select>
-                           
-                        
-                              <label style="float:left">设备状态</label>
-                                  <select v-model="selecteds" @change="changeState">
-                                      <option v-for="state in states" v-bind:value="state.value">
-                                      {{ state.text }}
-                                      </option>
-                                  </select>
+                             <!--  <label style="float:left">后缀名</label>
+                               <select v-model="selectede" style="float:left" @change="changeExtension">
+                                   <option v-for="extension in extensions" v-bind:value="extension.value">
+                                     {{ extension.text }}
+                                   </option>
+                             </select>
+                                                        
+                                                     
+                             <label style="float:left">设备状态</label>
+                                 <select v-model="selecteds" @change="changeState">
+                                     <option v-for="state in states" v-bind:value="state.value">
+                                     {{ state.text }}
+                                     </option>
+                                 </select> -->
                               </div>
 
                               <br/>
 
 
-                              <div class="drag-content" style="margin-left: -40px;height: 400px;overflow: auto;">
+                              <div class="drag-content" style="margin-left: -40px;height: 400px;overflow: auto;margin-top: 25px;">
                                 <div class="row-fluid table">
                                   <table class="table table-hover" id="table_value">
                                       <thead>
@@ -149,18 +149,18 @@
          <div class="modal fade" id="modal-select">
                         <div class="modal-dialog">
                             <div class="modal-content">
-                                <div class="modal-body">
+                                <div class="modal-body" style="background-color: #0f00ff1a;">
                                     <!-- form start -->
-                                    <form class="form-horizontal">
-                                        <div>
+                                    <form class="form-horizontal" style="">
+                                        <div style="margin-top: 23px;margin-left: 30px;">
                                           <span>后缀名:</span>
-                                          <input type="text" id="input-extensions" data-toggle="tooltip" title="输入后缀名，并用,号隔开" style="height:25px">(例如:exe,txt)
+                                          <input type="text" id="input-extensions"  style="height:20px">(例如:exe,txt)
                                         </div>
 
-                                        <div style="margin-top: 17px;">
+                                        <!-- <div style="margin-top: 17px;">
                                           <span>路径:</span>
                                           <input type="text" id="input-path" style="margin-left: 12px;height:25px">
-                                        </div>
+                                        </div> -->
 
                                          <div style="margin-left: 148px;margin-top: 22px;">
                                             <button type="submit" class="btn-glow primary" @click="addInfo">确认</button>
@@ -213,6 +213,8 @@ let setting={};
 let childrenInfo=[];//所有文件的信息
 let tableInfo=[];//表格显示的信息，用于后缀名选择操作
 
+let nodes=[];//文件
+
 export default {
   name: "areaTree",
   components: {},
@@ -235,6 +237,8 @@ export default {
       selected: "",
       selecteds:"",
       selectede:"",
+
+      testInfo:[],
      
       deployplanInfos: [
             
@@ -310,22 +314,163 @@ export default {
           layer.load();
 
           let extensions=document.getElementById("input-extensions").value;
-          let path=document.getElementById("input-path").value;
+          //let path=document.getElementById("input-path").value;
 
           $("#modal-select").modal('hide');
 
           let expireDays = 1000 * 60 * 60 * 24 * 15;
           this.setCookie('extensions', extensions, expireDays);
-          this.setCookie('path', path, expireDays);
+          //this.setCookie('path', path, expireDays);
 
 
+          layer.load();
+          this.$axios
+            .get(
+              "deployplan/" +
+                "scan/" +
+                deployAllId +
+                "/devices/" +
+                deviceAllId+"?extensions="+extensions,
+              {
+                //设置头
+                headers: {
+                  "content-type": "application/x-www-form-urlencoded"
+                },
+                auth: {
+                  username: "admin",
+                  password: "admin"
+                }
+              }).then(res => {
+              this.scanDevice = res.data.data;
 
+              if(res.data.data.length>0){
+                for(let i=0;i<res.data.data.length;i++){
+
+                  for(let j=0;j<res.data.data[i].correctComponentFiles.length;j++){
+                    
+                     for(let k=0;k<this.componentEntity.length;k++){
+
+                       if(res.data.data[i].correctComponentFiles[j].id==this.componentEntity[k].id){
+                             this.componentEntity[k].state='√';
+                      
+                             break;
+                      }
+
+                     }
+                      
+                  } 
+                };
+               
+                for(let i=0;i<res.data.data.length;i++){
+
+                  for(let j=0;j<res.data.data[i].unknownFiles.length;j++){
+
+                     for(let k=0;k<this.componentEntity.length;k++){
+                     
+                       if(res.data.data[i].unknownFiles[j].id==this.componentEntity[k].id){
+                            this.componentEntity[k].state='?';
+                       
+                            break;
+                            
+                      }
+
+                     }
+                      
+                  } 
+                };
+
+                 for(let i=0;i<res.data.data.length;i++){
+
+                  for(let j=0;j<res.data.data[i].modifyedComponentFiles.length;j++){
+
+                     for(let k=0;k<this.componentEntity.length;k++){
+
+                      if(res.data.data[i].modifyedComponentFiles[j].id==this.componentEntity[k].id){
+                            this.componentEntity[k].state='×';
+                           
+                            break;
+                      }
+
+                     }
+                      
+                  } 
+                };
+         
+              };
+
+                for(let k=0;k<this.componentEntity.length;k++){
+
+                    if(this.componentEntity[k].state=="--"){
+
+                        this.componentEntity[k].state="!";
+                    }
+                };
+
+
+                for(let i=0;i<zNodes.length;i++){
+                    for(let j=0;j<zNodes[i].children.length;j++){
+
+                          //zNodes[i].children[j].name=zNodes[i].children[j].name+"("+"?"+")";
+
+
+                    }
+                }
+                $.fn.zTree.init($("#treeDemo"), setting, zNodes);
+
+
+                layer.closeAll('loading');
+            
+            }).catch(err => {
+              console.log(err);
+
+
+                for(let i=0;i<zNodes.length;i++){
+                    for(let j=0;j<zNodes[i].children.length;j++){
+                            zNodes[i].children[j].name=zNodes[i].children[j].name+"("+"?"+"!"+"√"+")";
+                            var ary=zNodes[i].children[j].name.split("(");
+                            zNodes[i].children[j].name = zNodes[i].children[j].name.replace('(', '           ('); 
+                            console.log(zNodes[i].children[j].name);
+                    }
+                }
+
+                $.fn.zTree.init($("#treeDemo"), setting, zNodes);
+     
+                console.log("######");
+                console.log(zNodes);
+
+
+              layer.closeAll('loading');
+              layer.msg("快速扫描异常");
+             
+            });
+
+      },
+
+      
+      showState:function(node){
+        let nodesX=[];
+        console.log(node);
+        for(let j=0;j<node.length;j++){
+          
+          if(node[j].hasOwnProperty("children")){
+              for(let i=0;i<node[j].children.length;i++){
+                  if(!node[j].children[i].hasOwnProperty("children")){
+                      nodes.push(node[j].children[i]);
+                  }else{
+                      
+                      nodesX.push(node[j].children[i]);
+
+                  }
+              }
+          }
+        }
+         return nodesX;
       },
 
 
       formReset: function(){
           $("input").val('');
-           $("#modal-select").modal('hide');
+          $("#modal-select").modal('hide');
       },
 
 
@@ -334,7 +479,7 @@ export default {
 
       },
     
-     handleInfo:function(item,path){
+     handleInfo:function(item,path,idCom,idFlag){
         if(item==null)
             return ;
 
@@ -350,12 +495,18 @@ export default {
             }
 
             if(flag){
-                item.children.push({"name":path});
+                item.children.push({"name":path,"id":idCom});
                 item=item.children[item.children.length-1];
                 return item;
             }
             
         }else{
+            if(idFlag==true){
+                item.children=[];
+                item.children.push({"name":path,"id":idCom});
+                item=item.children[0];
+                return item;
+            }
             item.children=[];
             item.children.push({"name":path});
             item=item.children[0];
@@ -463,7 +614,7 @@ export default {
                     deployPlanDetailEntities[j].deviceEntity.ip+")"+""+deployPlanDetailEntities[j].deviceEntity.online;
 
                     var ary=deviceNode.name.split(")");
-                    deviceNode.name = deviceNode.name.replace(')', ')     '); 
+                    deviceNode.name = deviceNode.name.replace(')', ')           '); 
 
                    
 
@@ -487,7 +638,7 @@ export default {
               deployPlanDetailEntities[j].deviceEntity.ip+")"+""+deployPlanDetailEntities[j].deviceEntity.online;
 
               var ary=deviceNode.name.split(")");
-              deviceNode.name = deviceNode.name.replace(')', ')     '); 
+              deviceNode.name = deviceNode.name.replace(')', ')           '); 
 
               //console.log(ary.join(" "));
 
@@ -514,19 +665,21 @@ export default {
                 let item=zNodes[j].children[l];
 
                 let path=(componentFile[m].path).split('/');
+                let idCom=componentFile[m].id;
 
                 for(let i=1;i<path.length;i++){
-                  item=this.$options.methods.handleInfo(item,path[i]);
+                  let idFlag;
+                  if(i==path.length-1){
+                      idFlag=true;
+                  }
+                  item=this.$options.methods.handleInfo(item,path[i],idCom,idFlag);
                 }  
-
               }
             }
           }
 
            $.fn.zTree.init($("#treeDemo"), setting, zNodes);
-           var zTree = $.fn.zTree.getZTreeObj("treeDemo");
-           var nodes = zTree.getNodes();
-             
+          
       }).catch(err => {
         console.log(err);
       });
@@ -558,8 +711,6 @@ export default {
             }   
           }
         } 
-
-        
 
     },
    
@@ -631,7 +782,7 @@ export default {
           for(let i=0;i<zTree.getSelectedNodes()[0].children.length;i++){
               if(zTree.getSelectedNodes()[0].children[i].hasOwnProperty("children")==false){
                   for(let j=0;j<childrenInfo.length;j++){
-                      if(childrenInfo[j].name==zTree.getSelectedNodes()[0].children[i].name){
+                      if(childrenInfo[j].id==zTree.getSelectedNodes()[0].children[i].id){
                           zTree.getSelectedNodes()[0].children[i]=childrenInfo[j];
                           this.componentEntity.push(childrenInfo[j]);
 
@@ -643,17 +794,21 @@ export default {
       }else if(zTree.getSelectedNodes()[0].hasOwnProperty("children")==false){
           
           for(let j=0;j<childrenInfo.length;j++){
-              if(childrenInfo[j].name==zTree.getSelectedNodes()[0].name){
+              if(childrenInfo[j].id==zTree.getSelectedNodes()[0].id){
                 this.componentEntity.push(childrenInfo[j]);
 
                 break;
               }
           }
-      } 
+      };
+
+
     },
 
     zTreeOnClick:function(e, treeId, treeNode){
+
       let zTree = $.fn.zTree.getZTreeObj("treeDemo");
+       console.log(zTree.getSelectedNodes()[0]);
       if(zTree.getSelectedNodes()[0].deviceId){
           componentQuickId=zTree.getSelectedNodes()[0].id;
       }else if(zTree.getSelectedNodes()[0].deployPlanId){
@@ -665,13 +820,13 @@ export default {
 
     scanAll: function() {
       layer.load();
-      this.$axios
-        .get(
+
+      this.$axios.get(
           "deployplan/" +
             "scan/" +
             deployAllId +
             "/devices/" +
-            deviceAllId,
+            deviceAllId+"?extensions",
           {
             //设置头
             headers: {
@@ -708,8 +863,6 @@ export default {
               for(let j=0;j<res.data.data[i].unknownFiles.length;j++){
 
                  for(let k=0;k<this.componentEntity.length;k++){
-
-
                  
                    if(res.data.data[i].unknownFiles[j].id==this.componentEntity[k].id){
                         this.componentEntity[k].state='?';
@@ -747,29 +900,36 @@ export default {
 
                 if(this.componentEntity[k].state=="--"){
 
-                    this.componentEntity[k].state="不存在";
+                    this.componentEntity[k].state="!";
                 }
             };
 
+            let node=zNodes;
             layer.closeAll('loading');
+
+            for(var i=1;i>0;){
+                node=this.$options.methods.showState(node);
+
+                if(node.length==0){
+                return;
+                }
+            }
+            
         
         }).catch(err => {
           console.log(err);
          
         });
+
+
+      
     },
 
     scanQuick: function() {
  
       $("#modal-select").modal('show');
-      if(this.getCookie('extensions')&&this.getCookie('path')){
-          document.getElementById("input-extensions").value=this.getCookie('extensions');
-
-          document.getElementById("input-path").value=decodeURIComponent(this.getCookie('path'));
-      }else if(this.getCookie('path')){
-          document.getElementById("input-path").value=decodeURIComponent(this.getCookie('path'));
-      }else if(this.getCookie('extensions')){
-          document.getElementById("input-extensions").value=this.getCookie('extensions');
+      if(this.getCookie('extensions')){
+          document.getElementById("input-extensions").value=decodeURIComponent(this.getCookie('extensions'));
       }
     },
 
@@ -919,5 +1079,11 @@ font-family: Verdana, Arial, Helvetica, AppleGothic, sans-serif;
 display: table-cell;
 }
 
+.level1{
+  overflow: hidden;
+white-space: pre-wrap;
+text-overflow: ellipsis;
+font-family: Verdana, Arial, Helvetica, AppleGothic, sans-serif;
+}
 
 </style>

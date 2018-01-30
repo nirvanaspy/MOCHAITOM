@@ -10,8 +10,8 @@
 
                 <div class="row-fluid form-wrapper">
                     <!-- left column -->
-                    <div class="span10">
-                        <div class="">
+                    <div class="span10 ">
+                        <div class="with-sidebar">
                             <form class="new_user_form inline-input" />
                                 <div class="span12 field-box">
                                     <label>组件名:</label>
@@ -76,8 +76,9 @@
                                     </div>
                                 </div>
 
-
-                                 <div class="span12 field-box" style="width: 229px;margin-left: 847px;margin-top: -344px;height: 317px;overflow-y: auto;">
+                                <div style="height: 313px; border-left: 1px solid rgba(0, 0, 0, 0.32);margin-left: 829px;"></div>
+                                 <div class="span12 field-box with-sidebar " style="width: 229px;margin-left: 847px;margin-top: -344px;height: 317px;overflow-y: auto;">
+                                    <span>组件详细信息</span>
 
                                      <ul id="treeDemo" class="ztree" style=""></ul>
                                 </div>
@@ -239,12 +240,8 @@ export default {
                     }
                 }
 
-
-                
-                console.log();
-
                // tree.refresh();  
-                //tree.reAsyncChildNodes(null, "refresh"); 
+            //tree.reAsyncChildNodes(null, "refresh"); 
 
             },
             getFolder(event) {
