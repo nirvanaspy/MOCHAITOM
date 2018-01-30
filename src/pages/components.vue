@@ -54,7 +54,7 @@
 				</div>
 
 				<!-- Users table -->
-				<div class="row-fluid table">
+				<div class="row-fluid table tabletable">
 					<table class="table table-hover" id="table_value">
 						<thead>
 						<tr>
@@ -66,7 +66,7 @@
 							</th>
 							<th class="span3">
 								<span class="line"></span>大小
-							</th> 
+							</th>
 							<th class="span3 sortable">
                                 <span class="line"></span>路径
                             </th>
@@ -98,7 +98,7 @@
 							<td class="description">
 								{{component.description}}
 							</td>
-							
+
 							<td style="width:304px">
 								<ul class="ulactions" >
 									<li>
@@ -161,7 +161,7 @@ export default{
             var password = this.getCookie('password');
 
             this.$axios.get('components',{
-                
+
                 //设置头
                 headers:{
                     'content-type':'application/x-www-form-urlencoded'
@@ -189,7 +189,7 @@ export default{
 
                 var msg = "您确定删除吗？";
 		        if (confirm(msg) == true) {
-		            
+
 		        	if (target.parentNode.parentNode.parentNode.tagName.toLowerCase() == "td") {
 	                    //alert("C");
 	                    var rowIndex = target.parentNode.parentNode.parentNode.parentNode.rowIndex;
@@ -212,9 +212,9 @@ export default{
 
 	                        var username = this.getCookie('username');
 				            var password = this.getCookie('password');
-				        	
+
 				            this.$axios.get('components',{
-				                
+
 				                //设置头
 				                headers:{
 				                    'content-type':'application/x-www-form-urlencoded'
@@ -233,12 +233,12 @@ export default{
 	                        alert("删除失败！");
 	                    })
 	                }
-		            
+
 		        } else {
 		            return false;
 		        }
 
-                
+
 
             },
 
@@ -286,7 +286,7 @@ export default{
 
                 var copyDeviceInfo = target.parentNode.parentNode.parentNode.parentNode;
 
-                var id = copyDeviceInfo.id; 
+                var id = copyDeviceInfo.id;
                 console.log(copyDeviceInfo);
                 console.log(id);
 
@@ -298,7 +298,7 @@ export default{
                 this.$axios.post('components/copy/'+id,
                 qs.stringify({
                     "name": $("input[name='add-name']").val(),
-                    
+
                 }),{
                     /*params:{  //get请求在第二个位置，post在第三个位置
                      ID:'c02da6e9-a334-4e41-b842-c59eb7d0d3f3'
@@ -314,7 +314,7 @@ export default{
                 }).then(res=>{
                     alert("拷贝成功");
                     this.$axios.get('components',{
-                
+
 		                //设置头
 		                headers:{
 		                    'content-type':'application/x-www-form-urlencoded'
@@ -336,17 +336,22 @@ export default{
                 })
             }
         },
-		computed: {  
-		    componentsA: function () {  
-		        var self = this;  
-		        return self.components.filter(function (item) {  
-		            return item.name.toLowerCase().indexOf(self.searchQuery.toLowerCase()) !== -1;  
-		        })  
-		    }  
-		} 
+		computed: {
+		    componentsA: function () {
+		        var self = this;
+		        return self.components.filter(function (item) {
+		            return item.name.toLowerCase().indexOf(self.searchQuery.toLowerCase()) !== -1;
+		        })
+		    }
+		}
     }
 </script>
 <style>
+  .tabletable{
+    height: 400px;
+    overflow-y: auto;
+  }
+
 .ulactions{
     margin: 5px 0 0 0;
 }
