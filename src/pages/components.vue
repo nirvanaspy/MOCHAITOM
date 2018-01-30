@@ -350,6 +350,7 @@ export default{
   .tabletable{
     height: 400px;
     overflow-y: auto;
+    margin-top: -35px;
   }
 
 .ulactions{
