@@ -1,5 +1,5 @@
 <template>
-    <div id="addUser" :style="{backgroundImage: 'url(img/bgs/10.jpg)' }">
+    <div id="addUser">
 
 
         <div class="container-fluid" style="height:window.innerWidth">
@@ -24,7 +24,7 @@
 
                                     <label>描述:</label>
                                     <input class="span9" type="text" name="add-des"/>
-                                   
+
                                 </div>
 
                                 <div class="span7 field-box actions">
@@ -65,7 +65,7 @@
                     "name": $("input[name='add-name']").val(),
                     "description": $("input[name='add-des']").val()
                 }),{
-                   
+
                     //设置头
                     headers:{
                         'content-type':'application/x-www-form-urlencoded'

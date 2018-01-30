@@ -104,8 +104,8 @@
             <input class="form-control input-sm input-block search" type="text" style="margin-top: 16px; height: 20px" placeholder="搜索.." v-model="searchQuery"/>
 
           </div>
-        
-          <div class="">            
+
+          <div class="">
             <div class="list" style="height: 245px; overflow: auto;width: 400px;margin-left: -28px;background: rgba(255, 255, 255, 0.65);">
               <ul class="mini-repo-list" id="ulId" data-filterable-for="your-repos-filter"
                   data-filterable-type="substring" style="background: rgba(255, 255, 255, 0.65);">
@@ -137,7 +137,7 @@
   /* eslint-disable */
   import Vue from 'vue'
   let projectId = '';
- 
+
   let projectInfo = [];
   Vue.component('todo-item', {
     template: '\
@@ -189,8 +189,8 @@
       }).then(res => {
         this.projectInfo = res.data.data;
         this.length=res.data.data.length;
-      
-        $("html").css("background-image", "url('img/bgs/10.jpg')");
+
+        $("body").css("background-image", "url('img/bgs/10.jpg')");
         //alert("hh");
         var ul = document.getElementById('ulId');
         console.log(ul);
@@ -199,7 +199,7 @@
         var spans = ul.getElementsByTagName('span');
         console.log(spans);
         //alert(spans.length);
-        
+
         for (var i = 0; i < spans.length; i++) {
           //alert("A");
           //var spansv = this.innerHTML;
@@ -209,13 +209,13 @@
           console.log(err);
         });
     },
-    computed: {  
-        projectInfoA: function () {  
-            var self = this;  
-            return self.projectInfo.filter(function (item) {  
-                return item.name.toLowerCase().indexOf(self.searchQuery.toLowerCase()) !== -1;  
-            })  
-        }  
+    computed: {
+        projectInfoA: function () {
+            var self = this;
+            return self.projectInfo.filter(function (item) {
+                return item.name.toLowerCase().indexOf(self.searchQuery.toLowerCase()) !== -1;
+            })
+        }
     } ,
     methods: {
       addNewTodo: function () {

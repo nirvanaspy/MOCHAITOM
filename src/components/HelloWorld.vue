@@ -1,7 +1,7 @@
 <template>
-  <div class="hello" style="height:770px">
+  <div class="hello" style="height: 100%">
     <!-- navbar -->
-    <div class="navbar navbar-inverse">
+    <div class="navbar navbar-inverse" style="height: 50px">
       <div class="navbar-inner">
         <button type="button" class="btn btn-navbar visible-phone" id="menu-toggler">
           <span class="icon-bar"></span>
@@ -25,7 +25,7 @@
       </div>
     </div>
     <!-- sidebar -->
-    <div id="sidebar-nav" style="background-color: #f8f8f8;">
+    <div id="sidebar-nav" style="background-color: #f8f8f8;top: 50px;bottom:0px">
       <ul id="dashboard-menu" style="background-color: #f8f8f8;">
         <li class="active">
           <div class="pointer">
