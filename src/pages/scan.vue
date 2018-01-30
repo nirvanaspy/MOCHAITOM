@@ -179,6 +179,7 @@
     </template>
 
 
+   
     <script>
 /* eslint-disable */
 var relativePath = "";
@@ -323,6 +324,30 @@ export default {
           //this.setCookie('path', path, expireDays);
 
 
+          let temp=[];
+          for(let i=0;i<this.componentEntity.length;i++){
+              if(this.componentEntity[i].type==extensions){
+                  temp.push(this.componentEntity[i]);
+              }
+          }
+
+          
+          this.componentEntity.splice(0,this.componentEntity.length);
+          this.componentEntity=temp;
+
+
+          for(let i=0;i<zNodes.length;i++){
+              for(let j=0;j<zNodes[i].children.length;j++){
+                  var regex=/\(/g;
+                  var str=zNodes[i].children[j].name;
+                  if(regex.test(str)){
+                      //alert("$$$");
+                      let zname=zNodes[i].children[j].name.split('(');
+                      zNodes[i].children[j].name=zname[0];
+                  }
+              }
+          }
+
           layer.load();
           this.$axios
             .get(
@@ -352,6 +377,7 @@ export default {
 
                        if(res.data.data[i].correctComponentFiles[j].id==this.componentEntity[k].id){
                              this.componentEntity[k].state='√';
+                             this.componentEntity[k].age='4';
                       
                              break;
                       }
@@ -369,12 +395,12 @@ export default {
                      
                        if(res.data.data[i].unknownFiles[j].id==this.componentEntity[k].id){
                             this.componentEntity[k].state='?';
-                       
+                            this.componentEntity[k].age='2';
                             break;
                             
                       }
 
-                     }
+                    }
                       
                   } 
                 };
@@ -387,7 +413,7 @@ export default {
 
                       if(res.data.data[i].modifyedComponentFiles[j].id==this.componentEntity[k].id){
                             this.componentEntity[k].state='×';
-                           
+                            this.componentEntity[k].age='3';
                             break;
                       }
 
@@ -403,18 +429,47 @@ export default {
                     if(this.componentEntity[k].state=="--"){
 
                         this.componentEntity[k].state="!";
+                        this.componentEntity[k].age='1';
                     }
                 };
 
 
-                for(let i=0;i<zNodes.length;i++){
+                 for(let i=0;i<zNodes.length;i++){
                     for(let j=0;j<zNodes[i].children.length;j++){
 
-                          //zNodes[i].children[j].name=zNodes[i].children[j].name+"("+"?"+")";
+                          for(let k=0;k<res.data.data.length;k++){
+                              if(zNodes[i].children[j].id==res.data.data[k].componentId){
+                                  if(res.data.data[k].hasCorrectComponentFiles==true&&res.data.data[k].hasModifyedComponentFiles==false&&res.data.data[k].hasUnknownFiles==false&&res.data.data[k].hasMissingFile==false){
+                                      zNodes[i].children[j].name=zNodes[i].children[j].name+"("+"√"+")";
+                                      zNodes[i].children[j].name = zNodes[i].children[j].name.replace('(', '           (');
+                                  }else if(res.data.data[k].hasModifyedComponentFiles==true&&res.data.data[k].hasUnknownFiles==false&&res.data.data[k].hasMissingFile==false){
+                                      zNodes[i].children[j].name=zNodes[i].children[j].name+"("+"×"+")";
+                                      zNodes[i].children[j].name = zNodes[i].children[j].name.replace('(', '           (');
+                                  }else if(res.data.data[k].hasModifyedComponentFiles==false&&res.data.data[k].hasUnknownFiles==true&&res.data.data[k].hasMissingFile==false){
+                                      zNodes[i].children[j].name=zNodes[i].children[j].name+"("+"?"+")";
+                                      zNodes[i].children[j].name = zNodes[i].children[j].name.replace('(', '           (');
+                                  }else if(res.data.data[k].hasModifyedComponentFiles==false&&res.data.data[k].hasUnknownFiles==false&&res.data.data[k].hasMissingFile==true){
+                                      zNodes[i].children[j].name=zNodes[i].children[j].name+"("+"!"+")";
+                                      zNodes[i].children[j].name = zNodes[i].children[j].name.replace('(', '           (');
+                                  }else if(res.data.data[k].hasModifyedComponentFiles==true&&res.data.data[k].hasUnknownFiles==true&&res.data.data[k].hasMissingFile==false){
+                                      zNodes[i].children[j].name=zNodes[i].children[j].name+"("+"×,"+"?"+")";
+                                      zNodes[i].children[j].name = zNodes[i].children[j].name.replace('(', '           (');
+                                  }else if(res.data.data[k].hasModifyedComponentFiles==true&&res.data.data[k].hasUnknownFiles==false&&res.data.data[k].hasMissingFile==true){
+                                      zNodes[i].children[j].name=zNodes[i].children[j].name+"("+"×,"+"!"+")";
+                                      zNodes[i].children[j].name = zNodes[i].children[j].name.replace('(', '           (');
+                                  }else if(res.data.data[k].hasModifyedComponentFiles==false&&res.data.data[k].hasUnknownFiles==true&&res.data.data[k].hasMissingFile==true){
+                                      zNodes[i].children[j].name=zNodes[i].children[j].name+"("+"?,"+"!"+")";
+                                      zNodes[i].children[j].name = zNodes[i].children[j].name.replace('(', '           (');
+                                  }else if(res.data.data[k].hasModifyedComponentFiles==true&&res.data.data[k].hasUnknownFiles==true&&res.data.data[k].hasMissingFile==true){
+                                      zNodes[i].children[j].name=zNodes[i].children[j].name+"("+"×,"+"?,"+"!"+")";
+                                      zNodes[i].children[j].name = zNodes[i].children[j].name.replace('(', '           (');
+                                  }
 
-
+                              }
+                          }
                     }
                 }
+
                 $.fn.zTree.init($("#treeDemo"), setting, zNodes);
 
 
@@ -423,27 +478,28 @@ export default {
             }).catch(err => {
               console.log(err);
 
-
-                for(let i=0;i<zNodes.length;i++){
-                    for(let j=0;j<zNodes[i].children.length;j++){
-                            zNodes[i].children[j].name=zNodes[i].children[j].name+"("+"?"+"!"+"√"+")";
-                            var ary=zNodes[i].children[j].name.split("(");
-                            zNodes[i].children[j].name = zNodes[i].children[j].name.replace('(', '           ('); 
-                            console.log(zNodes[i].children[j].name);
-                    }
-                }
-
-                $.fn.zTree.init($("#treeDemo"), setting, zNodes);
-     
-                console.log("######");
-                console.log(zNodes);
-
-
               layer.closeAll('loading');
               layer.msg("快速扫描异常");
              
             });
 
+      },
+
+      mySort:function(arr){
+                
+          for(var x=0; x<arr.length-1; x++){
+              for(var y=x+1; y<arr.length; y++){
+                        
+               //按照年龄数值排序，并转成整数。
+                if(parseInt(arr[x].cells[1].innerHTML)>parseInt(arr[y].cells[1].innerHTML)){
+                    var temp = arr[x];
+                    arr[x] = arr[y];
+                    arr[y] = temp;
+                    arr[x].swapNode(arr[y]);
+                }
+              }
+                        
+          }
       },
 
       
@@ -573,6 +629,8 @@ export default {
               deployPlanDetailEntities[j].deviceEntity.id; 
           
             componentNode.componentNodeInfo=deployPlanDetailEntities[j].componentEntity.componentFileEntities;
+
+            componentNode.age=0;
          
 
             componentNode.state = "--";
@@ -839,16 +897,29 @@ export default {
           }).then(res => {
           this.scanDevice = res.data.data;
 
+           for(let i=0;i<zNodes.length;i++){
+              for(let j=0;j<zNodes[i].children.length;j++){
+                  var regex=/\(/g;
+                  var str=zNodes[i].children[j].name;
+                  if(regex.test(str)){
+                      //alert("$$$");
+                      let zname=zNodes[i].children[j].name.split('(');
+                      zNodes[i].children[j].name=zname[0];
+                  }
+              }
+          }
+          
+
           if(res.data.data.length>0){
             for(let i=0;i<res.data.data.length;i++){
 
               for(let j=0;j<res.data.data[i].correctComponentFiles.length;j++){
                 
-
                  for(let k=0;k<this.componentEntity.length;k++){
 
                    if(res.data.data[i].correctComponentFiles[j].id==this.componentEntity[k].id){
                          this.componentEntity[k].state='√';
+                         this.componentEntity[k].age=4;
                   
                          break;
                   }
@@ -866,7 +937,7 @@ export default {
                  
                    if(res.data.data[i].unknownFiles[j].id==this.componentEntity[k].id){
                         this.componentEntity[k].state='?';
-                   
+                        this.componentEntity[k].age=1;
                         break;
                         
                   }
@@ -884,7 +955,7 @@ export default {
 
                   if(res.data.data[i].modifyedComponentFiles[j].id==this.componentEntity[k].id){
                         this.componentEntity[k].state='×';
-                       
+                        this.componentEntity[k].age=2;
                         break;
                   }
 
@@ -901,29 +972,60 @@ export default {
                 if(this.componentEntity[k].state=="--"){
 
                     this.componentEntity[k].state="!";
+                     this.componentEntity[k].age=1;
                 }
             };
+          
+            for(let i=0;i<zNodes.length;i++){
+                    for(let j=0;j<zNodes[i].children.length;j++){
 
-            let node=zNodes;
-            layer.closeAll('loading');
+                          for(let k=0;k<res.data.data.length;k++){
+                              
+                              if(zNodes[i].children[j].id==res.data.data[k].componentId){
+                         
+                                  if(res.data.data[k].hasCorrectComponentFiles==true&&res.data.data[k].hasModifyedComponentFiles==false&&res.data.data[k].hasUnknownFiles==false&&res.data.data[k].hasMissingFile==false){
+                                      zNodes[i].children[j].name=zNodes[i].children[j].name+"("+"√"+")";
+                                      zNodes[i].children[j].name = zNodes[i].children[j].name.replace('(', '           (');
+                                  }else if(res.data.data[k].hasModifyedComponentFiles==true&&res.data.data[k].hasUnknownFiles==false&&res.data.data[k].hasMissingFile==false){
+                                      zNodes[i].children[j].name=zNodes[i].children[j].name+"("+"×"+")";
+                                      zNodes[i].children[j].name = zNodes[i].children[j].name.replace('(', '           (');
+                                  }else if(res.data.data[k].hasModifyedComponentFiles==false&&res.data.data[k].hasUnknownFiles==true&&res.data.data[k].hasMissingFile==false){
+                                      zNodes[i].children[j].name=zNodes[i].children[j].name+"("+"?"+")";
+                                      zNodes[i].children[j].name = zNodes[i].children[j].name.replace('(', '           (');
+                                  }else if(res.data.data[k].hasModifyedComponentFiles==false&&res.data.data[k].hasUnknownFiles==false&&res.data.data[k].hasMissingFile==true){
+                                      zNodes[i].children[j].name=zNodes[i].children[j].name+"("+"!"+")";
+                                      zNodes[i].children[j].name = zNodes[i].children[j].name.replace('(', '           (');
+                                  }else if(res.data.data[k].hasModifyedComponentFiles==true&&res.data.data[k].hasUnknownFiles==true&&res.data.data[k].hasMissingFile==false){
+                                      zNodes[i].children[j].name=zNodes[i].children[j].name+"("+"×,"+"?"+")";
+                                      zNodes[i].children[j].name = zNodes[i].children[j].name.replace('(', '           (');
+                                  }else if(res.data.data[k].hasModifyedComponentFiles==true&&res.data.data[k].hasUnknownFiles==false&&res.data.data[k].hasMissingFile==true){
+                                      zNodes[i].children[j].name=zNodes[i].children[j].name+"("+"×,"+"!"+")";
+                                      zNodes[i].children[j].name = zNodes[i].children[j].name.replace('(', '           (');
+                                  }else if(res.data.data[k].hasModifyedComponentFiles==false&&res.data.data[k].hasUnknownFiles==true&&res.data.data[k].hasMissingFile==true){
+                                      zNodes[i].children[j].name=zNodes[i].children[j].name+"("+"?,"+"!"+")";
+                                      zNodes[i].children[j].name = zNodes[i].children[j].name.replace('(', '           (');
+                                  }else if(res.data.data[k].hasModifyedComponentFiles==true&&res.data.data[k].hasUnknownFiles==true&&res.data.data[k].hasMissingFile==true){
+                                      zNodes[i].children[j].name=zNodes[i].children[j].name+"("+"×,"+"?,"+"!"+")";
+                                      zNodes[i].children[j].name = zNodes[i].children[j].name.replace('(', '           (');
+                                  }
 
-            for(var i=1;i>0;){
-                node=this.$options.methods.showState(node);
-
-                if(node.length==0){
-                return;
+                              }
+                          }
+                    }
                 }
-            }
-            
+
+
+                $.fn.zTree.init($("#treeDemo"), setting, zNodes);
+
+                layer.closeAll('loading');
         
         }).catch(err => {
           console.log(err);
          
         });
-
-
       
     },
+
 
     scanQuick: function() {
  
@@ -1023,7 +1125,6 @@ export default {
     } 
 };
 </script>
-
      <style type="text/css">
 .field-box {
   margin-bottom: 30px;
