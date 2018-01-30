@@ -79,7 +79,7 @@ input.search{
 }
 .navbar-inverse .notification-dropdown i {
 	font-size: 17px;
-	color: #9ba3ad;	
+	color: #9ba3ad;
 }
 .navbar-inverse .notification-dropdown .count {
 	position: absolute;
@@ -103,7 +103,7 @@ input.search{
 	display: none;
 }
 .navbar-inverse .pop-dialog.is-visible {
-	display: block; 
+	display: block;
 	-webkit-animation: reveal .2s ease-out;
 	-moz-animation: reveal .2s ease-out;
 	animation: reveal .2s ease-out;
@@ -253,7 +253,7 @@ input.search{
 	width: 180px;
 	float: left;
 	margin: 0em;
-	padding-top: 5.8em;	
+	padding-top: 5.8em;
 }
 #dashboard-menu {
 	list-style: none;
@@ -408,8 +408,8 @@ input.search{
 }
 .content {
 	min-width: 400px;
-	min-height: 620px;
-	margin-bottom: 100px;
+	height: 620px;
+/*	margin-bottom: 100px;*/
 	padding-bottom: 50px;
 	overflow: hidden;
 	position: relative;
@@ -517,13 +517,13 @@ input.search{
 	.content {
 		margin-left: 0em;
 		border-left-width: 0px;
-	}	
+	}
 }
 @media (max-width: 822px) {
 	.navbar-inverse input.search {display: none;}
 }
 @media (max-width: 767px) {
-	#pad-wrapper {  
+	#pad-wrapper {
 		padding: 0px 10px;
 	}
 	.content {
@@ -550,7 +550,7 @@ input.search{
 		-o-transition: left .25s ease;
 		-ms-transition: left .25s ease;
 		transition: left .25s ease;
-	}	
+	}
 	#sidebar-nav #dashboard-menu {
 		margin-left: 10px;
 	}
@@ -566,4 +566,6 @@ input.search{
 		left: 0;
 		height: 100%;
 	}
+
+
 }

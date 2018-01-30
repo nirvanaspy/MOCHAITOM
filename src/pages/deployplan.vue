@@ -57,13 +57,13 @@
                 </div>
 
                 <!-- Users table -->
-                <div class="row-fluid table">
+                <div class="row-fluid table tabletable">
                     <table class="table table-hover" id="table_value">
                         <thead>
                         <tr>
                             <th class="span4 sortable">
                                名称
-                            </th> 
+                            </th>
                             <th class="span3">
                                 <span class="line"></span>描述
                             </th>
@@ -145,7 +145,7 @@
 /*let projectId = "2ec24245-0f8d-4db5-9d9b-1726ed727057";*/
 
 export default{
-    
+
     data(){
         return{
             deployplans:[]
@@ -155,7 +155,7 @@ export default{
         var projectId = this.getCookie('projectId');
         var username = this.getCookie('username');
         var password = this.getCookie('password');
-        
+
         this.$axios.get('project/'+projectId+'/deployplan',{
             //设置头
             headers:{
@@ -206,12 +206,12 @@ export default{
                                 password: 'admin'
                             }
                         }).then(res=>{
-                            
+
                             //删除完再次查询
                             var projectId = this.getCookie('projectId');
                             var username = this.getCookie('username');
                             var password = this.getCookie('password');
-                            
+
                             this.$axios.get('project/'+projectId+'/deployplan',{
                                 //设置头
                                 headers:{
@@ -233,18 +233,24 @@ export default{
                             alert("删除失败！");
                         })
                     }
-                    
+
                 } else {
                     return false;
                 }
 
-                
+
 
             },
     }
 }
 </script>
 <style>
+  .tabletable{
+    height: 400px;
+    overflow-y: auto;
+    margin-top: -35px;
+  }
+
 .ulactions{
     margin: 5px 0 0 0;
 }

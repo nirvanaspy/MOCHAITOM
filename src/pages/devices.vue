@@ -54,7 +54,7 @@
                 </div>
 
                 <!-- Users table -->
-                <div class="row-fluid table">
+                <div class="row-fluid table tabletable">
                     <table class="table table-hover" id="table_value">
                         <thead>
                         <tr>
@@ -303,6 +303,12 @@ export default{
     }
 </script>
 <style>
+  .tabletable{
+    height: 400px;
+    overflow-y: auto;
+    margin-top: -35px;
+  }
+
 .ulactions{
     margin: 5px 0 0 0;
 }

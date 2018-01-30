@@ -56,32 +56,27 @@
         </div>
 
         <!-- Users table -->
-        <div class="row-fluid table">
+        <div class="row-fluid table tabletable">
           <el-table
             :data="deploylogs"
             style="width: 100%">
             <el-table-column
-              type="selection"
-              width="55">
+              type="selection">
             </el-table-column>
             <el-table-column
               prop="deviceEntity.name"
-              label="设备名称"
-              width="150">
+              label="设备名称">
             </el-table-column>
             <el-table-column
               prop="deviceEntity.ip"
-              label="设备地址"
-              width="150">
+              label="设备地址">
             </el-table-column>
             <el-table-column
               prop="size"
-              label="大小"
-              width="150">
+              label="大小">
             </el-table-column>
             <el-table-column
-              label="发送进度"
-              width="250">
+              label="发送进度" >
               <template slot-scope="scope">
                 <el-progress :text-inside="true" :stroke-width="18"
                              :percentage="(scope.row.finishedNums/scope.row.fileNums )*100"/>
@@ -160,3 +155,10 @@
     }
   }
 </script>
+<style>
+  .tabletable{
+    height: 400px;
+    overflow-y: auto;
+    margin-top: -35px;
+  }
+</style>
