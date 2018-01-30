@@ -10,6 +10,7 @@ import devices from '@/pages/devices'
 import addDevice from '@/pages/addDevice'
 import modifyDevice from '@/pages/modifyDevice'
 import modifyComponent from '@/pages/modifyComponent'
+import modifyDeploy from '@/pages/modifyDeploy'
 import deployplan from '@/pages/deployplan'
 import addDeployPlan from '@/pages/addDeployPlan'
 import deployplanDetail from '@/pages/deployplanDetail'
@@ -24,7 +25,7 @@ import deploy from '@/pages/deploy'
 /* eslint-disable */
 import Axios from 'axios'
 
-Axios.defaults.baseURL = 'http://192.168.0.103:8080/'  //路径提取出来，简化代码
+Axios.defaults.baseURL = 'http://192.168.0.116:8080/'  //路径提取出来，简化代码
 
 //Axios.defaults.baseURL = 'http://' + this.getCookie('ip') + '/'
 Vue.use(Router)
@@ -102,6 +103,11 @@ export default new Router({
                     path: '/modifyComponent',
                     name: 'modifyComponent',
                     component: modifyComponent
+                },
+                {
+                    path: '/modifyDeploy',
+                    name: 'modifyDeploy',
+                    component: modifyDeploy
                 },
                 {
                     path: '/deployplan',

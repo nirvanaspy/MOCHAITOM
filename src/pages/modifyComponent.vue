@@ -114,13 +114,6 @@ let sv1 = [];
 let sv2 = '';
 
 
-/*Vue.component('todo-item', {
-  template: `
-            <li v-on:click="$emit('click')">
-                {{ text }}
-            </li>`,
-            props: ['text']
-})*/
 let treeInfo=[];
 export default {
 
@@ -313,35 +306,6 @@ export default {
 
                 }
 
-                /*if(this.sv1.length != 0){*/
-                    //this.sv1.push(this.sv1.files);
-                    /*for(var s1=0; s1<this.sv1.length;s1++){
-                        this.folders.push(this.sv1);
-                        this.allArr.push(this.sv1);
-                    }*/
-                    /*var foldersNum = this.sv1.length + "个文件";
-                    this.folders.push(foldersNum);
-                    this.allArr.push(this.sv1);
-                    console.log(this.sv1);
-
-                    console.log(Object.prototype.toString.call(this.sv1));
-                    console.log(Object.prototype.toString.call(this.sv1) == "[object FileList]");
-                    console.log(Object.prototype.toString.call(this.sv1) == FileList);
-                    //console.log(typeof(this.sv1));
-
-                    console.log(this.folders);
-                    console.log(this.allArr);
-
-                   // alert(this.sv1);
-                    var obj = document.getElementById('folderupload') ;
-                   // alert("ffff");
-                    obj.outerHTML=obj.outerHTML;
-                   // alert("vvvv");
-                   // alert(this.sv1);
-                    //this.getFolder(event);
-                }else{
-                    alert("请选择文件夹");
-                }*/
 
 
             },
@@ -427,7 +391,7 @@ export default {
                     }
                 }
 
-                this.$axios.post('components', formData, {
+                this.$axios.patch('components/' + this.$route.params.id, formData, {
                     config,
                     auth: {
                         username: 'admin',
