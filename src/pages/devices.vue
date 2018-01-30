@@ -130,10 +130,10 @@
                 <!-- end users table -->
             </div>
         </div>
-        <hr/>
+        <!--<hr/>
         <div>
-            <!-- {{devices}} -->
-        </div>
+            &lt;!&ndash; {{devices}} &ndash;&gt;
+        </div>-->
     </div>
 </template>
 

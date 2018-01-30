@@ -10,7 +10,7 @@
 						<button type="button" class="btn-flat primary icon-magic pull-right" @click="submit()">
                             绑定
                         </button>
-						
+
 						<button type="button" class="btn-flat default icon-check pull-right" @click="paste()">
                             粘贴
                         </button>
@@ -19,12 +19,12 @@
                             复制
                         </button>
 
-                        
 
-                        
+
+
 
                     </div>
-                    
+
                 </div>
 
                 <div class="row-fluid form-wrapper">
@@ -34,16 +34,16 @@
 
 							<!-- 设备 -->
                         	<div class="span3"  style="height: 480px;">
-                        		
+
 
 								<div class="row-fluid table devcompchose">
 
 									<div class="devcompfind">
 	                        			<input class="search" type="text" placeholder="设备名称.." style="width: 90%;" v-model="searchQuery"/>
 	                        		</div>
-                        		
+
 								<br/>
-									
+
 				                    <table class="table table-hover" id="table_value">
 				                        <thead>
 				                        <tr>
@@ -53,7 +53,7 @@
 				                            <th class="span5 sortable">
 				                                <span class="line"></span>设备状态
 				                            </th>
-				                            
+
 
 				                        </tr>
 				                        </thead>
@@ -66,16 +66,16 @@
 				                            		<i class="icon-laptop"></i>&nbsp;
 				                            		{{device.name}} ({{device.ip}})
 				                            	</div>
-				                            	
-				                               
+
+
 				                            </td>
-				                            <td>    
+				                            <td>
 				                               <span class="label label-primary" v-if="device.online == false">离线</span>
 				                               <span class="label label-success" v-if="device.online == true">在线</span>
 				                            </td>
 				                        </tr>
 
-				                        
+
 
 				                        </tbody>
 				                    </table>
@@ -95,7 +95,7 @@
 									<div>
 										<img src="img/files.png" style="height: 90px;"/>
 									</div>
-                        			
+
                         			<!-- <br/> -->
                         			<div>
                         				{{device.componentEntity.name}}
@@ -104,18 +104,18 @@
                         			<div>
                         				{{device.componentEntity.version}}
                         			</div>
-                        			
+
                         		</div>
                         	</div>
 
 							<!-- 组件 -->
-                        	<div class="span3"  style="height: 480px;margin-left: 8px;">                		
+                        	<div class="span3"  style="height: 480px;margin-left: 8px;">
 
 								<div class="row-fluid table devcompchose">
 									<div class="devcompfind">
 	                        			<input class="search" type="text" placeholder="组件名称.." style="width: 90%;" v-model="searchQuery"/>
 	                        		</div>
-	                        		
+
 									<br/>
 
 				                    <table class="table table-hover" id="table_value2">
@@ -140,24 +140,24 @@
 				                        </tr>
 				                        </thead>
 				                        <tbody>
-				                        
+
 					                        <tr class="first" v-for="(component,index) in compsA" :id="component.id">
 					                            <td style="display:none">{{component.id}}</td>
 					                            <td class="wrap" style="width: 80px;">
 					                            	<div class="wrap" :title="component.name" style="width: 80px;">
 					                            		<i class="icon-folder-close-alt"></i>&nbsp;
-					                            		{{component.name}} 
+					                            		{{component.name}}
 					                            	</div>
 					                            	<!-- <div class="icon-folder-close-alt" style="float:left;">
-					                            		{{component.name}} 
+					                            		{{component.name}}
 					                            	</div> -->
-					                               
+
 					                            </td>
 					                            <td>
-					                               {{component.size}} 
+					                               {{component.size}}
 					                            </td>
 					                            <td>
-					                               {{component.version}} 
+					                               {{component.version}}
 					                            </td>
 					                            <td>
 					                        		<div class="btn-group small" style="margin-right: 3px">
@@ -165,17 +165,17 @@
 					                        				<!-- <i class="icon-random"></i> -->
 					                        			</button>
 					                        		</div>
-					                        		
+
 					                        	</td>
 					                        	<td>
 					                        		<div class="btn-group small" style="margin-right: 3px">
 					                        			<button class="btn-glow icon-trash" @click="moveoutComp($event)">
-					                        				
+
 					                        			</button>
 					                        		</div>
-					                        		
+
 					                        	</td>
-					                           
+
 					                        </tr>
 
 				                        </tbody>
@@ -184,17 +184,17 @@
 
                         	</div>
 
-						
+
 
 						<br/>
-                        	
-						
+
+
 						</div>
 
                     </div>
                 </div>
 
-				
+
             </div>
         </div>
 
@@ -207,7 +207,7 @@
 <!--<hr/>
  <div>
 	部署设计：{{deployplans}}
-</div> 
+</div>
 
 <hr/>
 <div>
@@ -294,7 +294,7 @@ data(){
 	    compIddPasteArr: []        //粘贴的内容的组件的id
 
 
-	  
+
     }
 },created(){
 	var projectId = this.getCookie('projectId');
@@ -320,7 +320,7 @@ data(){
     });
 
 	//获取组件
-    this.$axios.get('components',{           
+    this.$axios.get('components',{
         //设置头
         headers:{
             'content-type':'application/x-www-form-urlencoded'
@@ -329,21 +329,21 @@ data(){
             username: username,
             password: password
         }
-    }).then(res=>{      
+    }).then(res=>{
 
         this.comps = res.data.data;
         for(var j=0;j<this.comps.length;j++){
-        	this.comps[j].size = ((this.comps[j].size)/1024/1024).toFixed(3); 
+        	this.comps[j].size = ((this.comps[j].size)/1024/1024).toFixed(3);
         }
 
-        
+
 
     })
     .catch(err=>{
         console.log(err);
     });
 
-    
+
 
 	//获取部署设计的相关信息
     this.$axios.get('project/'+projectId+'/deployplan',{
@@ -369,14 +369,14 @@ data(){
 
     })
     .catch(err => {
-      console.log("hhh");
+      //console.log("hhh");
     });
 
 },
 methods: {
 	drag:function(event){
     	event=event||window.event;
-    	event.dataTransfer.effectAllowed = 'all'; 
+    	event.dataTransfer.effectAllowed = 'all';
     	dom = event.currentTarget;
     	//alert(dom);
 
@@ -413,7 +413,7 @@ methods: {
 
 	    var deployPlanId = this.$route.params.id;  //所选择的部署设计的id
         //alert(compId);
-        console.log(deployPlanId); 
+        console.log(deployPlanId);
 
         this.$axios.get('deployplan/'+deployPlanId+'/devices/'+this.deviceCHId,{
             //设置头
@@ -430,11 +430,11 @@ methods: {
         .catch(err=>{
             console.log(err);
         })
-	    
+
     },
 
 	moveComp: function (event){   //移动组件
-			
+
 		var e = event || window.event;
 
 		var name;
@@ -462,7 +462,7 @@ methods: {
 
 		//console.log(id);
 
-		
+
 		/*if(this.devicecomps.length > 0){*/  //判断是否已选择设备
 			console.log("拖动区域的设备名--------------");
 			console.log(this.deviceName);
@@ -470,7 +470,7 @@ methods: {
 			if(this.devicecomps.length > 0){    //判断此设备上是否有原有的绑定组件
 				this.compIddArr.splice(0,this.compIddArr.length);   //清空数组
 				for(var i=0;i<this.devicecomps.length;i++){  //在查询出来的设备的原有组件数组中添加移入的组件
-        	
+
 	        		/*
 	        		 判断要添加的组件的id在原有数组中是否已存在
 	        		    存在：提示组件已存在
@@ -483,13 +483,13 @@ methods: {
 
 	        		/*this.deviceEntity.push({
 	        			id: this.devicecomps[i].deviceEntity.id               //将设备的id存入组件所在的设备的id数组中
-	        		}); 
+	        		});
 */
 	        	}
 			}else{
 				this.compIddArr.length = 0;
 			}
-			
+
 
         	console.log("组件的id------------");
         	console.log(this.compIddArr);
@@ -502,13 +502,13 @@ methods: {
 		    		}else{
 
 		    			flag = false;
-		    			
+
 		    		}
 		        }
         	}else{
         		flag = false;
         	}
-        	
+
 
 	        if(!flag){  //如果不存在
 	        	for(var k=0;k<this.comps.length;k++){  //遍历右侧组件的数组，找到与此id相等的组件，获取需要的信息
@@ -528,13 +528,13 @@ methods: {
     				}else{
     					this.componentEntity.length = 0;
     				}
-	
+
     			}
 
     			console.log("添加");
     			//console.log(this.componentEntity);
 
-    			this.devicecomps.push({  
+    			this.devicecomps.push({
 					componentEntity: this.componentEntity,     //将组件数组作为属性加入到设备中去
 					deviceEntity: this.deviceEntity
 				});
@@ -551,19 +551,19 @@ methods: {
 
 	        }
 
-			
-        	
+
+
 		}else{
 			alert("请先选择设备");
 		}
-        
+
 	    console.log("---------------------");
 
-		
+
 	},
 
 	moveoutComp: function (event){   //移除组件
-			
+
 		var e = event || window.event;
 
 		var name;
@@ -594,20 +594,20 @@ methods: {
 			console.log("拖动区域的设备名--------------");
 			console.log(this.deviceName);
 		if(this.deviceName.length != 0){    //判断是否已选择设备,即看拖动区域是否有设备名
-			
+
 			if(this.devicecomps.length > 0){    //判断此设备上是否有原有的绑定组件
 				console.log(this.devicecomps);
-				for(var i=0;i<this.devicecomps.length;i++){  
+				for(var i=0;i<this.devicecomps.length;i++){
 
 					if(idDel == this.devicecomps[i].componentEntity.id){  //在移动区域找到此组件，再判断是否是已绑定组件
 						if(typeof(this.devicecomps[i].id) == "undefined"){   //获取绑定的id，若不存在，则此组件只是在前端移入还未绑定
-							alert("hhhh");
+							//alert("hhhh");
 							this.devicecomps.splice(i,1);      //从移动区域删除自己加上的数组
 
 							var deviceIndex = this.diveceIdPass.indexOf(this.deviceCHId);
 							var compIndex = this.compsIdPass.indexOf(this.componentEntity.id);
 							//var compIndex2 = this.compIddArr.indexOf(this.componentEntity.id);
-							
+
 
 							//从传给后台的绑定数组中删除此设备和组件信息
 							console.log("与绑定相关-----------");
@@ -655,7 +655,7 @@ methods: {
 					            return false;
 					        }
 
-					    	
+
 						}
 					}else{
 						flagDel = false;  //此组件未绑定到设备上
@@ -670,18 +670,18 @@ methods: {
 				this.compIddArr.length = 0;
 				alert("此设备还未绑定组件,不能删除！");
 			}
-				
-        	
+
+
 
 		}else{
 			alert("请先选择设备");
 		}
-        
+
 	    console.log("---------------------");
 
-		
+
 	},
-	
+
 	submit: function (){
 		//alert("hh");
 	    var qs = require('qs');
@@ -703,9 +703,9 @@ methods: {
 		    formData.append('componentIds', this.compsIdPass);
 
 		    this.$axios.post('deployplan/'+ deployPlanId + "/deployplandetails",formData,
-		    
+
 		    {
-		        
+
 		        //设置头
 		        headers:{
 		            'content-type':'application/x-www-form-urlencoded'
@@ -725,25 +725,25 @@ methods: {
 	    	alert("无绑定信息");
 	    }
 
-	    
-	   
+
+
 	},
 
 	copy: function(){
 		if(this.deviceName.length != 0){    //判断是否已选择设备,即看拖动区域是否有设备名
 			this.copyValue.splice(0,this.copyValue.length);    //清空复制内容的数组
-			
+
 			if(this.devicecomps.length > 0){    //判断此设备上是否有原有的绑定组件
 				this.compIddCopyArr.splice(0,this.compIddCopyArr.length);   //清空数组
 				for(var i=0;i<this.devicecomps.length;i++){  //在查询出来的设备的原有组件数组中添加移入的组件
-        	
+
 	        		this.compIddCopyArr.push(this.devicecomps[i].componentEntity.id);
 
 	        	}
 			}else{
 				this.compIddCopyArr.length = 0;
 			}
-			
+
 			console.log("组件的id------------");
         	if(this.compIddCopyArr.length != 0){
 				this.copyValue = this.compIddCopyArr;
@@ -754,11 +754,11 @@ methods: {
         		alert("无组件可以复制！");
         	}
 
-			
+
 		}else{
 			alert("请先选择设备");
 		}
-		
+
 	},
 
 	paste: function(){
@@ -770,18 +770,18 @@ methods: {
 
 
 		if(this.deviceName.length != 0){    //判断是否已选择设备,即看拖动区域是否有设备名
-			
+
 			if(this.devicecomps.length > 0){    //判断此设备上是否有原有的绑定组件
 				this.compIddPasteArr.splice(0,this.compIddPasteArr.length);   //清空数组
 				for(var i=0;i<this.devicecomps.length;i++){  //在查询出来的设备的原有组件数组中添加移入的组件
-        	
+
 	        		this.compIddPasteArr.push(this.devicecomps[i].componentEntity.id);
 
 	        	}
 			}else{
 				this.compIddPasteArr.length = 0;
 			}
-			
+
 			console.log("粘贴组件的id------------");
         	console.log(this.compIddPasteArr);
 
@@ -823,7 +823,7 @@ methods: {
 				    				}
 				    			}
 
-								this.devicecomps.push({  
+								this.devicecomps.push({
 									componentEntity: this.componentEntity,     //将组件数组作为属性加入到设备中去
 									deviceEntity: this.deviceEntity
 								});
@@ -837,7 +837,7 @@ methods: {
 				    			this.compsIdPass.push(this.componentEntity.id);
 				    			console.log(this.compsIdPass);
 							}
-				            
+
 
 				        } else {   //不跳过
 				            //从复制的文件中删除已存在的
@@ -859,7 +859,7 @@ methods: {
 				    				}
 				    			}
 
-								this.devicecomps.push({  
+								this.devicecomps.push({
 									componentEntity: this.componentEntity,     //将组件数组作为属性加入到设备中去
 									deviceEntity: this.deviceEntity
 								});
@@ -875,7 +875,7 @@ methods: {
 							}
 				        }
 					}else{   //无同名文件,直接将所有的组件添加进区域遍历的数组中
-		
+
 
 						for(var i=0;i<this.copyValue.length;i++){   //将所有复制内容加入区域数组中
 
@@ -888,7 +888,7 @@ methods: {
 			    				}
 			    			}
 
-							this.devicecomps.push({  
+							this.devicecomps.push({
 								componentEntity: this.componentEntity,     //将组件数组作为属性加入到设备中去
 								deviceEntity: this.deviceEntity
 							});
@@ -902,71 +902,71 @@ methods: {
 			    			this.compsIdPass.push(this.componentEntity.id);
 			    			console.log(this.compsIdPass);
 						}
-							
+
 
 					}
 
-					
 
-					
+
+
 					console.log(res1);
 		        } else {
 		            return false;
 		        }
 
-				
+
 
 			}else{
 				alert("请先复制");
 			}
-			
+
 		}else{
 			alert("请先选择设备");
 		}
-		
 
-		
-		
+
+
+
 	},
 
 	changeDevice: function() {
     	deviceId = this.selectedDev;
      	//alert(deviceId);
-        
+
     },
 	changeDeployPlan: function() {
     	deployplanId = this.selected;
     	//alert(deployplanId);
-        
+
     }
 
 },
-computed: {  
-    devicesA: function () {  
-        var self = this;  
-        return self.devices.filter(function (item) {  
-            return item.name.toLowerCase().indexOf(self.searchQuery.toLowerCase()) !== -1;  
-        })  
+computed: {
+    devicesA: function () {
+        var self = this;
+        return self.devices.filter(function (item) {
+            return item.name.toLowerCase().indexOf(self.searchQuery.toLowerCase()) !== -1;
+        })
     },
-    compsA: function () {  
-        var self = this;  
-        return self.comps.filter(function (item) {  
-            return item.name.toLowerCase().indexOf(self.searchQuery.toLowerCase()) !== -1;  
-        })  
-    }  
-} 
+    compsA: function () {
+        var self = this;
+        return self.comps.filter(function (item) {
+            return item.name.toLowerCase().indexOf(self.searchQuery.toLowerCase()) !== -1;
+        })
+    }
+}
 
 }
 
 </script>
 <style>
 
-	.wrap{  
-		width: 150px;   
+	.wrap{
+		width: 150px;
 		white-space: nowrap;
-		text-overflow: ellipsis;  
-		overflow: hidden;  
-	} 
+		text-overflow: ellipsis;
+		overflow: hidden;
+	}
 
 
 	.devcompfind{
@@ -1001,7 +1001,7 @@ computed: {
 
     .bindDevName{
     	margin-left: 30%;
-    } 
+    }
 
 	.devcompchose{
 		height: 410px;

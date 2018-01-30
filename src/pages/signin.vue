@@ -88,7 +88,7 @@
 
     created() {
 
-      $("body").css("background-image", "url('img/bgs/10.jpg')");
+      $("body").css("background-image", "url('static/img/bgs/10.jpg')");
 
       if(this.getCookie('ip')){
 

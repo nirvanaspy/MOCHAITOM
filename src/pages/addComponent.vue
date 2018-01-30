@@ -96,7 +96,7 @@
         </div>
 
 
-        <hr/>
+        <!--<hr/>
         <div>
             {{folders}}
         </div>
@@ -107,7 +107,7 @@
         <hr/>
         <div>
             {{allArr}}
-        </div>
+        </div>-->
     </div>
 </template>
 
