@@ -1,7 +1,7 @@
 <template>
-  <div :style="{backgroundImage: 'url(img/bgs/10.jpg)' }">
+  <div style="background: url(../../img/bgs/10.jpg) no-repeat;">
       <div class="row-fluid login-wrapper">
-          <a href="#">
+          <a href="#" style="text-decoration:none">
               <!-- <img class="logo" src="img/logo-white.png" /> -->
               <h1 style="color:white;">一体化运维管理平台</h1>
           </a>
@@ -23,7 +23,7 @@
           </div>
 
           <!-- <div class="span4 no-account">
-            
+
               <a href="signup.html">注册</a>
           </div> -->
       </div>
@@ -31,38 +31,38 @@
 </template>
 
 <script>
-/* eslint-disable */
-export default {
-  data() {
-    username: "";
-    password: "";
-    
- 
-    return {
-      info:{},
-    };
-  },
-  methods: {
-    login: function() {
-      //debugger;
-      var username = $("input#username").val();
-      var password = $("input#password").val();
-      var ip = $("input#ip").val();
-      if (username.length == 0 || password.length == 0) {
-        //alert("请输入正确的用户名或密码。");
-         layer.msg('请输入正确的用户名或密码！');
-        return;
-      }
-      //ip地址  
-      var exp=/^(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/;  
-      var reg = ip.match(exp);  
-      if(reg==null){  
-        //alert("IP地址不合法！"); 
-         layer.msg('IP地址不合法！');
-        return; 
-      }  
-      
-      this.$axios.post("users/login",{},
+  /* eslint-disable */
+  export default {
+    data() {
+      username: "";
+      password: "";
+
+
+      return {
+        info:{},
+      };
+    },
+    methods: {
+      login: function() {
+        //debugger;
+        var username = $("input#username").val();
+        var password = $("input#password").val();
+        var ip = $("input#ip").val();
+        if (username.length == 0 || password.length == 0) {
+          //alert("请输入正确的用户名或密码。");
+          layer.msg('请输入正确的用户名或密码！');
+          return;
+        }
+        //ip地址
+        var exp=/^(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/;
+        var reg = ip.match(exp);
+        if(reg==null){
+          //alert("IP地址不合法！");
+          layer.msg('IP地址不合法！');
+          return;
+        }
+
+        this.$axios.post("users/login",{},
           {
             auth: {
               username: username,
@@ -70,37 +70,38 @@ export default {
             }
           }
         )
-        .then(response => {
+          .then(response => {
           this.$router.replace({ path: "/selectProject" });
-          //将用户名、密码的值存入cookie中
-          let expireDays = 1000 * 60 * 60 * 24 * 15;
-          this.setCookie('username', username, expireDays);
-          this.setCookie('password', password, expireDays);
-          this.setCookie('ip', ip, expireDays);
-          
-        })
-        .catch(function(error) {
+        //将用户名、密码的值存入cookie中
+        let expireDays = 1000 * 60 * 60 * 24 * 15;
+        this.setCookie('username', username, expireDays);
+        this.setCookie('password', password, expireDays);
+        this.setCookie('ip', ip, expireDays);
+
+      })
+      .catch(function(error) {
           //alert("请输入正确的用户名或密码。");
           layer.msg('请输入正确的用户名或密码！');
         });
+      }
+    },
+
+    created() {
+
+      $("body").css("background-image", "url('img/bgs/10.jpg')");
+
+      if(this.getCookie('ip')){
+
+        this.info.ip=this.getCookie('ip');
+
+        console.log(this.info);
+
+      }
+
     }
-  },
 
-   created() {
-        
-        $("html").css("background-image", "url('img/bgs/10.jpg')");
+  };
 
-        if(this.getCookie('ip')){
-           
-            this.info.ip=this.getCookie('ip');
-
-            console.log(this.info);
-   
-        }
-        
-   }
-  
-};
 </script>
 <style>
 
