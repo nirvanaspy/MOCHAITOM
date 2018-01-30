@@ -15,10 +15,10 @@
             <!-- <img src="img/ico-mail.png" /> -->
             <i class="icon-leaf" style="color:blue;"></i>
           </div>
-          
+
           <div style="float:right;">
-            
-            <h4 style="color:white;font-weight:700;">一体化运维管理平台</h4>            
+
+            <h4 style="color:white;font-weight:700;">一体化运维管理平台</h4>
           </div>
 
         </a>
@@ -67,31 +67,18 @@
 
         <li>
           <router-link to="/deployplan">
-            <i class="icon-magnet"></i>
-            <span>部署设计</span>
-          </router-link>
-        </li>
-
-        <li>
-          <router-link to="/deploybind">
             <i class="icon-sitemap"></i>
             <span>部署设计</span>
           </router-link>
         </li>
 
-        <!-- <li>
-          <router-link to="/ztree">
-            <i class="icon-move"></i>
-            <span>ztree</span>
+<!--        <li>
+          <router-link to="/deploybind">
+            <i class="icon-sitemap"></i>
+            <span>部署设计</span>
           </router-link>
-        </li>
-        
-        <li>
-          <router-link to="/signin">
-            <i class="icon-move"></i>
-            <span>sign</span>
-          </router-link>
-        </li> -->
+        </li>-->
+
         <li>
           <router-link to="/scan">
             <i class="icon-headphones"></i>
@@ -101,7 +88,7 @@
 
          <li>
           <router-link to="/deploy">
-            <i class="icon-edit"></i>
+            <i class="icon-magnet"></i>
             <span>部署</span>
           </router-link>
         </li>
@@ -140,7 +127,7 @@ export default {
      // alert(projectId);
       console.log(projectId);*/
   }
-          
+
 }
 </script>
 
