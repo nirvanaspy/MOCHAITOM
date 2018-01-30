@@ -37,7 +37,7 @@
                                             </thead>
                                         </table>
 
-                                        <div id="areaTree" style="margin-left: -1px; height: 335px; overflow: auto;margin-top: -33px;white-space:pre;">
+                                        <div id="areaTree" style="margin-left: -1px; height: 317px; overflow: auto;margin-top: -16px;white-space:pre;">
                                             <div class="tree-box">
                                                 <div class="zTreeDemoBackground left">
                                                     <ul id="treeDemo" class="ztree" style="white-space: nowrap;">
@@ -57,28 +57,10 @@
 
                         <div class="span8">   
                             <div style="margin-bottom: -5px;margin-left: -40px;">            
-<!--                               <label style="float:left">查找:</label>
-                               -->
+
                               <label style="float:left">文件名：</label>
                               <input class="search" type="text" placeholder="搜索.." v-model="searchQuery" style="float:left;width:160px;height:19px"/>
-                              <!-- <input type="text" style="float:left;width:100px;height:15px" class="input-large"/> -->
-
-                                  <!-- <span>Selected: {{ selected }}</span> -->
-                              
-                             <!--  <label style="float:left">后缀名</label>
-                               <select v-model="selectede" style="float:left" @change="changeExtension">
-                                   <option v-for="extension in extensions" v-bind:value="extension.value">
-                                     {{ extension.text }}
-                                   </option>
-                             </select>
-                                                        
-                                                     
-                             <label style="float:left">设备状态</label>
-                                 <select v-model="selecteds" @change="changeState">
-                                     <option v-for="state in states" v-bind:value="state.value">
-                                     {{ state.text }}
-                                     </option>
-                                 </select> -->
+                       
                               </div>
 
                               <br/>
@@ -116,6 +98,7 @@
                                       <!-- row -->
                                       <tr class="first" v-for="(component,index) in componentEntityA" :key="index" id="tabel_info">
                                               <td style="display:none">{{component.id}}</td>
+                                              <td style="display:none">{{component.age}}</td>
                                               <td>{{component.name}}</td>
                                               <td>
                                                   {{component.path}}
@@ -269,6 +252,7 @@ export default {
     var password = this.getCookie('password');
 
     $("#modal-select").modal('hide');
+    layer.closeAll('loading');
 
     this.$nextTick(function() {
       $(document).ready(function() {
@@ -482,6 +466,9 @@ export default {
               layer.msg("快速扫描异常");
              
             });
+
+
+           
 
       },
 
@@ -798,6 +785,7 @@ export default {
           
           for (let i = 0; i < res.data.data.componentFileEntities.length; i++) {
               res.data.data.componentFileEntities[i].state="--";
+              res.data.data.componentFileEntities[i].age=0;
               this.componentEntity.push(res.data.data.componentFileEntities[i]);
           };
 
@@ -826,7 +814,7 @@ export default {
             ) {
 
               res.data.data[i].componentEntity.componentFileEntities[j].state="--";
-              
+              res.data.data[i].componentEntity.componentFileEntities[j].age=0;
               this.componentEntity.push(
                 res.data.data[i].componentEntity.componentFileEntities[j]);
             
@@ -877,6 +865,7 @@ export default {
     },
 
     scanAll: function() {
+
       layer.load();
 
       this.$axios.get(
@@ -909,73 +898,113 @@ export default {
               }
           }
           
-
+          let correct=[];
+          let unknown=[];
+          let modifyed=[];
+          let miss=[];
           if(res.data.data.length>0){
             for(let i=0;i<res.data.data.length;i++){
 
-              for(let j=0;j<res.data.data[i].correctComponentFiles.length;j++){
+                if(res.data.data[i].correctComponentFiles.length>0){
+                    for(let j=0;j<res.data.data[i].correctComponentFiles.length;j++){
+                    
+                      for(let k=0;k<this.componentEntity.length;k++){
+
+                        if(res.data.data[i].correctComponentFiles[j].id==this.componentEntity[k].id){
+                             this.componentEntity[k].state='√';
+                             this.componentEntity[k].age=4;
+
+                             correct.push(this.componentEntity[k]);
+
+                             break;
+                        }
+
+                      }
+                      
+                  }
+                };
+
+                 if(res.data.data[i].unknownFiles.length>0){
+                    for(let j=0;j<res.data.data[i].unknownFiles.length;j++){
+
+                      for(let k=0;k<this.componentEntity.length;k++){
+                     
+                        if(res.data.data[i].unknownFiles[j].id==this.componentEntity[k].id){
+                            this.componentEntity[k].state='?';
+                            this.componentEntity[k].age=1;
+
+                             unknown.push(this.componentEntity[k]);
+                            break;
+                            
+                        }
+
+                      }
+                      
+                    }
+                };
+
+                if(res.data.data[i].modifyedComponentFiles.length>0){
+                  for(let j=0;j<res.data.data[i].modifyedComponentFiles.length;j++){
+
+                      for(let k=0;k<this.componentEntity.length;k++){
+
+                        if(res.data.data[i].modifyedComponentFiles[j].id==this.componentEntity[k].id){
+                            this.componentEntity[k].state='×';
+                            this.componentEntity[k].age=2;
+                             modifyed.push(this.componentEntity[k]);
+                            break;
+                        }
+
+                      }
+                      
+                  }
+
+                };
                 
-                 for(let k=0;k<this.componentEntity.length;k++){
-
-                   if(res.data.data[i].correctComponentFiles[j].id==this.componentEntity[k].id){
-                         this.componentEntity[k].state='√';
-                         this.componentEntity[k].age=4;
-                  
-                         break;
-                  }
-
-                 }
-                  
-              } 
+               
             };
+
            
-            for(let i=0;i<res.data.data.length;i++){
 
-              for(let j=0;j<res.data.data[i].unknownFiles.length;j++){
-
-                 for(let k=0;k<this.componentEntity.length;k++){
-                 
-                   if(res.data.data[i].unknownFiles[j].id==this.componentEntity[k].id){
-                        this.componentEntity[k].state='?';
-                        this.componentEntity[k].age=1;
-                        break;
-                        
-                  }
-
-                 }
-                  
-              } 
-            };
-
-             for(let i=0;i<res.data.data.length;i++){
-
-              for(let j=0;j<res.data.data[i].modifyedComponentFiles.length;j++){
-
-                 for(let k=0;k<this.componentEntity.length;k++){
-
-                  if(res.data.data[i].modifyedComponentFiles[j].id==this.componentEntity[k].id){
-                        this.componentEntity[k].state='×';
-                        this.componentEntity[k].age=2;
-                        break;
-                  }
-
-                 }
-                  
-              } 
-            };
-     
-          };
-
-          
             for(let k=0;k<this.componentEntity.length;k++){
 
                 if(this.componentEntity[k].state=="--"){
 
                     this.componentEntity[k].state="!";
-                     this.componentEntity[k].age=1;
-                }
+                    this.componentEntity[k].age=1;
+                    miss.push(this.componentEntity[k]);
+                    
+                };
+                
             };
+
+
+            this.componentEntity.splice(0,this.componentEntity.length);
+            for(let i=0;i<unknown.length;i++){
+                this.componentEntity.push(unknown[i]);
+            }
+
+            for(let i=0;i<modifyed.length;i++){
+                this.componentEntity.push(modifyed[i]);
+            }
+
+            for(let i=0;i<miss.length;i++){
+                this.componentEntity.push(miss[i]);
+            }
+
+            for(let i=0;i<correct.length;i++){
+                this.componentEntity.push(correct[i]);
+            }
+
+            console.log( this.componentEntity);
+
+        };
+
           
+        
+
+            
+           
             for(let i=0;i<zNodes.length;i++){
                     for(let j=0;j<zNodes[i].children.length;j++){
 
@@ -1012,17 +1041,22 @@ export default {
                               }
                           }
                     }
-                }
+            }
 
 
-                $.fn.zTree.init($("#treeDemo"), setting, zNodes);
+            $.fn.zTree.init($("#treeDemo"), setting, zNodes);
 
-                layer.closeAll('loading');
+              
+
+            layer.closeAll('loading');
         
         }).catch(err => {
           console.log(err);
          
         });
+
+
+           
       
     },
 
