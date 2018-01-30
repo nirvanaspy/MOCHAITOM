@@ -40,6 +40,40 @@ Vue.prototype.delCookie =(name) => {
 }
 
 
+function setCookieArr(searchWord, val){
+　　
+　　var value = val; 　 
+    var arr = document.cookie.match(new RegExp('(^| )' + searchWord + '=([^;]*)(;|$)'));  
+    var expiryday = new Date(); 　　
+    expiryday.setTime(expiryday.getTime() + 60 * 60 * 24 * 30 *6 *1000);   　　
+    if (arr) { 　　　　
+      var cookieContext=unescape(arr[2]); 　　　　
+      cookieContext+="&"+escape(value); //escape() 编码 　　　　
+      document.cookie = searchWord + '=' + escape(cookieContext) + '; expires=' + expiryday.toGMTString() + ";path=/"; 
+　　} else { 　　　　　　
+      document.cookie = searchWord + '=' + escape(value) + '; expires=' + expiryday.toGMTString() + ";path=/"; 　　　　
+
+　　}
+}
+
+function getCookieArr(searchWord) {
+    var arr = document.cookie.match(new RegExp("(^| )" + searchWord + "=([^;]*)(;|$)"));
+    if (arr != null) {
+        var cookieContext=unescape(arr[2]);
+        var cookieArr=cookieContext.split('&');
+        var tmp = [];
+        for(var i in cookieArr){
+            if(tmp.indexOf(cookieArr[i])==-1) {
+                tmp.push(cookieArr[i]);
+           }
+        }
+    }
+    return tmp;
+}
+
+Vue.prototype.setCookieArr = setCookieArr;
+Vue.prototype.getCookieArr = getCookieArr;
+
 /*Axios.defaults.baseURL = 'http://' + Vue.prototype.getCookie('ip') + '/';
 console.log('http://' + Vue.prototype.getCookie('ip') + '/');
 Vue.prototype.$axios = Axios;*/
