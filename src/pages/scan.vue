@@ -332,6 +332,7 @@ export default {
               }
           }
 
+
           layer.load();
           this.$axios
             .get(
@@ -352,6 +353,11 @@ export default {
               }).then(res => {
               this.scanDevice = res.data.data;
 
+                let correct=[];
+                let unknown=[];
+                let modifyed=[];
+                let miss=[];
+
               if(res.data.data.length>0){
                 for(let i=0;i<res.data.data.length;i++){
 
@@ -362,6 +368,7 @@ export default {
                        if(res.data.data[i].correctComponentFiles[j].id==this.componentEntity[k].id){
                              this.componentEntity[k].state='√';
                              this.componentEntity[k].age='4';
+                             correct.push(this.componentEntity[k]);
                       
                              break;
                       }
@@ -369,35 +376,31 @@ export default {
                      }
                       
                   } 
-                };
-               
-                for(let i=0;i<res.data.data.length;i++){
 
                   for(let j=0;j<res.data.data[i].unknownFiles.length;j++){
 
-                     for(let k=0;k<this.componentEntity.length;k++){
+                      for(let k=0;k<this.componentEntity.length;k++){
                      
-                       if(res.data.data[i].unknownFiles[j].id==this.componentEntity[k].id){
+                        if(res.data.data[i].unknownFiles[j].id==this.componentEntity[k].id){
                             this.componentEntity[k].state='?';
                             this.componentEntity[k].age='2';
+                            unknown.push(this.componentEntity[k]);
                             break;
                             
-                      }
+                        }
 
-                    }
+                      }
                       
                   } 
-                };
-
-                 for(let i=0;i<res.data.data.length;i++){
 
                   for(let j=0;j<res.data.data[i].modifyedComponentFiles.length;j++){
 
-                     for(let k=0;k<this.componentEntity.length;k++){
+                      for(let k=0;k<this.componentEntity.length;k++){
 
-                      if(res.data.data[i].modifyedComponentFiles[j].id==this.componentEntity[k].id){
+                        if(res.data.data[i].modifyedComponentFiles[j].id==this.componentEntity[k].id){
                             this.componentEntity[k].state='×';
                             this.componentEntity[k].age='3';
+                            modifyed.push(this.componentEntity[k]);
                             break;
                       }
 
@@ -405,8 +408,6 @@ export default {
                       
                   } 
                 };
-         
-              };
 
                 for(let k=0;k<this.componentEntity.length;k++){
 
@@ -414,11 +415,33 @@ export default {
 
                         this.componentEntity[k].state="!";
                         this.componentEntity[k].age='1';
+                        miss.push(this.componentEntity[k]);
                     }
                 };
 
 
-                 for(let i=0;i<zNodes.length;i++){
+
+                this.componentEntity.splice(0,this.componentEntity.length);
+                for(let i=0;i<unknown.length;i++){
+                    this.componentEntity.push(unknown[i]);
+                }
+
+                for(let i=0;i<modifyed.length;i++){
+                    this.componentEntity.push(modifyed[i]);
+                }
+
+                for(let i=0;i<miss.length;i++){
+                    this.componentEntity.push(miss[i]);
+                }
+
+                for(let i=0;i<correct.length;i++){
+                    this.componentEntity.push(correct[i]);
+                }
+
+         
+              };
+
+              for(let i=0;i<zNodes.length;i++){
                     for(let j=0;j<zNodes[i].children.length;j++){
 
                           for(let k=0;k<res.data.data.length;k++){
@@ -452,12 +475,12 @@ export default {
                               }
                           }
                     }
-                }
+              }
 
-                $.fn.zTree.init($("#treeDemo"), setting, zNodes);
+              $.fn.zTree.init($("#treeDemo"), setting, zNodes);
 
 
-                layer.closeAll('loading');
+              layer.closeAll('loading');
             
             }).catch(err => {
               console.log(err);
@@ -999,9 +1022,6 @@ export default {
             console.log( this.componentEntity);
 
         };
-
-          
-        
 
             
            
