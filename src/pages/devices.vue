@@ -137,8 +137,8 @@
 
             </tbody>
           </table>
-          <hr/>
-          {{devices}}
+          <!--<hr/>
+          {{devices}}-->
         </div>
         <div class="pagination pull-right">
           <ul>
@@ -304,9 +304,7 @@
             "name": $("input[name='add-name']").val(),
 
           }), {
-            /*params:{  //get请求在第二个位置，post在第三个位置
-             ID:'c02da6e9-a334-4e41-b842-c59eb7d0d3f3'
-             },*/
+
             //设置头
             headers: {
               'content-type': 'application/x-www-form-urlencoded'
@@ -316,7 +314,7 @@
               password: password
             }
           }).then(res => {
-          alert("拷贝成功");
+          layer.msg("复制成功");
           this.$axios.get('project/' + projectId + '/device', {
             //设置头
             headers: {
@@ -335,7 +333,7 @@
         })
           .catch(err => {
 
-            alert("拷贝失败！");
+            layer.msg("复制失败！");
           })
       },
 
