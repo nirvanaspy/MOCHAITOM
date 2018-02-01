@@ -65,10 +65,10 @@
 								<span class="line"></span>版本
 							</th>
 							<th class="span3">
-								<span class="line"></span>大小
+								<span class="line"></span>大小(MB)
 							</th>
 							<th class="span3 sortable">
-                                <span class="line"></span>路径
+                                <span class="line"></span>相对路径
                             </th>
 							<th class="span3">
 								<span class="line"></span>描述
@@ -157,8 +157,8 @@ export default{
                 searchQuery: '',
             }
         },created(){
-        	var username = this.getCookie('username');
-            var password = this.getCookie('password');
+        	  let username = this.getCookie('username');
+            let password = this.getCookie('password');
 
             this.$axios.get('components',{
 
@@ -171,7 +171,10 @@ export default{
                     password: password
                 }
             }).then(res=>{
-                this.components = res.data.data
+                this.components = res.data.data;
+                for (let j = 0; j < this.components.length; j++) {
+                  this.components[j].size = ((this.components[j].size) / 1024 / 1024).toFixed(5);
+                }
             })
             .catch(err=>{
                 console.log(err);
@@ -312,7 +315,7 @@ export default{
                         password: password
                     }
                 }).then(res=>{
-                    alert("拷贝成功");
+                    alert("复制成功");
                     this.$axios.get('components',{
 
 		                //设置头
@@ -332,7 +335,7 @@ export default{
                 })
                 .catch(err=>{
 
-                    alert("拷贝失败！");
+                    alert("复制失败！");
                 })
             }
         },

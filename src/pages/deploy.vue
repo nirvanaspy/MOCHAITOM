@@ -6,7 +6,7 @@
         <div class="row-fluid header">
           <h3>部署</h3>
           <div class="span10 pull-right">
-            <input class="search" type="text" placeholder="搜索设备.." v-model="searchQuery"/>
+            <input class="search" type="text" placeholder="搜索部署信息.." v-model="searchQuery"/>
             <div class="ui-dropdown">
               <div class="head" data-toggle="tooltip" title="Click me!">
                 Filter devices
