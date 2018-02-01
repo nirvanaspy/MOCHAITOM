@@ -10,24 +10,29 @@
         <!-- left column -->
         <div class="span10 with-sidebar">
           <div class="container">
-            <form class="new_user_form inline-input"/>
-            
+            <form class="new_user_form inline-input">
+
               <!-- <div v-for="(deployplan,index) in deployplans"> -->
                   <div class="span12 field-box">
                     <label>名称:</label>
-                    <input class="span9" type="text" name="edit-name" :value="deployplans.name"/>
+                    <input class="span9" type="text" id="edit-name"/>
+                    <span class="muststar">*</span>
                   </div>
-                  
-                  
+
+
                   <div class="span12 field-box">
                     <label>描述:</label>
-                    <input class="span9" type="text" name="edit-des" :value="deployplans.description"/>
+                    <input class="span9" type="text" id="edit-des"/>
                   </div>
-                  
+
+
                   <div class="span7 field-box actions">
-                    <input type="button" class="btn-glow primary" value="保存" style="width: 100px;" @click="modifyDeploy"/>
-                  </div>  
-              <!-- </div> -->   
+
+                    <button type="submit" class="btn-glow primary" @click="modifyDeploy">保存</button>
+                    <!--<input type="button" class="btn-glow primary" value="保存" style="width: 100px;" @click="modifyDevice"/>-->
+                    <button type="submit" class="btn-glow primary" @click="formReset">取消</button>
+                  </div>
+              <!-- </div> -->
 
             </form>
           </div>
@@ -35,7 +40,7 @@
 
       </div>
     </div>
-  
+
   </div>
 </template>
 
@@ -61,7 +66,10 @@ export default{
                     password: 'admin'
                 }
             }).then(res=>{
-                this.deployplans = res.data.data
+                this.deployplans = res.data.data;
+
+                document.getElementById("edit-name").value = res.data.data.name;
+                document.getElementById("edit-des").value = res.data.data.description;
             })
             .catch(err=>{
                 console.log(err);
@@ -71,18 +79,18 @@ export default{
         methods: {
 
             modifyDeploy: function (){
-                var deployPlanId = this.$route.params.id;
+                let deployPlanId = this.$route.params.id;
 
-                var username = this.getCookie('username');
-                var password = this.getCookie('password');
+                let username = this.getCookie('username');
+                let password = this.getCookie('password');
 
-                var qs = require('qs');
+                let qs = require('qs');
                 this.$axios.patch('deployplan/'+deployPlanId ,qs.stringify({
 
-                    "name": $("input[name='edit-name']").val(),
-                    "description": $("input[name='edit-des']").val()
+                    "name": $("input[id='edit-name']").val(),
+                    "description": $("input[id='edit-des']").val()
                 }),{
-                    
+
                     //设置头
                     headers:{
                         'content-type':'application/x-www-form-urlencoded'
@@ -98,10 +106,19 @@ export default{
                 }).catch(err=>{
                     alert("修改失败！");
                 })
+            },
+
+            formReset: function(){
+              $("input").val('');
+              this.$router.replace({ path: '/deployplan'})
+
             }
         }
     }
 </script>
 <style>
-
+  .muststar{
+    margin-left: 10px;
+    color: red;
+  }
 </style>
