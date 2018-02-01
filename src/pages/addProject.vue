@@ -80,7 +80,7 @@
                 })
                     .catch(err=>{
                        // alert("请重新输入！");
-                        layer.msg('请重新输入！');
+                        layer.msg('请输入项目名称！');
 
                     })
             },
@@ -96,4 +96,10 @@
         margin-left: 10px;
         color: red;
     }
+
+    .new-user .actions {
+    margin-top: 30px;
+    text-align: right;
+    padding-right: 123px;
+}
 </style>
