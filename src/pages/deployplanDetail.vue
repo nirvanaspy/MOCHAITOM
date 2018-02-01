@@ -27,7 +27,7 @@
                         <tr>
                             <!-- <th class="span4 sortable">
                                 部署设计名称
-                             </th> --> 
+                             </th> -->
                             <th class="span3">
                                 <span class="line"></span>设备名称
                             </th>
@@ -82,10 +82,10 @@
                 <!-- end users table -->
             </div>
         </div>
-        <hr/>
+        <!--<hr/>
         <div>
             {{deployPlanDetailEntities}}
-        </div>
+        </div>-->
     </div>
 </template>
 
@@ -94,7 +94,7 @@
 /*let projectId = "5a922835-a587-4dad-b3b7-bb5005ef4c99";
 let projectId = "2ec24245-0f8d-4db5-9d9b-1726ed727057";*/
 export default{
-    
+
     data(){
         return{
             deployplanDetails: [],
@@ -128,14 +128,14 @@ export default{
         })
 
     },
-    computed: {  
-        deployPlanDetailEntitiesA: function () {  
-            var self = this;  
-            return self.deployPlanDetailEntities.filter(function (item) {  
-                return item.deviceEntity.name.toLowerCase().indexOf(self.searchQuery.toLowerCase()) !== -1;  
-            })  
-        } 
-    } 
+    computed: {
+        deployPlanDetailEntitiesA: function () {
+            var self = this;
+            return self.deployPlanDetailEntities.filter(function (item) {
+                return item.deviceEntity.name.toLowerCase().indexOf(self.searchQuery.toLowerCase()) !== -1;
+            })
+        }
+    }
 }
 </script>
 <style>
