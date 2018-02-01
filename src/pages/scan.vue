@@ -2,15 +2,15 @@
     <div>
         <div class="container-fluid">
                 <div id="pad-wrapper" class="users-list span12">
-                       
+
                         <div class="span3">
                                 <div>
                                <!--  <input class="search" type="text" placeholder="搜索设备.." v-model="searchQuery" @change="change"/> -->
                                 <h3>扫描</h3>
-                       
+
                                 </div>
-                                    
-                                <br/> 
+
+                                <br/>
                                     <div class="row-fluid table drag-content" style="width:258px;">
                                         <select v-model="selected" style="height: 26px;width: 233px; margin-top: 5px; margin-left: 7px;" @change="changeDeployPlan">
                                                     <!-- v-model="selected" -->
@@ -24,7 +24,7 @@
                                                 <th>
                                                    设备(IP)/软件名
                                                 </th>
-                                               
+
                                                <th>
                                                 软件状态
                                                 </th>
@@ -49,18 +49,18 @@
                                     </div>
 
                                     <div class="btn-group">
-                                        <button class="btn-glow"  style="width:130px" @click="scanAll()"><i class="icon-wrench"></i>完整扫描</button>  
-                                        <button class="btn-glow" style="width:130px" @click="scanQuick()"><i class="icon-wrench"></i>快速扫描</button>  
+                                        <button class="btn-glow"  style="width:130px" @click="scanAll()"><i class="icon-wrench"></i>完整扫描</button>
+                                        <button class="btn-glow" style="width:130px" @click="scanQuick()"><i class="icon-wrench"></i>快速扫描</button>
 
                                     </div>
                         </div>
 
-                        <div class="span8">   
-                            <div style="margin-bottom: -5px;margin-left: -40px;">            
+                        <div class="span8">
+                            <div style="margin-bottom: -5px;margin-left: -40px;">
 
                               <label style="float:left">文件名：</label>
                               <input class="search" type="text" placeholder="搜索.." v-model="searchQuery" style="float:left;width:160px;height:19px"/>
-                       
+
                               </div>
 
                               <br/>
@@ -71,7 +71,7 @@
                                   <table class="table table-hover" id="table_value">
                                       <thead>
                                       <tr>
-                                         
+
                                           <th class="span4 sortable">
                                              文件名
                                           </th>
@@ -84,14 +84,14 @@
                                           <th class="span3">
                                               <span class="line"></span>修改日期
                                           </th>
-                                         
+
                                           <th class="span3">
                                               <span class="line"></span>文件大小
                                           </th>
                                           <th class="span3">
                                               <span class="line"></span>版本状态
                                           </th>
-                                      
+
                                       </tr>
                                       </thead>
                                       <tbody>
@@ -115,7 +115,7 @@
                                               <td>
                                                  {{component.state}}
                                               </td>
-                                  
+
                                           </tr>
                                       <!-- row -->
 
@@ -123,9 +123,9 @@
                                   </table>
                              </div>
                             </div>
-                              
+
                         </div>
-  
+
                 </div>
         </div>
 
@@ -149,8 +149,8 @@
                                             <button type="submit" class="btn-glow primary" @click="addInfo">确认</button>
                                             <button type="submit" class="btn-glow primary" @click="formReset">取消</button>
                                         </div>
-                                       
-                                           
+
+
                                     </form>
 
                                 </div>
@@ -162,7 +162,7 @@
     </template>
 
 
-   
+
     <script>
 /* eslint-disable */
 var relativePath = "";
@@ -210,7 +210,7 @@ export default {
 
       currentPage: 0,
       pages: [],
-      jumpPage: 0,  
+      jumpPage: 0,
 
       components: [],
       entity:[],
@@ -223,9 +223,9 @@ export default {
       selectede:"",
 
       testInfo:[],
-     
+
       deployplanInfos: [
-            
+
         ],
 
       extensions: [
@@ -240,7 +240,7 @@ export default {
         { text: "PDF", value: "PDF" },
         { text: "pdf", value: "pdf" },
         { text: "doc", value: "doc" },
-    
+
       ],
       states: [{ text: "在线" }, { text: "离线" }]
     };
@@ -315,7 +315,7 @@ export default {
               }
           }
 
-          
+
           this.componentEntity.splice(0,this.componentEntity.length);
           this.componentEntity=temp;
 
@@ -362,36 +362,36 @@ export default {
                 for(let i=0;i<res.data.data.length;i++){
 
                   for(let j=0;j<res.data.data[i].correctComponentFiles.length;j++){
-                    
+
                      for(let k=0;k<this.componentEntity.length;k++){
 
                        if(res.data.data[i].correctComponentFiles[j].id==this.componentEntity[k].id){
                              this.componentEntity[k].state='√';
                              this.componentEntity[k].age='4';
                              correct.push(this.componentEntity[k]);
-                      
+
                              break;
                       }
 
                      }
-                      
-                  } 
+
+                  }
 
                   for(let j=0;j<res.data.data[i].unknownFiles.length;j++){
 
                       for(let k=0;k<this.componentEntity.length;k++){
-                     
+
                         if(res.data.data[i].unknownFiles[j].id==this.componentEntity[k].id){
                             this.componentEntity[k].state='?';
                             this.componentEntity[k].age='2';
                             unknown.push(this.componentEntity[k]);
                             break;
-                            
+
                         }
 
                       }
-                      
-                  } 
+
+                  }
 
                   for(let j=0;j<res.data.data[i].modifyedComponentFiles.length;j++){
 
@@ -405,8 +405,8 @@ export default {
                       }
 
                      }
-                      
-                  } 
+
+                  }
                 };
 
                 for(let k=0;k<this.componentEntity.length;k++){
@@ -438,7 +438,7 @@ export default {
                     this.componentEntity.push(correct[i]);
                 }
 
-         
+
               };
 
               for(let i=0;i<zNodes.length;i++){
@@ -481,25 +481,25 @@ export default {
 
 
               layer.closeAll('loading');
-            
+
             }).catch(err => {
               console.log(err);
 
               layer.closeAll('loading');
               layer.msg("快速扫描异常");
-             
+
             });
 
 
-           
+
 
       },
 
       mySort:function(arr){
-                
+
           for(var x=0; x<arr.length-1; x++){
               for(var y=x+1; y<arr.length; y++){
-                        
+
                //按照年龄数值排序，并转成整数。
                 if(parseInt(arr[x].cells[1].innerHTML)>parseInt(arr[y].cells[1].innerHTML)){
                     var temp = arr[x];
@@ -508,22 +508,22 @@ export default {
                     arr[x].swapNode(arr[y]);
                 }
               }
-                        
+
           }
       },
 
-      
+
       showState:function(node){
         let nodesX=[];
         console.log(node);
         for(let j=0;j<node.length;j++){
-          
+
           if(node[j].hasOwnProperty("children")){
               for(let i=0;i<node[j].children.length;i++){
                   if(!node[j].children[i].hasOwnProperty("children")){
                       nodes.push(node[j].children[i]);
                   }else{
-                      
+
                       nodesX.push(node[j].children[i]);
 
                   }
@@ -544,7 +544,7 @@ export default {
        //alert(this.selected);
 
       },
-    
+
      handleInfo:function(item,path,idCom,idFlag){
         if(item==null)
             return ;
@@ -557,7 +557,7 @@ export default {
                     item=item.children[i];
                     flag=false;
                     return item;
-                }        
+                }
             }
 
             if(flag){
@@ -565,7 +565,7 @@ export default {
                 item=item.children[item.children.length-1];
                 return item;
             }
-            
+
         }else{
             if(idFlag==true){
                 item.children=[];
@@ -580,7 +580,7 @@ export default {
         }
 
      },
-    
+
     changeDeployPlan: function() {
 
       zNodes.length=0;
@@ -601,7 +601,7 @@ export default {
             }
           },
           callback: {
-            
+
             onClick: this.zTreeOnClick,
             onDblClick: this.zTreeOnDblClick
           }
@@ -624,24 +624,24 @@ export default {
          deployPlanDetailEntities=res.data.data.deployPlanDetailEntities;
 
          for (let j = 0;j < deployPlanDetailEntities.length;j++) {
-           
-            
+
+
             let deviceNode = {};
             let componentNode = {};
 
             deviceNode.id =deployPlanDetailEntities[j].deviceEntity.id;
-            
+
             componentNode.id =
               deployPlanDetailEntities[j].componentEntity.id;
             componentNode.name =
               deployPlanDetailEntities[j].componentEntity.name;
             componentNode.deviceId =
-              deployPlanDetailEntities[j].deviceEntity.id; 
-          
+              deployPlanDetailEntities[j].deviceEntity.id;
+
             componentNode.componentNodeInfo=deployPlanDetailEntities[j].componentEntity.componentFileEntities;
 
             componentNode.age=0;
-         
+
 
             componentNode.state = "--";
 
@@ -666,7 +666,7 @@ export default {
 
                     flag=false;
                     break;
-                 }  
+                 }
               }
 
                 if(flag){
@@ -682,18 +682,18 @@ export default {
                     deployPlanDetailEntities[j].deviceEntity.ip+")"+""+deployPlanDetailEntities[j].deviceEntity.online;
 
                     var ary=deviceNode.name.split(")");
-                    deviceNode.name = deviceNode.name.replace(')', ')           '); 
+                    deviceNode.name = deviceNode.name.replace(')', ')           ');
 
-                   
+
 
                    deviceNode.deployPlanId = deployplanZtreeId;
-                  
+
                    let children = [];
                    children.push(componentNode);
                    deviceNode.children = children;
                    zNodes.push(deviceNode);
                 }
-               
+
             }else{
              if(deployPlanDetailEntities[j].deviceEntity.online==false){
                         deployPlanDetailEntities[j].deviceEntity.online="离线";
@@ -706,27 +706,27 @@ export default {
               deployPlanDetailEntities[j].deviceEntity.ip+")"+""+deployPlanDetailEntities[j].deviceEntity.online;
 
               var ary=deviceNode.name.split(")");
-              deviceNode.name = deviceNode.name.replace(')', ')           '); 
+              deviceNode.name = deviceNode.name.replace(')', ')           ');
 
               //console.log(ary.join(" "));
 
 
              deviceNode.deployPlanId = deployplanZtreeId;
-            
+
              let children = [];
              children.push(componentNode);
              deviceNode.children = children;
 
              zNodes.push(deviceNode);
-            
+
             }
-         } 
+         }
 
           for(let j=0;j<zNodes.length;j++){
             for(let l=0;l<zNodes[j].children.length;l++){
               //对比时，是路径节点与根节点下的孩子节点比较
               let componentFile=zNodes[j].children[l].componentNodeInfo;//组件
-              
+
               for(let m=0;m<componentFile.length;m++){
                 childrenInfo.push(componentFile[m]);
 
@@ -741,31 +741,31 @@ export default {
                       idFlag=true;
                   }
                   item=this.$options.methods.handleInfo(item,path[i],idCom,idFlag);
-                }  
+                }
               }
             }
           }
 
            $.fn.zTree.init($("#treeDemo"), setting, zNodes);
-          
+
       }).catch(err => {
         console.log(err);
       });
 
     },
-        
+
     changeExtension: function() {
 
         let oldInfo=[];
 
-        
+
         let mytable = document.getElementById("table_value");
 
         if(mytable.rows.length>0){
             for(var i=1,rows=mytable.rows.length; i<rows; i++){
                 oldInfo.push(mytable.rows[i].innerText);
             }
-        console.log(oldInfo); 
+        console.log(oldInfo);
 
           for(var i=1,rows=mytable.rows.length; i<rows; i++){
             if(mytable.rows[i].cells[3].innerText!=this.selectede){
@@ -776,12 +776,12 @@ export default {
                 if(i==mytable.rows.length-1){
                   break;
                 }
-            }   
+            }
           }
-        } 
+        }
 
     },
-   
+
 
     zTreeOnDblClick: function(e, treeId, treeNode) {
       deviceNodeId='';
@@ -792,10 +792,10 @@ export default {
       this.componentEntity = [];
       let zTree = $.fn.zTree.getZTreeObj("treeDemo");
       zTree.expandNode(treeNode);
-     
+
       if(zTree.getSelectedNodes()[0].deviceId){
           componentNodeId=zTree.getSelectedNodes()[0].id;
-      
+
           this.$axios.get("components/" + componentNodeId, {
           headers: {
             "content-type": "application/x-www-form-urlencoded"
@@ -805,7 +805,7 @@ export default {
             password: "admin"
           }
         }).then(res => {
-          
+
           for (let i = 0; i < res.data.data.componentFileEntities.length; i++) {
               res.data.data.componentFileEntities[i].state="--";
               res.data.data.componentFileEntities[i].age=0;
@@ -813,7 +813,7 @@ export default {
           };
 
         }).catch(err => {
-        
+
         });
       }else if(zTree.getSelectedNodes()[0].deployPlanId){
           deviceNodeId = zTree.getSelectedNodes()[0].id;
@@ -828,7 +828,7 @@ export default {
             password: "admin"
           }
         }).then(res => {
-        
+
           for (let i = 0; i < res.data.data.length; i++) {
             for (
               let j = 0;
@@ -840,12 +840,12 @@ export default {
               res.data.data[i].componentEntity.componentFileEntities[j].age=0;
               this.componentEntity.push(
                 res.data.data[i].componentEntity.componentFileEntities[j]);
-            
+
               }
             }
-        
+
         }).catch(err => {
-     
+
         });
       }else if(zTree.getSelectedNodes()[0].hasOwnProperty("children")){
           for(let i=0;i<zTree.getSelectedNodes()[0].children.length;i++){
@@ -859,9 +859,9 @@ export default {
                       }
                   }
               }
-          }  
+          }
       }else if(zTree.getSelectedNodes()[0].hasOwnProperty("children")==false){
-          
+
           for(let j=0;j<childrenInfo.length;j++){
               if(childrenInfo[j].id==zTree.getSelectedNodes()[0].id){
                 this.componentEntity.push(childrenInfo[j]);
@@ -920,7 +920,7 @@ export default {
                   }
               }
           }
-          
+
           let correct=[];
           let unknown=[];
           let modifyed=[];
@@ -930,7 +930,7 @@ export default {
 
                 if(res.data.data[i].correctComponentFiles.length>0){
                     for(let j=0;j<res.data.data[i].correctComponentFiles.length;j++){
-                    
+
                       for(let k=0;k<this.componentEntity.length;k++){
 
                         if(res.data.data[i].correctComponentFiles[j].id==this.componentEntity[k].id){
@@ -943,7 +943,7 @@ export default {
                         }
 
                       }
-                      
+
                   }
                 };
 
@@ -951,18 +951,18 @@ export default {
                     for(let j=0;j<res.data.data[i].unknownFiles.length;j++){
 
                       for(let k=0;k<this.componentEntity.length;k++){
-                     
+
                         if(res.data.data[i].unknownFiles[j].id==this.componentEntity[k].id){
                             this.componentEntity[k].state='?';
                             this.componentEntity[k].age=1;
 
                              unknown.push(this.componentEntity[k]);
                             break;
-                            
+
                         }
 
                       }
-                      
+
                     }
                 };
 
@@ -979,15 +979,15 @@ export default {
                         }
 
                       }
-                      
+
                   }
 
                 };
-                
-               
+
+
             };
 
-           
+
 
             for(let k=0;k<this.componentEntity.length;k++){
 
@@ -996,9 +996,9 @@ export default {
                     this.componentEntity[k].state="!";
                     this.componentEntity[k].age=1;
                     miss.push(this.componentEntity[k]);
-                    
+
                 };
-                
+
             };
 
 
@@ -1023,15 +1023,15 @@ export default {
 
         };
 
-            
-           
+
+
             for(let i=0;i<zNodes.length;i++){
                     for(let j=0;j<zNodes[i].children.length;j++){
 
                           for(let k=0;k<res.data.data.length;k++){
-                              
+
                               if(zNodes[i].children[j].id==res.data.data[k].componentId){
-                         
+
                                   if(res.data.data[k].hasCorrectComponentFiles==true&&res.data.data[k].hasModifyedComponentFiles==false&&res.data.data[k].hasUnknownFiles==false&&res.data.data[k].hasMissingFile==false){
                                       zNodes[i].children[j].name=zNodes[i].children[j].name+"("+"√"+")";
                                       zNodes[i].children[j].name = zNodes[i].children[j].name.replace('(', '           (');
@@ -1066,23 +1066,23 @@ export default {
 
             $.fn.zTree.init($("#treeDemo"), setting, zNodes);
 
-              
+
 
             layer.closeAll('loading');
-        
+
         }).catch(err => {
           console.log(err);
-         
+
         });
 
 
-           
-      
+
+
     },
 
 
     scanQuick: function() {
- 
+
       $("#modal-select").modal('show');
       if(this.getCookie('extensions')){
           document.getElementById("input-extensions").value=decodeURIComponent(this.getCookie('extensions'));
@@ -1128,7 +1128,7 @@ export default {
       return confirm("确认删除 节点 -- " + treeNode.name + " 吗？");
     },
     onRemove: function(e, treeId, treeNode) {
-     
+
     },
 
     beforeRename: function(treeId, treeNode, newName, isCancel) {
@@ -1169,14 +1169,14 @@ export default {
       return !treeNode.isLastNode;
     }
   },
-  computed: {  
-        componentEntityA: function () {  
-            var self = this;  
-            return self.componentEntity.filter(function (item) {  
-                return item.name.toLowerCase().indexOf(self.searchQuery.toLowerCase()) !== -1;  
-            })  
-        }  
-    } 
+  computed: {
+        componentEntityA: function () {
+            var self = this;
+            return self.componentEntity.filter(function (item) {
+                return item.name.toLowerCase().indexOf(self.searchQuery.toLowerCase()) !== -1;
+            })
+        }
+    }
 };
 </script>
      <style type="text/css">
@@ -1218,20 +1218,20 @@ label {
 }
 
 .modal {
-  
+
     left: 57%;
-  
+
     width: 414px;
 }
 
 .level0{
   width: 275px;
-display: inline;
-overflow: hidden;
-white-space: pre-wrap;
-text-overflow: ellipsis;
-font-family: Verdana, Arial, Helvetica, AppleGothic, sans-serif;
-display: table-cell;
+  display: inline;
+  overflow: hidden;
+  white-space: pre-wrap;
+  text-overflow: ellipsis;
+  font-family: Verdana, Arial, Helvetica, AppleGothic, sans-serif;
+  display: table;
 }
 
 .level1{
