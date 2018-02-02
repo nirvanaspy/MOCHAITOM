@@ -8,7 +8,7 @@
                     <h3>修改组件</h3>
                 </div>
 
-                <div class="row-fluid form-wrapper">
+                <div class="row-fluid form-wrapper" style="margin-top:-27px">
                     <!-- left column -->
                     <div class="span10 ">
                         <div class="with-sidebar">
@@ -42,53 +42,50 @@
                                 <div class="span12 field-box">
                                     <label>上传文件:</label>
                                     <div class="span9 uploadfile" style="margin-left: -1px;">
-                                        <div id="todo-list-example" class="addli">
-                                            <ul class="addul">
-                                                <li v-for="(folder, index) in folders" :key="index">
-                                                    {{folder}}
+                                        <div class="" style="background: rgba(255, 255, 255, 0.65);height:50px;overflow-y:auto">
+                                            <ul class="mini-repo-list" id="ulId" data-filterable-for="your-repos-filter" data-filterable-type="substring" style="background: rgba(255, 255, 255, 0.65);">
+                                                <li class="pubic fork" v-for="folder in folderInfo">
+                                                    <span>{{folder.name}}</span>     
                                                 </li>
                                             </ul>
                                         </div>
+
 
                                         <div class="upbtn">
                                             <input type='file' name="folderin" id="folderupload" webkitdirectory  @change="getFolder($event)">
-                                                <!-- <input type='file' name="folderin" id="folderupload" webkitdirectory > -->
-                                                <!-- <input type='file' name="file"> -->
-                                                <button v-on:click="folderclick($event)">upload</button>
-                                                <!-- <button v-on:click="folderclick">upload</button> -->
+                                                
+                                                <button v-on:click="folderclick($event)">提交</button>
                                         </div>
 
-                                        <!-- 列表2 文件 -->
-                                        <div id="todo-list-example" class="addli">
-                                            <ul class="addul">
-                                                <li v-for="(file, index) in files" :key="index">
-                                                    {{file}}
+                                        <div class="" style="background: rgba(255, 255, 255, 0.65);height:50px;overflow-y:auto">
+                                            <ul class="mini-repo-list" id="ulId" data-filterable-for="your-repos-filter" data-filterable-type="substring" style="background: rgba(255, 255, 255, 0.65);">
+                                                <li class="pubic fork" v-for="file in fileInfo">
+                                                    <span>{{file.name}}</span>     
                                                 </li>
-                                                <!-- <li is="todo-item" v-for="(file, index) in files"  v-text="sv2"></li> -->
                                             </ul>
                                         </div>
 
+
                                         <div class="upbtn">
                                                 <input type='file' name="filein" id="fileupload"  @change="getFile($event)">
-                                                <button v-on:click="fileclick($event)">upload</button>
+                                                <button v-on:click="fileclick($event)">提交</button>
                                         </div>
 
                                     </div>
                                 </div>
 
                                 <div style="height: 313px; border-left: 1px solid rgba(0, 0, 0, 0.32);margin-left: 829px;"></div>
-                                 <div class="span12 field-box with-sidebar " style="width: 229px;margin-left: 847px;margin-top: -344px;height: 317px;overflow-y: auto;">
+                                 <div class="span12 field-box with-sidebar " style="width: 229px;margin-left: 847px;margin-top: -432px;height: 317px;overflow-y: auto;">
                                     <span>组件详细信息</span>
 
                                      <ul id="treeDemo" class="ztree" style=""></ul>
                                 </div>
 
-                           <!--      <div style="display: inline;style=&quot;overflow: hidden; white-space: nowrap; text-overflow: ellipsis;width:100px;&quot;;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;width:100px;">叶子节点111</div> -->
+                       
 
-                                <div class="span7 field-box actions">
+                                <div class="span7 field-box actions" style="margin-top:-1px">
                                     <button type="submit" class="btn-glow primary" @click="addComp($event)">修改</button>
                                     <button type="submit" class="btn-glow primary" @click="formReset">取消</button>
-                                    <!-- <input type="button" class="btn-glow primary" value="添加组件" style="width: 100px;" @click="addComp($event)"/> -->
                                 </div>
                             </form>
                         </div>
@@ -114,6 +111,8 @@ let sv1 = [];
 let sv2 = '';
 
 
+
+
 let treeInfo=[];
 export default {
 
@@ -125,6 +124,8 @@ export default {
                 deployPath: '',
                 describle: '',
                 components:[],
+                fileInfo:[],
+                folderInfo:[],
                 folders: [
 
                 ],
@@ -159,29 +160,71 @@ export default {
                 document.getElementById("add-deployPath").value=res.data.data.deployPath; 
                 document.getElementById("add-describle").value=res.data.data.describle; 
 
-
                 //对比时，是路径节点与根节点下的孩子节点比较
                 let componentFile=res.data.data.componentFileEntities;//组件
-               
+
+
                 let zNodes=[];
                 let item;
                 for(let m=0;m<componentFile.length;m++){
 
                     treeInfo.push(componentFile[m]);//放所有文件信息，用于树点击id的选择
-                    console.log(componentFile[m]);
 
                     item=res.data.data;
-                    console.log(item);
 
                     let path=(componentFile[m].path).split('/');
 
                     for(let i=1;i<path.length;i++){
                         item=this.$options.methods.handleInfo(item,path[i]);
-                        console.log(item);
                    }
                 };
 
+                
+
                 zNodes.push(res.data.data);
+
+                console.log(zNodes);
+
+                let forderTemp=[];
+
+                for(let i=0;i<res.data.data.componentFileEntities.length;i++){
+                     let info=res.data.data.componentFileEntities[i].path.split('/');
+
+                     if(info.length>2){
+                     
+                        if(forderTemp.length>0){
+                            let flag=true;
+
+                            for(let j=0;j<forderTemp.length;j++){
+                                if(forderTemp[j].name==info[1]){
+                                    flag=false;
+                                }
+                            }
+
+                            if(flag){
+                                let info2={};
+                                info2.name=info[1];
+                                forderTemp.push(info2);
+                            }
+                           
+                        }else{
+                            let info2={};
+                            info2.name=info[1];
+                            forderTemp.push(info2);
+                        }
+
+                     }else{
+                        this.fileInfo.push(res.data.data.componentFileEntities[i]);
+                     }
+                }
+
+                console.log(forderTemp);
+
+                for(let i=0;i<forderTemp.length;i++){
+                    this.folderInfo.push(forderTemp[i]);
+                }
+
+
 
                 let setting = {
                       view: {
@@ -240,13 +283,11 @@ export default {
             getFolder(event) {
                 //debugger;
                 this.sv1 = event.target.files;
-                //console.log(this.sv1.length);
-                console.log("hhhh");
-                console.log(this.sv1);
+          
+                //this.sv1 = $("input[name='file']").val();
 
-                this.sv1 = $("input[name='file']").val();
                 if(this.sv1.length != 0){
-                    this.folders.push(this.sv1);
+                    //this.folders.push(this.sv1);
 
                     this.allArr.push(this.sv1);
                     var obj = document.getElementById('fileupload') ;
@@ -256,161 +297,175 @@ export default {
                     layer.msg("请选择文件夹");
                 }
             },
+
             getFile(event) {
                 this.sv2 = event.target.files[0];
-                //console.log(this.sv2.length);
+                console.log("#######");
                 console.log(this.sv2);
             },
+
             folderclick(event) {
-                //alert(this.sv);
                 //this.sv1 = event.target.files[0];;
-                event.preventDefault();
-                //alert(this.sv1);
-                //alert(this.sv1.name);
-                //alert(this.sv1.webkitRelativePath);
-                //alert("xy");
-                //this.sv1 = event.target.files;
 
                 var sv11 = document.getElementById("folderupload");
                 var fieList = sv11.files;
-                /*alert(fileList);
-                alert(fileList.length);*/
 
                 if(fieList.length != 0){
-                    //this.sv1.push(this.sv1.files);
-                    /*for(var s1=0; s1<this.sv1.length;s1++){
-                        this.folders.push(this.sv1);
-                        this.allArr.push(this.sv1);
-                    }*/
+                    
                     var foldersNum = fieList.length + "个文件";
+                    let foldersInfo=[];
+
+                    for(let i=0;i<fieList.length;i++){
+                        let path=fieList[i].webkitRelativePath.split('/');
+                        
+                        if(foldersInfo.length>0){
+                            for(let j=0;j<foldersInfo.length;j++){
+
+                                if(foldersInfo[j].name==path[0]){
+                                    break;
+                                }else{
+                                    let info2={};
+                                    info2.name=path[0];
+                                    foldersInfo.push(info2);
+                                }
+                            }
+                        }else{
+                            let info2={};
+                            info2.name=path[0];
+                            foldersInfo.push(info2);
+                        } 
+                    }
+
+                    console.log(foldersInfo);
+                    if(foldersInfo.length>0){
+                        for(let j=0;j<foldersInfo.length;j++){
+                            this.folderInfo.push(foldersInfo[j]);
+                        }
+                    }
+
+                    
                     this.folders.push(foldersNum);
                     this.allArr.push(fieList);
-                    console.log(fieList);
 
-                    console.log(Object.prototype.toString.call(fieList));
-                    /*console.log(Object.prototype.toString.call(this.sv1) == "[object FileList]");
-                    console.log(Object.prototype.toString.call(this.sv1) == FileList);*/
 
-                    console.log(this.folders);
-                    console.log(this.allArr);
-
-                    //alert(fieList);
                     var obj = document.getElementById('folderupload') ;
-                    //alert("ffff");
                     obj.outerHTML=obj.outerHTML;
-                    //alert("vvvv");
-                    //alert(fieList);
-                    //this.getFolder(event);
+                  
                 }else{
                     layer.msg("请选择文件夹");
 
                 }
-
-
-
             },
 
             fileclick(event) {
                 event.preventDefault();
 
-               // alert("xy");
-
                 var sv12 = document.getElementById("fileupload");
                 var fieList2 = sv12.files;
+                console.log(fieList2[0]);
 
                 if(fieList2.length != 0){
+                    let files=[];
 
-                    this.files.push(fieList2[0].name);
+                    files.push({"name":fieList2[0].name});
+                    this.fileInfo.push(files[0]);
+
                     this.allArr.push(fieList2);
-                    //console.log(fieList);
 
-                    /*console.log(Object.prototype.toString.call(fieList));*/
-                    //console.log(typeof(this.sv1));
-
-                    console.log(this.files);
-                    console.log(this.allArr);
-
-                    //alert(fieList2);
                     var obj = document.getElementById('fileupload') ;
 
                     obj.outerHTML=obj.outerHTML;
                 }else{
-                    //alert("请选择文件");
-                    layer.msg("请选择文件夹");
+                    layer.msg("请选择文件");
 
                 }
             },
 
             addComp(event) {
 
-                layer.load();
-                event.preventDefault();
-                let formData = new FormData();
+                
 
                 this.name = $("input[id='add-name']").val();
                 this.version = $("input[id='add-version']").val();
                 this.describle = $("input[id='add-describle']").val();
                 this.deployPath = $("input[id='add-deployPath']").val();
 
-                //alert(this.deployPath);
 
-                formData.append('name', this.name);
-                formData.append('version', this.version);
-                formData.append('deployPath', this.deployPath);
-                //formData.append('size', this.size);
-                formData.append('describle', this.describle);
+                if(this.name.length==0){
+                    layer.msg("请输入组件名！");
+                }else if(this.version.length==0){
+                    layer.msg("请输入版本！");
+                }else if(this.deployPath.length==0){
+                    layer.msg("请输入路径！");
+                }else{
+                    layer.load();
+                    event.preventDefault();
+                    let formData = new FormData();
 
-                formData.append('enctype', "multipart/form-data");
+                    console.log(this.allArr);
 
-                for(var i=0;i<this.allArr.length;i++){
-                    //判断数组里是文件夹还是文件
-                    for(var j=0;j<this.allArr[i].length;j++){
-                            formData.append('componentfile', this.allArr[i][j]);
-                        }
-                    /*if(Object.prototype.toString.call(this.allArr[i]) == "[object FileList]"){
+                    formData.append('name', this.name);
+                    formData.append('version', this.version);
+                    formData.append('deployPath', this.deployPath);
+                    //formData.append('size', this.size);
+                    formData.append('describle', this.describle);
 
+                    formData.append('enctype', "multipart/form-data");
+
+                    for(var i=0;i<this.allArr.length;i++){
+                        //判断数组里是文件夹还是文件
                         for(var j=0;j<this.allArr[i].length;j++){
-                            formData.append('componentfile', this.allArr[i][j]);
+                                formData.append('componentfile', this.allArr[i][j]);
+                            }
+                        /*if(Object.prototype.toString.call(this.allArr[i]) == "[object FileList]"){
+
+                            for(var j=0;j<this.allArr[i].length;j++){
+                                formData.append('componentfile', this.allArr[i][j]);
+                            }
+                        }else{
+                            formData.append('componentfile', this.allArr[i]);
+                        }*/
+
+                        //formData.append('componentfile', this.allArr[i]);
+                        //formData.append("componentfile",fileList[i]);
+
+                    }
+
+                    //formData.append('componentfile', this.allArr);
+                    //console.log(this.allArr.length);
+                    //console.log(this.allArr);
+
+                    let config = {
+                        headers: {
+                            'Content-Type': 'multipart/form-data'
                         }
-                    }else{
-                        formData.append('componentfile', this.allArr[i]);
-                    }*/
+                    }
 
-                    //formData.append('componentfile', this.allArr[i]);
-                    //formData.append("componentfile",fileList[i]);
+                    this.$axios.patch('components/' + this.$route.params.id, formData, {
+                        config,
+                        auth: {
+                            username: 'admin',
+                            password: 'admin'
+                        }
+                    }).then(res=>{
+                            //this.users = res.data.data
+                            //console.log(res);
+                            //alert("添加成功");
+                            layer.closeAll('loading');
+                            layer.msg("修改成功!");
+
+
+                            this.$router.replace({ path: '/components'})
+                        }).catch(err=>{
+                           // alert("添加失败！");
+                            layer.msg("修改失败！");
+                            layer.closeAll('loading');
+                    })
 
                 }
 
-                //formData.append('componentfile', this.allArr);
-                //console.log(this.allArr.length);
-                //console.log(this.allArr);
-
-                let config = {
-                    headers: {
-                        'Content-Type': 'multipart/form-data'
-                    }
-                }
-
-                this.$axios.patch('components/' + this.$route.params.id, formData, {
-                    config,
-                    auth: {
-                        username: 'admin',
-                        password: 'admin'
-                    }
-                }).then(res=>{
-                        //this.users = res.data.data
-                        //console.log(res);
-                        //alert("添加成功");
-                        layer.closeAll('loading');
-                        layer.msg("修改成功!");
-
-
-                        this.$router.replace({ path: '/components'})
-                    }).catch(err=>{
-                       // alert("添加失败！");
-                        layer.msg("修改失败！");
-                        layer.closeAll('loading');
-                })
+                
+               
             },
 
             formReset: function(){

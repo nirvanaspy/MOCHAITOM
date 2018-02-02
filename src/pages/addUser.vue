@@ -24,8 +24,14 @@
                                     <input class="span9" type="password" name="add-password"/>
                                 </div>
 
+                                <div class="span12 field-box" style="margin-top: -11px;">
+                                    <label>再次输入确认:</label>
+                                    <input class="span9" type="password" name="again-password"/>
+                                </div>
+
                                 <div class="span7 field-box actions">
-                                		<input type="button" class="btn-glow primary" value="创建" style="width: 100px;" @click="addUser"/>
+                                		<input type="button" class="btn-glow primary" value="创建"  @click="addUser"/>
+                                         <button type="submit" class="btn-glow primary" @click="formReset">取消</button>
                                 </div>
                             </form>
                         </div>
@@ -51,33 +57,59 @@ export default{
         methods: {
         	addUser: function (){
         		var qs = require('qs');
-            	this.$axios.post('users',qs.stringify({
-  					"username": $("input[name='add-name']").val(),
-  					"password": $("input[name='add-password']").val()
- 				}),{
-                /*params:{  //get请求在第二个位置，post在第三个位置
-                    ID:'c02da6e9-a334-4e41-b842-c59eb7d0d3f3'
-                },*/
-                //设置头
-                headers:{
-                   'content-type':'application/x-www-form-urlencoded'
-                },
-                auth: {
-                    username: 'admin',
-                    password: 'admin'
-                }
-            }).then(res=>{
-                //this.users = res.data.data
-                //console.log(res);
-                this.$router.replace({ path: '/xy1'})
-            })
-            .catch(err=>{
-                alert("请重新输入用户名！");
-            })
-        	}
+
+                let username=$("input[name='add-name']").val();
+                let password=$("input[name='add-password']").val();
+                let password2=$("input[name='again-password']").val();
+     
+
+                if(username==""){
+                    layer.msg("请输入用户名！");
+                }else if(password==""){
+                    layer.msg("请输入密码！");
+                }else if(password2==""){
+                    layer.msg("请再次输入密码！");
+                }else if(password!==password2){
+                    layer.msg("两次输入密码不一致！");
+                }else{
+                        this.$axios.post('users',qs.stringify({
+                            "username": $("input[name='add-name']").val(),
+                            "password": $("input[name='add-password']").val()
+                            }),{
+                            /*params:{  //get请求在第二个位置，post在第三个位置
+                                ID:'c02da6e9-a334-4e41-b842-c59eb7d0d3f3'
+                            },*/
+                            //设置头
+                            headers:{
+                               'content-type':'application/x-www-form-urlencoded'
+                            },
+                            auth: {
+                                username: 'admin',
+                                password: 'admin'
+                            }
+                        }).then(res=>{
+                                //this.users = res.data.data
+                                //console.log(res);
+                                this.$router.replace({ path: '/users'})
+                        }).catch(err=>{
+                                //alert("请重新输入用户名！");
+                                layer.msg("添加失败！");
+                        })
+
+                };
+
+            
+        	},
+            formReset: function(){
+                $("input").val('');
+                this.$router.replace({ path: '/users'})
+
+            },
+
 
         }
-    }
+                     
+}
 </script>
 <style>
 

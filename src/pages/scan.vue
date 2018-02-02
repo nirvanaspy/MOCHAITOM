@@ -146,7 +146,7 @@
                                         </div> -->
 
                                          <div style="margin-left: 148px;margin-top: 22px;">
-                                            <button type="submit" class="btn-glow primary" @click="addInfo">确认</button>
+                                            <button type="submit" class="btn-glow primary" @click="scanQuick">确认</button>
                                             <button type="submit" class="btn-glow primary" @click="formReset">取消</button>
                                         </div>
 
@@ -294,7 +294,7 @@ export default {
   methods: {
 
 
-      addInfo(event) {
+      scanQuick(event) {
 
           layer.load();
 
@@ -491,46 +491,6 @@ export default {
             });
 
 
-
-
-      },
-
-      mySort:function(arr){
-
-          for(var x=0; x<arr.length-1; x++){
-              for(var y=x+1; y<arr.length; y++){
-
-               //按照年龄数值排序，并转成整数。
-                if(parseInt(arr[x].cells[1].innerHTML)>parseInt(arr[y].cells[1].innerHTML)){
-                    var temp = arr[x];
-                    arr[x] = arr[y];
-                    arr[y] = temp;
-                    arr[x].swapNode(arr[y]);
-                }
-              }
-
-          }
-      },
-
-
-      showState:function(node){
-        let nodesX=[];
-        console.log(node);
-        for(let j=0;j<node.length;j++){
-
-          if(node[j].hasOwnProperty("children")){
-              for(let i=0;i<node[j].children.length;i++){
-                  if(!node[j].children[i].hasOwnProperty("children")){
-                      nodes.push(node[j].children[i]);
-                  }else{
-
-                      nodesX.push(node[j].children[i]);
-
-                  }
-              }
-          }
-        }
-         return nodesX;
       },
 
 
@@ -539,13 +499,8 @@ export default {
           $("#modal-select").modal('hide');
       },
 
-
-     changeState: function() {
-       //alert(this.selected);
-
-      },
-
-     handleInfo:function(item,path,idCom,idFlag){
+    //生成树
+    handleInfo:function(item,path,idCom,idFlag){
         if(item==null)
             return ;
 
