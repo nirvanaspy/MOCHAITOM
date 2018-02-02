@@ -10,9 +10,9 @@
         </button>
 
         <a class="brand" href="index.html">
-          <!-- <img src="img/logo.png" /> -->
+
           <div style="float:left;width:30px;">
-            <!-- <img src="img/ico-mail.png" /> -->
+
             <i class="icon-leaf" style="color:blue;"></i>
           </div>
 

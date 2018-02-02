@@ -12,7 +12,7 @@
           <!-- left column -->
           <div class="span10 with-sidebar">
             <div class="container">
-              <form class="new_user_form inline-input"/>
+              <form class="new_user_form inline-input">
               <div class="span12 field-box">
                 <label>组件名:</label>
                 <input class="span9" type="text" name="add-name"/>
@@ -82,7 +82,7 @@
                 </div>
               </div>
 
-              <div class="span7 field-box actions">
+              <div class="span7 field-box actions" style="margin-top: 0px;">
                 <button type="submit" class="btn-glow primary" @click="addComp($event)">创建</button>
                 <button type="submit" class="btn-glow primary" @click="formReset">取消</button>
                 <!-- <input type="button" class="btn-glow primary" value="添加组件" style="width: 100px;" @click="addComp($event)"/> -->

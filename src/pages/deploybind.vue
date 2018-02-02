@@ -92,7 +92,7 @@
                      style="margin-top: 40px;text-align: center;">
 
                   <div>
-                    <img src="img/files.png" style="height: 90px;"/>
+                    <img src="static/img/files.png" style="height: 90px;"/>
                   </div>
 
                   <!-- <br/> -->
