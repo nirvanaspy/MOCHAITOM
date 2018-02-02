@@ -6,7 +6,6 @@ import App from './App'
 //import VueDragTree from 'vue-drag-tree'
 // import TreeView from 'vue-json-tree-view'
 import router from './router'
-import global from './components/Global1'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 
