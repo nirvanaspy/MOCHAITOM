@@ -58,7 +58,7 @@
                     <tbody>
                     <!-- row -->
                     <tr class="first" style="cursor: pointer;" v-for="(device,index) in devicesA"
-                        @click="deviceClick($event)" :id="device.id">
+                        @click="deviceClick($event)" :id="device.id" v-if="!device.virtual">
                       <td style="display:none" id="id">{{device.id}}</td>
                       <td class="wrap">
                         <div class="wrap" :id="device.id" :title="device.name">
