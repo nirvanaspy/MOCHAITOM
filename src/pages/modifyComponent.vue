@@ -12,7 +12,7 @@
                     <!-- left column -->
                     <div class="span10 ">
                         <div class="with-sidebar">
-                            <form class="new_user_form inline-input" />
+                            <form class="new_user_form inline-input">
                                 <div class="span12 field-box">
                                     <label>组件名:</label>
                                     <input class="span9" type="text" id="add-name">
@@ -29,7 +29,7 @@
 
                                 <div class="span12 field-box">
 
-                                    <label>路径:</label>
+                                    <label>相对路径:</label>
                                     <input class="span9" type="text" id="add-deployPath"/>
                                     <span class="muststar">*</span>
                                 </div>
