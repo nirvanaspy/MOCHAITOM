@@ -201,6 +201,9 @@ let nodes=[];//文件
 
 let zTree;
 
+let zTreeDblFlag=false;
+let tempZtree=[];
+
 export default {
   name: "areaTree",
   components: {},
@@ -298,10 +301,7 @@ export default {
 
       scanQuick(event) {
 
-          for(let k=0;k<this.componentEntity.length;k++){
-            if(this.componentEntity[k].type==document.getElementById("input-extensions").value){
-
-               layer.load();
+          layer.load();
 
           let extensions=document.getElementById("input-extensions").value;
           //let path=document.getElementById("input-path").value;
@@ -340,8 +340,8 @@ export default {
 
           layer.load();
           this.$axios
-            .get(
-              this.getIP() + "deployplan/" +
+            .get(this.getIP() +
+              "deployplan/" +
                 "scan/" +
                 deployAllId +
                 "/devices/" +
@@ -428,29 +428,30 @@ export default {
 
                 this.componentEntity.splice(0,this.componentEntity.length);
                 for(let i=0;i<unknown.length;i++){
-                    this.componentEntity.push(unknown[i]);
-                }
+                this.componentEntity.push(unknown[i]);
+                tempZtree.push(unknown[i]);
+            }
 
-                for(let i=0;i<modifyed.length;i++){
-                    this.componentEntity.push(modifyed[i]);
-                }
+            for(let i=0;i<modifyed.length;i++){
+                this.componentEntity.push(modifyed[i]);
+                tempZtree.push(modifyed[i]);
+            }
 
-                for(let i=0;i<miss.length;i++){
-                    this.componentEntity.push(miss[i]);
-                }
+            for(let i=0;i<miss.length;i++){
+                this.componentEntity.push(miss[i]);
+                tempZtree.push(miss[i]);
+            }
 
-                for(let i=0;i<correct.length;i++){
-                    this.componentEntity.push(correct[i]);
-                }
+            for(let i=0;i<correct.length;i++){
+                this.componentEntity.push(correct[i]);
+                tempZtree.push(correct[i]);
+            }
 
 
               };
 
               for(let i=0;i<zNodes.length;i++){
-                if(zNodes[i].id==zTree.getSelectedNodes()[0].id){
                     for(let j=0;j<zNodes[i].children.length;j++){
-
-
 
                           for(let k=0;k<res.data.data.length;k++){
                               if(zNodes[i].children[j].id==res.data.data[k].componentId){
@@ -482,8 +483,6 @@ export default {
 
                               }
                           }
-                        }
-
                     }
               }
 
@@ -491,7 +490,21 @@ export default {
 
 
               layer.closeAll('loading');
-              layer.msg("扫描结束");
+              zTreeDblFlag=true;
+
+
+            layer.msg("扫描结束");
+
+
+            for(let i=0;i<tempZtree.length;i++){
+              for(let j=0;j<childrenInfo.length;j++){
+                if(childrenInfo[j].id==tempZtree[i].id){
+                    childrenInfo[j]=tempZtree[i];
+                }
+              }
+            }
+
+
 
             }).catch(err => {
               console.log(err);
@@ -500,13 +513,9 @@ export default {
               layer.msg("快速扫描异常");
 
             });
-            }else{
-              layer.msg("后缀名文件不存在！");
-              $("#modal-select").modal('hide');
-            }
-          }
-      },
 
+
+      },
 
       formReset: function(){
           $("input").val('');
@@ -692,7 +701,6 @@ export default {
             }
          }
 
-         console.log(zNodes);
 
 
           for(let j=0;j<zNodes.length;j++){
@@ -754,9 +762,10 @@ export default {
         }
 
     },
-
+    
 
     zTreeOnDblClick: function(e, treeId, treeNode) {
+
       deviceNodeId='';
       deployPlanId='';
       componentNodeId='';
@@ -766,84 +775,178 @@ export default {
       let zTree = $.fn.zTree.getZTreeObj("treeDemo");
       zTree.expandNode(treeNode);
 
-      if(zTree.getSelectedNodes()[0].deviceId){
-          componentNodeId=zTree.getSelectedNodes()[0].id;
+      
+   
 
-          this.$axios.get(this.getIP() + "components/" + componentNodeId, {
-          headers: {
-            "content-type": "application/x-www-form-urlencoded"
-          },
-          auth: {
-            username: "admin",
-            password: "admin"
-          }
-        }).then(res => {
+      if(zTreeDblFlag){
+       
+       if(zTree.getSelectedNodes()[0].deviceId){
+            componentNodeId=zTree.getSelectedNodes()[0].id;
 
-          for (let i = 0; i < res.data.data.componentFileEntities.length; i++) {
-              res.data.data.componentFileEntities[i].state="--";
-              res.data.data.componentFileEntities[i].age=0;
+            this.$axios.get(this.getIP() + "components/" + componentNodeId, {
+            headers: {
+              "content-type": "application/x-www-form-urlencoded"
+            },
+            auth: {
+              username: "admin",
+              password: "admin"
+            }
+          }).then(res => {
+
+            for (let i = 0; i < res.data.data.componentFileEntities.length; i++) {
+              for(let j = 0; j < tempZtree.length; j++){
+                if(res.data.data.componentFileEntities[i].id==tempZtree[j].id){
+                    res.data.data.componentFileEntities[i]=tempZtree[j];
+                }
+              }
               this.componentEntity.push(res.data.data.componentFileEntities[i]);
-          };
+ 
+            };
 
-        }).catch(err => {
+          }).catch(err => {
 
-        });
-      }else if(zTree.getSelectedNodes()[0].deployPlanId){
-          deviceNodeId = zTree.getSelectedNodes()[0].id;
-          deployPlanId = zTree.getSelectedNodes()[0].deployPlanId;
-          this.$axios
-        .get(this.getIP() + "deployplan/" + deployPlanId + "/devices/" + deviceNodeId, {
-          headers: {
-            "content-type": "application/x-www-form-urlencoded"
-          },
-          auth: {
-            username: "admin",
-            password: "admin"
-          }
-        }).then(res => {
+          });
+        }else if(zTree.getSelectedNodes()[0].deployPlanId){
+            deviceNodeId = zTree.getSelectedNodes()[0].id;
+            deployPlanId = zTree.getSelectedNodes()[0].deployPlanId;
+            this.$axios
+          .get(this.getIP() + "deployplan/" + deployPlanId + "/devices/" + deviceNodeId, {
+            headers: {
+              "content-type": "application/x-www-form-urlencoded"
+            },
+            auth: {
+              username: "admin",
+              password: "admin"
+            }
+          }).then(res => {
 
-          for (let i = 0; i < res.data.data.length; i++) {
-            for (
-              let j = 0;
-              j < res.data.data[i].componentEntity.componentFileEntities.length;
-              j++
-            ) {
 
-              res.data.data[i].componentEntity.componentFileEntities[j].state="--";
-              res.data.data[i].componentEntity.componentFileEntities[j].age=0;
-              this.componentEntity.push(
-                res.data.data[i].componentEntity.componentFileEntities[j]);
+            for (let i = 0; i < res.data.data.length; i++) {
+              for (let j = 0;j < res.data.data[i].componentEntity.componentFileEntities.length;j++) {
 
+                for(let k = 0;k < tempZtree.length;k++){
+          
+                    if(res.data.data[i].componentEntity.componentFileEntities[j].id==tempZtree[k].id){
+                        res.data.data[i].componentEntity.componentFileEntities[j]=tempZtree[k];
+                    }
+                }
+                this.componentEntity.push(
+                  res.data.data[i].componentEntity.componentFileEntities[j]);
               }
             }
 
-        }).catch(err => {
+          }).catch(err => {
 
-        });
-      }else if(zTree.getSelectedNodes()[0].hasOwnProperty("children")){
-          for(let i=0;i<zTree.getSelectedNodes()[0].children.length;i++){
-              if(zTree.getSelectedNodes()[0].children[i].hasOwnProperty("children")==false){
-                  for(let j=0;j<childrenInfo.length;j++){
-                      if(childrenInfo[j].id==zTree.getSelectedNodes()[0].children[i].id){
-                          zTree.getSelectedNodes()[0].children[i]=childrenInfo[j];
-                          this.componentEntity.push(childrenInfo[j]);
+          });
 
-                          break;
-                      }
-                  }
+        }else if(zTree.getSelectedNodes()[0].hasOwnProperty("children")){
+
+            for(let i=0;i<zTree.getSelectedNodes()[0].children.length;i++){
+                if(zTree.getSelectedNodes()[0].children[i].hasOwnProperty("children")==false){
+                    for(let j=0;j<childrenInfo.length;j++){
+                        if(childrenInfo[j].id==zTree.getSelectedNodes()[0].children[i].id){
+                            zTree.getSelectedNodes()[0].children[i]=childrenInfo[j];
+                            this.componentEntity.push(childrenInfo[j]);
+
+                            break;
+                        }
+                    }
+                }
+            }
+        }else if(zTree.getSelectedNodes()[0].hasOwnProperty("children")==false){
+
+            for(let j=0;j<childrenInfo.length;j++){
+                if(childrenInfo[j].id==zTree.getSelectedNodes()[0].id){
+                  this.componentEntity.push(childrenInfo[j]);
+
+                  break;
+                }
+            }
+        };
+
+
+
+      }else{
+
+        if(zTree.getSelectedNodes()[0].deviceId){
+            componentNodeId=zTree.getSelectedNodes()[0].id;
+
+            this.$axios.get(this.getIP() + "components/" + componentNodeId, {
+            headers: {
+              "content-type": "application/x-www-form-urlencoded"
+            },
+            auth: {
+              username: "admin",
+              password: "admin"
+            }
+          }).then(res => {
+
+            for (let i = 0; i < res.data.data.componentFileEntities.length; i++) {
+                res.data.data.componentFileEntities[i].state="--";
+                res.data.data.componentFileEntities[i].age=0;
+                this.componentEntity.push(res.data.data.componentFileEntities[i]);
+            };
+
+          }).catch(err => {
+
+          });
+        }else if(zTree.getSelectedNodes()[0].deployPlanId){
+            deviceNodeId = zTree.getSelectedNodes()[0].id;
+            deployPlanId = zTree.getSelectedNodes()[0].deployPlanId;
+            this.$axios
+          .get(this.getIP() + "deployplan/" + deployPlanId + "/devices/" + deviceNodeId, {
+            headers: {
+              "content-type": "application/x-www-form-urlencoded"
+            },
+            auth: {
+              username: "admin",
+              password: "admin"
+            }
+          }).then(res => {
+
+            for (let i = 0; i < res.data.data.length; i++) {
+              for (
+                let j = 0;
+                j < res.data.data[i].componentEntity.componentFileEntities.length;
+                j++
+              ) {
+
+                res.data.data[i].componentEntity.componentFileEntities[j].state="--";
+                res.data.data[i].componentEntity.componentFileEntities[j].age=0;
+                this.componentEntity.push(
+                  res.data.data[i].componentEntity.componentFileEntities[j]);
+
+                }
               }
-          }
-      }else if(zTree.getSelectedNodes()[0].hasOwnProperty("children")==false){
 
-          for(let j=0;j<childrenInfo.length;j++){
-              if(childrenInfo[j].id==zTree.getSelectedNodes()[0].id){
-                this.componentEntity.push(childrenInfo[j]);
+          }).catch(err => {
 
-                break;
-              }
-          }
-      };
+          });
+        }else if(zTree.getSelectedNodes()[0].hasOwnProperty("children")){
+            for(let i=0;i<zTree.getSelectedNodes()[0].children.length;i++){
+                if(zTree.getSelectedNodes()[0].children[i].hasOwnProperty("children")==false){
+                    for(let j=0;j<childrenInfo.length;j++){
+                        if(childrenInfo[j].id==zTree.getSelectedNodes()[0].children[i].id){
+                            zTree.getSelectedNodes()[0].children[i]=childrenInfo[j];
+                            this.componentEntity.push(childrenInfo[j]);
 
+                            break;
+                        }
+                    }
+                }
+            }
+        }else if(zTree.getSelectedNodes()[0].hasOwnProperty("children")==false){
+
+            for(let j=0;j<childrenInfo.length;j++){
+                if(childrenInfo[j].id==zTree.getSelectedNodes()[0].id){
+                  this.componentEntity.push(childrenInfo[j]);
+
+                  break;
+                }
+            }
+        };
+
+      }
 
     },
 
@@ -887,7 +990,7 @@ export default {
           }).then(res => {
           this.scanDevice = res.data.data;
 
-        layer.closeAll('loading');
+          layer.closeAll('loading');
 
            for(let i=0;i<zNodes.length;i++){
               for(let j=0;j<zNodes[i].children.length;j++){
@@ -985,21 +1088,24 @@ export default {
             this.componentEntity.splice(0,this.componentEntity.length);
             for(let i=0;i<unknown.length;i++){
                 this.componentEntity.push(unknown[i]);
+                tempZtree.push(unknown[i]);
             }
 
             for(let i=0;i<modifyed.length;i++){
                 this.componentEntity.push(modifyed[i]);
+                tempZtree.push(modifyed[i]);
             }
 
             for(let i=0;i<miss.length;i++){
                 this.componentEntity.push(miss[i]);
+                tempZtree.push(miss[i]);
             }
 
             for(let i=0;i<correct.length;i++){
                 this.componentEntity.push(correct[i]);
+                tempZtree.push(correct[i]);
             }
 
-            console.log( this.componentEntity);
 
         };
 
@@ -1008,8 +1114,6 @@ export default {
             for(let i=0;i<zNodes.length;i++){
               if(zNodes[i].id==zTree.getSelectedNodes()[0].id){
                     for(let j=0;j<zNodes[i].children.length;j++){
-
-
 
                           for(let k=0;k<res.data.data.length;k++){
                               if(zNodes[i].children[j].id==res.data.data[k].componentId){
@@ -1049,10 +1153,21 @@ export default {
 
             $.fn.zTree.init($("#treeDemo"), setting, zNodes);
 
+            zTreeDblFlag=true;
+
 
 
 
             layer.msg("扫描结束");
+
+
+            for(let i=0;i<tempZtree.length;i++){
+              for(let j=0;j<childrenInfo.length;j++){
+                if(childrenInfo[j].id==tempZtree[i].id){
+                    childrenInfo[j]=tempZtree[i];
+                }
+              }
+            }
 
         }).catch(err => {
           console.log(err);
@@ -1072,6 +1187,19 @@ export default {
 
         if(this.getCookie('extensions')){
             document.getElementById("input-extensions").value=decodeURIComponent(this.getCookie('extensions'));
+        }
+
+        let temp=[];
+
+        for(let i=0;i<childrenInfo.length;i++){
+          if(childrenInfo[i].type==document.getElementById("input-extensions").value){
+            temp.push(childrenInfo[i]);
+          }
+        }
+
+        for(let j=0;j<temp.length;j++){
+          childrenInfo.splice(0,childrenInfo.length);
+          childrenInfo.push(temp[j]);
         }
       }
 
