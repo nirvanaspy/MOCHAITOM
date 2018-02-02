@@ -319,7 +319,7 @@
           }
         }
 
-        this.$axios.post('components', formData, {
+        this.$axios.post(this.getIP() +'components', formData, {
           config,
           auth: {
             username: 'admin',

@@ -110,7 +110,7 @@
       }
     },
     created() {
-      this.$axios.get('project/' + this.getCookie('projectId') + '/deploylog', {
+      this.$axios.get(this.getIP() +'project/' + this.getCookie('projectId') + '/deploylog', {
         //设置头
         headers: {
           'content-type': 'application/x-www-form-urlencoded'
@@ -129,7 +129,7 @@
     },
     methods: {
       handleDeploy: function (index, row) {
-        this.$axios.get("deployplan/deploy/" + row.deployPlanEntity.id + "/devices/" + row.deviceEntity.id, {
+        this.$axios.get(this.getIP() +"deployplan/deploy/" + row.deployPlanEntity.id + "/devices/" + row.deviceEntity.id, {
           //设置头
           headers: {
             'content-type': 'application/x-www-form-urlencoded'
