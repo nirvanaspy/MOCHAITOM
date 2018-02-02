@@ -201,7 +201,7 @@
       var projectId = this.getCookie('projectId');
       var username = this.getCookie('username');
       var password = this.getCookie('password');
-      this.$axios.get('project/' + projectId + '/device', {
+      this.$axios.get(this.getIP() + 'project/' + projectId + '/device', {
         //设置头
         headers: {
           'content-type': 'application/x-www-form-urlencoded'
@@ -247,6 +247,7 @@
                 password: 'admin'
               }
             }).then(res => {
+              layer.msg("删除成功");
 
               //删除完再次查询
               var projectId = this.getCookie('projectId');
