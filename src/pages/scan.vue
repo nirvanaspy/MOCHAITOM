@@ -446,6 +446,8 @@ export default {
               for(let i=0;i<zNodes.length;i++){
                     for(let j=0;j<zNodes[i].children.length;j++){
 
+                        if(zNodes[i].children.id==zTree.getSelectedNodes()[0].id){
+                          
                           for(let k=0;k<res.data.data.length;k++){
                               if(zNodes[i].children[j].id==res.data.data[k].componentId){
                                   if(res.data.data[k].hasCorrectComponentFiles==true&&res.data.data[k].hasModifyedComponentFiles==false&&res.data.data[k].hasUnknownFiles==false&&res.data.data[k].hasMissingFile==false){
@@ -476,6 +478,8 @@ export default {
 
                               }
                           }
+                        }
+
                     }
               }
 
@@ -994,10 +998,10 @@ export default {
             for(let i=0;i<zNodes.length;i++){
                     for(let j=0;j<zNodes[i].children.length;j++){
 
+                        if(zNodes[i].children.id==zTree.getSelectedNodes()[0].id){
+                          
                           for(let k=0;k<res.data.data.length;k++){
-
                               if(zNodes[i].children[j].id==res.data.data[k].componentId){
-
                                   if(res.data.data[k].hasCorrectComponentFiles==true&&res.data.data[k].hasModifyedComponentFiles==false&&res.data.data[k].hasUnknownFiles==false&&res.data.data[k].hasMissingFile==false){
                                       zNodes[i].children[j].name=zNodes[i].children[j].name+"("+"√"+")";
                                       zNodes[i].children[j].name = zNodes[i].children[j].name.replace('(', '           (');
@@ -1026,8 +1030,10 @@ export default {
 
                               }
                           }
+                        }
+
                     }
-            }
+              }
 
 
             $.fn.zTree.init($("#treeDemo"), setting, zNodes);
