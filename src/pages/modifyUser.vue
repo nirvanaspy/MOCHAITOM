@@ -1,6 +1,6 @@
 <template>
 	<div id="addUser">
-		
+
 
 
 		<div class="container-fluid">
@@ -52,7 +52,7 @@
                 users:[]
             }
         },created(){
-            this.$axios.get('users/'+this.$route.params.id,{
+            this.$axios.get(this.getIP() + 'users/'+this.$route.params.id,{
                 /*params:{  //get请求在第二个位置，post在第三个位置
                     ID:'c02da6e9-a334-4e41-b842-c59eb7d0d3f3'
                 },*/
@@ -84,7 +84,7 @@
                 let name=$("input[name='edit-name']").val();
                 let password1=$("input[name='edit-password']").val();
                 let password2=$("input[name='again-password']").val();
-     
+
 
                 if(name==""){
                     layer.msg("请输入用户名！");
@@ -96,12 +96,12 @@
                     layer.msg("两次输入密码不一致！");
                 }else{
 
-                    this.$axios.patch('users/' + userId ,qs.stringify({
+                    this.$axios.patch(this.getIP() + 'users/' + userId ,qs.stringify({
 
                     "name": $("input[name='edit-name']").val(),
                     "password": $("input[name='edit-password']").val(),
                 }),{
-                    
+
                     //设置头
                     headers:{
                         'content-type':'application/x-www-form-urlencoded'

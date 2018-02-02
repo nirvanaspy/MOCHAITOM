@@ -45,7 +45,7 @@
                                         <div class="" style="background: rgba(255, 255, 255, 0.65);height:50px;overflow-y:auto">
                                             <ul class="mini-repo-list" id="ulId" data-filterable-for="your-repos-filter" data-filterable-type="substring" style="background: rgba(255, 255, 255, 0.65);">
                                                 <li class="pubic fork" v-for="folder in folderInfo">
-                                                    <span>{{folder.name}}</span>     
+                                                    <span>{{folder.name}}</span>
                                                 </li>
                                             </ul>
                                         </div>
@@ -53,14 +53,14 @@
 
                                         <div class="upbtn">
                                             <input type='file' name="folderin" id="folderupload" webkitdirectory  @change="getFolder($event)">
-                                                
+
                                                 <button v-on:click="folderclick($event)">提交</button>
                                         </div>
 
                                         <div class="" style="background: rgba(255, 255, 255, 0.65);height:50px;overflow-y:auto">
                                             <ul class="mini-repo-list" id="ulId" data-filterable-for="your-repos-filter" data-filterable-type="substring" style="background: rgba(255, 255, 255, 0.65);">
                                                 <li class="pubic fork" v-for="file in fileInfo">
-                                                    <span>{{file.name}}</span>     
+                                                    <span>{{file.name}}</span>
                                                 </li>
                                             </ul>
                                         </div>
@@ -81,7 +81,7 @@
                                      <ul id="treeDemo" class="ztree" style=""></ul>
                                 </div>
 
-                       
+
 
                                 <div class="span7 field-box actions" style="margin-top:-1px">
                                     <button type="submit" class="btn-glow primary" @click="addComp($event)">修改</button>
@@ -138,12 +138,12 @@ export default {
                 sv1: [],
                 sv2: '',
                 fileList2:[],
-                
+
             }
         },created(){
 
-            this.$axios.get('components/'+this.$route.params.id,{
-                
+            this.$axios.get(this.getIP() + 'components/'+this.$route.params.id,{
+
                 //设置头
                 headers:{
                     'content-type':'application/x-www-form-urlencoded'
@@ -155,10 +155,10 @@ export default {
             }).then(res=>{
                 //this.components = res.data.data;
 
-                document.getElementById("add-name").value=res.data.data.name; 
-                document.getElementById("add-version").value=res.data.data.version; 
-                document.getElementById("add-deployPath").value=res.data.data.deployPath; 
-                document.getElementById("add-describle").value=res.data.data.description; 
+                document.getElementById("add-name").value=res.data.data.name;
+                document.getElementById("add-version").value=res.data.data.version;
+                document.getElementById("add-deployPath").value=res.data.data.deployPath;
+                document.getElementById("add-describle").value=res.data.data.description;
 
                 //对比时，是路径节点与根节点下的孩子节点比较
                 let componentFile=res.data.data.componentFileEntities;//组件
@@ -179,7 +179,7 @@ export default {
                    }
                 };
 
-                
+
 
                 zNodes.push(res.data.data);
 
@@ -191,7 +191,7 @@ export default {
                      let info=res.data.data.componentFileEntities[i].path.split('/');
 
                      if(info.length>2){
-                     
+
                         if(forderTemp.length>0){
                             let flag=true;
 
@@ -206,7 +206,7 @@ export default {
                                 info2.name=info[1];
                                 forderTemp.push(info2);
                             }
-                           
+
                         }else{
                             let info2={};
                             info2.name=info[1];
@@ -276,14 +276,14 @@ export default {
                     }
                 }
 
-               // tree.refresh();  
-            //tree.reAsyncChildNodes(null, "refresh"); 
+               // tree.refresh();
+            //tree.reAsyncChildNodes(null, "refresh");
 
             },
             getFolder(event) {
                 //debugger;
                 this.sv1 = event.target.files;
-          
+
                 //this.sv1 = $("input[name='file']").val();
 
                 if(this.sv1.length != 0){
@@ -311,13 +311,13 @@ export default {
                 var fieList = sv11.files;
 
                 if(fieList.length != 0){
-                    
+
                     var foldersNum = fieList.length + "个文件";
                     let foldersInfo=[];
 
                     for(let i=0;i<fieList.length;i++){
                         let path=fieList[i].webkitRelativePath.split('/');
-                        
+
                         if(foldersInfo.length>0){
                             for(let j=0;j<foldersInfo.length;j++){
 
@@ -333,7 +333,7 @@ export default {
                             let info2={};
                             info2.name=path[0];
                             foldersInfo.push(info2);
-                        } 
+                        }
                     }
 
                     console.log(foldersInfo);
@@ -343,14 +343,14 @@ export default {
                         }
                     }
 
-                    
+
                     this.folders.push(foldersNum);
                     this.allArr.push(fieList);
 
 
                     var obj = document.getElementById('folderupload') ;
                     obj.outerHTML=obj.outerHTML;
-                  
+
                 }else{
                     layer.msg("请选择文件夹");
 
@@ -383,7 +383,7 @@ export default {
 
             addComp(event) {
 
-                
+
 
                 this.name = $("input[id='add-name']").val();
                 this.version = $("input[id='add-version']").val();
@@ -417,7 +417,7 @@ export default {
                         for(var j=0;j<this.allArr[i].length;j++){
                                 formData.append('componentfile', this.allArr[i][j]);
                             }
-                        
+
                     }
 
                     console.log(formData);
@@ -433,7 +433,7 @@ export default {
                         }
                     }
 
-                    this.$axios.post('components/' + this.$route.params.id +'/update', formData, {
+                    this.$axios.post(this.getIP() + 'components/' + this.$route.params.id +'/update', formData, {
                         config,
                         auth: {
                             username: 'admin',
@@ -456,8 +456,8 @@ export default {
 
                 }
 
-                
-               
+
+
             },
 
             formReset: function(){
@@ -477,7 +477,7 @@ export default {
                             item=item.children[i];
                             flag=false;
                             return item;
-                        }        
+                        }
                     }
 
                     if(flag){
@@ -485,7 +485,7 @@ export default {
                         item=item.children[item.children.length-1];
                         return item;
                     }
-                    
+
                 }else{
                     item.children=[];
                     item.children.push({"name":path});
@@ -496,7 +496,7 @@ export default {
             },
 
         },
-        
+
 }
 
 </script>
