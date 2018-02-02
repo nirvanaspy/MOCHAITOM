@@ -93,7 +93,7 @@
                                     <li>
                                         <input type="button" class="btn-flat primary" value="删除" @click="deleteUser($event)"/>
                                     </li>
-                                          
+
                                         </ul>
                                     </td>
                                 </tr>
@@ -131,7 +131,7 @@
                 users:[]
             }
         },created(){
-            this.$axios.get('users/admin',{
+            this.$axios.get(this.getIP() + 'users/admin',{
                 /*params:{  //get请求在第二个位置，post在第三个位置
                     ID:'c02da6e9-a334-4e41-b842-c59eb7d0d3f3'
                 },*/
@@ -168,7 +168,7 @@
                         var id = document.getElementById("table_value").rows[rowIndex].cells[0].innerHTML;
                         //alert(id);
                         var qs = require('qs');
-                        this.$axios.delete('users/'+id,{
+                        this.$axios.delete(this.getIP() + 'users/'+id,{
 
                             //设置头
                             headers:{
@@ -184,7 +184,7 @@
                             var username = this.getCookie('username');
                             var password = this.getCookie('password');
 
-                            this.$axios.get('users/admin',{
+                            this.$axios.get(this.getIP() + 'users/admin',{
 
                                 //设置头
                                 headers:{

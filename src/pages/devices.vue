@@ -236,7 +236,7 @@
             var id = document.getElementById("table_value").rows[rowIndex].cells[0].innerHTML;
             //alert(id);
             var qs = require('qs');
-            this.$axios.delete('devices/' + id, {
+            this.$axios.delete(this.getIP() + 'devices/' + id, {
 
               //设置头
               headers: {
@@ -252,7 +252,7 @@
               var projectId = this.getCookie('projectId');
               var username = this.getCookie('username');
               var password = this.getCookie('password');
-              this.$axios.get('project/' + projectId + '/device', {
+              this.$axios.get(this.getIP() + 'project/' + projectId + '/device', {
                 //设置头
                 headers: {
                   'content-type': 'application/x-www-form-urlencoded'
@@ -299,7 +299,7 @@
         var password = this.getCookie('password');
 
         var qs = require('qs');
-        this.$axios.post('devices/copy/' + id,
+        this.$axios.post(this.getIP() + 'devices/copy/' + id,
           qs.stringify({
             "name": $("input[name='add-name']").val(),
 
@@ -315,7 +315,7 @@
             }
           }).then(res => {
           layer.msg("复制成功");
-          this.$axios.get('project/' + projectId + '/device', {
+          this.$axios.get(this.getIP() + 'project/' + projectId + '/device', {
             //设置头
             headers: {
               'content-type': 'application/x-www-form-urlencoded'
@@ -375,7 +375,7 @@
           let password = this.getCookie('password');
 
 
-          this.$axios.post('project/' + projectId + '/device', qs.stringify({
+          this.$axios.post(this.getIP() + 'project/' + projectId + '/device', qs.stringify({
             "name": this.devname,
             "ip": this.devip,
             "path": $("input[name='input-path']").val()
@@ -397,7 +397,7 @@
             $("#modal-select").modal('hide');
 
             //成功后重新查询
-            this.$axios.get('project/' + projectId + '/device', {
+            this.$axios.get(this.getIP() + 'project/' + projectId + '/device', {
               //设置头
               headers: {
                 'content-type': 'application/x-www-form-urlencoded'

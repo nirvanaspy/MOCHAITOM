@@ -266,7 +266,7 @@ export default {
       });
     });
 
-    this.$axios.get("project/" + projectId + "/deployplan", {
+    this.$axios.get(this.getIP() + "project/" + projectId + "/deployplan", {
         //设置头
         headers: {
           "content-type": "application/x-www-form-urlencoded"
@@ -338,7 +338,7 @@ export default {
           layer.load();
           this.$axios
             .get(
-              "deployplan/" +
+              this.getIP() + "deployplan/" +
                 "scan/" +
                 deployAllId +
                 "/devices/" +
@@ -565,7 +565,7 @@ export default {
         };
 
 
-      this.$axios.get('deployplan/' + deployplanZtreeId, {
+      this.$axios.get(this.getIP() + 'deployplan/' + deployplanZtreeId, {
         //设置头
         headers: {
           "content-type": "application/x-www-form-urlencoded"
@@ -681,8 +681,8 @@ export default {
          }
 
          console.log(zNodes);
-        
-         
+
+
           for(let j=0;j<zNodes.length;j++){
             for(let l=0;l<zNodes[j].children.length;l++){
               //对比时，是路径节点与根节点下的孩子节点比较
@@ -757,7 +757,7 @@ export default {
       if(zTree.getSelectedNodes()[0].deviceId){
           componentNodeId=zTree.getSelectedNodes()[0].id;
 
-          this.$axios.get("components/" + componentNodeId, {
+          this.$axios.get(this.getIP() + "components/" + componentNodeId, {
           headers: {
             "content-type": "application/x-www-form-urlencoded"
           },
@@ -780,7 +780,7 @@ export default {
           deviceNodeId = zTree.getSelectedNodes()[0].id;
           deployPlanId = zTree.getSelectedNodes()[0].deployPlanId;
           this.$axios
-        .get("deployplan/" + deployPlanId + "/devices/" + deviceNodeId, {
+        .get(this.getIP() + "deployplan/" + deployPlanId + "/devices/" + deviceNodeId, {
           headers: {
             "content-type": "application/x-www-form-urlencoded"
           },
@@ -858,7 +858,7 @@ export default {
         layer.load();
 
       this.$axios.get(
-          "deployplan/" +
+        this.getIP() + "deployplan/" +
             "scan/" +
             deployAllId +
             "/devices/" +
@@ -1055,7 +1055,7 @@ export default {
             document.getElementById("input-extensions").value=decodeURIComponent(this.getCookie('extensions'));
         }
       }
-      
+
     },
 
     beforeDrag: function(treeId, treeNodes) {

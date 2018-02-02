@@ -68,7 +68,7 @@ export default{
             var deviceId = this.$route.params.id;  //所选择的部署设计的id
             console.log(deviceId);
 
-            this.$axios.get('devices/' + deviceId,{
+            this.$axios.get(this.getIP() + 'devices/' + deviceId,{
                 //设置头
                 headers:{
                     'content-type':'application/x-www-form-urlencoded'
@@ -108,7 +108,7 @@ export default{
                 //debugger;
 
                 if((name.length != 0) && (ip.length != 0) && (path.length != 0)){
-                  this.$axios.patch('devices/' + deviceId ,qs.stringify({
+                  this.$axios.patch(this.getIP() + 'devices/' + deviceId ,qs.stringify({
 
                     "name": name,
                     "ip": ip,
