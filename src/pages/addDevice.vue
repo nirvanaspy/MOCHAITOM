@@ -78,7 +78,7 @@
                 var projectId = this.getCookie('projectId');
                 var username = this.getCookie('username');
                 var password = this.getCookie('password');
-                this.$axios.post('project/'+projectId+'/device',qs.stringify({
+                this.$axios.post(this.getIP() +'project/'+projectId+'/device',qs.stringify({
                     "name": $("input[name='add-name']").val(),
                     "ip": $("input[name='add-ip']").val(),
                     "path": $("input[name='add-path']").val(),

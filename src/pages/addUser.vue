@@ -72,7 +72,7 @@ export default{
                 }else if(password!==password2){
                     layer.msg("两次输入密码不一致！");
                 }else{
-                        this.$axios.post('users',qs.stringify({
+                        this.$axios.post(this.getIP() +'users',qs.stringify({
                             "username": $("input[name='add-name']").val(),
                             "password": $("input[name='add-password']").val()
                             }),{
