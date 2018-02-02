@@ -26,13 +26,17 @@ import deploy from '@/pages/deploy'
 /* eslint-disable */
 import Axios from 'axios'
 
-Axios.defaults.baseURL = 'http://192.168.0.103:8080/';  //路径提取出来，简化代码
+//Axios.defaults.baseURL = 'http://192.168.0.103:8080/';  //路径提取出来，简化代码
 
-//Axios.defaults.baseURL = 'http://' + this.getCookie('ip') + '/'
+//Axios.defaults.baseURL = 'http://';
+
 Vue.use(Router);
 Vue.prototype.$axios = Axios;
 
-
+/*Vue.prototype.getRandColor = function() {
+  var ip = this.getCookie('ip') + ":8080/";
+  return ip;
+};*/
 
 export default new Router({
 

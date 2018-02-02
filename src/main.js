@@ -6,14 +6,17 @@ import App from './App'
 //import VueDragTree from 'vue-drag-tree'
 // import TreeView from 'vue-json-tree-view'
 import router from './router'
-//import Axios from 'axios'
+import global from './components/Global1'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 
-//Vue.config.productionTip = false
-// vue.use(TreeView)v
+Vue.use(ElementUI);
+Vue.prototype.GLOBAL = global;
 
-Vue.use(ElementUI)
+Vue.prototype.getIP = function() {
+  let ip = 'http://' + this.getCookie('ip') + ":8080/";
+  return ip;
+};
 
 //设置cookie
 Vue.prototype.setCookie = (c_name, value, expiredays) => {
@@ -42,14 +45,14 @@ Vue.prototype.delCookie =(name) => {
 
 function setCookieArr(searchWord, val){
 　　
-　　var value = val; 　 
-    var arr = document.cookie.match(new RegExp('(^| )' + searchWord + '=([^;]*)(;|$)'));  
+　　var value = val; 　
+    var arr = document.cookie.match(new RegExp('(^| )' + searchWord + '=([^;]*)(;|$)'));
     var expiryday = new Date(); 　　
     expiryday.setTime(expiryday.getTime() + 60 * 60 * 24 * 30 *6 *1000);   　　
     if (arr) { 　　　　
       var cookieContext=unescape(arr[2]); 　　　　
       cookieContext+="&"+escape(value); //escape() 编码 　　　　
-      document.cookie = searchWord + '=' + escape(cookieContext) + '; expires=' + expiryday.toGMTString() + ";path=/"; 
+      document.cookie = searchWord + '=' + escape(cookieContext) + '; expires=' + expiryday.toGMTString() + ";path=/";
 　　} else { 　　　　　　
       document.cookie = searchWord + '=' + escape(value) + '; expires=' + expiryday.toGMTString() + ";path=/"; 　　　　
 
