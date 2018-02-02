@@ -158,7 +158,7 @@ export default {
                 document.getElementById("add-name").value=res.data.data.name; 
                 document.getElementById("add-version").value=res.data.data.version; 
                 document.getElementById("add-deployPath").value=res.data.data.deployPath; 
-                document.getElementById("add-describle").value=res.data.data.describle; 
+                document.getElementById("add-describle").value=res.data.data.description; 
 
                 //对比时，是路径节点与根节点下的孩子节点比较
                 let componentFile=res.data.data.componentFileEntities;//组件
@@ -408,7 +408,7 @@ export default {
                     formData.append('version', this.version);
                     formData.append('deployPath', this.deployPath);
                     //formData.append('size', this.size);
-                    formData.append('describle', this.describle);
+                    formData.append('description', this.describle);
 
                     formData.append('enctype', "multipart/form-data");
 
@@ -417,19 +417,10 @@ export default {
                         for(var j=0;j<this.allArr[i].length;j++){
                                 formData.append('componentfile', this.allArr[i][j]);
                             }
-                        /*if(Object.prototype.toString.call(this.allArr[i]) == "[object FileList]"){
-
-                            for(var j=0;j<this.allArr[i].length;j++){
-                                formData.append('componentfile', this.allArr[i][j]);
-                            }
-                        }else{
-                            formData.append('componentfile', this.allArr[i]);
-                        }*/
-
-                        //formData.append('componentfile', this.allArr[i]);
-                        //formData.append("componentfile",fileList[i]);
-
+                        
                     }
+
+                    console.log(formData);
 
                     //formData.append('componentfile', this.allArr);
                     //console.log(this.allArr.length);
@@ -437,11 +428,12 @@ export default {
 
                     let config = {
                         headers: {
-                            'Content-Type': 'multipart/form-data'
+                            //'Content-Type': 'multipart/form-data'
+                             'content-type':'application/x-www-form-urlencoded'
                         }
                     }
 
-                    this.$axios.patch('components/' + this.$route.params.id, formData, {
+                    this.$axios.post('components/' + this.$route.params.id +'/update', formData, {
                         config,
                         auth: {
                             username: 'admin',
