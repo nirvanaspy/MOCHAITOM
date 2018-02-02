@@ -16,7 +16,7 @@
                             <form class="new_user_form inline-input" />
                                 <div class="span12 field-box">
                                     <label>用户名:</label>
-                                    <input class="span9" type="text" name="edit-name" :value="users.username"/>
+                                    <input class="span9" type="text" name="edit-name" :value="users.username" disabled="disabled"/>
                                 </div>
 
                                 <div class="span12 field-box">
