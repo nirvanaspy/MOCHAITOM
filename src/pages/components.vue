@@ -160,7 +160,7 @@ export default{
         	  let username = this.getCookie('username');
             let password = this.getCookie('password');
 
-            this.$axios.get('components',{
+            this.$axios.get(this.getIP() +'components',{
 
                 //设置头
                 headers:{
@@ -200,7 +200,7 @@ export default{
 	                    var id = document.getElementById("table_value").rows[rowIndex].cells[0].innerHTML;
 	                    //alert(id);
 	                    var qs = require('qs');
-	                    this.$axios.delete('components/'+id,{
+	                    this.$axios.delete(this.getIP() +'components/'+id,{
 
 	                        //设置头
 	                        headers:{
@@ -216,7 +216,7 @@ export default{
 	                        var username = this.getCookie('username');
 				            var password = this.getCookie('password');
 
-				            this.$axios.get('components',{
+				            this.$axios.get(this.getIP() +'components',{
 
 				                //设置头
 				                headers:{
@@ -258,7 +258,7 @@ export default{
                     var id = document.getElementById("table_value").rows[rowIndex].cells[0].innerHTML;
                    // alert(id);
                     var qs = require('qs');
-                    this.$axios.get('components/export/'+id,{
+                    this.$axios.get(this.getIP() +'components/export/'+id,{
 
                         //设置头
                         headers:{
@@ -298,7 +298,7 @@ export default{
                 var password = this.getCookie('password');
 
                 var qs = require('qs');
-                this.$axios.post('components/copy/'+id,
+                this.$axios.post(this.getIP() +'components/copy/'+id,
                 qs.stringify({
                     "name": $("input[name='add-name']").val(),
 
@@ -316,7 +316,7 @@ export default{
                     }
                 }).then(res=>{
                     alert("复制成功");
-                    this.$axios.get('components',{
+                    this.$axios.get(this.getIP() +'components',{
 
 		                //设置头
 		                headers:{
