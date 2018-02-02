@@ -48,7 +48,7 @@
     methods: {
       login: function() {
 
-        alert(this.getIP());
+        //alert(this.getIP());
 
         //debugger;
         var username = $("input#username").val();
@@ -76,7 +76,7 @@
         }else{
           this.setCookie('ip', ip, expireDays);
         }
-alert(this.getIP());
+//alert(this.getIP());
         this.$axios.post(this.getIP() + "users/login",{},
           {
             auth: {
