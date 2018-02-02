@@ -39,20 +39,33 @@
 
 
       return {
-        info:{},
+        info:{}
+
       };
+    },created(){
+
     },
     methods: {
       login: function() {
+
+        alert(this.getIP());
+
         //debugger;
         var username = $("input#username").val();
         var password = $("input#password").val();
         var ip = $("input#ip").val();
+
+        let expireDays = 1000 * 60 * 60 * 24 * 15;
+
         if (username.length == 0 || password.length == 0) {
           //alert("请输入正确的用户名或密码。");
           layer.msg('请输入正确的用户名或密码！');
           return;
+        }else{
+          this.setCookie('username', username, expireDays);
+          this.setCookie('password', password, expireDays);
         }
+
         //ip地址
         var exp=/^(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/;
         var reg = ip.match(exp);
@@ -60,9 +73,11 @@
           //alert("IP地址不合法！");
           layer.msg('IP地址不合法！');
           return;
+        }else{
+          this.setCookie('ip', ip, expireDays);
         }
-
-        this.$axios.post("users/login",{},
+alert(this.getIP());
+        this.$axios.post(this.getIP() + "users/login",{},
           {
             auth: {
               username: username,
@@ -73,7 +88,7 @@
           .then(response => {
           this.$router.replace({ path: "/selectProject" });
         //将用户名、密码的值存入cookie中
-        let expireDays = 1000 * 60 * 60 * 24 * 15;
+
         this.setCookie('username', username, expireDays);
         this.setCookie('password', password, expireDays);
         this.setCookie('ip', ip, expireDays);
