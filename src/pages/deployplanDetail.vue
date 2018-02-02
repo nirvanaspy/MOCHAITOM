@@ -108,7 +108,7 @@ export default{
         var username = this.getCookie('username');
         var password = this.getCookie('password');
         //alert(deployplanId);
-        this.$axios.get('deployplan/' + deployplanId,{
+        this.$axios.get(this.getIP() +'deployplan/' + deployplanId,{
             //设置头
             headers:{
                 'content-type':'application/x-www-form-urlencoded'

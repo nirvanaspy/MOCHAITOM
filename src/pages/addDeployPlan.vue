@@ -61,7 +61,7 @@ let projectId = "2ec24245-0f8d-4db5-9d9b-1726ed727057";*/
                 var projectId = this.getCookie('projectId');
                 var username = this.getCookie('username');
                 var password = this.getCookie('password');
-                this.$axios.post('project/'+projectId+'/deployplan',qs.stringify({
+                this.$axios.post(this.getIP() +'project/'+projectId+'/deployplan',qs.stringify({
                     "name": $("input[name='add-name']").val(),
                     "description": $("input[name='add-des']").val()
                 }),{

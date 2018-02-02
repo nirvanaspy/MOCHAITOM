@@ -300,7 +300,7 @@
 
       var compArr = [];
       //获取设备
-      this.$axios.get('project/' + projectId + '/device', {
+      this.$axios.get(this.getIP() +'project/' + projectId + '/device', {
         //设置头
         headers: {
           'content-type': 'application/x-www-form-urlencoded'
@@ -317,7 +317,7 @@
         });
 
       //获取组件
-      this.$axios.get('components', {
+      this.$axios.get(this.getIP() +'components', {
         //设置头
         headers: {
           'content-type': 'application/x-www-form-urlencoded'
@@ -341,7 +341,7 @@
 
 
       //获取部署设计的相关信息
-      this.$axios.get('project/' + projectId + '/deployplan', {
+      this.$axios.get(this.getIP() +'project/' + projectId + '/deployplan', {
         //设置头
         headers: {
           'content-type': 'application/x-www-form-urlencoded'
@@ -410,7 +410,7 @@
         //alert(compId);
         console.log(deployPlanId);
 
-        this.$axios.get('deployplan/' + deployPlanId + '/devices/' + this.deviceCHId, {
+        this.$axios.get(this.getIP() +'deployplan/' + deployPlanId + '/devices/' + this.deviceCHId, {
           //设置头
           headers: {
             'content-type': 'application/x-www-form-urlencoded'
@@ -631,7 +631,7 @@
                   flagDel = true;
                   let msg = "您确定删除吗？";
                   if (confirm(msg) == true) {
-                    this.$axios.delete('deployplan/deployplandetails/' + this.devicecomps[i].id,
+                    this.$axios.delete(this.getIP() +'deployplan/deployplandetails/' + this.devicecomps[i].id,
                       {
                         //设置头
                         headers: {
@@ -700,7 +700,7 @@
           formData.append('deviceIds', this.diveceIdPass);
           formData.append('componentIds', this.compsIdPass);
 
-          this.$axios.post('deployplan/' + deployPlanId + "/deployplandetails", formData,
+          this.$axios.post(this.getIP() +'deployplan/' + deployPlanId + "/deployplandetails", formData,
 
             {
 
