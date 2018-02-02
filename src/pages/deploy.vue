@@ -73,7 +73,7 @@
             </el-table-column>
             <el-table-column
               prop="size"
-              label="大小">
+              label="大小(MB)">
             </el-table-column>
             <el-table-column
               label="发送进度" >
@@ -121,6 +121,9 @@
         }
       }).then(res => {
         this.deploylogs = res.data.data;
+        for (let j = 0; j < this.deploylogs.length; j++) {
+          this.deploylogs[j].size = ((this.deploylogs[j].size) / 1024 / 1024).toFixed(5);
+        }
         console.log(this.deployplans);
       })
         .catch(err => {
@@ -129,6 +132,7 @@
     },
     methods: {
       handleDeploy: function (index, row) {
+        //debugger;
         layer.load();
         this.$axios.get(this.getIP() +"deployplan/deploy/" + row.deployPlanEntity.id + "/devices/" + row.deviceEntity.id, {
           //设置头

@@ -49,7 +49,7 @@
                       </li>
                   </ul> -->
                   <!-- 列表1  文件夹 -->
-                  <div id="todo-list-example" class="addli">
+                  <div id="todo-list-example" class="addli" style="height:50px;">
                     <ul class="addul">
                       <li v-for="(folder, index) in folders" :key="index">
                         {{folder}}
@@ -66,7 +66,7 @@
                   </div>
 
                   <!-- 列表2 文件 -->
-                  <div id="todo-list-example" class="addli">
+                  <div id="todo-list-example" class="addli" style="height:50px;">
                     <ul class="addul">
                       <li v-for="(file, index) in files" :key="index">
                         {{file}}
@@ -97,7 +97,7 @@
     </div>
 
 
-    <hr/>
+<!--    <hr/>
     <div>
       {{folders}}
     </div>
@@ -108,7 +108,7 @@
     <hr/>
     <div>
       {{allArr}}
-    </div>
+    </div>-->
   </div>
 </template>
 
@@ -337,7 +337,8 @@
             this.$router.replace({path: '/components'})
           }).catch(err => {
             layer.closeAll('loading');
-            alert("添加失败！");
+            layer.msg("添加失败！");
+
 
           })
         }

@@ -316,7 +316,7 @@ export default{
                         password: password
                     }
                 }).then(res=>{
-                    alert("复制成功");
+                    layer.msg("复制成功");
                     this.$axios.get(this.getIP() +'components',{
 
 		                //设置头
@@ -336,7 +336,7 @@ export default{
                 })
                 .catch(err=>{
 
-                    alert("复制失败！");
+                  layer.msg("复制失败！");
                 })
             }
         },
