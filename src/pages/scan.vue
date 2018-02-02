@@ -298,7 +298,10 @@ export default {
 
       scanQuick(event) {
 
-          layer.load();
+          for(let k=0;k<this.componentEntity.length;k++){
+            if(this.componentEntity[k].type==document.getElementById("input-extensions").value){
+
+               layer.load();
 
           let extensions=document.getElementById("input-extensions").value;
           //let path=document.getElementById("input-path").value;
@@ -447,7 +450,7 @@ export default {
                     for(let j=0;j<zNodes[i].children.length;j++){
 
                         if(zNodes[i].children.id==zTree.getSelectedNodes()[0].id){
-                          
+
                           for(let k=0;k<res.data.data.length;k++){
                               if(zNodes[i].children[j].id==res.data.data[k].componentId){
                                   if(res.data.data[k].hasCorrectComponentFiles==true&&res.data.data[k].hasModifyedComponentFiles==false&&res.data.data[k].hasUnknownFiles==false&&res.data.data[k].hasMissingFile==false){
@@ -487,6 +490,7 @@ export default {
 
 
               layer.closeAll('loading');
+              layer.msg("扫描结束");
 
             }).catch(err => {
               console.log(err);
@@ -495,8 +499,10 @@ export default {
               layer.msg("快速扫描异常");
 
             });
-
-
+            }else{
+              layer.msg("后缀名文件不存在！");
+            }
+          }
       },
 
 
@@ -1041,6 +1047,7 @@ export default {
 
 
             layer.closeAll('loading');
+            layer.msg("扫描结束");
 
         }).catch(err => {
           console.log(err);
@@ -1057,6 +1064,7 @@ export default {
         layer.msg("设备离线！");
       }else{
         $("#modal-select").modal('show');
+
         if(this.getCookie('extensions')){
             document.getElementById("input-extensions").value=decodeURIComponent(this.getCookie('extensions'));
         }
