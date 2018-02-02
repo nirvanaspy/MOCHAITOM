@@ -179,7 +179,7 @@
                                 password: 'admin'
                             }
                         }).then(res=>{
-                            alert("删除成功");
+                            layer.msg("删除成功");
 
                             var username = this.getCookie('username');
                             var password = this.getCookie('password');
