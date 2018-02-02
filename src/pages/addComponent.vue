@@ -280,63 +280,67 @@
 
       addComp(event) {
         // alert("A");
-        layer.load();
-        event.preventDefault();
-        let formData = new FormData();
-
-        // alert("hh");
-
         this.name = $("input[name='add-name']").val();
         this.version = $("input[name='add-version']").val();
         this.describle = $("input[name='add-describle']").val();
         this.deployPath = $("input[name='add-deployPath']").val();
 
-        //alert(this.name);
+        if(this.name.length==0){
+          layer.msg("请输入组件名！");
+        }else if(this.version.length==0){
+          layer.msg("请输入版本！");
+        }else if(this.deployPath.length==0){
+          layer.msg("请输入路径！");
+        }else {
+          layer.load();
+          event.preventDefault();
+          let formData = new FormData();
 
-        formData.append('name', this.name);
-        formData.append('version', this.version);
-        formData.append('deployPath', this.deployPath);
-        //formData.append('size', this.size);
-        formData.append('description', this.describle);
+          formData.append('name', this.name);
+          formData.append('version', this.version);
+          formData.append('deployPath', this.deployPath);
+          //formData.append('size', this.size);
+          formData.append('description', this.describle);
 
-        formData.append('enctype', "multipart/form-data");
+          formData.append('enctype', "multipart/form-data");
 
-        for (var i = 0; i < this.allArr.length; i++) {
-          //判断数组里是文件夹还是文件
-          for (var j = 0; j < this.allArr[i].length; j++) {
-            formData.append('componentfile', this.allArr[i][j]);
+          for (var i = 0; i < this.allArr.length; i++) {
+            //判断数组里是文件夹还是文件
+            for (var j = 0; j < this.allArr[i].length; j++) {
+              formData.append('componentfile', this.allArr[i][j]);
+            }
+
           }
 
+          //formData.append('componentfile', this.allArr);
+          console.log(this.allArr.length);
+          console.log(this.allArr);
+
+          let config = {
+            headers: {
+              'Content-Type': 'multipart/form-data'
+            }
+          }
+
+          this.$axios.post(this.getIP() + 'components', formData, {
+            config,
+            auth: {
+              username: 'admin',
+              password: 'admin'
+            }
+          }).then(res => {
+            //this.users = res.data.data
+            //console.log(res);
+            //alert("添加成功");
+            layer.closeAll('loading');
+
+            this.$router.replace({path: '/components'})
+          }).catch(err => {
+            layer.closeAll('loading');
+            alert("添加失败！");
+
+          })
         }
-
-        //formData.append('componentfile', this.allArr);
-        console.log(this.allArr.length);
-        console.log(this.allArr);
-
-        let config = {
-          headers: {
-            'Content-Type': 'multipart/form-data'
-          }
-        }
-
-        this.$axios.post(this.getIP() +'components', formData, {
-          config,
-          auth: {
-            username: 'admin',
-            password: 'admin'
-          }
-        }).then(res => {
-          //this.users = res.data.data
-          //console.log(res);
-          //alert("添加成功");
-          layer.closeAll('loading');
-
-          this.$router.replace({path: '/components'})
-        }).catch(err => {
-          layer.closeAll('loading');
-          alert("添加失败！");
-
-        })
       },
 
       formReset: function () {

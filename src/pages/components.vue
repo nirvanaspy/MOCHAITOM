@@ -211,7 +211,7 @@ export default{
 	                            password: 'admin'
 	                        }
 	                    }).then(res=>{
-	                    	alert("删除成功");
+	                    	layer.msg("删除成功");
 
 	                        var username = this.getCookie('username');
 				            var password = this.getCookie('password');
@@ -233,7 +233,7 @@ export default{
 				                console.log(err);
 				            })
 	                    }).catch(err=>{
-	                        alert("删除失败！");
+                        layer.msg("删除失败！");
 	                    })
 	                }
 
@@ -271,9 +271,10 @@ export default{
                     }).then(res=>{
                         //this.users = res.data.data
                         //console.log(res);
+                        layer.msg("导出成功！");
                         this.$router.replace({ path: '/components'})
                     }).catch(err=>{
-                        alert("导出失败！");
+                        layer.msg("导出失败！");
                     })
                 }
 

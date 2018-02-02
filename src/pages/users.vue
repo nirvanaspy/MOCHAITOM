@@ -6,7 +6,7 @@
                 <div class="row-fluid header">
                     <h3>用户</h3>
                     <div class="span10 pull-right">
-                        <input type="text" class="span5 search" placeholder="Type a user's name..." />
+                        <input type="text" class="span5 search" placeholder="搜索用户..." />
 
 
                         <div class="ui-dropdown">
@@ -179,7 +179,7 @@
                                 password: 'admin'
                             }
                         }).then(res=>{
-                            alert("删除成功");
+                            layer.msg("删除成功");
 
                             var username = this.getCookie('username');
                             var password = this.getCookie('password');

@@ -1,6 +1,6 @@
 <template>
     <div id="addUser">
-        
+
 
 
         <div class="container-fluid">
@@ -82,7 +82,7 @@ let projectId = "2ec24245-0f8d-4db5-9d9b-1726ed727057";*/
                     this.$router.replace({ path: '/deployplan'})
                 })
                     .catch(err=>{
-                        alert("请重新输入名称！");
+                      layer.msg("请重新输入名称！");
                     })
             },
 

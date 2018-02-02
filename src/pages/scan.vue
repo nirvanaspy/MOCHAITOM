@@ -447,9 +447,10 @@ export default {
               };
 
               for(let i=0;i<zNodes.length;i++){
+                if(zNodes[i].id==zTree.getSelectedNodes()[0].id){
                     for(let j=0;j<zNodes[i].children.length;j++){
 
-                        if(zNodes[i].children.id==zTree.getSelectedNodes()[0].id){
+
 
                           for(let k=0;k<res.data.data.length;k++){
                               if(zNodes[i].children[j].id==res.data.data[k].componentId){
@@ -501,6 +502,7 @@ export default {
             });
             }else{
               layer.msg("后缀名文件不存在！");
+              $("#modal-select").modal('hide');
             }
           }
       },
@@ -885,6 +887,8 @@ export default {
           }).then(res => {
           this.scanDevice = res.data.data;
 
+        layer.closeAll('loading');
+
            for(let i=0;i<zNodes.length;i++){
               for(let j=0;j<zNodes[i].children.length;j++){
                   var regex=/\(/g;
@@ -1002,10 +1006,11 @@ export default {
 
 
             for(let i=0;i<zNodes.length;i++){
+              if(zNodes[i].id==zTree.getSelectedNodes()[0].id){
                     for(let j=0;j<zNodes[i].children.length;j++){
 
-                        if(zNodes[i].children.id==zTree.getSelectedNodes()[0].id){
-                          
+
+
                           for(let k=0;k<res.data.data.length;k++){
                               if(zNodes[i].children[j].id==res.data.data[k].componentId){
                                   if(res.data.data[k].hasCorrectComponentFiles==true&&res.data.data[k].hasModifyedComponentFiles==false&&res.data.data[k].hasUnknownFiles==false&&res.data.data[k].hasMissingFile==false){
@@ -1046,7 +1051,7 @@ export default {
 
 
 
-            layer.closeAll('loading');
+
             layer.msg("扫描结束");
 
         }).catch(err => {

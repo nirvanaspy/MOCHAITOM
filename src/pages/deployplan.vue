@@ -207,6 +207,8 @@ export default{
                             }
                         }).then(res=>{
 
+                            layer.msg("删除成功！");
+
                             //删除完再次查询
                             var projectId = this.getCookie('projectId');
                             var username = this.getCookie('username');
@@ -230,7 +232,7 @@ export default{
                             })
 
                         }).catch(err=>{
-                            alert("删除失败！");
+                          layer.msg("删除失败！");
                         })
                     }
 
