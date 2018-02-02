@@ -129,6 +129,7 @@
     },
     methods: {
       handleDeploy: function (index, row) {
+        layer.load();
         this.$axios.get(this.getIP() +"deployplan/deploy/" + row.deployPlanEntity.id + "/devices/" + row.deviceEntity.id, {
           //设置头
           headers: {
@@ -144,12 +145,14 @@
             message: '这是一条成功的提示消息',
             type: 'success'
           });
+          layer.closeAll('loading');
         })
           .catch(err => {
             this.$notify.error({
               title: '部署错误',
               message: '这是一条错误的提示消息'
             });
+            layer.closeAll('loading');
           })
       }
     }
