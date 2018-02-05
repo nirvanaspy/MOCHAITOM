@@ -55,13 +55,18 @@
 
             }
         },
+        created() {
+
+          $("body").css("background-image", "url('img/bgs/10.jpg')");
+
+        },
         methods: {
             addProject: function (){
                 var qs = require('qs');
                 var projectId = this.getCookie('projectId');
                 var username = this.getCookie('username');
                 var password = this.getCookie('password');
-                this.$axios.post(this.getIP() +'project/',qs.stringify({
+                this.$axios.post(this.getIP() +'projects',qs.stringify({
                     "name": $("input[name='add-name']").val(),
                     "description": $("input[name='add-des']").val()
                 }),{
@@ -71,8 +76,8 @@
                         'content-type':'application/x-www-form-urlencoded'
                     },
                     auth: {
-                        username: 'admin',
-                        password: 'admin'
+                        username: username,
+                        password: password
                     }
                 }).then(res=>{
                     layer.msg('添加成功！');
