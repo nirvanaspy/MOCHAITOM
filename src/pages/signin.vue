@@ -77,7 +77,7 @@
           this.setCookie('ip', ip, expireDays);
         }
 //alert(this.getIP());
-        this.$axios.post(this.getIP() + "users/login",{},
+        this.$axios.get(this.getIP() + "users/login",
           {
             auth: {
               username: username,
