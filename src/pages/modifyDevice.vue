@@ -82,7 +82,7 @@ export default{
 
                 document.getElementById("edit-name").value = res.data.data.name;
                 document.getElementById("edit-ip").value = res.data.data.ip;
-                document.getElementById("edit-path").value = res.data.data.path;
+                document.getElementById("edit-path").value = res.data.data.deployPath;
                 document.getElementById("edit-des").value = res.data.data.description;
             })
             .catch(err=>{
@@ -112,7 +112,7 @@ export default{
 
                     "name": name,
                     "ip": ip,
-                    "path": path,
+                    "deployPath": path,
                     "description": description
                   }),{
 
