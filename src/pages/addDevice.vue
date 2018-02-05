@@ -98,10 +98,10 @@
 
           formData.append('name', this.name);
           formData.append('ip', this.ip);
-          formData.append('path', this.path);
+          formData.append('deployPath', this.path);
           formData.append('description', this.description);
 
-          this.$axios.post(this.getIP() + 'project/' + projectId + '/device', formData, {
+          this.$axios.post(this.getIP() + 'projects/' + projectId + '/devices', formData, {
 
             //设置头
             headers: {
