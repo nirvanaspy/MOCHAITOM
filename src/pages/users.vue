@@ -182,7 +182,7 @@
                             var username = this.getCookie('username');
                             var password = this.getCookie('password');
 
-                            this.$axios.get(this.getIP() + 'users/admin',{
+                            this.$axios.get(this.getIP() + 'users',{
 
                                 //设置头
                                 headers:{
