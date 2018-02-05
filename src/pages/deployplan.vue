@@ -6,7 +6,7 @@
                 <div class="row-fluid header">
                     <h3>部署设计</h3>
                     <div class="span10 pull-right">
-                        <input type="text" class="span5 search" placeholder="Type a user's name..." />
+                        <input type="text" class="span5 search" placeholder="部署设计名称..." />
 
 
                         <div class="ui-dropdown">
@@ -156,7 +156,7 @@ export default{
         var username = this.getCookie('username');
         var password = this.getCookie('password');
 
-        this.$axios.get(this.getIP() +'project/'+projectId+'/deployplan',{
+        this.$axios.get(this.getIP() +'projects/'+projectId+'/deploymentdesigns',{
             //设置头
             headers:{
                 'content-type':'application/x-www-form-urlencoded'
