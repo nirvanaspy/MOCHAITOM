@@ -307,7 +307,7 @@
           for (var i = 0; i < this.allArr.length; i++) {
             //判断数组里是文件夹还是文件
             for (var j = 0; j < this.allArr[i].length; j++) {
-              formData.append('componentfile', this.allArr[i][j]);
+              formData.append('componentfiles', this.allArr[i][j]);
             }
 
           }
