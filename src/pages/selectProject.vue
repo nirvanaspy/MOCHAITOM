@@ -177,7 +177,7 @@
       var projectId = this.getCookie('projectId');
       var username = this.getCookie('username');
       var password = this.getCookie('password');
-      this.$axios.get(this.getIP() + 'project/', {
+      this.$axios.get(this.getIP() + 'projects', {
         //设置头
         headers: {
           'content-type': 'application/x-www-form-urlencoded'
