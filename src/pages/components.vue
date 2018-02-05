@@ -160,8 +160,13 @@ export default{
         	  let username = this.getCookie('username');
             let password = this.getCookie('password');
 
-            this.$axios.get(this.getIP() +'components',{
+            var qs = require('qs');
+            this.$axios.get(this.getIP() +'components',
 
+              {
+                params:{  //get请求在第二个位置，post在第三个位置
+                  isShowHistory:true
+                },
                 //设置头
                 headers:{
                     'content-type':'application/x-www-form-urlencoded'
