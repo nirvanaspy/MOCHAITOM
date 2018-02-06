@@ -92,7 +92,7 @@
                      style="margin-top: 40px;text-align: center;">
 
                   <div>
-                    <img src="img/files.png" style="height: 90px;"/>
+                    <img src="../../img/files.png" style="height: 90px;"/>
                   </div>
 
                   <!-- <br/> -->
@@ -320,7 +320,7 @@
       //获取组件
       this.$axios.get(this.getIP() +'components', {
         params:{  //get请求在第二个位置，post在第三个位置
-          isShowHistory:true
+          isShowHistory:false
         },
         //设置头
         headers: {
@@ -635,7 +635,7 @@
                   flagDel = true;
                   let msg = "您确定删除吗？";
                   if (confirm(msg) == true) {
-                    this.$axios.delete(this.getIP() +'deployplan/deployplandetails/' + this.devicecomps[i].id,
+                    this.$axios.delete(this.getIP() +'deploymentdesigns/deploymentdesigndetails/' + this.devicecomps[i].id,
                       {
                         //设置头
                         headers: {
