@@ -265,7 +265,7 @@ export default{
                     var id = document.getElementById("table_value").rows[rowIndex].cells[0].innerHTML;
                    // alert(id);
                     var qs = require('qs');
-                    this.$axios.get(this.getIP() +'components/export/'+id,{
+                    this.$axios.get(this.getIP() +'components/'+id+'/export',{
 
                         //设置头
                         headers:{
