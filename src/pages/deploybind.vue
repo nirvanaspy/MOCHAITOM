@@ -635,7 +635,7 @@
                   flagDel = true;
                   let msg = "您确定删除吗？";
                   if (confirm(msg) == true) {
-                    this.$axios.delete(this.getIP() +'deployplan/deployplandetails/' + this.devicecomps[i].id,
+                    this.$axios.delete(this.getIP() +'deploymentdesigns/deploymentdesigndetails/' + this.devicecomps[i].id,
                       {
                         //设置头
                         headers: {
