@@ -376,10 +376,10 @@
           let password = this.getCookie('password');
 
 
-          this.$axios.post(this.getIP() + 'project/' + projectId + '/device', qs.stringify({
+          this.$axios.post(this.getIP() + 'projects/' + projectId + '/devices', qs.stringify({
             "name": this.devname,
             "ip": this.devip,
-            "path": $("input[name='input-path']").val()
+            "deployPath": $("input[name='input-path']").val()
           }), {
 
             //设置头
@@ -398,7 +398,7 @@
             $("#modal-select").modal('hide');
 
             //成功后重新查询
-            this.$axios.get(this.getIP() + 'project/' + projectId + '/device', {
+            this.$axios.get(this.getIP() + 'projects/' + projectId + '/devices', {
               //设置头
               headers: {
                 'content-type': 'application/x-www-form-urlencoded'
