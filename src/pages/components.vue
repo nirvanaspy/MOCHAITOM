@@ -165,7 +165,7 @@ export default{
 
               {
                 params:{  //get请求在第二个位置，post在第三个位置
-                  isShowHistory:true
+                  isShowHistory:false
                 },
                 //设置头
                 headers:{
@@ -218,25 +218,27 @@ export default{
 	                    }).then(res=>{
 	                    	layer.msg("删除成功");
 
-	                        var username = this.getCookie('username');
-				            var password = this.getCookie('password');
+                        var username = this.getCookie('username');
+                        var password = this.getCookie('password');
 
-				            this.$axios.get(this.getIP() +'components',{
-
-				                //设置头
-				                headers:{
-				                    'content-type':'application/x-www-form-urlencoded'
-				                },
-				                auth: {
-				                    username: username,
-				                    password: password
-				                }
-				            }).then(res=>{
-				                this.components = res.data.data
-				            })
-				            .catch(err=>{
-				                console.log(err);
-				            })
+                        this.$axios.get(this.getIP() +'components',{
+                            params:{  //get请求在第二个位置，post在第三个位置
+                              isShowHistory:false
+                            },
+                            //设置头
+                            headers:{
+                                'content-type':'application/x-www-form-urlencoded'
+                            },
+                            auth: {
+                                username: username,
+                                password: password
+                            }
+                        }).then(res=>{
+                            this.components = res.data.data
+                        })
+                        .catch(err=>{
+                            console.log(err);
+                        })
 	                    }).catch(err=>{
                         layer.msg("删除失败！");
 	                    })
@@ -263,7 +265,7 @@ export default{
                     var id = document.getElementById("table_value").rows[rowIndex].cells[0].innerHTML;
                    // alert(id);
                     var qs = require('qs');
-                    this.$axios.get(this.getIP() +'components/export/'+id,{
+                    this.$axios.get(this.getIP() +'components/'+id+'/export',{
 
                         //设置头
                         headers:{
@@ -304,7 +306,7 @@ export default{
                 var password = this.getCookie('password');
 
                 var qs = require('qs');
-                this.$axios.post(this.getIP() +'components/copy/'+id,
+                this.$axios.post(this.getIP() +'components/'+id+'/copy',
                 qs.stringify({
                     "name": $("input[name='add-name']").val(),
 
@@ -323,6 +325,9 @@ export default{
                 }).then(res=>{
                     layer.msg("复制成功");
                     this.$axios.get(this.getIP() +'components',{
+                      params:{  //get请求在第二个位置，post在第三个位置
+                        isShowHistory:false
+                      },
 
 		                //设置头
 		                headers:{
