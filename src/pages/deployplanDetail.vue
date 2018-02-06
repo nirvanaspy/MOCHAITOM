@@ -82,10 +82,10 @@
                 <!-- end users table -->
             </div>
         </div>
-        <!--<hr/>
+        <hr/>
         <div>
             {{deployPlanDetailEntities}}
-        </div>-->
+        </div>
     </div>
 </template>
 
@@ -108,7 +108,8 @@ export default{
         var username = this.getCookie('username');
         var password = this.getCookie('password');
         //alert(deployplanId);
-        this.$axios.get(this.getIP() +'deployplan/' + deployplanId,{
+
+        this.$axios.get(this.getIP() +'deploymentdesigns/' + deployplanId + '/deploymentdesigndetails',{
             //设置头
             headers:{
                 'content-type':'application/x-www-form-urlencoded'
@@ -119,7 +120,7 @@ export default{
             }
         }).then(res=>{
             this.deployplanDetails = res.data.data;
-            this.deployPlanDetailEntities = res.data.data.deployPlanDetailEntities;
+            this.deployPlanDetailEntities = res.data.data;
             console.log(this.deployplanDetails);
             //alert(this.deployPlanDetailEntities.length);
         })

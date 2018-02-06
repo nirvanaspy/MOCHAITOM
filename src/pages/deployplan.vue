@@ -195,7 +195,7 @@ export default{
                         var id = document.getElementById("table_value").rows[rowIndex].cells[0].innerHTML;
                         //alert(id);
                         var qs = require('qs');
-                        this.$axios.delete(this.getIP() +'deployplan/'+id,{
+                        this.$axios.delete(this.getIP() +'deploymentdesigns/'+id,{
 
                             //设置头
                             headers:{
@@ -214,7 +214,7 @@ export default{
                             var username = this.getCookie('username');
                             var password = this.getCookie('password');
 
-                            this.$axios.get(this.getIP() +'project/'+projectId+'/deployplan',{
+                            this.$axios.get(this.getIP() +'projects/'+projectId+'/deploymentdesigns',{
                                 //设置头
                                 headers:{
                                     'content-type':'application/x-www-form-urlencoded'

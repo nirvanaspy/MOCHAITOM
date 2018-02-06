@@ -37,7 +37,7 @@
                 <div class="row-fluid table devcompchose">
 
                   <div class="devcompfind">
-                    <input class="search" type="text" placeholder="设备名称.." style="width: 90%;" v-model="searchQuery"/>
+                    <input class="search" type="text" placeholder="设备名称.." style="width: 90%;" v-model="searchQueryDev"/>
                   </div>
 
                   <br/>
@@ -112,7 +112,7 @@
 
                 <div class="row-fluid table devcompchose">
                   <div class="devcompfind">
-                    <input class="search" type="text" placeholder="组件名称.." style="width: 90%;" v-model="searchQuery"/>
+                    <input class="search" type="text" placeholder="组件名称.." style="width: 90%;" v-model="searchQueryComp"/>
                   </div>
 
                   <br/>
@@ -252,7 +252,8 @@
       return {
         selected: '',
         selectedDev: '',
-        searchQuery: '',
+        searchQueryDev: '',   //设备搜索框
+        searchQueryComp: '',  //组件搜索框
         devices: [],          //左侧表格查询出来的设备的信息
         comps: [],            //左侧表格查询出来的组件的信息
         comps1: [],
@@ -300,7 +301,7 @@
 
       var compArr = [];
       //获取设备
-      this.$axios.get(this.getIP() +'project/' + projectId + '/device', {
+      this.$axios.get(this.getIP() + 'projects/' + projectId + '/devices', {
         //设置头
         headers: {
           'content-type': 'application/x-www-form-urlencoded'
@@ -318,6 +319,9 @@
 
       //获取组件
       this.$axios.get(this.getIP() +'components', {
+        params:{  //get请求在第二个位置，post在第三个位置
+          isShowHistory:true
+        },
         //设置头
         headers: {
           'content-type': 'application/x-www-form-urlencoded'
@@ -341,7 +345,7 @@
 
 
       //获取部署设计的相关信息
-      this.$axios.get(this.getIP() +'project/' + projectId + '/deployplan', {
+      this.$axios.get(this.getIP() +'projects/'+projectId+'/deploymentdesigns', {
         //设置头
         headers: {
           'content-type': 'application/x-www-form-urlencoded'
@@ -410,7 +414,7 @@
         //alert(compId);
         console.log(deployPlanId);
 
-        this.$axios.get(this.getIP() +'deployplan/' + deployPlanId + '/devices/' + this.deviceCHId, {
+        this.$axios.get(this.getIP() +'deploymentdesigns/' + deployPlanId + '/deploymentdesigndetails/devices/' + this.deviceCHId, {
           //设置头
           headers: {
             'content-type': 'application/x-www-form-urlencoded'
@@ -700,7 +704,7 @@
           formData.append('deviceIds', this.diveceIdPass);
           formData.append('componentIds', this.compsIdPass);
 
-          this.$axios.post(this.getIP() +'deployplan/' + deployPlanId + "/deployplandetails", formData,
+          this.$axios.post(this.getIP() +'deploymentdesigns/' + deployPlanId + "/deploymentdesigndetails", formData,
 
             {
 
@@ -934,15 +938,15 @@
     },
     computed: {
       devicesA: function () {
-        var self = this;
+        let self = this;
         return self.devices.filter(function (item) {
-          return item.name.toLowerCase().indexOf(self.searchQuery.toLowerCase()) !== -1;
+          return item.name.toLowerCase().indexOf(self.searchQueryDev.toLowerCase()) !== -1;
         })
       },
       compsA: function () {
-        var self = this;
+        let self = this;
         return self.comps.filter(function (item) {
-          return item.name.toLowerCase().indexOf(self.searchQuery.toLowerCase()) !== -1;
+          return item.name.toLowerCase().indexOf(self.searchQueryComp.toLowerCase()) !== -1;
         })
       }
     }
