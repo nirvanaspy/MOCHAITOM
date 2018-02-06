@@ -304,7 +304,7 @@ export default{
                 var password = this.getCookie('password');
 
                 var qs = require('qs');
-                this.$axios.post(this.getIP() +'components/copy/'+id,
+                this.$axios.post(this.getIP() +'components/'+id+'/copy',
                 qs.stringify({
                     "name": $("input[name='add-name']").val(),
 
@@ -323,6 +323,9 @@ export default{
                 }).then(res=>{
                     layer.msg("复制成功");
                     this.$axios.get(this.getIP() +'components',{
+                      params:{  //get请求在第二个位置，post在第三个位置
+                        isShowHistory:true
+                      },
 
 		                //设置头
 		                headers:{
