@@ -82,10 +82,10 @@
                 <!-- end users table -->
             </div>
         </div>
-        <hr/>
+        <!--<hr/>
         <div>
             {{deployPlanDetailEntities}}
-        </div>
+        </div>-->
     </div>
 </template>
 
