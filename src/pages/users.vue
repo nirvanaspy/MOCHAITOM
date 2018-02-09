@@ -6,44 +6,7 @@
                 <div class="row-fluid header">
                     <h3>用户</h3>
                     <div class="span10 pull-right">
-                        <input type="text" class="span5 search" placeholder="搜索用户..." />
-
-
-                        <div class="ui-dropdown">
-                            <div class="head" data-toggle="tooltip" title="Click me!">
-                                Filter users
-                                <i class="arrow-down"></i>
-                            </div>
-                            <div class="dialog">
-                                <div class="pointer">
-                                    <div class="arrow"></div>
-                                    <div class="arrow_border"></div>
-                                </div>
-                                <div class="body">
-                                    <p class="title">
-                                        Show users where:
-                                    </p>
-                                    <div class="form">
-                                        <select>
-                                            <option />Name
-                                            <option />Email
-                                            <option />Number of orders
-                                            <option />Signed up
-                                            <option />Last seen
-                                        </select>
-                                        <select>
-                                            <option />is equal to
-                                            <option />is not equal to
-                                            <option />is greater than
-                                            <option />starts with
-                                            <option />contains
-                                        </select>
-                                        <input type="text" />
-                                        <a class="btn-flat small">Add filter</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                      <input class="search" type="text" placeholder="用户名.." v-model="searchQuery"/>
 
                         <router-link to="/addUser" class="btn-flat success pull-right">
                             <span>&#43;</span>
@@ -74,7 +37,7 @@
                         </thead>
                         <tbody>
                         <!-- row -->
-                        <tr class="first" v-for="(user,index) in users" :id="user.id">
+                        <tr class="first" v-for="(user,index) in usersA" :id="user.id">
                                     <td style="display:none">{{user.id}}</td>
                                     <td>
                                         {{user.username}}
@@ -128,7 +91,8 @@
         /* eslint-disable */
         data(){
             return{
-                users:[]
+                users:[],
+                searchQuery: ''
             }
         },created(){
             this.$axios.get(this.getIP() + 'users',{
@@ -209,6 +173,15 @@
 
             },
 
+        },
+        computed: {
+          usersA: function () {
+            let self = this;
+            return self.users.filter(function (item) {
+              return item.username.toLowerCase().indexOf(self.searchQuery.toLowerCase()) !== -1;
+            })
+
+          }
         }
     }
 </script>
