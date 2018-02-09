@@ -6,10 +6,9 @@
         <div class="row-fluid header">
           <h3>设备</h3>
           <div class="span10 pull-right">
-            <input class="search" type="text" placeholder="搜索设备.." v-model="searchQuery"/>
+            <input class="search" type="text" placeholder="设备名称.." v-model="searchQuery"/>
 
-
-            <div class="ui-dropdown">
+            <!--<div class="ui-dropdown">
               <div class="head" data-toggle="tooltip" title="Click me!">
                 Filter devices
                 <i class="arrow-down"></i>
@@ -53,7 +52,7 @@
                   </div>
                 </div>
               </div>
-            </div>
+            </div>-->
 
             <router-link to="/addDevice" class="btn-flat success pull-right">
               <span>&#43;</span>
@@ -426,7 +425,7 @@
     },
     computed: {
       devicesA: function () {
-        var self = this;
+        let self = this;
         return self.devices.filter(function (item) {
           return item.name.toLowerCase().indexOf(self.searchQuery.toLowerCase()) !== -1;
         })
