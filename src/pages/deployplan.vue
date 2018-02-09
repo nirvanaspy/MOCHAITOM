@@ -6,8 +6,7 @@
                 <div class="row-fluid header">
                     <h3>部署设计</h3>
                     <div class="span10 pull-right">
-                        <input type="text" class="span5 search" placeholder="部署设计名称..." />
-
+                        <input class="search" type="text" placeholder="部署设计名称.." v-model="searchQuery"/>
 
                         <div class="ui-dropdown">
                             <div class="head" data-toggle="tooltip" title="Click me!">
@@ -77,7 +76,7 @@
                         </thead>
                         <tbody>
                         <!-- row -->
-                        <tr class="first" v-for="(deployplan,index) in deployplans" :key="index">
+                        <tr class="first" v-for="(deployplan,index) in deployplansA" :key="index">
                             <td style="display:none">{{deployplan.id}}</td>
                             <td>
                                 {{deployplan.name}}
@@ -141,14 +140,13 @@
 
 <script>
 /* eslint-disable */
-/*let projectId = "5a922835-a587-4dad-b3b7-bb5005ef4c99";*/
-/*let projectId = "2ec24245-0f8d-4db5-9d9b-1726ed727057";*/
 
 export default{
 
     data(){
         return{
-            deployplans:[]
+            deployplans:[],
+            searchQuery: ''
         }
     },
     created(){
@@ -243,6 +241,15 @@ export default{
 
 
             },
+    },
+    computed: {
+      deployplansA: function () {
+        let self = this;
+        return self.deployplans.filter(function (item) {
+          return item.name.toLowerCase().indexOf(self.searchQuery.toLowerCase()) !== -1;
+        })
+
+      }
     }
 }
 </script>
