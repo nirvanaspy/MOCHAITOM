@@ -365,7 +365,6 @@
   }
 
   .addli {
-
     max-height: 90px;
     overflow: auto;
   }
