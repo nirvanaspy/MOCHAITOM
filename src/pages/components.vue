@@ -6,10 +6,10 @@
 				<div class="row-fluid header">
 					<h3>组件</h3>
 					<div class="span10 pull-right">
-						<input class="search" type="text" placeholder="搜索组件.."  v-model="searchQuery"/>
+						<input class="search" type="text" placeholder="组件名称.."  v-model="searchQuery"/>
 
 
-						<div class="ui-dropdown">
+						<!--<div class="ui-dropdown">
 							<div class="head" data-toggle="tooltip" title="Click me!">
 								Filter components
 								<i class="arrow-down"></i>
@@ -43,7 +43,7 @@
 									</div>
 								</div>
 							</div>
-						</div>
+						</div>-->
 
 						<router-link to="/addComponent" class="btn-flat success pull-right">
 							<span>&#43;</span>
