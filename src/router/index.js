@@ -22,6 +22,9 @@ import selectProject from '@/pages/selectProject'
 import addProject from '@/pages/addProject'
 import scan from '@/pages/scan'
 import deploy from '@/pages/deploy'
+import newdeploy from '@/pages/newdeploy'
+import baseline from '@/pages/baseline'
+import addBaseline from '@/pages/addBaseline'
 
 /* eslint-disable */
 import Axios from 'axios'
@@ -154,6 +157,21 @@ export default new Router({
                     name: 'deploy',
                     component: deploy
                 },
+                {
+                  path: '/newdeploy',
+                  name: 'newdeploy',
+                  component: newdeploy
+                },
+                {
+                  path: '/baseline',
+                  name: 'baseline',
+                  component: baseline
+                },
+              {
+                path: '/addBaseline',
+                name: 'addBaseline',
+                component: addBaseline
+              }
             ]
         }
 
