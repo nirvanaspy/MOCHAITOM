@@ -173,25 +173,25 @@
 
                     <tr class="first"  style="cursor: pointer;" v-for="(component,index) in compsA"  :id="component.id">
                       <td style="display:none">{{component.id}}</td>
-                      <div @click="compClick($event)"  :id="component.id">
-                        <td class="wrap" style="width: 80px;">
+                      <!--<div @click="compClick($event)"  :id="component.id">-->
+                        <td class="wrap" @click="compClick($event)"  :id="component.id" style="width: 80px;">
                           <div class="wrap"  :id="component.id" :title="component.name" style="width: 80px;">
                             <i class="icon-folder-close-alt"></i>&nbsp;
                             {{component.name}}
                           </div>
 
                         </td>
-                        <td>
+                        <td @click="compClick($event)"  :id="component.id">
                           <div  :id="component.id">
                             {{component.size}}
                           </div>
                         </td>
-                        <td>
+                        <td @click="compClick($event)"  :id="component.id">
                           <div  :id="component.id">
                             {{component.version}}
                           </div>
                         </td>
-                      </div>
+                      <!--</div>-->
 
                       <td>
                         <div class="btn-group small" style="margin-right: 3px">
