@@ -167,11 +167,11 @@ export default new Router({
                   name: 'baseline',
                   component: baseline
                 },
-              {
-                path: '/addBaseline',
-                name: 'addBaseline',
-                component: addBaseline
-              }
+                {
+                  path: '/addBaseline',
+                  name: 'addBaseline',
+                  component: addBaseline
+                }
             ]
         }
 
