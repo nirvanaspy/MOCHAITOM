@@ -23,8 +23,8 @@ import addProject from '@/pages/addProject'
 import scan from '@/pages/scan'
 import deploy from '@/pages/deploy'
 import newdeploy from '@/pages/newdeploy'
-import baseline from '@/pages/baseline'
-import addBaseline from '@/pages/addBaseline'
+import softpackage from '@/pages/softpackage'
+import addSoftpackage from '@/pages/addSoftpackage'
 
 /* eslint-disable */
 import Axios from 'axios'
@@ -163,14 +163,14 @@ export default new Router({
                   component: newdeploy
                 },
                 {
-                  path: '/baseline',
-                  name: 'baseline',
-                  component: baseline
+                  path: '/softpackage',
+                  name: 'softpackage',
+                  component: softpackage
                 },
                 {
-                  path: '/addBaseline',
-                  name: 'addBaseline',
-                  component: addBaseline
+                  path: '/addSoftpackage',
+                  name: 'addSoftpackage',
+                  component: addSoftpackage
                 }
             ]
         }

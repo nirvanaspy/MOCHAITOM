@@ -94,9 +94,9 @@
         </li>
 
         <li>
-          <router-link to="/baseline">
+          <router-link to="/softpackage">
             <i class="icon-tasks"></i>
-            <span>基线</span>
+            <span>软件包</span>
           </router-link>
         </li>
 
