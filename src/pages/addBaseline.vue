@@ -12,28 +12,28 @@
           <!-- left column -->
           <div class="span10 with-sidebar">
             <div class="container">
-              <form id="myForm">
-              <div class="span12 field-box">
-                <label>名称:</label>
-                <input class="span9" type="text" name="add-name"/>
-                <span class="muststar">*</span>
-              </div>
+              <form class="new_user_form inline-input" id="myForm"/>
+                <div class="span12 field-box">
+                  <label>名称:</label>
+                  <input class="span9" type="text" name="add-name"/>
+                  <span class="muststar">*</span>
+                </div>
 
-              <div class="span12 field-box">
-                <label>版本:</label>
-                <input class="span9" type="text" name="add-ip"/>
-                <span class="muststar">*</span>
+                <div class="span12 field-box">
+                  <label>版本:</label>
+                  <input class="span9" type="text" name="add-version"/>
+                  <span class="muststar">*</span>
 
-              </div>
+                </div>
 
-              <div class="span12 field-box">
-                <label>描述:</label>
+                <div class="span12 field-box">
+                  <label>描述:</label>
 
-                <input class="span9" type="text" name="add-des"/>
+                  <input class="span9" type="text" name="add-des"/>
 
-              </div>
+                </div>
 
-              <div class="span12 field-box">
+                <div class="span12 field-box">
                   <label>选择组件:</label>
 
                   <div class="span9 selcomps" style="margin-left: 0;">
@@ -66,7 +66,7 @@
                           <tr class="first" v-for="(component,index) in components" :id="component.id">
                             <td style="display:none">{{component.id}}</td>
                             <td>
-                              <input type="checkbox" />
+                              <input type="checkbox" name="choosecomp" :id="component.id"/>
                               {{component.name}}
                             </td>
                             <td>
@@ -91,13 +91,13 @@
                   </div>
 
 
-              </div>
+                </div>
 
-              <div class="span7 field-box actions" style="margin-top: 10px;">
-                <button type="submit" class="btn-glow primary">新增</button>
-                <button type="submit" class="btn-glow primary">取消</button>
+                <div class="span7 field-box actions" style="margin-top: 10px;">
+                  <button type="submit" class="btn-glow primary" @click="addBaseline">新增</button>
+                  <button type="submit" class="btn-glow primary" @click="formReset">取消</button>
 
-              </div>
+                </div>
 
               </form>
             </div>
@@ -116,7 +116,11 @@
   export default {
     data() {
       return {
-        components:[]
+        components:[],
+        name: '',
+        version: '',
+        description: '',
+        chboxValue: []   //选中的组件
       }
     },created(){
       let username = this.getCookie('username');
@@ -149,6 +153,74 @@
 
     },
     methods: {
+      addBaseline: function () {
+
+        //debugger;
+        this.name = $("input[name='add-name']").val();
+        this.version = $("input[name='add-version']").val();
+        this.description = $("input[name='add-des']").val();
+
+        let SelectFalse = false; //用于判断是否被选择条件
+
+        let CheckBox = $("input[name = 'choosecomp']");//得到所有的复选框
+
+
+        for(let i = 0; i < CheckBox.length; i++){
+          if(CheckBox[i].checked)//如果有1个被选中时
+          {
+            SelectFalse = true;
+            this.chboxValue.push(CheckBox[i].id)//将被选择的值追加到
+          }
+
+        }
+
+        console.log("下拉框-----------");
+        console.log(this.chboxValue);
+
+        if(this.name.length==0){
+          layer.msg("请输入名称！");
+        }else if(this.version.length==0){
+          layer.msg("请输入版本号！");
+        }else if(!SelectFalse){
+          layer.msg("请至少选择一个组件！");
+        }else {
+          let username = this.getCookie('username');
+          let password = this.getCookie('password');
+          let qs = require('qs');
+
+          let formData = new FormData();
+
+          formData.append('name', this.name);
+          formData.append('version', this.version);
+          formData.append('description', this.description);
+          formData.append('componentIds', this.chboxValue);
+
+          this.$axios.post(this.getIP() + 'componentpackages', formData, {
+
+            //设置头
+            headers: {
+              'content-type': 'application/x-www-form-urlencoded'
+            },
+            auth: {
+              username: username,
+              password: password
+            }
+          }).then(res => {
+
+            layer.msg('添加成功！');
+            this.$router.replace({path: '/baseline'})
+          }).catch(err => {
+            layer.msg('添加失败！');
+          })
+
+        }
+      },
+
+      formReset: function () {
+        console.log(document.getElementById("myForm"));
+        $("input").val('');
+        /*document.getElementById("myForm").reset()*/
+      }
 
     }
   }
