@@ -105,8 +105,12 @@
                                          <input type="button" class="btn-flat primary" value="修改"/>
                                         </router-link>
                                     </li>
-                                    <li class="last">
+                                    <li>
                                         <input type="button" class="btn-flat primary" value="删除" @click="deleteDeploy($event)"/>
+                                    </li>
+                                    <li class="last">
+                                      <!--<input type="button" class="btn-flat primary" value="基线" @click="makeBaseline($event)"/>-->
+                                      <input type="button" class="btn-flat info" data-toggle="modal" value="基线" @click="makeBaseline($event)"/>
                                     </li>
                                 </ul>
                             </td>
@@ -129,6 +133,33 @@
                     </ul>
                 </div>
                 <!-- end users table -->
+
+              <div class="modal fade" id="modal-name">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="formReset">
+                        <span aria-hidden="true">&times;</span></button>
+                      <h4 class="modal-title">请填写基线名称：</h4>
+                    </div>
+                    <div class="modal-body">
+                      <!-- form start -->
+                      <form class="form-horizontal"/>
+                        <div style="margin-top: 23px;margin-left: 30px;">
+                          <span>名称:</span>
+                          <input type="text" id="input-name" name='input-name' style="height:20px">
+                        </div>
+
+                        <div class="pull-right" style="margin-left: 148px;margin-top: 22px;">
+                          <button type="submit" class="btn-glow flat" @click="makeBaseline2">确认</button>
+                          <button type="submit" class="btn-glow flat" @click="formReset">取消</button>
+                        </div>
+                      </form>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
         </div>
         <!-- <hr/>
@@ -146,7 +177,8 @@ export default{
     data(){
         return{
             deployplans:[],
-            searchQuery: ''
+            searchQuery: '',
+            depid: ''          //所选择的部署设计的id
         }
     },
     created(){
@@ -174,73 +206,132 @@ export default{
     },
     methods: {
         deleteDeploy: function (event){
-                //alert("A");
-                var e = event || window.event;
-                //alert("B");
-                var target = e.target || e.srcElement;
+              //alert("A");
+              var e = event || window.event;
+              //alert("B");
+              var target = e.target || e.srcElement;
 
-                var comptrInfo = target.parentNode.parentNode.parentNode;
+              var comptrInfo = target.parentNode.parentNode.parentNode;
 
-                var id = comptrInfo.id;
+              var id = comptrInfo.id;
 
-                var msg = "您确定删除吗？";
-                if (confirm(msg) == true) {
+              var msg = "您确定删除吗？";
+              if (confirm(msg) == true) {
 
-                    if (target.parentNode.parentNode.parentNode.tagName.toLowerCase() == "td") {
-                        //alert("C");
-                        var rowIndex = target.parentNode.parentNode.parentNode.parentNode.rowIndex;
-                        //alert(rowIndex);
-                        var id = document.getElementById("table_value").rows[rowIndex].cells[0].innerHTML;
-                        //alert(id);
-                        var qs = require('qs');
-                        this.$axios.delete(this.getIP() +'deploymentdesigns/'+id,{
+                  if (target.parentNode.parentNode.parentNode.tagName.toLowerCase() == "td") {
+                      //alert("C");
+                      var rowIndex = target.parentNode.parentNode.parentNode.parentNode.rowIndex;
+                      //alert(rowIndex);
+                      var id = document.getElementById("table_value").rows[rowIndex].cells[0].innerHTML;
+                      //alert(id);
+                      var qs = require('qs');
+                      this.$axios.delete(this.getIP() +'deploymentdesigns/'+id,{
 
-                            //设置头
-                            headers:{
-                                'content-type':'application/x-www-form-urlencoded'
-                            },
-                            auth: {
-                                username: 'admin',
-                                password: 'admin'
-                            }
-                        }).then(res=>{
+                          //设置头
+                          headers:{
+                              'content-type':'application/x-www-form-urlencoded'
+                          },
+                          auth: {
+                              username: 'admin',
+                              password: 'admin'
+                          }
+                      }).then(res=>{
 
-                            layer.msg("删除成功！");
+                          layer.msg("删除成功！");
 
-                            //删除完再次查询
-                            var projectId = this.getCookie('projectId');
-                            var username = this.getCookie('username');
-                            var password = this.getCookie('password');
+                          //删除完再次查询
+                          var projectId = this.getCookie('projectId');
+                          var username = this.getCookie('username');
+                          var password = this.getCookie('password');
 
-                            this.$axios.get(this.getIP() +'projects/'+projectId+'/deploymentdesigns',{
-                                //设置头
-                                headers:{
-                                    'content-type':'application/x-www-form-urlencoded'
-                                },
-                                auth: {
-                                    username: username,
-                                    password: password
-                                }
-                            }).then(res=>{
-                                this.deployplans = res.data.data;
-                                console.log(this.deployplans);
-                            })
-                            .catch(err=>{
-                                console.log(err);
-                            })
+                          this.$axios.get(this.getIP() +'projects/'+projectId+'/deploymentdesigns',{
+                              //设置头
+                              headers:{
+                                  'content-type':'application/x-www-form-urlencoded'
+                              },
+                              auth: {
+                                  username: username,
+                                  password: password
+                              }
+                          }).then(res=>{
+                              this.deployplans = res.data.data;
+                              console.log(this.deployplans);
+                          })
+                          .catch(err=>{
+                              console.log(err);
+                          })
 
-                        }).catch(err=>{
-                          layer.msg("删除失败！");
-                        })
-                    }
+                      }).catch(err=>{
+                        layer.msg("删除失败！");
+                      })
+                  }
 
-                } else {
-                    return false;
-                }
-
+              } else {
+                  return false;
+              }
 
 
             },
+
+        makeBaseline: function (event) {
+          let e = event || window.event;
+
+          let target = e.target || e.srcElement;
+
+          if (target.parentNode.parentNode.parentNode.tagName.toLowerCase() == "td") {
+            //alert("C");
+            let rowIndex = target.parentNode.parentNode.parentNode.parentNode.rowIndex;
+            //alert(rowIndex);
+            this.depid = document.getElementById("table_value").rows[rowIndex].cells[0].innerHTML;
+            //alert(id);
+
+          }
+          $("#modal-name").modal('show');
+
+        },
+
+        makeBaseline2: function (){
+
+          /*let msg = "您确定建立基线吗？";
+          if (confirm(msg) == true) {*/
+
+            let qs = require('qs');
+
+            this.$axios.post(this.getIP() +'deploymentdesigns/'+this.depid+'/deploymentdesignsnapshots',qs.stringify({
+              "name": $("input[name='input-name']").val()
+            }),{
+
+              //设置头
+              headers:{
+                'content-type':'application/x-www-form-urlencoded'
+              },
+              auth: {
+                username: 'admin',
+                password: 'admin'
+              }
+            }).then(res=>{
+
+              layer.msg("基线建立成功！");
+              $("#modal-name").modal('hide');
+
+              this.$router.replace({path: '/baseline'})
+
+            }).catch(err=>{
+              layer.msg("基线建立失败！");
+              $("#modal-name").modal('hide');
+            })
+
+          /*} else {
+            return false;
+          }*/
+
+        },
+
+        formReset: function () {
+          $("#input-name").val('');
+          $("#modal-name").modal('hide');
+        }
+
     },
     computed: {
       deployplansA: function () {
