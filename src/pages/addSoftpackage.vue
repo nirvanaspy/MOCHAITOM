@@ -5,7 +5,7 @@
     <div class="container-fluid">
       <div id="pad-wrapper" class="new-user">
         <div class="row-fluid header">
-          <h3>新增基线</h3>
+          <h3>新增软件包</h3>
         </div>
 
         <div class="row-fluid form-wrapper">

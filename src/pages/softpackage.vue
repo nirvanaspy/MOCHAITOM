@@ -4,11 +4,11 @@
     <div class="container-fluid">
       <div id="pad-wrapper" class="users-list">
         <div class="row-fluid header">
-          <h3>基线</h3>
+          <h3>软件包</h3>
           <div class="span10 pull-right">
-            <input class="search" type="text" placeholder="搜索基线.." v-model="searchQuery"/>
+            <input class="search" type="text" placeholder="搜索软件包.." v-model="searchQuery"/>
 
-            <router-link to="/addBaseline" class="btn-flat success pull-right">
+            <router-link to="/addSoftpackage" class="btn-flat success pull-right">
               <span>&#43;</span>
               新增
             </router-link>
