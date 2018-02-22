@@ -8,11 +8,6 @@
           <div class="span10 pull-right">
             <input class="search" type="text" placeholder="搜索基线.." v-model="searchQuery"/>
 
-            <router-link to="/addBaseline" class="btn-flat success pull-right">
-              <span>&#43;</span>
-              新增
-            </router-link>
-
           </div>
         </div>
 
@@ -75,10 +70,10 @@
     </div>
 
 
-    <hr/>
+    <!--<hr/>
     <div>
       {{snapshots}}
-    </div>
+    </div>-->
 
   </div>
 </template>
