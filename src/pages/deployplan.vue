@@ -101,7 +101,7 @@
                     <div class="modal-header">
                       <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="formReset">
                         <span aria-hidden="true">&times;</span></button>
-                      <h4 class="modal-title">请填写基线名称：</h4>
+                      <h4 class="modal-title">请填写基线信息：</h4>
                     </div>
                     <div class="modal-body">
                       <!-- form start -->
@@ -109,6 +109,11 @@
                         <div style="margin-top: 23px;margin-left: 30px;">
                           <span>名称:</span>
                           <input type="text" id="input-name" name='input-name' style="height:20px">
+                        </div>
+
+                        <div style="margin-top: 23px;margin-left: 30px;">
+                          <span>路径:</span>
+                          <input type="text" id="input-path" name='input-path' style="height:20px">
                         </div>
 
                         <div class="pull-right" style="margin-left: 148px;margin-top: 22px;">
@@ -139,7 +144,9 @@ export default{
         return{
             deployplans:[],
             searchQuery: '',
-            depid: ''          //所选择的部署设计的id
+            depid: '',          //所选择的部署设计的id
+            name: '',           //基线名称
+            path: ''            //基线路径
         }
     },
     created(){
@@ -258,29 +265,43 @@ export default{
 
             let qs = require('qs');
 
-            this.$axios.post(this.getIP() +'deploymentdesigns/'+this.depid+'/deploymentdesignsnapshots',qs.stringify({
-              "name": $("input[name='input-name']").val()
-            }),{
+            this.name = $("input[name='input-name']").val();
+            this.path = $("input[name='input-path']").val();
 
-              //设置头
-              headers:{
-                'content-type':'application/x-www-form-urlencoded'
-              },
-              auth: {
-                username: 'admin',
-                password: 'admin'
-              }
-            }).then(res=>{
+            if(this.name.length==0){
+              layer.msg("请输入设备名！");
+            }else if(this.path.length==0){
+              layer.msg("请输入路径！");
+            }else {
 
-              layer.msg("基线建立成功！");
-              $("#modal-name").modal('hide');
+              this.$axios.post(this.getIP() +'deploymentdesigns/'+this.depid+'/deploymentdesignsnapshots',qs.stringify({
+                "name": this.name,
+                "path": this.path
+              }),{
 
-              this.$router.replace({path: '/baseline'})
+                //设置头
+                headers:{
+                  'content-type':'application/x-www-form-urlencoded'
+                },
+                auth: {
+                  username: 'admin',
+                  password: 'admin'
+                }
+              }).then(res=>{
 
-            }).catch(err=>{
-              layer.msg("基线建立失败！");
-              $("#modal-name").modal('hide');
-            })
+                layer.msg("基线建立成功！");
+                $("#modal-name").modal('hide');
+
+                this.$router.replace({path: '/baseline'})
+
+              }).catch(err=>{
+                layer.msg("基线建立失败，请检查名称是否重复！");
+                $("#modal-name").modal('hide');
+              })
+
+            }
+
+
 
           /*} else {
             return false;
