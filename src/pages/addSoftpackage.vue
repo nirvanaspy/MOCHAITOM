@@ -208,7 +208,7 @@
           }).then(res => {
 
             layer.msg('添加成功！');
-            this.$router.replace({path: '/baseline'})
+            this.$router.replace({path: '/softpackage'})
           }).catch(err => {
             layer.msg('添加失败！');
           })
