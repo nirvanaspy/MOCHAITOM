@@ -8,20 +8,11 @@
                     <div class="span10 pull-right">
                         <input class="search" type="text" placeholder="搜索设备.." v-model="searchQuery"/>
 
-                        <router-link to="/addDeployPlan" class="btn-flat success pull-right">
-                            <span>&#43;</span>
-                            新增
-                        </router-link>
-                        <!-- <router-link to="/xy1">
-                            <i class="icon-home"></i>
-                            <span>XY1</span>
-                        </router-link> -->
                     </div>
                 </div>
 
                 <!-- Users table -->
                 <div class="row-fluid table">
-                    <!-- <input class="search" type="text" placeholder="搜索设备.." v-model="searchQuery"/> -->
                     <table class="table table-hover" id="table_value">
                         <thead>
                         <tr>
