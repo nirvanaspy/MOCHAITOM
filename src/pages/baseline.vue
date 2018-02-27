@@ -39,8 +39,12 @@
               </td>
               <td>
                 <ul class="ulactions">
-                  <li class="last">
+                  <li>
                     <input type="button" class="btn-flat primary" value="删除" @click="deleteBaseline($event)"/>
+                  </li>
+
+                  <li class="last">
+                    <input type="button" class="btn-flat primary" value="部署" @click="deployBaseline($event)"/>
                   </li>
 
                 </ul>
@@ -166,6 +170,50 @@
 
       },
 
+      deployBaseline: function (event) {
+        //alert("A");
+        let e = event || window.event;
+        //alert("B");
+        let target = e.target || e.srcElement;
+
+        let msg = "您确定部署吗？";
+        if (confirm(msg) == true) {
+
+          if (target.parentNode.parentNode.parentNode.tagName.toLowerCase() == "td") {
+            //alert("C");
+            let rowIndex = target.parentNode.parentNode.parentNode.parentNode.rowIndex;
+            //alert(rowIndex);
+            let id = document.getElementById("table_value").rows[rowIndex].cells[0].innerHTML;
+            //alert(id);
+            let qs = require('qs');
+
+            this.$axios.put(this.getIP() + 'deploymentdesignsnapshots/' + id + '/deploy',
+              qs.stringify({
+
+              }),{
+
+                //设置头
+                headers: {
+                  'content-type': 'application/x-www-form-urlencoded'
+                },
+                auth: {
+                  username: 'admin',
+                  password: 'admin'
+                }
+              }).then(res => {
+              layer.msg("部署成功");
+
+            }).catch(err => {
+              layer.msg("部署失败！");
+            })
+          }
+
+        } else {
+          return false;
+        }
+
+
+      }
 
     },
     computed: {
