@@ -74,6 +74,12 @@
               </td>
               <td>
                 <ul class="ulactions">
+                  <li>
+                    <router-link :to='{name:"modifySoftpackage",params:{id:baseline.id}}'>
+                      <input type="button" class="btn-flat primary" value="修改"/>
+                    </router-link>
+                  </li>
+
                   <li class="last">
                     <input type="button" class="btn-flat primary" value="删除" @click="deleteBaseline($event)"/>
                   </li>
