@@ -52,7 +52,7 @@
 
 
                                         <div class="upbtn">
-                                            <input type='file' name="folderin" id="folderupload" webkitdirectory  @change="getFolder($event)">
+                                            <input type='file' id="folderupload" webkitdirectory  @change="getFolder($event)">
 
                                                 <button v-on:click="folderclick($event)">提交</button>
                                         </div>
@@ -67,7 +67,7 @@
 
 
                                         <div class="upbtn">
-                                                <input type='file' name="filein" id="fileupload"  @change="getFile($event)">
+                                                <input type='file' id="fileupload"  @change="getFile($event)">
                                                 <button v-on:click="fileclick($event)">提交</button>
                                         </div>
 
@@ -161,7 +161,7 @@ export default {
                 document.getElementById("add-describle").value=res.data.data.description;
 
                 //对比时，是路径节点与根节点下的孩子节点比较
-                let componentFile=res.data.data.componentFileEntities;//组件
+                let componentFile = res.data.data.componentDetailEntities;//组件
 
 
                 let zNodes=[];
@@ -187,8 +187,8 @@ export default {
 
                 let forderTemp=[];
 
-                for(let i=0;i<res.data.data.componentFileEntities.length;i++){
-                     let info=res.data.data.componentFileEntities[i].path.split('/');
+                for(let i=0;i<res.data.data.componentDetailEntities.length;i++){
+                     let info=res.data.data.componentDetailEntities[i].path.split('/');
 
                      if(info.length>2){
 
@@ -214,7 +214,7 @@ export default {
                         }
 
                      }else{
-                        this.fileInfo.push(res.data.data.componentFileEntities[i]);
+                        this.fileInfo.push(res.data.data.componentDetailEntities[i]);
                      }
                 }
 
@@ -415,7 +415,7 @@ export default {
                     for(var i=0;i<this.allArr.length;i++){
                         //判断数组里是文件夹还是文件
                         for(var j=0;j<this.allArr[i].length;j++){
-                                formData.append('componentfile', this.allArr[i][j]);
+                                formData.append('componentfiles', this.allArr[i][j]);
                             }
 
                     }
