@@ -13,12 +13,12 @@
                   <input id ="username" class="span12" type="text" placeholder="用户名" />
                   <input id ="password" class="span12" type="password" placeholder="密码"/>
                   <input id ="ip" class="span12" type="text" placeholder="请输入IP" :value="info.ip" />
-                  <a href="#" class="forgot">忘记密码?</a>
+                  <!--<a href="#" class="forgot">忘记密码?</a>
                   <div class="remember">
                       <input id="remember-me" type="checkbox" />
                       <label for="remember-me">记住我</label>
-                  </div>
-          <button class="btn-glow primary" style="width: 100px;" v-on:click="login">登录</button>
+                  </div>-->
+          <button class="btn-glow primary" style="width: 100px;margin-top: 30px;" v-on:click="login">登录</button>
               </div>
           </div>
 
