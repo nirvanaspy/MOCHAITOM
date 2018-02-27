@@ -483,7 +483,7 @@
     li {
     display: list-item;
     text-align: -webkit-match-parent;
-    line-height: 30px;
+    line-height: 20px;
     }
     .mini-repo-list-item .repo {
     font-weight: 600;
