@@ -5,81 +5,62 @@
       <div id="pad-wrapper" class="users-list">
         <div class="row-fluid header">
           <h3>部署</h3>
+
           <div class="span10 pull-right">
-            <input class="search" type="text" placeholder="搜索部署信息.." v-model="searchQuery"/>
-            <div class="ui-dropdown">
-              <div class="head" data-toggle="tooltip" title="Click me!">
-                Filter devices
-                <i class="arrow-down"></i>
-              </div>
-              <div class="dialog">
-                <div class="pointer">
-                  <div class="arrow"></div>
-                  <div class="arrow_border"></div>
-                </div>
-                <div class="body">
-                  <p class="title">
-                    Show users where:
-                  </p>
-                  <div class="form">
-                    <select>
-                      <option/>
-                      Name
-                      <option/>
-                      Email
-                      <option/>
-                      Number of orders
-                      <option/>
-                      Signed up
-                      <option/>
-                      Last seen
-                    </select>
-                    <select>
-                      <option/>
-                      is equal to
-                      <option/>
-                      is not equal to
-                      <option/>
-                      is greater than
-                      <option/>
-                      starts with
-                      <option/>
-                      contains
-                    </select>
-                    <input type="text"/>
-                    <a class="btn-flat small">Add filter</a>
-                  </div>
-                </div>
-              </div>
-            </div>
+
+            <select v-model="selected" style="height: 26px;width: 233px; margin-top: 5px; margin-left: 7px;"
+                    @change="changeDeployPlan">
+              <!-- v-model="selected" -->
+              <option v-for="deployplan in deployplanInfos" v-bind:value="deployplan.id">
+                {{ deployplan.name }}
+              </option>
+            </select>
+
           </div>
         </div>
 
         <!-- Users table -->
         <div class="row-fluid table tabletable">
           <el-table
-            :data="deploylogs"
+            :data="devices"
             style="width: 100%">
             <el-table-column
               type="selection">
             </el-table-column>
             <el-table-column
-              prop="deviceEntity.name"
+              prop="name"
               label="设备名称">
             </el-table-column>
             <el-table-column
-              prop="deviceEntity.ip"
-              label="设备地址">
+              prop="ip"
+              label="IP">
             </el-table-column>
             <el-table-column
-              prop="size"
-              label="大小(MB)">
+              prop="deployPath"
+              label="路径">
             </el-table-column>
+
+            <el-table-column
+              prop="online"
+              label="状态"
+
+              :filters="[{ text: '离线', value: '离线' }, { text: '在线', value: '在线' }]"
+              :filter-method="filterTag"
+              filter-placement="bottom-end">
+              <template slot-scope="scope">
+                <el-tag
+                  :type="scope.row.online === 'false' ? 'primary' : 'success'"
+                  close-transition>{{scope.row.online}}</el-tag>
+              </template>
+
+
+            </el-table-column>
+
             <el-table-column
               label="发送进度" >
               <template slot-scope="scope">
                 <el-progress :text-inside="true" :stroke-width="18"
-                             :percentage="(scope.row.finishedNums/scope.row.fileNums )*100"/>
+                             :percentage="scope.row.progress"></el-progress>
               </template>
             </el-table-column>
             <el-table-column label="操作">
@@ -106,58 +87,139 @@
   export default {
     data() {
       return {
-        deploylogs: []
+        devices: [],
+
+        selected: "",
+        deployplanId: '',    //所选择的部署设计的id
+        deployplanInfos: []
       }
     },
     created() {
-      this.$axios.get(this.getIP() +'project/' + this.getCookie('projectId') + '/deploylog', {
+      let projectId = this.getCookie('projectId');
+      let username = this.getCookie('username');
+      let password = this.getCookie('password');
+
+      this.$axios.get(this.getIP() + 'projects/' + projectId + '/devices', {
         //设置头
         headers: {
           'content-type': 'application/x-www-form-urlencoded'
         },
         auth: {
-          username: this.getCookie('username'),
-          password: this.getCookie('password')
+          username: username,
+          password: password
         }
       }).then(res => {
-        this.deploylogs = res.data.data;
-        for (let j = 0; j < this.deploylogs.length; j++) {
-          this.deploylogs[j].size = ((this.deploylogs[j].size) / 1024 / 1024).toFixed(5);
-        }
-        console.log(this.deployplans);
-      })
-        .catch(err => {
-          console.log(err);
-        })
-    },
-    methods: {
-      handleDeploy: function (index, row) {
-        //debugger;
-        layer.load();
-        this.$axios.get(this.getIP() +"deployplan/deploy/" + row.deployPlanEntity.id + "/devices/" + row.deviceEntity.id, {
+        this.devices = res.data.data
+      }).catch(err => {
+        console.log(err);
+      });
+
+      setInterval(() => {
+        this.$axios.get(this.getIP() + 'projects/' + projectId + '/devices', {
           //设置头
           headers: {
             'content-type': 'application/x-www-form-urlencoded'
           },
           auth: {
-            username: this.getCookie('username'),
-            password: this.getCookie('password')
+            username: username,
+            password: password
           }
         }).then(res => {
-          this.$notify({
-            title: '部署成功',
-            message: '这是一条成功的提示消息',
-            type: 'success'
-          });
-          layer.closeAll('loading');
-        })
-          .catch(err => {
-            this.$notify.error({
-              title: '部署错误',
-              message: '这是一条错误的提示消息'
-            });
-            layer.closeAll('loading');
+          this.devices = res.data.data
+        }).catch(err => {
+          console.log(err);
+        });
+      }, 10 * 1000);
+
+
+      //下拉框数据
+      this.$axios.get(this.getIP() + "projects/" + projectId + "/deploymentdesigns", {
+        //设置头
+        headers: {
+          "content-type": "application/x-www-form-urlencoded"
+        },
+        auth: {
+          username: "admin",
+          password: "admin"
+        }
+      }).then(res => {
+
+        for (let i = 0; i < res.data.data.length; i++) {
+          this.deployplanInfos.push({
+            id: res.data.data[i].id,
+            name: res.data.data[i].name
           })
+        }
+
+      }).catch(err => {
+        console.log(err);
+      });
+    },
+    methods: {
+      getDevice: function () {
+
+      },
+
+      //下拉框选择部署设计
+      changeDeployPlan: function () {
+        this.deployplanId = this.selected;
+
+      },
+
+      handleDeploy: function (index, row) {
+        //debugger;
+
+        if(this.deployplanId.length != 0){
+          let msg = "您确定部署吗？";
+          if (confirm(msg) == true) {
+            //layer.load();
+
+            let qs = require('qs');
+
+            this.$axios.put(this.getIP() +"deploymentdesigns/" + this.deployplanId + "/devices/" + row.id + '/deploy',
+              qs.stringify({
+
+              }),{
+
+                //设置头
+                headers: {
+                  'content-type': 'application/x-www-form-urlencoded'
+                },
+                auth: {
+                  username: 'admin',
+                  password: 'admin'
+                }
+            }).then(res => {
+              /*this.$notify({
+                title: '部署成功',
+                message: '部署成功',
+                type: 'success'
+              });*/
+             // layer.closeAll('loading');
+            })
+            .catch(err => {
+              /*this.$notify.error({
+                title: '部署错误',
+                message: '部署错误'
+              });*/
+              //layer.closeAll('loading');
+            })
+          }else {
+            return false;
+          }
+
+        }else{
+          alert("请先选择部署设计！");
+        }
+
+      },
+
+      filterTag(value, row) {
+        return row.online === value;
+      },
+      filterHandler(value, row, column) {
+        const property = column['property'];
+        return row[property] === value;
       }
     }
   }
