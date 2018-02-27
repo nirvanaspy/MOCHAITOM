@@ -26,6 +26,8 @@ import newdeploy from '@/pages/newdeploy'
 import softpackage from '@/pages/softpackage'
 import addSoftpackage from '@/pages/addSoftpackage'
 import baseline from '@/pages/baseline'
+import log from '@/pages/log'
+import modifySoftpackage from '@/pages/modifySoftpackage'
 
 /* eslint-disable */
 import Axios from 'axios'
@@ -177,6 +179,16 @@ export default new Router({
                   path: '/baseline',
                   name: 'baseline',
                   component: baseline
+                },
+                {
+                  path: '/log',
+                  name: 'log',
+                  component: log
+                },
+                {
+                  path: '/modifySoftpackage',
+                  name: 'modifySoftpackage',
+                  component: modifySoftpackage
                 }
             ]
         }

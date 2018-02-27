@@ -87,7 +87,7 @@
         </li>
 
          <li>
-          <router-link to="/newdeploy">
+          <router-link to="/deploy">
             <i class="icon-magnet"></i>
             <span>部署</span>
           </router-link>
