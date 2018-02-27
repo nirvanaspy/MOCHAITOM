@@ -27,9 +27,9 @@
                                 <th class="span4 sortable">
                                     用户名
                                 </th>
-                                <th class="span3 sortable">
+                                <!--<th class="span3 sortable">
                                     <span class="line"></span>密码
-                                </th>
+                                </th>-->
                                 <th class="span3">
                                     <span class="line"></span>操作
                                 </th>
@@ -42,20 +42,20 @@
                                     <td>
                                         {{user.username}}
                                     </td>
-                                    <td class="description">
+                                    <!--<td class="description">
                                         {{user.password}}
-                                    </td>
+                                    </td>-->
                                     <td>
                                         <span class="label label-success">Active</span>
                                         <ul class="actions">
                                             <li>
                                                 <router-link :to='{name:"modifyUser",params:{id:user.id}}'>
-                                                    <input type="button" class="btn-flat primary" value="修改"/>
+                                                    <input type="button" class="btn-flat primary" value="修改" disabled="disabled"/>
                                                 </router-link>
                                             </li>
-                                    <li>
-                                        <input type="button" class="btn-flat primary" value="删除" @click="deleteUser($event)"/>
-                                    </li>
+                                            <li>
+                                                <input type="button" class="btn-flat primary" value="删除" @click="deleteUser($event)"/>
+                                            </li>
 
                                         </ul>
                                     </td>
@@ -95,6 +95,9 @@
                 searchQuery: ''
             }
         },created(){
+            let username = this.getCookie('username');
+            let password = this.getCookie('password');
+
             this.$axios.get(this.getIP() + 'users',{
 
                 //设置头
@@ -102,8 +105,8 @@
                     'content-type':'application/x-www-form-urlencoded'
                 },
                 auth: {
-                    username: 'admin',
-                    password: 'admin'
+                  username: username,
+                  password: password
                 }
             }).then(res=>{
                 this.users = res.data.data
