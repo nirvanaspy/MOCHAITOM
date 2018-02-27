@@ -74,7 +74,7 @@
           }), {
 
             params: {  //get请求在第二个位置，post在第三个位置
-              isAdmin: true
+              isAdmin: false
             },
 
             //设置头
