@@ -167,7 +167,7 @@
             <form class="form-horizontal">
               <div style="margin-top: 23px;margin-left: 30px;">
                 <span>绝对路径:</span>
-                <input type="text" id="input-path" name='input-path' style="height:20px">(例如:D:/test/)
+                <input type="text" id="input-path" style="height:20px">(例如:D:/test/)
               </div>
 
               <div style="margin-left: 148px;margin-top: 22px;">
@@ -197,9 +197,9 @@
         devip: ''
       }
     }, created() {
-      var projectId = this.getCookie('projectId');
-      var username = this.getCookie('username');
-      var password = this.getCookie('password');
+      let projectId = this.getCookie('projectId');
+      let username = this.getCookie('username');
+      let password = this.getCookie('password');
       this.$axios.get(this.getIP() + 'projects/' + projectId + '/devices', {
         //设置头
         headers: {
@@ -363,11 +363,11 @@
       },
       report2: function () {
 
-        console.log($("input[name='input-path']").val());
+        console.log($("input[id='input-path']").val());
         console.log(this.devname);
         console.log(this.devip);
 
-        if ($("input[name='input-path']").val() != null) {
+        if ($("input[id='input-path']").val() != null) {
 
           let qs = require('qs');
           let projectId = this.getCookie('projectId');
@@ -378,7 +378,7 @@
           this.$axios.post(this.getIP() + 'projects/' + projectId + '/devices', qs.stringify({
             "name": this.devname,
             "ip": this.devip,
-            "deployPath": $("input[name='input-path']").val()
+            "deployPath": $("input[id='input-path']").val()
           }), {
 
             //设置头
