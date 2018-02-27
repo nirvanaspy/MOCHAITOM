@@ -112,7 +112,7 @@
                         </div>
 
                         <div style="margin-top: 23px;margin-left: 30px;">
-                          <span>路径:</span>
+                          <span>描述:</span>
                           <input type="text" id="input-path" name='input-path' style="height:20px">
                         </div>
 
@@ -276,7 +276,7 @@ export default{
 
               this.$axios.post(this.getIP() +'deploymentdesigns/'+this.depid+'/deploymentdesignsnapshots',qs.stringify({
                 "name": this.name,
-                "path": this.path
+                "description": this.path
               }),{
 
                 //设置头
