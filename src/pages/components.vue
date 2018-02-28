@@ -58,13 +58,13 @@
 					<table class="table table-hover" id="table_value">
 						<thead>
 						<tr>
-							<th class="span4 sortable">
+							<th class="span2 sortable">
 								组件名称
 							</th>
-							<th class="span3 sortable">
+							<th class="span2 sortable">
 								<span class="line"></span>版本
 							</th>
-							<th class="span3">
+							<th class="span2">
 								<span class="line"></span>大小(MB)
 							</th>
 							<th class="span3 sortable">
@@ -73,7 +73,7 @@
 							<th class="span3">
 								<span class="line"></span>描述
 							</th>
-							<th class="span3">
+							<th class="span4">
 								<span class="line"></span>操作
 							</th>
 
