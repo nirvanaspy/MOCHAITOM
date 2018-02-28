@@ -1089,7 +1089,7 @@
   }
 
   .devcompchose {
-    height: 410px;
+    height: 450px;
     overflow: auto;
   }
 
