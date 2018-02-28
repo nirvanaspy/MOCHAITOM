@@ -164,7 +164,7 @@
           </div>
           <div class="modal-body">
             <!-- form start -->
-            <form class="form-horizontal">
+            <form class="form-horizontal"/>
               <div style="margin-top: 23px;margin-left: 30px;">
                 <span>绝对路径:</span>
                 <input type="text" id="input-path" style="height:20px">(例如:D:/test/)
@@ -339,7 +339,7 @@
 
       formReset: function () {
         $("#input-path").val('');
-        $("#modal-path").modal('hide');
+        $("#modal-select").modal('hide');
       },
 
       report: function (event) {
