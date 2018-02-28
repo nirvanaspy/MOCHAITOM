@@ -54,7 +54,11 @@
                                         <div class="upbtn">
                                             <input type='file' id="folderupload" webkitdirectory  @change="getFolder($event)">
 
-                                                <button v-on:click="folderclick($event)">提交</button>
+                                                <button class="btn-flat success" v-on:click="folderclick($event)">提交</button>
+                                        </div>
+
+                                        <div class="upbtn">
+                                          <button type="submit" class="btn-flat danger" @click="folderClear">清空</button>
                                         </div>
 
                                         <div class="" style="background: rgba(255, 255, 255, 0.65);height:50px;overflow-y:auto">
@@ -68,7 +72,11 @@
 
                                         <div class="upbtn">
                                                 <input type='file' id="fileupload"  @change="getFile($event)">
-                                                <button v-on:click="fileclick($event)">提交</button>
+                                                <button class="btn-flat success" v-on:click="fileclick($event)">提交</button>
+                                        </div>
+
+                                        <div class="upbtn">
+                                          <button type="submit" class="btn-flat danger" @click="folderClear">清空</button>
                                         </div>
 
                                     </div>
@@ -84,8 +92,8 @@
 
 
                                 <div class="span7 field-box actions" style="margin-top:-1px">
-                                    <button type="submit" class="btn-glow primary" @click="addComp($event)">修改</button>
-                                    <button type="submit" class="btn-glow primary" @click="formReset">取消</button>
+                                    <button type="submit" class="btn-flat primary" @click="addComp($event)">修改</button>
+                                    <button type="submit" class="btn-flat primary" @click="formReset">取消</button>
                                 </div>
                             </form>
                         </div>
@@ -510,6 +518,8 @@ export default {
 
     .upbtn{
         margin-top: 5px;
+        float: left;
+        margin-right: 100px;
     }
 
     .addli{
