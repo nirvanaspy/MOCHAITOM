@@ -37,29 +37,65 @@
                         </thead>
                         <tbody>
                         <!-- row -->
-                        <tr class="first" v-for="(user,index) in usersA" :id="user.id">
-                                    <td style="display:none">{{user.id}}</td>
-                                    <td>
-                                        {{user.username}}
-                                    </td>
-                                    <!--<td class="description">
-                                        {{user.password}}
-                                    </td>-->
-                                    <td>
-                                        <span class="label label-success">Active</span>
-                                        <ul class="actions">
-                                            <li>
-                                                <router-link :to='{name:"modifyUser",params:{id:user.id}}'>
-                                                    <input type="button" class="btn-flat primary" value="修改" disabled="disabled"/>
-                                                </router-link>
-                                            </li>
-                                            <li>
-                                                <input type="button" class="btn-flat primary" value="删除" @click="deleteUser($event)"/>
-                                            </li>
 
-                                        </ul>
-                                    </td>
-                                </tr>
+                        <!-- 普通用户 -->
+                        <tr class="first" v-if="users.length==0">
+                          <td style="display:none">{{self.id}}</td>
+                          <td>
+                            {{self.username}}
+                          </td>
+
+                          <td>
+
+                            <ul class="ulactions">
+
+                              <li>
+                                <router-link :to='{name:"modifyPasswordSelf",params:{id:self.id}}'>
+                                  <input type="button" class="btn-flat primary" value="修改"/>
+                                </router-link>
+                              </li>
+
+                              <li>
+                                <input type="button" class="btn-flat primary" value="删除" @click="deleteUser($event)" disabled="disabled"/>
+                              </li>
+
+                            </ul>
+                          </td>
+                        </tr>
+
+                        <!-- 管理员 -->
+                        <tr class="first" v-for="(user,index) in usersA" :id="user.id" v-else>
+                          <td style="display:none">{{user.id}}</td>
+                          <td>
+                            {{user.username}}
+                          </td>
+
+                          <td>
+
+                            <ul class="actions">
+                              <li v-if="user.username != 'admin'">
+                                <router-link :to='{name:"modifyPasswordAdmin",params:{id:user.id}}'>
+                                  <input type="button" class="btn-flat primary" value="修改"/>
+                                </router-link>
+                              </li>
+                              <li v-else>
+                                <router-link :to='{name:"modifyPasswordAdmin",params:{id:user.id}}'>
+                                  <input type="button" class="btn-flat primary" value="修改" disabled="disabled"/>
+                                </router-link>
+                              </li>
+
+                              <li v-if="user.username != 'admin'">
+                                <input type="button" class="btn-flat primary" value="删除" @click="deleteUser($event)"/>
+                              </li>
+                              <li v-else>
+                                <input type="button" class="btn-flat primary" value="删除" @click="deleteUser($event)" disabled="disabled"/>
+                              </li>
+
+                            </ul>
+                          </td>
+                        </tr>
+
+
                         <!-- row -->
 
                         </tbody>
@@ -79,10 +115,13 @@
                 <!-- end users table -->
             </div>
         </div>
-        <hr/>
-        <!-- <div>
+       <!-- <hr/>
+        <div>
             {{users}}
-        </div> -->
+        </div>
+      <div>
+        {{self}}
+      </div>-->
     </div>
 </template>
 
@@ -92,28 +131,60 @@
         data(){
             return{
                 users:[],
-                searchQuery: ''
+                searchQuery: '',
+                username: '',
+                self:[]
             }
         },created(){
-            let username = this.getCookie('username');
+            this.username = this.getCookie('username');
             let password = this.getCookie('password');
+            let userId = this.getCookie('userId');
 
-            this.$axios.get(this.getIP() + 'users',{
+            //this.users.push({userWho: this.username});
+            //this.users.userWho == this.username;
+        console.log(this.users.length);
+
+            if(this.username == "admin"){  //管理员
+              //alert("管理员");
+              this.$axios.get(this.getIP() + 'admin/users',{
 
                 //设置头
                 headers:{
-                    'content-type':'application/x-www-form-urlencoded'
+                  'content-type':'application/x-www-form-urlencoded'
                 },
                 auth: {
-                  username: username,
+                  username: this.username,
                   password: password
                 }
-            }).then(res=>{
+              }).then(res=>{
                 this.users = res.data.data
-            })
-            .catch(err=>{
+              })
+              .catch(err=>{
                 console.log(err);
-            })
+              })
+            }else{    //普通用户
+              console.log(this.users.length);
+              //alert("普通用户");
+              this.$axios.get(this.getIP() + 'users/' + userId,{
+
+                //设置头
+                headers:{
+                  'content-type':'application/x-www-form-urlencoded'
+                },
+                auth: {
+                  username: this.username,
+                  password: password
+                }
+              }).then(res=>{
+                this.self = res.data.data
+              })
+                .catch(err=>{
+                  console.log(err);
+                })
+
+            }
+
+
 
         },
         methods:{
@@ -124,6 +195,10 @@
                 var target = e.target || e.srcElement;
 
                 var msg = "您确定删除吗？";
+
+                let username = this.getCookie('username');
+                let password = this.getCookie('password');
+
                 if (confirm(msg) == true) {
 
                     if (target.parentNode.parentNode.parentNode.tagName.toLowerCase() == "td") {
@@ -133,23 +208,20 @@
                         var id = document.getElementById("table_value").rows[rowIndex].cells[0].innerHTML;
                         //alert(id);
                         var qs = require('qs');
-                        this.$axios.delete(this.getIP() + 'users/'+id,{
+                        this.$axios.delete(this.getIP() + 'admin/users/'+id,{
 
                             //设置头
                             headers:{
                                 'content-type':'application/x-www-form-urlencoded'
                             },
                             auth: {
-                                username: 'admin',
-                                password: 'admin'
+                              username: username,
+                              password: password
                             }
                         }).then(res=>{
                             layer.msg("删除成功");
 
-                            var username = this.getCookie('username');
-                            var password = this.getCookie('password');
-
-                            this.$axios.get(this.getIP() + 'users',{
+                            this.$axios.get(this.getIP() + 'admin/users',{
 
                                 //设置头
                                 headers:{
@@ -178,16 +250,27 @@
 
         },
         computed: {
+
           usersA: function () {
-            let self = this;
-            return self.users.filter(function (item) {
-              return item.username.toLowerCase().indexOf(self.searchQuery.toLowerCase()) !== -1;
-            })
+            //let username = this.getCookie('username');
+
+            if(this.username == "admin"){
+              let self = this;
+              return self.users.filter(function (item) {
+                return item.username.toLowerCase().indexOf(self.searchQuery.toLowerCase()) !== -1;
+              })
+            }
 
           }
         }
     }
 </script>
 <style>
+  .ulactions{
+    margin: 5px 0 0 0;
+  }
 
+  .ulactions li{
+    display: inline;
+  }
 </style>
