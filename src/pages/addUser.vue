@@ -16,16 +16,19 @@
               <div class="span12 field-box">
                 <label>用户名:</label>
                 <input class="span9" type="text" name="add-name"/>
+                <span class="muststar">*</span>
               </div>
 
               <div class="span12 field-box">
                 <label>密码:</label>
                 <input class="span9" type="password" name="add-password"/>
+                <span class="muststar">*</span>
               </div>
 
               <div class="span12 field-box" style="margin-top: -11px;">
                 <label>再次输入确认:</label>
                 <input class="span9" type="password" name="again-password"/>
+                <span class="muststar">*</span>
               </div>
 
               <div class="span7 field-box actions">
@@ -111,5 +114,8 @@
   }
 </script>
 <style>
-
+  .muststar {
+    margin-left: 10px;
+    color: red;
+  }
 </style>
