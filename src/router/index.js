@@ -11,6 +11,8 @@ import addDevice from '@/pages/addDevice'
 import modifyDevice from '@/pages/modifyDevice'
 import modifyComponent from '@/pages/modifyComponent'
 import modifyUser from '@/pages/modifyUser'
+import modifyPasswordAdmin from '@/pages/modifyPasswordAdmin'
+import modifyPasswordSelf from '@/pages/modifyPasswordSelf'
 import modifyDeploy from '@/pages/modifyDeploy'
 import deployplan from '@/pages/deployplan'
 import addDeployPlan from '@/pages/addDeployPlan'
@@ -88,6 +90,16 @@ export default new Router({
                     path: '/modifyUser',
                     name: 'modifyUser',
                     component: modifyUser
+                },
+                {
+                  path: '/modifyPasswordAdmin',
+                  name: 'modifyPasswordAdmin',
+                  component: modifyPasswordAdmin
+                },
+                {
+                  path: '/modifyPasswordSelf',
+                  name: 'modifyPasswordSelf',
+                  component: modifyPasswordSelf
                 },
                 {
                     path: '/addComponent',
