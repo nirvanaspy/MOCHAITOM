@@ -6,10 +6,9 @@
         <div class="row-fluid header">
           <h3>设备</h3>
           <div class="span10 pull-right">
-            <input class="search" type="text" placeholder="搜索设备.." v-model="searchQuery"/>
+            <input class="search" type="text" placeholder="设备名称.." v-model="searchQuery"/>
 
-
-            <div class="ui-dropdown">
+            <!--<div class="ui-dropdown">
               <div class="head" data-toggle="tooltip" title="Click me!">
                 Filter devices
                 <i class="arrow-down"></i>
@@ -53,7 +52,7 @@
                   </div>
                 </div>
               </div>
-            </div>
+            </div>-->
 
             <router-link to="/addDevice" class="btn-flat success pull-right">
               <span>&#43;</span>
@@ -96,7 +95,7 @@
               <td>{{device.name}}</td>
               <td>{{device.ip}}</td>
               <td>
-                {{device.path}}
+                {{device.deployPath}}
               </td>
               <td>
                 <span class="label label-primary" v-if="!device.online">离线</span>
@@ -165,10 +164,10 @@
           </div>
           <div class="modal-body">
             <!-- form start -->
-            <form class="form-horizontal">
+            <form class="form-horizontal"/>
               <div style="margin-top: 23px;margin-left: 30px;">
                 <span>绝对路径:</span>
-                <input type="text" id="input-path" name='input-path' style="height:20px">(例如:D:/test/)
+                <input type="text" id="input-path" style="height:20px">(例如:D:/test/)
               </div>
 
               <div style="margin-left: 148px;margin-top: 22px;">
@@ -198,10 +197,10 @@
         devip: ''
       }
     }, created() {
-      var projectId = this.getCookie('projectId');
-      var username = this.getCookie('username');
-      var password = this.getCookie('password');
-      this.$axios.get(this.getIP() + 'project/' + projectId + '/device', {
+      let projectId = this.getCookie('projectId');
+      let username = this.getCookie('username');
+      let password = this.getCookie('password');
+      this.$axios.get(this.getIP() + 'projects/' + projectId + '/devices', {
         //设置头
         headers: {
           'content-type': 'application/x-www-form-urlencoded'
@@ -253,7 +252,7 @@
               var projectId = this.getCookie('projectId');
               var username = this.getCookie('username');
               var password = this.getCookie('password');
-              this.$axios.get(this.getIP() + 'project/' + projectId + '/device', {
+              this.$axios.get(this.getIP() + 'projects/' + projectId + '/devices', {
                 //设置头
                 headers: {
                   'content-type': 'application/x-www-form-urlencoded'
@@ -270,7 +269,7 @@
                 })
 
             }).catch(err => {
-              alert("删除失败！");
+              layer.msg("删除失败！");
             })
           }
 
@@ -300,7 +299,7 @@
         var password = this.getCookie('password');
 
         var qs = require('qs');
-        this.$axios.post(this.getIP() + 'devices/copy/' + id,
+        this.$axios.post(this.getIP() + 'devices/' + id + '/copy',
           qs.stringify({
             "name": $("input[name='add-name']").val(),
 
@@ -316,7 +315,7 @@
             }
           }).then(res => {
           layer.msg("复制成功");
-          this.$axios.get(this.getIP() + 'project/' + projectId + '/device', {
+          this.$axios.get(this.getIP() + 'projects/' + projectId + '/devices', {
             //设置头
             headers: {
               'content-type': 'application/x-www-form-urlencoded'
@@ -340,7 +339,7 @@
 
       formReset: function () {
         $("#input-path").val('');
-        $("#modal-path").modal('hide');
+        $("#modal-select").modal('hide');
       },
 
       report: function (event) {
@@ -364,11 +363,11 @@
       },
       report2: function () {
 
-        console.log($("input[name='input-path']").val());
+        console.log($("input[id='input-path']").val());
         console.log(this.devname);
         console.log(this.devip);
 
-        if ($("input[name='input-path']").val() != null) {
+        if ($("input[id='input-path']").val() != null) {
 
           let qs = require('qs');
           let projectId = this.getCookie('projectId');
@@ -376,10 +375,10 @@
           let password = this.getCookie('password');
 
 
-          this.$axios.post(this.getIP() + 'project/' + projectId + '/device', qs.stringify({
+          this.$axios.post(this.getIP() + 'projects/' + projectId + '/devices', qs.stringify({
             "name": this.devname,
             "ip": this.devip,
-            "path": $("input[name='input-path']").val()
+            "deployPath": $("input[id='input-path']").val()
           }), {
 
             //设置头
@@ -398,7 +397,7 @@
             $("#modal-select").modal('hide');
 
             //成功后重新查询
-            this.$axios.get(this.getIP() + 'project/' + projectId + '/device', {
+            this.$axios.get(this.getIP() + 'projects/' + projectId + '/devices', {
               //设置头
               headers: {
                 'content-type': 'application/x-www-form-urlencoded'
@@ -426,7 +425,7 @@
     },
     computed: {
       devicesA: function () {
-        var self = this;
+        let self = this;
         return self.devices.filter(function (item) {
           return item.name.toLowerCase().indexOf(self.searchQuery.toLowerCase()) !== -1;
         })

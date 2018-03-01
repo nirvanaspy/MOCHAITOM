@@ -11,6 +11,8 @@ import addDevice from '@/pages/addDevice'
 import modifyDevice from '@/pages/modifyDevice'
 import modifyComponent from '@/pages/modifyComponent'
 import modifyUser from '@/pages/modifyUser'
+import modifyPasswordAdmin from '@/pages/modifyPasswordAdmin'
+import modifyPasswordSelf from '@/pages/modifyPasswordSelf'
 import modifyDeploy from '@/pages/modifyDeploy'
 import deployplan from '@/pages/deployplan'
 import addDeployPlan from '@/pages/addDeployPlan'
@@ -22,6 +24,12 @@ import selectProject from '@/pages/selectProject'
 import addProject from '@/pages/addProject'
 import scan from '@/pages/scan'
 import deploy from '@/pages/deploy'
+import newdeploy from '@/pages/newdeploy'
+import softpackage from '@/pages/softpackage'
+import addSoftpackage from '@/pages/addSoftpackage'
+import baseline from '@/pages/baseline'
+import log from '@/pages/log'
+import modifySoftpackage from '@/pages/modifySoftpackage'
 
 /* eslint-disable */
 import Axios from 'axios'
@@ -82,6 +90,16 @@ export default new Router({
                     path: '/modifyUser',
                     name: 'modifyUser',
                     component: modifyUser
+                },
+                {
+                  path: '/modifyPasswordAdmin',
+                  name: 'modifyPasswordAdmin',
+                  component: modifyPasswordAdmin
+                },
+                {
+                  path: '/modifyPasswordSelf',
+                  name: 'modifyPasswordSelf',
+                  component: modifyPasswordSelf
                 },
                 {
                     path: '/addComponent',
@@ -154,6 +172,36 @@ export default new Router({
                     name: 'deploy',
                     component: deploy
                 },
+                {
+                  path: '/newdeploy',
+                  name: 'newdeploy',
+                  component: newdeploy
+                },
+                {
+                  path: '/softpackage',
+                  name: 'softpackage',
+                  component: softpackage
+                },
+                {
+                  path: '/addSoftpackage',
+                  name: 'addSoftpackage',
+                  component: addSoftpackage
+                },
+                {
+                  path: '/baseline',
+                  name: 'baseline',
+                  component: baseline
+                },
+                {
+                  path: '/log',
+                  name: 'log',
+                  component: log
+                },
+                {
+                  path: '/modifySoftpackage',
+                  name: 'modifySoftpackage',
+                  component: modifySoftpackage
+                }
             ]
         }
 

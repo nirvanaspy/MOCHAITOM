@@ -37,7 +37,7 @@
                 <div class="row-fluid table devcompchose">
 
                   <div class="devcompfind">
-                    <input class="search" type="text" placeholder="设备名称.." style="width: 90%;" v-model="searchQuery"/>
+                    <input class="search" type="text" placeholder="设备名称.." style="width: 90%;" v-model="searchQueryDev"/>
                   </div>
 
                   <br/>
@@ -69,8 +69,8 @@
 
                       </td>
                       <td>
-                        <span class="label label-primary" v-if="device.online == false">离线</span>
-                        <span class="label label-success" v-if="device.online == true">在线</span>
+                        <span class="label label-primary" v-if="!device.online">离线</span>
+                        <span class="label label-success" v-else>在线</span>
                       </td>
                     </tr>
 
@@ -83,28 +83,59 @@
 
               <!-- 拖动区域 -->
               <div class="move span6" id="moveContent" style="height: 481px;margin-top: -1px;overflow: auto;">
-                <div style="margin-top:20px;text-align: center;">
-                  <h3>部署设计</h3>
-                  <br/>
-                  <h2>{{deviceName}}</h2>
+                <div  v-if="leftClick">
+
+                  <div style="margin-top:20px;text-align: center;">
+                    <h3>部署设计</h3>
+                    <br/>
+                    <h2>{{deviceName}}</h2>
+                  </div>
+                  <div class="moveChild span4" v-for="(device,index) in devicecomps" :key="index"
+                       style="margin-top: 40px;text-align: center;margin-left: -5px;">
+
+                    <div>
+                      <img src="../../img/files.png" style="height: 90px;"/>
+                    </div>
+
+                    <!-- <br/> -->
+                    <div>
+                      {{device.componentEntity.name}}
+                    </div>
+
+                    <div>
+                      {{device.componentEntity.version}}
+                    </div>
+
+                  </div>
+
+              </div>
+
+                <div  v-else>
+                  <div style="margin-top:20px;text-align: center;">
+                    <h3>部署设计</h3>
+                    <br/>
+                    <h2>{{compName}}</h2>
+                  </div>
+                  <div class="moveChild span4" v-for="(comp,index) in compdevices" :key="index"
+                       style="margin-top: 40px;text-align: center;margin-left: -5px;">
+
+                    <div>
+                      <img src="../../img/computers.jpg" style="height: 80px;"/>
+                    </div>
+
+                    <!-- <br/> -->
+                    <div>
+                      {{comp.deviceEntity.name}}
+                    </div>
+
+                    <div>
+                      {{comp.deviceEntity.ip}}
+                    </div>
+
+                  </div>
+
                 </div>
-                <div class="moveChild span4" v-for="(device,index) in devicecomps" :key="index"
-                     style="margin-top: 40px;text-align: center;">
 
-                  <div>
-                    <img src="img/files.png" style="height: 90px;"/>
-                  </div>
-
-                  <!-- <br/> -->
-                  <div>
-                    {{device.componentEntity.name}}
-                  </div>
-
-                  <div>
-                    {{device.componentEntity.version}}
-                  </div>
-
-                </div>
               </div>
 
               <!-- 组件 -->
@@ -112,7 +143,7 @@
 
                 <div class="row-fluid table devcompchose">
                   <div class="devcompfind">
-                    <input class="search" type="text" placeholder="组件名称.." style="width: 90%;" v-model="searchQuery"/>
+                    <input class="search" type="text" placeholder="组件名称.." style="width: 90%;" v-model="searchQueryComp"/>
                   </div>
 
                   <br/>
@@ -140,24 +171,28 @@
                     </thead>
                     <tbody>
 
-                    <tr class="first" v-for="(component,index) in compsA" :id="component.id">
+                    <tr class="first"  style="cursor: pointer;" v-for="(component,index) in compsA"  :id="component.id">
                       <td style="display:none">{{component.id}}</td>
-                      <td class="wrap" style="width: 80px;">
-                        <div class="wrap" :title="component.name" style="width: 80px;">
-                          <i class="icon-folder-close-alt"></i>&nbsp;
-                          {{component.name}}
-                        </div>
-                        <!-- <div class="icon-folder-close-alt" style="float:left;">
-                                        {{component.name}}
-                                    </div> -->
+                      <!--<div @click="compClick($event)"  :id="component.id">-->
+                        <td class="wrap" @click="compClick($event)"  :id="component.id" style="width: 80px;">
+                          <div class="wrap"  :id="component.id" :title="component.name" style="width: 80px;">
+                            <i class="icon-folder-close-alt"></i>&nbsp;
+                            {{component.name}}
+                          </div>
 
-                      </td>
-                      <td>
-                        {{component.size}}
-                      </td>
-                      <td>
-                        {{component.version}}
-                      </td>
+                        </td>
+                        <td @click="compClick($event)"  :id="component.id">
+                          <div  :id="component.id">
+                            {{component.size}}
+                          </div>
+                        </td>
+                        <td @click="compClick($event)"  :id="component.id">
+                          <div  :id="component.id">
+                            {{component.version}}
+                          </div>
+                        </td>
+                      <!--</div>-->
+
                       <td>
                         <div class="btn-group small" style="margin-right: 3px">
                           <button class="btn-glow icon-random" @click="moveComp($event)" value="aa">
@@ -198,7 +233,7 @@
 
 
     <!--<div>
-        设备上原有的组件：{{devicecomps}}
+        设备上的原有的组件：{{compdevices}}
 
     </div>-->
 
@@ -212,10 +247,10 @@
         设备：{{devices}}
     </div>-->
 
-    <hr/>
+   <!-- <hr/>
     <div>
       设备名：{{deviceArr}}
-    </div>
+    </div>-->
 
     <!-- <hr/>
 
@@ -252,7 +287,8 @@
       return {
         selected: '',
         selectedDev: '',
-        searchQuery: '',
+        searchQueryDev: '',   //设备搜索框
+        searchQueryComp: '',  //组件搜索框
         devices: [],          //左侧表格查询出来的设备的信息
         comps: [],            //左侧表格查询出来的组件的信息
         comps1: [],
@@ -268,6 +304,8 @@
         deployplanInfos: [],    //部署设计信息
         devcomps: [],  //设备上绑定的组件
 
+        compdevices: [], //组件所在的设备
+
         devicecomps: [],  //设备上原有的组件
 
         componentEntity: [],   //组件的id
@@ -279,7 +317,11 @@
 
         deviceName: '',        //显示在拖动区域的设备的名称
 
+        compName: '',          //显示在拖动区域的组件的名称
+
         deviceCHId: '',         //左侧表格中点击的设备的id
+
+        compCHId: '',           //右侧表格中点击的组件的id
 
         detailIds: [],          //要删除的绑定的id
 
@@ -289,7 +331,9 @@
 
         compIddCopyArr: [],       //复制的内容的组件的id
 
-        compIddPasteArr: []        //粘贴的内容的组件的id
+        compIddPasteArr: [],        //粘贴的内容的组件的id
+
+        leftClick: ''             //是否点击的是左侧表格的设备，true则是
 
 
       }
@@ -300,7 +344,7 @@
 
       var compArr = [];
       //获取设备
-      this.$axios.get(this.getIP() +'project/' + projectId + '/device', {
+      this.$axios.get(this.getIP() + 'projects/' + projectId + '/devices', {
         //设置头
         headers: {
           'content-type': 'application/x-www-form-urlencoded'
@@ -318,6 +362,9 @@
 
       //获取组件
       this.$axios.get(this.getIP() +'components', {
+        params:{  //get请求在第二个位置，post在第三个位置
+          isShowHistory:false
+        },
         //设置头
         headers: {
           'content-type': 'application/x-www-form-urlencoded'
@@ -341,7 +388,7 @@
 
 
       //获取部署设计的相关信息
-      this.$axios.get(this.getIP() +'project/' + projectId + '/deployplan', {
+      this.$axios.get(this.getIP() +'projects/'+projectId+'/deploymentdesigns', {
         //设置头
         headers: {
           'content-type': 'application/x-www-form-urlencoded'
@@ -387,18 +434,19 @@
       },
 
       deviceClick: function (event) {      //设备点击事件
-        var e = event || window.event;
-        var target = e.target || e.srcElement;
+        this.leftClick = true;
+        let e = event || window.event;
+        let target = e.target || e.srcElement;
 
-        var username = this.getCookie('username');
-        var password = this.getCookie('password');
+        let username = this.getCookie('username');
+        let password = this.getCookie('password');
 
         console.log(target);
         console.log(target.id);
         this.deviceCHId = target.id;     //左侧表格所点击的设备的id
 
         //根据设备的id得到设备的 名称
-        for (var i = 0; i < this.devices.length; i++) {
+        for (let i = 0; i < this.devices.length; i++) {
           if (this.deviceCHId == this.devices[i].id) {
             this.deviceName = this.devices[i].name;
             break;
@@ -406,11 +454,11 @@
 
         }
 
-        var deployPlanId = this.$route.params.id;  //所选择的部署设计的id
+        let deployPlanId = this.$route.params.id;  //所选择的部署设计的id
         //alert(compId);
         console.log(deployPlanId);
 
-        this.$axios.get(this.getIP() +'deployplan/' + deployPlanId + '/devices/' + this.deviceCHId, {
+        this.$axios.get(this.getIP() +'deploymentdesigns/' + deployPlanId + '/deploymentdesigndetails/devices/' + this.deviceCHId, {
           //设置头
           headers: {
             'content-type': 'application/x-www-form-urlencoded'
@@ -421,6 +469,51 @@
           }
         }).then(res => {
           this.devicecomps = res.data.data
+        })
+          .catch(err => {
+            console.log(err);
+          })
+
+      },
+
+      compClick: function (event) {      //设备点击事件
+        this.leftClick = false;
+        this.deviceName = '';      //将点击的设备名称置为空
+        let e = event || window.event;
+        let target = e.target || e.srcElement;
+
+        let username = this.getCookie('username');
+        let password = this.getCookie('password');
+
+        console.log(target);
+        console.log(target.id);
+        this.compCHId = target.id;     //右侧表格所点击的组件的id
+        console.log(this.compCHId);
+
+        //根据组件的id得到组件的 名称
+        for (let i = 0; i < this.comps.length; i++) {
+          if (this.compCHId == this.comps[i].id) {
+            this.compName = this.comps[i].name;
+            break;
+          }
+
+        }
+
+        let deployPlanId = this.$route.params.id;  //所选择的部署设计的id
+        //alert(compId);
+        console.log(deployPlanId);
+
+        this.$axios.get(this.getIP() +'deploymentdesigns/' + deployPlanId + '/deploymentdesigndetails/components/' + this.compCHId, {
+          //设置头
+          headers: {
+            'content-type': 'application/x-www-form-urlencoded'
+          },
+          auth: {
+            username: username,
+            password: password
+          }
+        }).then(res => {
+          this.compdevices = res.data.data
         })
           .catch(err => {
             console.log(err);
@@ -631,7 +724,7 @@
                   flagDel = true;
                   let msg = "您确定删除吗？";
                   if (confirm(msg) == true) {
-                    this.$axios.delete(this.getIP() +'deployplan/deployplandetails/' + this.devicecomps[i].id,
+                    this.$axios.delete(this.getIP() +'deploymentdesigns/deploymentdesigndetails/' + this.devicecomps[i].id,
                       {
                         //设置头
                         headers: {
@@ -700,7 +793,7 @@
           formData.append('deviceIds', this.diveceIdPass);
           formData.append('componentIds', this.compsIdPass);
 
-          this.$axios.post(this.getIP() +'deployplan/' + deployPlanId + "/deployplandetails", formData,
+          this.$axios.post(this.getIP() +'deploymentdesigns/' + deployPlanId + "/deploymentdesigndetails", formData,
 
             {
 
@@ -934,15 +1027,15 @@
     },
     computed: {
       devicesA: function () {
-        var self = this;
+        let self = this;
         return self.devices.filter(function (item) {
-          return item.name.toLowerCase().indexOf(self.searchQuery.toLowerCase()) !== -1;
+          return item.name.toLowerCase().indexOf(self.searchQueryDev.toLowerCase()) !== -1;
         })
       },
       compsA: function () {
-        var self = this;
+        let self = this;
         return self.comps.filter(function (item) {
-          return item.name.toLowerCase().indexOf(self.searchQuery.toLowerCase()) !== -1;
+          return item.name.toLowerCase().indexOf(self.searchQueryComp.toLowerCase()) !== -1;
         })
       }
     }
@@ -996,7 +1089,7 @@
   }
 
   .devcompchose {
-    height: 410px;
+    height: 450px;
     overflow: auto;
   }
 

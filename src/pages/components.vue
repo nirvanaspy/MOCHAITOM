@@ -6,10 +6,10 @@
 				<div class="row-fluid header">
 					<h3>组件</h3>
 					<div class="span10 pull-right">
-						<input class="search" type="text" placeholder="搜索组件.."  v-model="searchQuery"/>
+						<input class="search" type="text" placeholder="组件名称.."  v-model="searchQuery"/>
 
 
-						<div class="ui-dropdown">
+						<!--<div class="ui-dropdown">
 							<div class="head" data-toggle="tooltip" title="Click me!">
 								Filter components
 								<i class="arrow-down"></i>
@@ -43,7 +43,7 @@
 									</div>
 								</div>
 							</div>
-						</div>
+						</div>-->
 
 						<router-link to="/addComponent" class="btn-flat success pull-right">
 							<span>&#43;</span>
@@ -58,13 +58,13 @@
 					<table class="table table-hover" id="table_value">
 						<thead>
 						<tr>
-							<th class="span4 sortable">
+							<th class="span2 sortable">
 								组件名称
 							</th>
-							<th class="span3 sortable">
+							<th class="span2 sortable">
 								<span class="line"></span>版本
 							</th>
-							<th class="span3">
+							<th class="span2">
 								<span class="line"></span>大小(MB)
 							</th>
 							<th class="span3 sortable">
@@ -73,7 +73,7 @@
 							<th class="span3">
 								<span class="line"></span>描述
 							</th>
-							<th class="span3">
+							<th class="span4">
 								<span class="line"></span>操作
 							</th>
 
@@ -113,7 +113,12 @@
                                         <input type="button" class="btn-flat primary" value="删除" @click="deleteComp($event)"/>
                                     </li>
                                     <li>
-                                        <input type="button" class="btn-flat primary" value="导出" @click="exportComp($event)"/>
+                                      <a @click="exportLink($event)">
+                                      <!--<a href="'" + this.getIP() +'components/'+id+'/export'+"'">-->
+                                        <input type="button" class="btn-flat primary" value="导出" :id="component.id"/>
+                                        <!--<input type="button" class="btn-flat primary" value="导出" @click="exportComp($event)"/>-->
+                                      </a>
+
                                     </li>
                                     <li class="last">
                                         <!-- <router-link to="/devices" @click="deleteDevice">删除</router-link>  -->
@@ -155,13 +160,21 @@ export default{
             return{
                 components:[],
                 searchQuery: '',
+                exportUrl: ''               //导出地址
             }
         },created(){
+
+
         	  let username = this.getCookie('username');
             let password = this.getCookie('password');
 
-            this.$axios.get(this.getIP() +'components',{
+            var qs = require('qs');
+            this.$axios.get(this.getIP() +'components',
 
+              {
+                params:{  //get请求在第二个位置，post在第三个位置
+                  isShowHistory:false
+                },
                 //设置头
                 headers:{
                     'content-type':'application/x-www-form-urlencoded'
@@ -213,25 +226,27 @@ export default{
 	                    }).then(res=>{
 	                    	layer.msg("删除成功");
 
-	                        var username = this.getCookie('username');
-				            var password = this.getCookie('password');
+                        var username = this.getCookie('username');
+                        var password = this.getCookie('password');
 
-				            this.$axios.get(this.getIP() +'components',{
-
-				                //设置头
-				                headers:{
-				                    'content-type':'application/x-www-form-urlencoded'
-				                },
-				                auth: {
-				                    username: username,
-				                    password: password
-				                }
-				            }).then(res=>{
-				                this.components = res.data.data
-				            })
-				            .catch(err=>{
-				                console.log(err);
-				            })
+                        this.$axios.get(this.getIP() +'components',{
+                            params:{  //get请求在第二个位置，post在第三个位置
+                              isShowHistory:false
+                            },
+                            //设置头
+                            headers:{
+                                'content-type':'application/x-www-form-urlencoded'
+                            },
+                            auth: {
+                                username: username,
+                                password: password
+                            }
+                        }).then(res=>{
+                            this.components = res.data.data
+                        })
+                        .catch(err=>{
+                            console.log(err);
+                        })
 	                    }).catch(err=>{
                         layer.msg("删除失败！");
 	                    })
@@ -245,8 +260,21 @@ export default{
 
             },
 
+            exportLink: function (event) {
+              let e = event || window.event;
+              //alert("B");
+              let target = e.target || e.srcElement;
 
-            exportComp: function (event){
+              console.log(target);
+
+              let id = target.id;
+              this.exportUrl = this.getIP() +'components/'+id+'/export';
+
+              console.log(this.exportUrl);
+              window.open(this.exportUrl);
+            },
+
+            /*exportComp: function (event){
                 //alert("A");
                 var e = event || window.event;
                 //alert("B");
@@ -258,7 +286,16 @@ export default{
                     var id = document.getElementById("table_value").rows[rowIndex].cells[0].innerHTML;
                    // alert(id);
                     var qs = require('qs');
-                    this.$axios.get(this.getIP() +'components/export/'+id,{
+
+                    this.exportUrl = this.getIP() +'components/'+id+'/export';
+                    alert("ffff");
+                    //console.log(this.exportUrl);
+                    window.open(this.exportUrl);
+                    //http://192.168.0.108:8080/components/478bf833-0a1c-400f-aad4-19f4983fdc1d/export
+                  //this.$router.path = this.getIP() +'components/'+id+'/export';
+                  //http://localhost:8888/#/
+                  //this.$router.push({ path: this.exportUrl});
+                    /!*this.$axios.get(this.getIP() +'components/'+id+'/export',{
 
                         //设置头
                         headers:{
@@ -275,10 +312,10 @@ export default{
                         this.$router.replace({ path: '/components'})
                     }).catch(err=>{
                         layer.msg("导出失败！");
-                    })
+                    })*!/
                 }
 
-            },
+            },*/
 
             copyComp: function (event){
                 var e = event || window.event;
@@ -299,7 +336,7 @@ export default{
                 var password = this.getCookie('password');
 
                 var qs = require('qs');
-                this.$axios.post(this.getIP() +'components/copy/'+id,
+                this.$axios.post(this.getIP() +'components/'+id+'/copy',
                 qs.stringify({
                     "name": $("input[name='add-name']").val(),
 
@@ -318,6 +355,9 @@ export default{
                 }).then(res=>{
                     layer.msg("复制成功");
                     this.$axios.get(this.getIP() +'components',{
+                      params:{  //get请求在第二个位置，post在第三个位置
+                        isShowHistory:false
+                      },
 
 		                //设置头
 		                headers:{

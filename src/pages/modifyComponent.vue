@@ -52,12 +52,16 @@
 
 
                                         <div class="upbtn">
-                                            <input type='file' name="folderin" id="folderupload" webkitdirectory  @change="getFolder($event)">
+                                            <input type='file' id="folderupload" webkitdirectory  @change="getFolder($event)">
 
-                                                <button v-on:click="folderclick($event)">提交</button>
+                                                <button class="btn-flat success" v-on:click="folderclick($event)">提交</button>
                                         </div>
 
-                                        <div class="" style="background: rgba(255, 255, 255, 0.65);height:50px;overflow-y:auto">
+                                        <div class="upbtn" style="float: none;">
+                                          <button type="submit" class="btn-flat danger" @click="folderClear">清空</button>
+                                        </div>
+
+                                        <div class="" style="float: none;background: rgba(255, 255, 255, 0.65);height:50px;overflow-y:auto">
                                             <ul class="mini-repo-list" id="ulId" data-filterable-for="your-repos-filter" data-filterable-type="substring" style="background: rgba(255, 255, 255, 0.65);">
                                                 <li class="pubic fork" v-for="file in fileInfo">
                                                     <span>{{file.name}}</span>
@@ -67,15 +71,19 @@
 
 
                                         <div class="upbtn">
-                                                <input type='file' name="filein" id="fileupload"  @change="getFile($event)">
-                                                <button v-on:click="fileclick($event)">提交</button>
+                                                <input type='file' id="fileupload"  @change="getFile($event)">
+                                                <button class="btn-flat success" v-on:click="fileclick($event)">提交</button>
+                                        </div>
+
+                                        <div class="upbtn">
+                                          <button type="submit" class="btn-flat danger" @click="fileClear">清空</button>
                                         </div>
 
                                     </div>
                                 </div>
 
-                                <div style="height: 313px; border-left: 1px solid rgba(0, 0, 0, 0.32);margin-left: 829px;"></div>
-                                 <div class="span12 field-box with-sidebar " style="width: 229px;margin-left: 847px;margin-top: -432px;height: 317px;overflow-y: auto;">
+                                <div style="height: 390px; border-left: 1px solid rgba(0, 0, 0, 0.32);margin-left: 829px;"></div>
+                                 <div class="span12 field-box with-sidebar " style="width: 229px;margin-left: 847px;margin-top: -432px;height: 405px;overflow-y: auto;">
                                     <span>组件详细信息</span>
 
                                      <ul id="treeDemo" class="ztree" style=""></ul>
@@ -84,8 +92,8 @@
 
 
                                 <div class="span7 field-box actions" style="margin-top:-1px">
-                                    <button type="submit" class="btn-glow primary" @click="addComp($event)">修改</button>
-                                    <button type="submit" class="btn-glow primary" @click="formReset">取消</button>
+                                    <button type="submit" class="btn-flat primary" @click="addComp($event)">修改</button>
+                                    <button type="submit" class="btn-flat primary" @click="formReset">取消</button>
                                 </div>
                             </form>
                         </div>
@@ -138,6 +146,11 @@ export default {
                 sv1: [],
                 sv2: '',
                 fileList2:[],
+                fieList: [],                //文件夹内容
+                fieList2: [],               //文件内容
+                folderClearData: [],        //文件夹需要清空的内容数组
+                fileClearData: [],          //文件需要清空的内容数组
+                allClearData: []            //需要清空的内容的id数组
 
             }
         },created(){
@@ -161,7 +174,7 @@ export default {
                 document.getElementById("add-describle").value=res.data.data.description;
 
                 //对比时，是路径节点与根节点下的孩子节点比较
-                let componentFile=res.data.data.componentFileEntities;//组件
+                let componentFile = res.data.data.componentDetailEntities;//组件
 
 
                 let zNodes=[];
@@ -187,8 +200,9 @@ export default {
 
                 let forderTemp=[];
 
-                for(let i=0;i<res.data.data.componentFileEntities.length;i++){
-                     let info=res.data.data.componentFileEntities[i].path.split('/');
+                for(let i=0;i<res.data.data.componentDetailEntities.length;i++){
+                     let info=res.data.data.componentDetailEntities[i].path.split('/');
+                     let clearId = res.data.data.componentDetailEntities[i].id;
 
                      if(info.length>2){
 
@@ -213,8 +227,12 @@ export default {
                             forderTemp.push(info2);
                         }
 
+
+                       this.folderClearData.push(clearId);
+                        console.log(this.folderClearData);
                      }else{
-                        this.fileInfo.push(res.data.data.componentFileEntities[i]);
+                        this.fileInfo.push(res.data.data.componentDetailEntities[i]);
+                        this.fileClearData.push(clearId);
                      }
                 }
 
@@ -308,15 +326,15 @@ export default {
                 //this.sv1 = event.target.files[0];;
 
                 var sv11 = document.getElementById("folderupload");
-                var fieList = sv11.files;
+                this.fieList = sv11.files;
 
-                if(fieList.length != 0){
+                if(this.fieList.length != 0){
 
-                    var foldersNum = fieList.length + "个文件";
+                    var foldersNum = this.fieList.length + "个文件";
                     let foldersInfo=[];
 
-                    for(let i=0;i<fieList.length;i++){
-                        let path=fieList[i].webkitRelativePath.split('/');
+                    for(let i=0;i<this.fieList.length;i++){
+                        let path=this.fieList[i].webkitRelativePath.split('/');
 
                         if(foldersInfo.length>0){
                             for(let j=0;j<foldersInfo.length;j++){
@@ -345,7 +363,7 @@ export default {
 
 
                     this.folders.push(foldersNum);
-                    this.allArr.push(fieList);
+                    this.allArr.push(this.fieList);
 
 
                     var obj = document.getElementById('folderupload') ;
@@ -361,16 +379,16 @@ export default {
                 event.preventDefault();
 
                 var sv12 = document.getElementById("fileupload");
-                var fieList2 = sv12.files;
-                console.log(fieList2[0]);
+                this.fieList2 = sv12.files;
+                console.log(this.fieList2[0]);
 
-                if(fieList2.length != 0){
+                if(this.fieList2.length != 0){
                     let files=[];
 
-                    files.push({"name":fieList2[0].name});
+                    files.push({"name":this.fieList2[0].name});
                     this.fileInfo.push(files[0]);
 
-                    this.allArr.push(fieList2);
+                    this.allArr.push(this.fieList2);
 
                     var obj = document.getElementById('fileupload') ;
 
@@ -382,8 +400,6 @@ export default {
             },
 
             addComp(event) {
-
-
 
                 this.name = $("input[id='add-name']").val();
                 this.version = $("input[id='add-version']").val();
@@ -409,13 +425,14 @@ export default {
                     formData.append('deployPath', this.deployPath);
                     //formData.append('size', this.size);
                     formData.append('description', this.describle);
+                    formData.append('removeIds', this.allClearData);
 
                     formData.append('enctype', "multipart/form-data");
 
                     for(var i=0;i<this.allArr.length;i++){
                         //判断数组里是文件夹还是文件
                         for(var j=0;j<this.allArr[i].length;j++){
-                                formData.append('componentfile', this.allArr[i][j]);
+                                formData.append('componentfiles', this.allArr[i][j]);
                             }
 
                     }
@@ -457,7 +474,26 @@ export default {
                 }
 
 
+            },
 
+            folderClear: function () {
+              this.folderInfo.splice(0,this.folderInfo.length);   //清空文件夹
+
+              for(let i=0;i < this.folderClearData.length;i++){
+                this.allClearData.push(this.folderClearData[i]);
+              }
+
+              //console.log(this.allClearData);
+            },
+
+            fileClear: function () {
+              this.fileInfo.splice(0,this.fileInfo.length);   //清空文件夹
+
+              for(let i=0;i < this.fileClearData.length;i++){
+                this.allClearData.push(this.fileClearData[i]);
+              }
+
+              //console.log(this.allClearData);
             },
 
             formReset: function(){
@@ -510,6 +546,8 @@ export default {
 
     .upbtn{
         margin-top: 5px;
+        float: left;
+        margin-right: 10px;
     }
 
     .addli{

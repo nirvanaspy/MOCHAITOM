@@ -9,8 +9,13 @@ import router from './router'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 
+import Popper from 'vue-popperjs';
+import 'vue-popperjs/dist/css/vue-popper.css';
+
 Vue.use(ElementUI);
 Vue.prototype.GLOBAL = global;
+
+Vue.use(Popper);
 
 Vue.prototype.getIP = function() {
   let ip = 'http://' + this.getCookie('ip') + ":8080/";

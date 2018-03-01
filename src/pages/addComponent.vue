@@ -57,7 +57,7 @@
                     </ul>
                   </div>
 
-                  <div class="upbtn">
+                  <div class="upbtn2">
                     <input type='file' name="folderin" id="folderupload" webkitdirectory @change="getFolder($event)">
                     <!-- <input type='file' name="folderin" id="folderupload" webkitdirectory > -->
                     <!-- <input type='file' name="file"> -->
@@ -75,7 +75,7 @@
                     </ul>
                   </div>
 
-                  <div class="upbtn">
+                  <div class="upbtn2">
                     <input type='file' name="filein" id="fileupload" @change="getFile($event)">
                     <button v-on:click="fileclick($event)">提交</button>
                   </div>
@@ -307,7 +307,7 @@
           for (var i = 0; i < this.allArr.length; i++) {
             //判断数组里是文件夹还是文件
             for (var j = 0; j < this.allArr[i].length; j++) {
-              formData.append('componentfile', this.allArr[i][j]);
+              formData.append('componentfiles', this.allArr[i][j]);
             }
 
           }
@@ -360,12 +360,11 @@
 
   }
 
-  .upbtn {
+  .upbtn2 {
     margin-top: 5px;
   }
 
   .addli {
-
     max-height: 90px;
     overflow: auto;
   }

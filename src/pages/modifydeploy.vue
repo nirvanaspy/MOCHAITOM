@@ -56,7 +56,7 @@ export default{
             var deployPlanId = this.$route.params.id;  //所选择的部署设计的id
             //console.log(deployPlanId);
 
-            this.$axios.get(this.getIP() + 'deployplan/' + deployPlanId,{
+            this.$axios.get(this.getIP() + 'deploymentdesigns/' + deployPlanId,{
                 //设置头
                 headers:{
                     'content-type':'application/x-www-form-urlencoded'
@@ -85,7 +85,7 @@ export default{
                 let password = this.getCookie('password');
 
                 let qs = require('qs');
-                this.$axios.patch(this.getIP() + 'deployplan/'+deployPlanId ,qs.stringify({
+                this.$axios.patch(this.getIP() + 'deploymentdesigns/'+deployPlanId ,qs.stringify({
 
                     "name": $("input[id='edit-name']").val(),
                     "description": $("input[id='edit-des']").val()
