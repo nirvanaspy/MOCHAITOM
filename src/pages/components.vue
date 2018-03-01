@@ -113,7 +113,12 @@
                                         <input type="button" class="btn-flat primary" value="删除" @click="deleteComp($event)"/>
                                     </li>
                                     <li>
-                                        <input type="button" class="btn-flat primary" value="导出" @click="exportComp($event)"/>
+                                      <a @click="exportLink($event)">
+                                      <!--<a href="'" + this.getIP() +'components/'+id+'/export'+"'">-->
+                                        <input type="button" class="btn-flat primary" value="导出" :id="component.id"/>
+                                        <!--<input type="button" class="btn-flat primary" value="导出" @click="exportComp($event)"/>-->
+                                      </a>
+
                                     </li>
                                     <li class="last">
                                         <!-- <router-link to="/devices" @click="deleteDevice">删除</router-link>  -->
@@ -155,8 +160,11 @@ export default{
             return{
                 components:[],
                 searchQuery: '',
+                exportUrl: ''               //导出地址
             }
         },created(){
+
+
         	  let username = this.getCookie('username');
             let password = this.getCookie('password');
 
@@ -252,8 +260,21 @@ export default{
 
             },
 
+            exportLink: function (event) {
+              let e = event || window.event;
+              //alert("B");
+              let target = e.target || e.srcElement;
 
-            exportComp: function (event){
+              console.log(target);
+
+              let id = target.id;
+              this.exportUrl = this.getIP() +'components/'+id+'/export';
+
+              console.log(this.exportUrl);
+              window.open(this.exportUrl);
+            },
+
+            /*exportComp: function (event){
                 //alert("A");
                 var e = event || window.event;
                 //alert("B");
@@ -265,7 +286,16 @@ export default{
                     var id = document.getElementById("table_value").rows[rowIndex].cells[0].innerHTML;
                    // alert(id);
                     var qs = require('qs');
-                    this.$axios.get(this.getIP() +'components/'+id+'/export',{
+
+                    this.exportUrl = this.getIP() +'components/'+id+'/export';
+                    alert("ffff");
+                    //console.log(this.exportUrl);
+                    window.open(this.exportUrl);
+                    //http://192.168.0.108:8080/components/478bf833-0a1c-400f-aad4-19f4983fdc1d/export
+                  //this.$router.path = this.getIP() +'components/'+id+'/export';
+                  //http://localhost:8888/#/
+                  //this.$router.push({ path: this.exportUrl});
+                    /!*this.$axios.get(this.getIP() +'components/'+id+'/export',{
 
                         //设置头
                         headers:{
@@ -282,10 +312,10 @@ export default{
                         this.$router.replace({ path: '/components'})
                     }).catch(err=>{
                         layer.msg("导出失败！");
-                    })
+                    })*!/
                 }
 
-            },
+            },*/
 
             copyComp: function (event){
                 var e = event || window.event;
