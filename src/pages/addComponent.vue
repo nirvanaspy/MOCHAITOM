@@ -57,7 +57,7 @@
                     </ul>
                   </div>
 
-                  <div class="upbtn">
+                  <div class="upbtn2">
                     <input type='file' name="folderin" id="folderupload" webkitdirectory @change="getFolder($event)">
                     <!-- <input type='file' name="folderin" id="folderupload" webkitdirectory > -->
                     <!-- <input type='file' name="file"> -->
@@ -75,7 +75,7 @@
                     </ul>
                   </div>
 
-                  <div class="upbtn">
+                  <div class="upbtn2">
                     <input type='file' name="filein" id="fileupload" @change="getFile($event)">
                     <button v-on:click="fileclick($event)">提交</button>
                   </div>
@@ -360,7 +360,7 @@
 
   }
 
-  .upbtn {
+  .upbtn2 {
     margin-top: 5px;
   }
 
