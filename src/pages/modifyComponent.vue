@@ -547,7 +547,7 @@ export default {
     .upbtn{
         margin-top: 5px;
         float: left;
-        margin-right: 100px;
+        margin-right: 10px;
     }
 
     .addli{
