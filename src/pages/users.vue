@@ -72,7 +72,7 @@
 
                           <td>
 
-                            <ul class="actions">
+                            <ul class="ulactions">
                               <li v-if="user.username != 'admin'">
                                 <router-link :to='{name:"modifyPasswordAdmin",params:{id:user.id}}'>
                                   <input type="button" class="btn-flat primary" value="修改"/>
