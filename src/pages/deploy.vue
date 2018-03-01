@@ -198,11 +198,20 @@
              // layer.closeAll('loading');
             })
             .catch(err => {
-              /*this.$notify.error({
-                title: '部署错误',
-                message: '部署错误'
-              });*/
-              //layer.closeAll('loading');
+              console.log("提示---------");
+              console.log(err.response.data.data);
+              if(err.response.data.data.length != 0){
+                /*if(err.response.data.data == "com.rengu.operationsoanagementsuite.Exception.CustomizeException: 目标磁盘不存在"){
+                  layer.msg("目标磁盘不存在");
+                }*/
+                layer.msg(err.response.data.data);
+              }
+
+              /*let mess = err.data;
+              let index = mess.indexOf(":");
+              let mess2 = mess.splice(index+1,mess.length);
+              console.log(mess2);
+              layer.msg(mess2);*/
             })
           }else {
             return false;
