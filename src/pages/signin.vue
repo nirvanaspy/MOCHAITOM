@@ -1,5 +1,5 @@
 <template>
-  <div style="background: url(../../img/bgs/10.jpg) no-repeat;">
+  <div style="background: url(../../static/img/bgs/10.jpg) no-repeat;">
     <div class="row-fluid login-wrapper">
       <a href="#" style="text-decoration:none">
         <!-- <img class="logo" src="img/logo-white.png" /> -->
@@ -104,7 +104,7 @@
 
     created() {
 
-      $("body").css("background-image", "url('img/bgs/10.jpg')");
+      $("body").css("background-image", "url('static/img/bgs/10.jpg')");
 
       if (this.getCookie('ip')) {
 

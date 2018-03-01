@@ -1,5 +1,5 @@
 <template>
-  <div :style="{backgroundImage: 'url(img/bgs/10.jpg)' }">
+  <div :style="{backgroundImage: 'url(static/img/bgs/10.jpg)' }">
 
     <div class="row-fluid login-wrapper">
       <a href="#">
@@ -190,7 +190,7 @@
         this.projectInfo = res.data.data;
         this.length=res.data.data.length;
 
-        $("body").css("background-image", "url('img/bgs/10.jpg')");
+        $("body").css("background-image", "url('static/img/bgs/10.jpg')");
         //alert("hh");
         var ul = document.getElementById('ulId');
         console.log(ul);
