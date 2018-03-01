@@ -20,7 +20,7 @@
                                 部署设计名称
                              </th> -->
                             <th class="span3">
-                                <span class="line"></span>设备名称
+                                设备名称
                             </th>
                             <th class="span3">
                                 <span class="line"></span>设备IP
@@ -28,9 +28,9 @@
                             <th class="span3">
                                 <span class="line"></span>组件名称
                             </th>
-                            <th class="span3">
+                            <!--<th class="span3">
                                 <span class="line"></span>路径
-                            </th>
+                            </th>-->
                         </tr>
                         </thead>
                         <tbody>
@@ -49,9 +49,9 @@
                                 {{deployplanDetail.componentEntity.name}}
                             </td>
 
-                            <td class="description">
+                            <!--<td class="description">
                                 {{deployplanDetail.deployPath}}
-                            </td>
+                            </td>-->
 
                         </tr>
                         <!-- row -->
