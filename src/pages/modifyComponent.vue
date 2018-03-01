@@ -57,11 +57,11 @@
                                                 <button class="btn-flat success" v-on:click="folderclick($event)">提交</button>
                                         </div>
 
-                                        <div class="upbtn">
+                                        <div class="upbtn" style="float: none;">
                                           <button type="submit" class="btn-flat danger" @click="folderClear">清空</button>
                                         </div>
 
-                                        <div class="" style="background: rgba(255, 255, 255, 0.65);height:50px;overflow-y:auto">
+                                        <div class="" style="float: none;background: rgba(255, 255, 255, 0.65);height:50px;overflow-y:auto">
                                             <ul class="mini-repo-list" id="ulId" data-filterable-for="your-repos-filter" data-filterable-type="substring" style="background: rgba(255, 255, 255, 0.65);">
                                                 <li class="pubic fork" v-for="file in fileInfo">
                                                     <span>{{file.name}}</span>
@@ -76,7 +76,7 @@
                                         </div>
 
                                         <div class="upbtn">
-                                          <button type="submit" class="btn-flat danger" @click="folderClear">清空</button>
+                                          <button type="submit" class="btn-flat danger" @click="fileClear">清空</button>
                                         </div>
 
                                     </div>
@@ -146,6 +146,11 @@ export default {
                 sv1: [],
                 sv2: '',
                 fileList2:[],
+                fieList: [],                //文件夹内容
+                fieList2: [],               //文件内容
+                folderClearData: [],        //文件夹需要清空的内容数组
+                fileClearData: [],          //文件需要清空的内容数组
+                allClearData: []            //需要清空的内容的id数组
 
             }
         },created(){
@@ -197,6 +202,7 @@ export default {
 
                 for(let i=0;i<res.data.data.componentDetailEntities.length;i++){
                      let info=res.data.data.componentDetailEntities[i].path.split('/');
+                     let clearId = res.data.data.componentDetailEntities[i].id;
 
                      if(info.length>2){
 
@@ -221,8 +227,12 @@ export default {
                             forderTemp.push(info2);
                         }
 
+
+                       this.folderClearData.push(clearId);
+                        console.log(this.folderClearData);
                      }else{
                         this.fileInfo.push(res.data.data.componentDetailEntities[i]);
+                        this.fileClearData.push(clearId);
                      }
                 }
 
@@ -316,15 +326,15 @@ export default {
                 //this.sv1 = event.target.files[0];;
 
                 var sv11 = document.getElementById("folderupload");
-                var fieList = sv11.files;
+                this.fieList = sv11.files;
 
-                if(fieList.length != 0){
+                if(this.fieList.length != 0){
 
-                    var foldersNum = fieList.length + "个文件";
+                    var foldersNum = this.fieList.length + "个文件";
                     let foldersInfo=[];
 
-                    for(let i=0;i<fieList.length;i++){
-                        let path=fieList[i].webkitRelativePath.split('/');
+                    for(let i=0;i<this.fieList.length;i++){
+                        let path=this.fieList[i].webkitRelativePath.split('/');
 
                         if(foldersInfo.length>0){
                             for(let j=0;j<foldersInfo.length;j++){
@@ -353,7 +363,7 @@ export default {
 
 
                     this.folders.push(foldersNum);
-                    this.allArr.push(fieList);
+                    this.allArr.push(this.fieList);
 
 
                     var obj = document.getElementById('folderupload') ;
@@ -369,16 +379,16 @@ export default {
                 event.preventDefault();
 
                 var sv12 = document.getElementById("fileupload");
-                var fieList2 = sv12.files;
-                console.log(fieList2[0]);
+                this.fieList2 = sv12.files;
+                console.log(this.fieList2[0]);
 
-                if(fieList2.length != 0){
+                if(this.fieList2.length != 0){
                     let files=[];
 
-                    files.push({"name":fieList2[0].name});
+                    files.push({"name":this.fieList2[0].name});
                     this.fileInfo.push(files[0]);
 
-                    this.allArr.push(fieList2);
+                    this.allArr.push(this.fieList2);
 
                     var obj = document.getElementById('fileupload') ;
 
@@ -390,8 +400,6 @@ export default {
             },
 
             addComp(event) {
-
-
 
                 this.name = $("input[id='add-name']").val();
                 this.version = $("input[id='add-version']").val();
@@ -417,6 +425,7 @@ export default {
                     formData.append('deployPath', this.deployPath);
                     //formData.append('size', this.size);
                     formData.append('description', this.describle);
+                    formData.append('removeIds', this.allClearData);
 
                     formData.append('enctype', "multipart/form-data");
 
@@ -465,7 +474,26 @@ export default {
                 }
 
 
+            },
 
+            folderClear: function () {
+              this.folderInfo.splice(0,this.folderInfo.length);   //清空文件夹
+
+              for(let i=0;i < this.folderClearData.length;i++){
+                this.allClearData.push(this.folderClearData[i]);
+              }
+
+              //console.log(this.allClearData);
+            },
+
+            fileClear: function () {
+              this.fileInfo.splice(0,this.fileInfo.length);   //清空文件夹
+
+              for(let i=0;i < this.fileClearData.length;i++){
+                this.allClearData.push(this.fileClearData[i]);
+              }
+
+              //console.log(this.allClearData);
             },
 
             formReset: function(){
