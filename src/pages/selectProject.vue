@@ -87,13 +87,13 @@
       <div id="your_pros" class="span4 box" style="height:374px;margin-top: 39px;background: rgba(255, 255, 255, 0.65);">
         <div class="content-wrap">
           <!-- 按钮 -->
-          <div>
+          <div style="height: 30px;">
             <h4 style="float:left">
               项目
               <span class="Counter">{{length}}</span>
             </h4>
             <div class="boxed-group-action" >
-              <router-link to="/addProject" class="btn-flat success pull-right" style="margin: -10px -10px 0 0;height: 28px;">
+              <router-link to="/addProject" class="btn-flat success pull-right" style="margin: -10px -10px 0 0;height: 28px;color: white;">
                 <span>&#43;</span>
                 新增
               </router-link>
@@ -218,13 +218,13 @@
         }
     } ,
     methods: {
-      addNewTodo: function () {
+      /*addNewTodo: function () {
         this.todos.push({
           id: this.nextTodoId++,
           title: this.newTodoText
         })
         this.newTodoText = ''
-      },
+      },*/
       clicked: function (event) {
         var event = event || window.event;
         var target = event.target || event.srcElement;
@@ -238,7 +238,7 @@
   }
 </script>
 
-<style>
+<style scoped>
 	*{
 		box-sizing: border-box;
 	}
