@@ -214,7 +214,24 @@
       })
         .catch(err => {
           console.log(err);
-        })
+        });
+
+      setInterval(() => {
+        this.$axios.get(this.getIP() + 'projects/' + projectId + '/devices', {
+          //设置头
+          headers: {
+            'content-type': 'application/x-www-form-urlencoded'
+          },
+          auth: {
+            username: username,
+            password: password
+          }
+        }).then(res => {
+          this.devices = res.data.data
+        }).catch(err => {
+          console.log(err);
+        });
+      }, 10 * 1000);
 
     },
     methods: {
