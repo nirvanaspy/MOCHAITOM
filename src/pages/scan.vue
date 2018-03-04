@@ -2,62 +2,65 @@
   <div>
     <div class="container-fluid">
       <div id="pad-wrapper" class="users-list span12">
+        <div class="row-fluid form-wrapper">
+          <div class="span12" style="margin-top: -30px;">
 
-        <div class="span3">
-          <div>
-            <!--  <input class="search" type="text" placeholder="搜索设备.." v-model="searchQuery" @change="change"/> -->
-            <h3>扫描</h3>
+            <div class="drag-content span12">
+              <div class="span3">
+                <div>
+                  <!--  <input class="search" type="text" placeholder="搜索设备.." v-model="searchQuery" @change="change"/> -->
+                  <h3>扫描</h3>
 
-          </div>
+                </div>
 
-          <br/>
-          <div class="row-fluid table drag-content" style="width:258px;">
-            <select v-model="selected" style="height: 26px;width: 233px; margin-top: 5px; margin-left: 7px;"
-                    @change="changeDeployPlan">
-              <!-- v-model="selected" -->
-              <option v-for="deployplan in deployplanInfos" v-bind:value="deployplan.id">
-                {{ deployplan.name }}
-              </option>
-            </select>
-            <table class="table table-hover">
-              <thead>
-              <tr>
-                <th>
-                  设备(IP)/软件名
-                </th>
+                <br/>
+                <div class="row-fluid table drag-content" style="width:258px;">
+                  <select v-model="selected" style="height: 26px;width: 233px; margin-top: 5px; margin-left: 7px;"
+                          @change="changeDeployPlan">
+                    <!-- v-model="selected" -->
+                    <option v-for="deployplan in deployplanInfos" v-bind:value="deployplan.id">
+                      {{ deployplan.name }}
+                    </option>
+                  </select>
+                  <table class="table table-hover">
+                    <thead>
+                    <tr>
+                      <th>
+                        设备(IP)/软件名
+                      </th>
 
-                <th>
-                  软件状态
-                </th>
+                      <th>
+                        软件状态
+                      </th>
 
-                <th>
-                  设备状态
-                </th>
+                      <th>
+                        设备状态
+                      </th>
 
-              </tr>
-              </thead>
-            </table>
+                    </tr>
+                    </thead>
+                  </table>
 
-            <div id="areaTree"
-                 style="margin-left: -1px; height: 317px; overflow: auto;margin-top: -16px;white-space:pre;">
-              <div class="tree-box">
-                <div class="zTreeDemoBackground left">
-                  <ul id="treeDemo" class="ztree" style="white-space: nowrap;">
-                  </ul>
+                  <div id="areaTree"
+                       style="margin-left: -1px; height: 317px; overflow: auto;margin-top: -16px;white-space:pre;">
+                    <div class="tree-box">
+                      <div class="zTreeDemoBackground left">
+                        <ul id="treeDemo" class="ztree" style="white-space: nowrap;">
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+
+                <div class="btn-group">
+                  <button class="btn-glow" style="width:130px" @click="scanAll()"><i class="icon-wrench"></i>完整扫描</button>
+                  <button class="btn-glow" style="width:130px" @click="scanQuick1()"><i class="icon-wrench"></i>快速扫描</button>
+
                 </div>
               </div>
-            </div>
 
-          </div>
-
-          <div class="btn-group">
-            <button class="btn-glow" style="width:130px" @click="scanAll()"><i class="icon-wrench"></i>完整扫描</button>
-            <button class="btn-glow" style="width:130px" @click="scanQuick1()"><i class="icon-wrench"></i>快速扫描</button>
-
-          </div>
-        </div>
-
-        <div class="span8">
+              <div class="span9">
           <div style="margin-bottom: -5px;margin-left: -40px;">
 
             <label style="float:left">文件名：</label>
@@ -126,6 +129,10 @@
             </div>
           </div>
 
+        </div>
+
+            </div>
+          </div>
         </div>
 
       </div>
