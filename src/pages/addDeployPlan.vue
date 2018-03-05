@@ -88,6 +88,7 @@ let projectId = "2ec24245-0f8d-4db5-9d9b-1726ed727057";*/
 
             formReset: function(){
                 $("input").val('');
+                this.$router.replace({ path: '/deployplan'});
             }
 
         }
