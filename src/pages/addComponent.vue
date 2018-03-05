@@ -348,6 +348,7 @@
 
       formReset: function () {
         $("input").val('');
+        this.$router.replace({path: '/components'});
       }
 
     }
