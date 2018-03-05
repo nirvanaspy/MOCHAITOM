@@ -220,6 +220,9 @@
     methods: {
 
       deleteDevice: function (event) {
+        let username = this.getCookie('username');
+        let password = this.getCookie('password');
+
         //alert("A");
         var e = event || window.event;
         //alert("B");
@@ -242,16 +245,16 @@
                 'content-type': 'application/x-www-form-urlencoded'
               },
               auth: {
-                username: 'admin',
-                password: 'admin'
+                username: username,
+                password: password
               }
             }).then(res => {
               layer.msg("删除成功");
 
               //删除完再次查询
-              var projectId = this.getCookie('projectId');
-              var username = this.getCookie('username');
-              var password = this.getCookie('password');
+              let projectId = this.getCookie('projectId');
+              let username = this.getCookie('username');
+              let password = this.getCookie('password');
               this.$axios.get(this.getIP() + 'projects/' + projectId + '/devices', {
                 //设置头
                 headers: {
