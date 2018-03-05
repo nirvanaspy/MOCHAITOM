@@ -203,6 +203,9 @@ export default{
                 //alert("B");
                 var target = e.target || e.srcElement;
 
+                let username = this.getCookie('username');
+                let password = this.getCookie('password');
+
                 var msg = "您确定删除吗？";
 		        if (confirm(msg) == true) {
 
@@ -220,8 +223,8 @@ export default{
 	                            'content-type':'application/x-www-form-urlencoded'
 	                        },
 	                        auth: {
-	                            username: 'admin',
-	                            password: 'admin'
+	                            username: username,
+	                            password: password
 	                        }
 	                    }).then(res=>{
 	                    	layer.msg("删除成功");
@@ -364,8 +367,8 @@ export default{
 		                    'content-type':'application/x-www-form-urlencoded'
 		                },
 		                auth: {
-		                    username: 'admin',
-		                    password: 'admin'
+		                    username: username,
+		                    password: password
 		                }
 		            }).then(res=>{
 		                this.components = res.data.data
