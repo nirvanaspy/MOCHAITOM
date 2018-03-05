@@ -248,8 +248,8 @@
     created() {
 
       var projectId = this.getCookie('projectId');
-      var username = this.getCookie('username');
-      var password = this.getCookie('password');
+      let username = this.getCookie('username');
+      let password = this.getCookie('password');
 
       $("#modal-select").modal('hide');
       layer.closeAll('loading');
@@ -272,8 +272,8 @@
           "content-type": "application/x-www-form-urlencoded"
         },
         auth: {
-          username: "admin",
-          password: "admin"
+          username: username,
+          password: password
         }
       }).then(res => {
 
@@ -340,6 +340,9 @@
       //下拉框选择部署，显示树
       changeDeployPlan: function () {
 
+        let username = this.getCookie('username');
+        let password = this.getCookie('password');
+
         zNodes.length = 0;
         deployplanZtreeId = this.selected;
 
@@ -371,8 +374,8 @@
             "content-type": "application/x-www-form-urlencoded"
           },
           auth: {
-            username: "admin",
-            password: "admin"
+            username: username,
+            password: password
           }
         }).then(res => {
 
@@ -505,6 +508,8 @@
 
       //双击动作
       zTreeOnDblClick: function (e, treeId, treeNode) {
+        let username = this.getCookie('username');
+        let password = this.getCookie('password');
 
         deviceNodeId = '';
         deployPlanId = '';
@@ -526,8 +531,8 @@
                 "content-type": "application/x-www-form-urlencoded"
               },
               auth: {
-                username: "admin",
-                password: "admin"
+                username: username,
+                password: password
               }
             }).then(res => {
               for (let i = 0; i < res.data.data.componentDetailEntities.length; i++) {
@@ -551,8 +556,8 @@
                 "content-type": "application/x-www-form-urlencoded"
               },
               auth: {
-                username: "admin",
-                password: "admin"
+                username: username,
+                password: password
               }
             }).then(res => {
               for (let i = 0; i < res.data.data.length; i++) {
@@ -601,8 +606,8 @@
                 "content-type": "application/x-www-form-urlencoded"
               },
               auth: {
-                username: "admin",
-                password: "admin"
+                username: username,
+                password: password
               }
             }).then(res => {
 
@@ -623,8 +628,8 @@
                   "content-type": "application/x-www-form-urlencoded"
                 },
                 auth: {
-                  username: "admin",
-                  password: "admin"
+                  username: username,
+                  password: password
                 }
               }).then(res => {
 
@@ -672,6 +677,8 @@
       },
 
       scanAll: function () {
+        let username = this.getCookie('username');
+        let password = this.getCookie('password');
 
         /* if (zTree.getSelectedNodes()[0].state == false) {//设备不在线，无法扫描
            layer.msg("设备离线！");
@@ -689,8 +696,8 @@
               "content-type": "application/x-www-form-urlencoded"
             },
             auth: {
-              username: "admin",
-              password: "admin"
+              username: username,
+              password: password
             }
           }).then(res => {
           layer.closeAll('loading');
@@ -905,6 +912,8 @@
 
       //快速扫描
       scanQuick(event) {
+        let username = this.getCookie('username');
+        let password = this.getCookie('password');
 
         $("#modal-select").modal('hide');
         layer.load();
@@ -949,8 +958,8 @@
                 "content-type": "application/x-www-form-urlencoded"
               },
               auth: {
-                username: "admin",
-                password: "admin"
+                username: username,
+                password: password
               }
             }).then(res => {
 
@@ -1101,6 +1110,9 @@
       },
 
       directQuick: function () {
+        let username = this.getCookie('username');
+        let password = this.getCookie('password');
+
         let extensions = decodeURIComponent(this.getCookie('extensions'));
         if (zTree.getSelectedNodes()[0].state == false) {
           layer.msg("设备离线！");
@@ -1141,8 +1153,8 @@
                     "content-type": "application/x-www-form-urlencoded"
                   },
                   auth: {
-                    username: "admin",
-                    password: "admin"
+                    username: username,
+                    password: password
                   }
                 }).then(res => {
 
