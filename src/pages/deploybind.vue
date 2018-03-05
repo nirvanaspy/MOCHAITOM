@@ -195,7 +195,7 @@
 
                       <td>
                         <div class="btn-group small" style="margin-right: 3px">
-                          <button class="btn-glow icon-random" @click="moveComp($event)" value="aa">
+                          <button class="btn-glow icon-reply" @click="moveComp($event)" value="aa">
                             <!-- <i class="icon-random"></i> -->
                           </button>
                         </div>
