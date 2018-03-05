@@ -119,6 +119,9 @@
         //alert("B");
         let target = e.target || e.srcElement;
 
+        let username = this.getCookie('username');
+        let password = this.getCookie('password');
+
         let msg = "您确定删除吗？";
         if (confirm(msg) == true) {
 
@@ -133,8 +136,8 @@
                 'content-type': 'application/x-www-form-urlencoded'
               },
               auth: {
-                username: 'admin',
-                password: 'admin'
+                username: username,
+                password: password
               }
             }).then(res => {
               layer.msg("删除成功");
@@ -176,6 +179,9 @@
         //alert("B");
         let target = e.target || e.srcElement;
 
+        let username = this.getCookie('username');
+        let password = this.getCookie('password');
+
         let msg = "您确定部署吗？";
         if (confirm(msg) == true) {
 
@@ -197,8 +203,8 @@
                   'content-type': 'application/x-www-form-urlencoded'
                 },
                 auth: {
-                  username: 'admin',
-                  password: 'admin'
+                  username: username,
+                  password: password
                 }
               }).then(res => {
               layer.msg("部署成功");
