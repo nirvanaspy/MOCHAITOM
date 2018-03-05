@@ -279,6 +279,8 @@
       },
 
       addComp(event) {
+        var username = this.getCookie('username');
+        var password = this.getCookie('password');
         // alert("A");
         this.name = $("input[name='add-name']").val();
         this.version = $("input[name='add-version']").val();
@@ -325,8 +327,8 @@
           this.$axios.post(this.getIP() + 'components', formData, {
             config,
             auth: {
-              username: 'admin',
-              password: 'admin'
+              username: username,
+              password: password
             }
           }).then(res => {
             //this.users = res.data.data
