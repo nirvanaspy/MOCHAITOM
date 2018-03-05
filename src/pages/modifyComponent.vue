@@ -42,7 +42,7 @@
                                 <div class="span12 field-box">
                                     <label>上传文件:</label>
                                     <div class="span9 uploadfile" style="margin-left: -1px;">
-                                        <div class="" style="background: rgba(255, 255, 255, 0.65);height:50px;overflow-y:auto">
+                                        <div class="" style="background: rgba(255, 255, 255, 0.65);height:50px;overflow-y:auto;width: 100%;">
                                             <ul class="mini-repo-list" id="ulId" data-filterable-for="your-repos-filter" data-filterable-type="substring" style="background: rgba(255, 255, 255, 0.65);">
                                                 <li class="pubic fork" v-for="folder in folderInfo">
                                                     <span>{{folder.name}}</span>
@@ -61,7 +61,7 @@
                                           <button type="submit" class="btn-flat danger" @click="folderClear">清空</button>
                                         </div>
 
-                                        <div class="" style="float: none;background: rgba(255, 255, 255, 0.65);height:50px;overflow-y:auto">
+                                        <div class="" style="float: none;background: rgba(255, 255, 255, 0.65);height:50px;overflow-y:auto;width: 100%;">
                                             <ul class="mini-repo-list" id="ulId" data-filterable-for="your-repos-filter" data-filterable-type="substring" style="background: rgba(255, 255, 255, 0.65);">
                                                 <li class="pubic fork" v-for="file in fileInfo">
                                                     <span>{{file.name}}</span>
