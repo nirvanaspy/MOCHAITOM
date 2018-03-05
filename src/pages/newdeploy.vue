@@ -120,8 +120,8 @@
       }
     }, created() {
       var projectId = this.getCookie('projectId');
-      var username = this.getCookie('username');
-      var password = this.getCookie('password');
+      let username = this.getCookie('username');
+      let password = this.getCookie('password');
       this.$axios.get(this.getIP() + 'projects/' + projectId + '/devices', {
         //设置头
         headers: {
@@ -144,8 +144,8 @@
           "content-type": "application/x-www-form-urlencoded"
         },
         auth: {
-          username: "admin",
-          password: "admin"
+          username: username,
+          password: password
         }
       }).then(res => {
 
@@ -174,6 +174,9 @@
         //alert("B");
         let target = e.target || e.srcElement;
 
+        let username = this.getCookie('username');
+        let password = this.getCookie('password');
+
         if(this.deployplanId.length != 0){
           let msg = "您确定部署吗？";
           if (confirm(msg) == true) {
@@ -196,8 +199,8 @@
                   'content-type': 'application/x-www-form-urlencoded'
                 },
                 auth: {
-                  username: 'admin',
-                  password: 'admin'
+                  username: username,
+                  password: password
                 }
               }).then(res => {
                 layer.msg("部署成功");
