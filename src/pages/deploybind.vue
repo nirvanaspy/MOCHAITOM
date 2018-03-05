@@ -63,7 +63,9 @@
                       <td class="wrap">
                         <div class="wrap" :id="device.id" :title="device.name">
                           <i class="icon-laptop"></i>&nbsp;
-                          {{device.name}} ({{device.ip}})
+                          {{device.name}}
+                          <br/>
+                          &nbsp; &nbsp; &nbsp; ({{device.ip}})
                         </div>
 
 
