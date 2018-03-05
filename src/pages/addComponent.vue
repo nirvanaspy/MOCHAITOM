@@ -12,7 +12,7 @@
           <!-- left column -->
           <div class="span10 with-sidebar">
             <div class="container">
-              <form class="new_user_form inline-input"/>
+              <form class="new_user_form inline-input" enctype="multipart/form-data"/>
               <div class="span12 field-box">
                 <label>组件名:</label>
                 <input class="span9" type="text" name="add-name"/>
@@ -367,6 +367,7 @@
   .addli {
     max-height: 90px;
     overflow: auto;
+    width: 100%;
   }
 
   .addul {
