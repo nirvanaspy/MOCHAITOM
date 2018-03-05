@@ -22,7 +22,7 @@
                         <thead>
                         <tr>
                             <th class="span4 sortable">
-                               名称
+                              部署方案名称
                             </th>
                             <th class="span3">
                                 <span class="line"></span>描述
