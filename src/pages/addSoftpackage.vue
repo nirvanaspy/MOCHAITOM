@@ -219,6 +219,7 @@
       formReset: function () {
         console.log(document.getElementById("myForm"));
         $("input").val('');
+        this.$router.replace({path: '/softpackage'});
         /*document.getElementById("myForm").reset()*/
       }
 
