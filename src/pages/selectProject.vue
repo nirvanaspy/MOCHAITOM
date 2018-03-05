@@ -183,8 +183,8 @@
           'content-type': 'application/x-www-form-urlencoded'
         },
         auth: {
-          username: 'admin',
-          password: 'admin'
+          username: username,
+          password: password
         }
       }).then(res => {
         this.projectInfo = res.data.data;
