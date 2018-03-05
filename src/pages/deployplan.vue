@@ -179,6 +179,9 @@ export default{
               //alert("B");
               var target = e.target || e.srcElement;
 
+              let username = this.getCookie('username');
+              let password = this.getCookie('password');
+
               var comptrInfo = target.parentNode.parentNode.parentNode;
 
               var id = comptrInfo.id;
@@ -200,8 +203,8 @@ export default{
                               'content-type':'application/x-www-form-urlencoded'
                           },
                           auth: {
-                              username: 'admin',
-                              password: 'admin'
+                              username: username,
+                              password: password
                           }
                       }).then(res=>{
 
@@ -209,8 +212,8 @@ export default{
 
                           //删除完再次查询
                           var projectId = this.getCookie('projectId');
-                          var username = this.getCookie('username');
-                          var password = this.getCookie('password');
+                          let username = this.getCookie('username');
+                          let password = this.getCookie('password');
 
                           this.$axios.get(this.getIP() +'projects/'+projectId+'/deploymentdesigns',{
                               //设置头
@@ -262,6 +265,8 @@ export default{
 
           /*let msg = "您确定建立基线吗？";
           if (confirm(msg) == true) {*/
+            let username = this.getCookie('username');
+            let password = this.getCookie('password');
 
             let qs = require('qs');
 
@@ -284,8 +289,8 @@ export default{
                   'content-type':'application/x-www-form-urlencoded'
                 },
                 auth: {
-                  username: 'admin',
-                  password: 'admin'
+                  username: username,
+                  password: password
                 }
               }).then(res=>{
 
