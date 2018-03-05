@@ -139,8 +139,8 @@
           "content-type": "application/x-www-form-urlencoded"
         },
         auth: {
-          username: "admin",
-          password: "admin"
+          username: username,
+          password: password
         }
       }).then(res => {
 
@@ -168,6 +168,8 @@
 
       handleDeploy: function (index, row) {
         //debugger;
+        let username = this.getCookie('username');
+        let password = this.getCookie('password');
 
         if(this.deployplanId.length != 0){
           let msg = "您确定部署吗？";
@@ -186,8 +188,8 @@
                   'content-type': 'application/x-www-form-urlencoded'
                 },
                 auth: {
-                  username: 'admin',
-                  password: 'admin'
+                  username: username,
+                  password: password
                 }
             }).then(res => {
               /*this.$notify({
