@@ -37,7 +37,7 @@
                       {{ deployplan.name }}
                     </option>
                   </select>
-                  <table class="table table-hover">
+                  <table class="table table-hover" style="margin-top: 10px">
                     <thead>
                     <tr>
                       <th>
@@ -85,27 +85,27 @@
 
                 <!--<div style="height: 400px;overflow: auto;margin-top: 25px;">-->
                   <div class="row-fluid table devcompchose">
-                    <table class="table table-hover" id="table_value">
+                    <table class="table table-hover" id="table_value"  style="margin-top: 10px">
                       <thead>
                       <tr>
 
-                        <th class="span4 sortable">
+                        <th class="span2 wrap">
                           文件名
                         </th>
-                        <th class="span3 sortable">
+                        <th class="span2">
                           <span class="line"></span>路径
                         </th>
-                        <th class="span3">
+                        <th class="span2">
                           <span class="line"></span>文件类型
                         </th>
-                        <th class="span3">
+                        <th class="span2">
                           <span class="line"></span>修改日期
                         </th>
 
-                        <th class="span3">
-                          <span class="line"></span>文件大小(MB)
+                        <th class="span2">
+                          <span class="line"></span>文件大小
                         </th>
-                        <th class="span3">
+                        <th class="span2">
                           <span class="line"></span>版本状态
                         </th>
 
@@ -115,20 +115,26 @@
                       <!-- row -->
                       <tr class="first" v-for="(component,index) in componentEntityA" :key="index" id="tabel_info">
                         <td style="display:none">{{component.id}}</td>
-                        <td>{{component.name}}</td>
-                        <td>
-                          {{component.path}}
+                        <td class="span2 wrap" style="cursor: pointer;">
+                          <div class="wrap" :title="component.name">
+                            {{component.name}}
+                          </div>
                         </td>
-                        <td>
+                        <td class="span2 wrap" style="cursor: pointer;">
+                          <div class="wrap" :title="component.path">
+                            {{component.path}}
+                          </div>
+                        </td>
+                        <td class="span2">
                           {{component.type}}
                         </td>
-                        <td>
+                        <td class="span2">
                           {{component.createTime}}
                         </td>
-                        <td>
-                          {{component.size}}
+                        <td class="span2">
+                          {{component.displaySize}}
                         </td>
-                        <td>
+                        <td class="span2">
                           {{component.state}}
                         </td>
 
@@ -1372,8 +1378,15 @@
 </script>
 <style type="text/css">
 
+  .wrap {
+    width: 150px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+
   .devcompchose {
-    height: 460px;
+    height: 470px;
     overflow: auto;
   }
 
