@@ -153,11 +153,11 @@
                   <table class="table table-hover" id="table_value2">
                     <thead>
                     <tr>
-                      <th class="span4 wrap" style="width: 80px;">
+                      <th class="span3 wrap" style="width: 80px;">
                         组件名称
                       </th>
-                      <th class="span2 sortable">
-                        <span class="line"></span>大小(MB)
+                      <th class="span3 sortable">
+                        <span class="line"></span>大小
                       </th>
                       <th class="span2 sortable">
                         <span class="line"></span>版本
@@ -185,7 +185,7 @@
                         </td>
                         <td @click="compClick($event)"  :id="component.id">
                           <div  :id="component.id">
-                            {{component.size}}
+                            {{component.displaySize}}
                           </div>
                         </td>
                         <td @click="compClick($event)"  :id="component.id">
@@ -378,9 +378,9 @@
       }).then(res => {
 
         this.comps = res.data.data;
-        for (var j = 0; j < this.comps.length; j++) {
-          this.comps[j].size = ((this.comps[j].size) / 1024 / 1024).toFixed(3);
-        }
+        /*for (var j = 0; j < this.comps.length; j++) {
+          this.comps[j].size = this.comps[j].size.toFixed(5);
+        }*/
 
 
       })
