@@ -37,7 +37,8 @@
                 <div class="row-fluid table devcompchose">
 
                   <div class="devcompfind">
-                    <input class="search" type="text" placeholder="设备名称.." style="width: 90%;" v-model="searchQueryDev"/>
+                    <input class="search" type="text" placeholder="设备名称.." style="width: 90%;"
+                           v-model="searchQueryDev"/>
                   </div>
 
                   <br/>
@@ -85,7 +86,7 @@
 
               <!-- 拖动区域 -->
               <div class="move span6" id="moveContent" style="height: 481px;margin-top: -1px;overflow: auto;">
-                <div  v-if="leftClick">
+                <div v-if="leftClick">
 
                   <div style="margin-top:20px;text-align: center;">
                     <h3>部署设计</h3>
@@ -110,9 +111,9 @@
 
                   </div>
 
-              </div>
+                </div>
 
-                <div  v-else>
+                <div v-else>
                   <div style="margin-top:20px;text-align: center;">
                     <h3>部署设计</h3>
                     <br/>
@@ -145,7 +146,8 @@
 
                 <div class="row-fluid table devcompchose">
                   <div class="devcompfind">
-                    <input class="search" type="text" placeholder="组件名称.." style="width: 90%;" v-model="searchQueryComp"/>
+                    <input class="search" type="text" placeholder="组件名称.." style="width: 90%;"
+                           v-model="searchQueryComp"/>
                   </div>
 
                   <br/>
@@ -153,7 +155,7 @@
                   <table class="table table-hover" id="table_value2">
                     <thead>
                     <tr>
-                      <th class="span3 wrap" style="width: 80px;">
+                      <th class="span3 wrap2">
                         组件名称
                       </th>
                       <th class="span3 sortable">
@@ -173,31 +175,30 @@
                     </thead>
                     <tbody>
 
-                    <tr class="first"  style="cursor: pointer;" v-for="(component,index) in compsA"  :id="component.id">
+                    <tr class="first" style="cursor: pointer;" v-for="(component,index) in compsA" :id="component.id">
                       <td style="display:none">{{component.id}}</td>
-                      <!--<div @click="compClick($event)"  :id="component.id">-->
-                        <td class="wrap" @click="compClick($event)"  :id="component.id" style="width: 80px;">
-                          <div class="wrap"  :id="component.id" :title="component.name" style="width: 80px;">
-                            <i class="icon-folder-close-alt"></i>&nbsp;
-                            {{component.name}}
-                          </div>
 
-                        </td>
-                        <td @click="compClick($event)"  :id="component.id">
-                          <div  :id="component.id">
-                            {{component.displaySize}}
-                          </div>
-                        </td>
-                        <td @click="compClick($event)"  :id="component.id">
-                          <div  :id="component.id">
-                            {{component.version}}
-                          </div>
-                        </td>
-                      <!--</div>-->
+                      <td class="wrap2" @click="compClick($event)" :id="component.id">
+                        <div class="wrap2" :id="component.id" :title="component.name">
+                          <i class="icon-folder-close-alt"></i>&nbsp;
+                          {{component.name}}
+                        </div>
+
+                      </td>
+                      <td class="wrap2" @click="compClick($event)" :id="component.id">
+                        <div class="wrap2" :id="component.id" :title="component.displaySize">
+                          {{component.displaySize}}
+                        </div>
+                      </td>
+                      <td @click="compClick($event)" :id="component.id">
+                        <div :id="component.id">
+                          {{component.version}}
+                        </div>
+                      </td>
 
                       <td>
                         <div class="btn-group small" style="margin-right: 3px">
-                          <button class="btn-glow icon-reply" @click="moveComp($event)" value="aa">
+                          <button class="btn-glow icon-reply moveInOut" @click="moveComp($event)" value="aa">
                             <!-- <i class="icon-random"></i> -->
                           </button>
                         </div>
@@ -205,7 +206,7 @@
                       </td>
                       <td>
                         <div class="btn-group small" style="margin-right: 3px">
-                          <button class="btn-glow icon-trash" @click="moveoutComp($event)">
+                          <button class="btn-glow icon-trash moveInOut" @click="moveoutComp($event)">
 
                           </button>
                         </div>
@@ -249,10 +250,10 @@
         设备：{{devices}}
     </div>-->
 
-   <!-- <hr/>
-    <div>
-      设备名：{{deviceArr}}
-    </div>-->
+    <!-- <hr/>
+     <div>
+       设备名：{{deviceArr}}
+     </div>-->
 
     <!-- <hr/>
 
@@ -363,9 +364,9 @@
         });
 
       //获取组件
-      this.$axios.get(this.getIP() +'components', {
-        params:{  //get请求在第二个位置，post在第三个位置
-          isShowHistory:false
+      this.$axios.get(this.getIP() + 'components', {
+        params: {  //get请求在第二个位置，post在第三个位置
+          isShowHistory: false
         },
         //设置头
         headers: {
@@ -390,7 +391,7 @@
 
 
       //获取部署设计的相关信息
-      this.$axios.get(this.getIP() +'projects/'+projectId+'/deploymentdesigns', {
+      this.$axios.get(this.getIP() + 'projects/' + projectId + '/deploymentdesigns', {
         //设置头
         headers: {
           'content-type': 'application/x-www-form-urlencoded'
@@ -460,7 +461,7 @@
         //alert(compId);
         console.log(deployPlanId);
 
-        this.$axios.get(this.getIP() +'deploymentdesigns/' + deployPlanId + '/deploymentdesigndetails/devices/' + this.deviceCHId, {
+        this.$axios.get(this.getIP() + 'deploymentdesigns/' + deployPlanId + '/deploymentdesigndetails/devices/' + this.deviceCHId, {
           //设置头
           headers: {
             'content-type': 'application/x-www-form-urlencoded'
@@ -505,7 +506,7 @@
         //alert(compId);
         console.log(deployPlanId);
 
-        this.$axios.get(this.getIP() +'deploymentdesigns/' + deployPlanId + '/deploymentdesigndetails/components/' + this.compCHId, {
+        this.$axios.get(this.getIP() + 'deploymentdesigns/' + deployPlanId + '/deploymentdesigndetails/components/' + this.compCHId, {
           //设置头
           headers: {
             'content-type': 'application/x-www-form-urlencoded'
@@ -726,7 +727,7 @@
                   flagDel = true;
                   let msg = "您确定删除吗？";
                   if (confirm(msg) == true) {
-                    this.$axios.delete(this.getIP() +'deploymentdesigns/deploymentdesigndetails/' + this.devicecomps[i].id,
+                    this.$axios.delete(this.getIP() + 'deploymentdesigns/deploymentdesigndetails/' + this.devicecomps[i].id,
                       {
                         //设置头
                         headers: {
@@ -795,7 +796,7 @@
           formData.append('deviceIds', this.diveceIdPass);
           formData.append('componentIds', this.compsIdPass);
 
-          this.$axios.post(this.getIP() +'deploymentdesigns/' + deployPlanId + "/deploymentdesigndetails", formData,
+          this.$axios.post(this.getIP() + 'deploymentdesigns/' + deployPlanId + "/deploymentdesigndetails", formData,
 
             {
 
@@ -1052,6 +1053,17 @@
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
+  }
+
+  .wrap2 {
+    width: 50px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+
+  .moveInOut{
+    padding: 5px 7px;
   }
 
   .devcompfind {
