@@ -65,7 +65,7 @@
 								<span class="line"></span>版本
 							</th>
 							<th class="span2">
-								<span class="line"></span>大小(MB)
+								<span class="line"></span>大小
 							</th>
 							<th class="span3 sortable">
                                 <span class="line"></span>相对路径
@@ -90,7 +90,7 @@
 								{{component.version}}
 							</td>
 							<td>
-								{{component.size}}
+								{{component.displaySize}}
 							</td>
 							<td>
 								{{component.deployPath}}
@@ -185,9 +185,12 @@ export default{
                 }
             }).then(res=>{
                 this.components = res.data.data;
-                for (let j = 0; j < this.components.length; j++) {
+                /*for (let j = 0; j < this.components.length; j++) {
                   this.components[j].size = ((this.components[j].size) / 1024 / 1024).toFixed(5);
-                }
+                }*/
+              /*for (let j = 0; j < this.components.length; j++) {
+                this.components[j].size = this.components[j].size.toFixed(5);
+              }*/
             })
             .catch(err=>{
                 console.log(err);
