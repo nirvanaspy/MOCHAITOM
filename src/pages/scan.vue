@@ -103,7 +103,7 @@
                         </th>
 
                         <th class="span3">
-                          <span class="line"></span>文件大小
+                          <span class="line"></span>文件大小(MB)
                         </th>
                         <th class="span3">
                           <span class="line"></span>版本状态
@@ -147,11 +147,12 @@
             </div>
 
             <br/>
-
+            <!-- icon-bolt 快速-->
+            <!-- icon-circle-blank 完整 -->
             <div class="btn-group" style="margin-top: 20px;">
-              <button class="btn-glow" style="width:130px" @click="scanAll()"><i class="icon-wrench"></i>完整扫描
+              <button class="btn-glow" style="width:130px" @click="scanAll()"><i class="icon-circle-blank"></i>完整扫描
               </button>
-              <button class="btn-glow" style="width:130px" @click="scanQuick1()"><i class="icon-wrench"></i>快速扫描
+              <button class="btn-glow" style="width:130px" @click="scanQuick1()"><i class="icon-bolt"></i>快速扫描
               </button>
 
             </div>
@@ -542,6 +543,12 @@
                   }
                 }
                 this.componentEntity.push(res.data.data.componentDetailEntities[i]);
+
+                //size
+                /*for (let j = 0; j < this.componentEntity.length; j++) {
+                  this.componentEntity[j].size = ((this.componentEntity[j].size) / 1024 / 1024).toFixed(5);
+                }*/
+
               }
               ;
 
@@ -570,6 +577,11 @@
                   this.componentEntity.push(res.data.data[i].componentEntity.componentDetailEntities[j]);
                 }
               }
+
+              //size
+              /*for (let j = 0; j < this.componentEntity.length; j++) {
+                this.componentEntity[j].size = ((this.componentEntity[j].size) / 1024 / 1024).toFixed(5);
+              }*/
             }).catch(err => {
 
             });
@@ -586,6 +598,12 @@
                 }
               }
             }
+
+            //size
+            /*for (let j = 0; j < this.componentEntity.length; j++) {
+              this.componentEntity[j].size = ((this.componentEntity[j].size) / 1024 / 1024).toFixed(5);
+            }*/
+
           } else if (zTree.getSelectedNodes()[0].hasOwnProperty("children") == false) {
 
             for (let j = 0; j < childrenInfo.length; j++) {
@@ -595,8 +613,15 @@
                 break;
               }
             }
+
+            //size
+            /*for (let j = 0; j < this.componentEntity.length; j++) {
+              this.componentEntity[j].size = ((this.componentEntity[j].size) / 1024 / 1024).toFixed(5);
+            }*/
           }
         } else {//没有扫描之前的数据显示
+
+          this.componentEntity.splice(0,this.componentEntity.length);
 
           if (zTree.getSelectedNodes()[0].deviceId) {//有deviceId字段，说明是组件
             componentNodeId = zTree.getSelectedNodes()[0].id;
@@ -615,6 +640,11 @@
                 res.data.data.componentDetailEntities[i].state = "--";
                 this.componentEntity.push(res.data.data.componentDetailEntities[i]);
               }
+
+              //size
+              /*for (let j = 0; j < this.componentEntity.length; j++) {
+                this.componentEntity[j].size = ((this.componentEntity[j].size) / 1024 / 1024).toFixed(5);
+              }*/
 
             }).catch(err => {
 
@@ -641,9 +671,17 @@
                 }
               }
 
+              //size
+              /*for (let j = 0; j < this.componentEntity.length; j++) {
+                this.componentEntity[j].size = ((this.componentEntity[j].size) / 1024 / 1024).toFixed(5);
+              }*/
+
             }).catch(err => {
             });
           } else if (zTree.getSelectedNodes()[0].hasOwnProperty("children")) {//除设备和组件之外的文件夹
+
+            this.componentEntity.splice(0,this.componentEntity.length);
+
             for (let i = 0; i < zTree.getSelectedNodes()[0].children.length; i++) {
               if (zTree.getSelectedNodes()[0].children[i].hasOwnProperty("children") == false) {
                 for (let j = 0; j < childrenInfo.length; j++) {
@@ -655,13 +693,27 @@
                 }
               }
             }
+
+            //size
+            /*for (let j = 0; j < this.componentEntity.length; j++) {
+              this.componentEntity[j].size = ((this.componentEntity[j].size) / 1024 / 1024).toFixed(5);
+            }*/
+
           } else if (zTree.getSelectedNodes()[0].hasOwnProperty("children") == false) {//没有孩子的单个文件
+
+            this.componentEntity.splice(0,this.componentEntity.length);
+
             for (let j = 0; j < childrenInfo.length; j++) {
               if (childrenInfo[j].id == zTree.getSelectedNodes()[0].id) {
                 this.componentEntity.push(childrenInfo[j]);
                 break;
               }
             }
+
+            //size
+            /*for (let j = 0; j < this.componentEntity.length; j++) {
+              this.componentEntity[j].size = ((this.componentEntity[j].size) / 1024 / 1024).toFixed(5);
+            }*/
           }
 
         }
