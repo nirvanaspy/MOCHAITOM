@@ -1376,7 +1376,7 @@
   ;
 
 </script>
-<style type="text/css">
+<style type="text/css" scoped>
 
   .wrap {
     width: 150px;
@@ -1417,7 +1417,6 @@
   .drag-content {
     border: 2px solid rgba(204, 204, 204, 1);
     min-height: 400px;
-    width: 736px;
 
   }
 
@@ -1426,12 +1425,12 @@
     line-height: 26px;
   }
 
-  .modal {
+ /* .modal {
 
     left: 57%;
 
     width: 414px;
-  }
+  }*/
 
   .level0 {
     width: 275px;
