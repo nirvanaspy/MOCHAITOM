@@ -37,7 +37,7 @@
                   <label>选择组件:</label>
 
                   <div class="span9 selcomps" style="margin-left: 0;">
-                    <div class="table-wrapper" style="margin-top: 0;">
+                    <div class="table-wrapper" style="margin-top: 0;height: 250px; overflow: auto;">
                       <div class="row-fluid table">
                         <table class="table table-hover" id="table_value">
                           <thead>
