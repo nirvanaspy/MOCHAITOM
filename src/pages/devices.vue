@@ -165,14 +165,15 @@
           <div class="modal-body">
             <!-- form start -->
             <form class="form-horizontal"/>
-              <div style="margin-top: 23px;margin-left: 30px;">
+              <div style="margin-top: 23px;">
                 <span>绝对路径:</span>
                 <input type="text" id="input-path" style="height:20px">(例如:D:/test/)
               </div>
 
-              <div style="margin-left: 148px;margin-top: 22px;">
-                <button type="submit" class="btn-glow flat" @click="report2($event)">确认</button>
-                <button type="submit" class="btn-glow flat" @click="formReset">取消</button>
+              <br/>
+              <div class="pull-right">
+                <button type="submit" class="btn-flat primary" @click="report2($event)">确认</button>
+                <button type="submit" class="btn-flat primary" @click="formReset">取消</button>
               </div>
             </form>
 
@@ -437,7 +438,7 @@
     }
   }
 </script>
-<style>
+<style scoped>
   .tabletable {
     height: 400px;
     overflow-y: auto;

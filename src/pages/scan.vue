@@ -166,29 +166,40 @@
           </div>
         </div>
 
-
       </div>
     </div>
 
     <div class="modal fade" id="modal-select">
       <div class="modal-dialog">
         <div class="modal-content">
-          <div class="modal-body" style="background-color: #0f00ff1a;">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="formReset">
+              <span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">请填写后缀名：</h4>
+          </div>
+          <div class="modal-body" style="width: 530px;">
             <!-- form start -->
-            <form class="form-horizontal" style="">
-              <div style="margin-top: 23px;margin-left: 30px;">
+            <form class="form-horizontal">
+              <div style="margin-top: 23px;">
                 <span>后缀名:</span>
                 <input type="text" id="input-extensions" style="height:20px">(例如:exe,txt)
               </div>
+
+              <br/>
 
               <!-- <div style="margin-top: 17px;">
                 <span>路径:</span>
                 <input type="text" id="input-path" style="margin-left: 12px;height:25px">
               </div> -->
 
-              <div style="margin-left: 148px;margin-top: 22px;">
+              <!--<div style="margin-left: 148px;margin-top: 22px;">
                 <button type="submit" class="btn-glow primary" @click="scanQuick">确认</button>
                 <button type="submit" class="btn-glow primary" @click="formReset">取消</button>
+              </div>-->
+
+              <div class="pull-right">
+                <button type="submit" class="btn-flat primary" @click="scanQuick">确认</button>
+                <button type="submit" class="btn-flat primary" @click="formReset">取消</button>
               </div>
 
 

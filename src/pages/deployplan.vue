@@ -116,9 +116,14 @@
                           <input type="text" id="input-path" name='input-path' style="height:20px">
                         </div>
 
-                        <div class="pull-right" style="margin-left: 148px;margin-top: 22px;">
+                        <!--<div class="pull-right" style="margin-left: 148px;margin-top: 22px;">
                           <button type="submit" class="btn-glow flat" @click="makeBaseline2">确认</button>
                           <button type="submit" class="btn-glow flat" @click="formReset">取消</button>
+                        </div>-->
+
+                        <div class="pull-right">
+                          <button type="submit" class="btn-flat primary" @click="makeBaseline2">确认</button>
+                          <button type="submit" class="btn-flat primary" @click="formReset">取消</button>
                         </div>
                       </form>
 
