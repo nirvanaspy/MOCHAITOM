@@ -234,7 +234,6 @@
       </div>
     </div>
 
-
     <!--<div>
         设备上的原有的组件：{{compdevices}}
 
@@ -1046,7 +1045,7 @@
   }
 
 </script>
-<style>
+<style scoped>
 
   .wrap {
     width: 150px;
