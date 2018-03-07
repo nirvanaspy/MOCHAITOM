@@ -17,69 +17,73 @@
         </div>
 
         <!-- Users table -->
-        <!--<div class="row-fluid table">
+        <div class="row-fluid table">
           <table class="table table-hover" id="table_value">
             <thead>
             <tr>
               <th class="span4 sortable">
-                用户名
+                设备IP
               </th>
               <th class="span3 sortable">
-                <span class="line"></span>密码
+                <span class="line"></span>组件名称
               </th>
-              <th class="span3">
-                <span class="line"></span>操作
+              <th class="span3 sortable">
+                <span class="line"></span>开始时间
               </th>
+              <th class="span3 sortable">
+                <span class="line"></span>结束时间
+              </th>
+              <th class="span3 sortable">
+                <span class="line"></span>文件大小
+              </th>
+              <th class="span3 sortable">
+                <span class="line"></span>部署状态
+              </th>
+
             </tr>
             </thead>
             <tbody>
-            &lt;!&ndash; row &ndash;&gt;
-            <tr class="first" v-for="(user,index) in usersA" :id="user.id">
-              <td style="display:none">{{user.id}}</td>
-              <td>
-                {{user.username}}
-              </td>
-              <td class="description">
-                {{user.password}}
-              </td>
-              <td>
-                <span class="label label-success">Active</span>
-                <ul class="actions">
-                  <li>
-                    <router-link :to='{name:"modifyUser",params:{id:user.id}}'>
-                      <input type="button" class="btn-flat primary" value="修改"/>
-                    </router-link>
-                  </li>
-                  <li>
-                    <input type="button" class="btn-flat primary" value="删除" @click="deleteUser($event)"/>
-                  </li>
 
-                </ul>
+            <tr class="first" v-for="(log,index) in logs" :id="log.id">
+              <td style="display:none">{{log.id}}</td>
+              <td>
+                {{log.ip}}
               </td>
+              <td>
+                {{log.componentEntity.name}}
+              </td>
+
+              <td>
+                {{log.createTime}}
+              </td>
+              <td>
+                {{log.finishTime}}
+              </td>
+              <td>
+                {{log.componentEntity.displaySize}}
+              </td>
+              <!--<td>
+                {{log.state}}
+              </td>-->
+
+              <td>
+                <span class="label label-danger" v-if="log.state == 0">部署异常</span>
+                <span class="label label-info" v-else-if="log.state == 1">部署进行中</span>
+                <span class="label label-success" v-else-if="log.state == 2">部署完成</span>
+              </td>
+
             </tr>
-            &lt;!&ndash; row &ndash;&gt;
 
             </tbody>
           </table>
         </div>
-        <div class="pagination pull-right">
-          <ul>
-            <li><a href="#">&#8249;</a></li>
-            <li><a class="active" href="#">1</a></li>
-            <li><a href="#">2</a></li>
-            <li><a href="#">3</a></li>
-            <li><a href="#">4</a></li>
-            <li><a href="#">5</a></li>
-            <li><a href="#">&#8250;</a></li>
-          </ul>
-        </div>-->
-        <!-- end users table -->
       </div>
+
     </div>
-    <hr/>
+    <!--<hr/>
     <div>
         {{logs}}
-    </div>
+    </div>-->
   </div>
 </template>
 
@@ -88,7 +92,7 @@
     /* eslint-disable */
     data(){
       return{
-        users:[],
+        logs:[],
         searchQuery: ''
       }
     },created(){
@@ -113,74 +117,11 @@
         })
 
     },
-    methods:{
-      /*deleteUser: function (event){
-        //alert("A");
-        var e = event || window.event;
-        //alert("B");
-        var target = e.target || e.srcElement;
 
-        let username = this.getCookie('username');
-        let password = this.getCookie('password');
-
-        var msg = "您确定删除吗？";
-        if (confirm(msg) == true) {
-
-          if (target.parentNode.parentNode.parentNode.tagName.toLowerCase() == "td") {
-            //alert("C");
-            var rowIndex = target.parentNode.parentNode.parentNode.parentNode.rowIndex;
-            //alert(rowIndex);
-            var id = document.getElementById("table_value").rows[rowIndex].cells[0].innerHTML;
-            //alert(id);
-            var qs = require('qs');
-            this.$axios.delete(this.getIP() + 'users/'+id,{
-
-              //设置头
-              headers:{
-                'content-type':'application/x-www-form-urlencoded'
-              },
-              auth: {
-                username: username,
-                password: password
-              }
-            }).then(res=>{
-              layer.msg("删除成功");
-
-              var username = this.getCookie('username');
-              var password = this.getCookie('password');
-
-              this.$axios.get(this.getIP() + 'users',{
-
-                //设置头
-                headers:{
-                  'content-type':'application/x-www-form-urlencoded'
-                },
-                auth: {
-                  username: username,
-                  password: password
-                }
-              }).then(res=>{
-                this.users = res.data.data
-              })
-                .catch(err=>{
-                  console.log(err);
-                })
-            }).catch(err=>{
-              alert("删除失败！");
-            })
-          }
-
-        } else {
-          return false;
-        }
-
-      }*/
-
-    },
     computed: {
-      /*usersA: function () {
+      /*logsA: function () {
         let self = this;
-        return self.users.filter(function (item) {
+        return self.logs.filter(function (item) {
           return item.username.toLowerCase().indexOf(self.searchQuery.toLowerCase()) !== -1;
         })
 
@@ -189,5 +130,7 @@
   }
 </script>
 <style>
-
+  .label-danger, .badge-info {
+    background-color: #b94a48;
+  }
 </style>
