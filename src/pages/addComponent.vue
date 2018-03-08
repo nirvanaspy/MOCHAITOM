@@ -61,9 +61,12 @@
                     <input type='file' name="folderin" id="folderupload" webkitdirectory @change="getFolder($event)">
                     <!-- <input type='file' name="folderin" id="folderupload" webkitdirectory > -->
                     <!-- <input type='file' name="file"> -->
-                    <button v-on:click="folderclick($event)">提交</button>
+                    <button class="btn-flat success" v-on:click="folderclick($event)">提交</button>
+
+                    <button type="submit" class="btn-flat danger" style="margin-left: 10px;" @click="folderClear">清空</button>
                     <!-- <button v-on:click="folderclick">upload</button> -->
                   </div>
+
 
                   <!-- 列表2 文件 -->
                   <div id="todo-list-example" class="addli" style="height:50px;">
@@ -71,13 +74,14 @@
                       <li v-for="(file, index) in files" :key="index">
                         {{file}}
                       </li>
-                      <!-- <li is="todo-item" v-for="(file, index) in files"  v-text="sv2"></li> -->
                     </ul>
                   </div>
 
                   <div class="upbtn2">
                     <input type='file' name="filein" id="fileupload" @change="getFile($event)">
-                    <button v-on:click="fileclick($event)">提交</button>
+                    <button class="btn-flat success" v-on:click="fileclick($event)">提交</button>
+
+                    <button type="submit" class="btn-flat danger" style="margin-left: 10px;" @click="fileClear">清空</button>
                   </div>
                 </div>
               </div>
@@ -144,7 +148,10 @@
         allArr: [],
         sv1: [],
         sv2: '',
-        fileList2: []
+        fileList2: [],
+
+        fieList: [],    //上传的文件夹内容
+        fieList2: [],    //上传的文件内容
       }
     },
     methods: {
@@ -184,21 +191,21 @@
         console.log("文件夹------------------")
         let sv11 = document.getElementById("folderupload");
         console.log(sv11);
-        let fieList = sv11.files;
-        let folderPath = fieList[0].webkitRelativePath; //拿到第一个文件的路径
+        this.fieList = sv11.files;
+        let folderPath = this.fieList[0].webkitRelativePath; //拿到第一个文件的路径
         let index = folderPath.indexOf("/");
         let foldername = folderPath.substring(0,index);
         //console.log(foldername);
         /*alert(fileList);
         alert(fileList.length);*/
 
-        if (fieList.length != 0) {
+        if (this.fieList.length != 0) {
 
           this.folders.push(foldername);
-          this.allArr.push(fieList);
-          console.log(fieList);
+          this.allArr.push(this.fieList);
+          console.log(this.fieList);
 
-          console.log(Object.prototype.toString.call(fieList));
+          console.log(Object.prototype.toString.call(this.fieList));
           /*console.log(Object.prototype.toString.call(this.sv1) == "[object FileList]");
           console.log(Object.prototype.toString.call(this.sv1) == FileList);*/
 
@@ -255,12 +262,12 @@
         // alert("xy");
 
         var sv12 = document.getElementById("fileupload");
-        var fieList2 = sv12.files;
+        this.fieList2 = sv12.files;
 
-        if (fieList2.length != 0) {
+        if (this.fieList2.length != 0) {
 
-          this.files.push(fieList2[0].name);
-          this.allArr.push(fieList2);
+          this.files.push(this.fieList2[0].name);
+          this.allArr.push(this.fieList2);
           //console.log(fieList);
 
           /*console.log(Object.prototype.toString.call(fieList));*/
@@ -276,6 +283,49 @@
         } else {
           alert("请选择文件");
         }
+      },
+
+      folderClear: function () {
+        this.folders.splice(0, this.folders.length);   //清空文件夹
+
+        this.allArr.splice(0, this.allArr.length);
+
+        var sv12 = document.getElementById("fileupload");
+        this.fieList2 = sv12.files;
+
+        this.allArr.push(this.fieList2);
+
+        /*for(let i=0;i<this.allArr.length;i++){
+          for(let j=0;j<this.fieList.length;j++){
+            if(this.allArr[i] == this.fieList[j]){
+              this.allArr.splice(i,1);
+              break;
+            }
+          }
+
+        }*/
+
+      },
+
+      fileClear: function () {
+        this.files.splice(0, this.files.length);   //清空文件夹
+
+        this.allArr.splice(0, this.allArr.length);
+
+        let sv11 = document.getElementById("folderupload");
+        this.fieList = sv11.files;
+
+        this.allArr.push(this.fieList);
+
+        /*for(let i=0;i<this.allArr.length;i++){
+          for(let j=0;j<this.fieList2.length;j++){
+            if(this.allArr[i] == this.fieList2[j]){
+              this.allArr.splice(i,1);
+              break;
+            }
+          }
+
+        }*/
       },
 
       addComp(event) {
