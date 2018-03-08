@@ -35,7 +35,7 @@
                 <span class="line"></span>状态
               </th>
               <th class="span3">
-                <span class="line"></span>设备详情
+                <span class="line"></span>发送进度
               </th>
 
               <th class="span4">
@@ -56,21 +56,15 @@
                 <span class="label label-primary" v-if="!device.online">离线</span>
                 <span class="label label-success" v-else>在线</span>
               </td>
-              <td class="description">
-                {{device.description}}
+              <td>
+                <el-progress :text-inside="true" :stroke-width="18"
+                             :percentage="device.progress"></el-progress>
               </td>
               <td v-if="!device.virtual">
                 <ul class="ulactions">
                   <li class="last">
-                    <input type="button" class="btn-flat primary" value="部署" @click="deployDevice($event)"/>
-                  </li>
-                </ul>
-              </td>
-              <td v-else>
-                <ul class="ulactions">
-                  <li class="last">
-                    <input type="button" class="btn-flat danger" data-toggle="modal" @click="report($event)"
-                           value="上报"/>
+                    <input type="button" class="btn-flat primary" value="部署" :id="device.online"
+                           @click="deployDevice($event)"/>
                   </li>
                 </ul>
               </td>
@@ -84,18 +78,7 @@
           <!--<hr/>
           {{devices}}-->
         </div>
-        <div class="pagination pull-right">
-          <ul>
-            <li><a href="#">&#8249;</a></li>
-            <li><a class="active" href="#">1</a></li>
-            <li><a href="#">2</a></li>
-            <li><a href="#">3</a></li>
-            <li><a href="#">4</a></li>
-            <li><a href="#">5</a></li>
-            <li><a href="#">&#8250;</a></li>
-          </ul>
-        </div>
-        <!-- end users table -->
+
       </div>
     </div>
 
@@ -137,6 +120,23 @@
         console.log(err);
       });
 
+      setInterval(() => {
+        this.$axios.get(this.getIP() + 'projects/' + projectId + '/devices', {
+          //设置头
+          headers: {
+            'content-type': 'application/x-www-form-urlencoded'
+          },
+          auth: {
+            username: username,
+            password: password
+          }
+        }).then(res => {
+          this.devices = res.data.data
+        }).catch(err => {
+          console.log(err);
+        });
+      }, 10 * 1000);
+
       //下拉框数据
       this.$axios.get(this.getIP() + "projects/" + projectId + "/deploymentdesigns", {
         //设置头
@@ -177,44 +177,57 @@
         let username = this.getCookie('username');
         let password = this.getCookie('password');
 
-        if(this.deployplanId.length != 0){
-          let msg = "您确定部署吗？";
-          if (confirm(msg) == true) {
 
-            if (target.parentNode.parentNode.parentNode.tagName.toLowerCase() == "td") {
-              //alert("C");
-              var rowIndex = target.parentNode.parentNode.parentNode.parentNode.rowIndex;
-              //alert(rowIndex);
-              var id = document.getElementById("table_value").rows[rowIndex].cells[0].innerHTML;
-              //alert(id);
-              var qs = require('qs');
+        if (target.parentNode.parentNode.parentNode.tagName.toLowerCase() == "td") {
+          //alert("C");
+          var rowIndex = target.parentNode.parentNode.parentNode.parentNode.rowIndex;
+          //alert(rowIndex);
+          var id = document.getElementById("table_value").rows[rowIndex].cells[0].innerHTML;
+          //alert(id);
+          var qs = require('qs');
 
-              this.$axios.put(this.getIP() + 'deploymentdesigns/' + this.deployplanId + '/devices/' + id + '/deploy',
-                qs.stringify({
+          let online = false;
 
-                }),{
+          for(let i=0;i<this.devices.length;i++){
+            if(this.devices[i].id == id){
+              online = this.devices[i].online;
+              break;
 
-                //设置头
-                headers: {
-                  'content-type': 'application/x-www-form-urlencoded'
-                },
-                auth: {
-                  username: username,
-                  password: password
-                }
-              }).then(res => {
-                layer.msg("部署成功");
-
-              }).catch(err => {
-                layer.msg("部署失败！");
-              })
             }
-
-          } else {
-            return false;
           }
-        }else{
-          alert("请先选择部署设计！");
+
+          if (online) {
+            if (this.deployplanId.length != 0) {
+              let msg = "您确定部署吗？";
+              if (confirm(msg) == true) {
+
+                this.$axios.put(this.getIP() + 'deploymentdesigns/' + this.deployplanId + '/devices/' + id + '/deploy',
+                  qs.stringify({}), {
+
+                    //设置头
+                    headers: {
+                      'content-type': 'application/x-www-form-urlencoded'
+                    },
+                    auth: {
+                      username: username,
+                      password: password
+                    }
+                  }).then(res => {
+                  /*layer.msg("部署成功");*/
+
+                }).catch(err => {
+                  layer.msg("部署失败！");
+                })
+
+              } else {
+                return false;
+              }
+            } else {
+              alert("请先选择部署设计！");
+            }
+          } else {
+            layer.msg("设备离线！");
+          }
         }
 
 
