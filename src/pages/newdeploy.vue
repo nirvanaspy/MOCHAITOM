@@ -22,7 +22,7 @@
           <table class="table table-hover" id="table_value">
             <thead>
             <tr>
-              <th class="span4 sortable">
+              <th class="span2 sortable">
                 设备名
               </th>
               <th class="span3 sortable">
@@ -37,8 +37,10 @@
               <th class="span3">
                 <span class="line"></span>发送进度
               </th>
-
-              <th class="span4">
+              <th class="span2">
+                <span class="line"></span>部署详情
+              </th>
+              <th class="span2">
                 <span class="line"></span>操作
               </th>
             </tr>
@@ -60,6 +62,16 @@
                 <el-progress :text-inside="true" :stroke-width="18"
                              :percentage="device.progress"></el-progress>
               </td>
+
+              <td>
+                <ul class="ulactions">
+                  <li class="last">
+                    <input type="button" class="btn-flat primary" value="查看" data-toggle="modal"
+                           @click="deployDetails($event)"/>
+                  </li>
+                </ul>
+              </td>
+
               <td v-if="!device.virtual">
                 <ul class="ulactions">
                   <li class="last">
@@ -82,6 +94,63 @@
       </div>
     </div>
 
+    <div class="modal fade" id="modal-select">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="formReset">
+              <span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">部署详情：</h4>
+          </div>
+          <div class="modal-body">
+            <!-- form start -->
+            <table class="table table-hover">
+              <thead>
+              <tr>
+                <th class="span4 sortable">
+                  组件名
+                </th>
+                <th class="span3 sortable">
+                  <span class="line"></span>文件名
+                </th>
+
+                <th class="span2">
+                  <span class="line"></span>状态
+                </th>
+
+
+              </tr>
+              </thead>
+              <tbody>
+              <!-- row -->
+              <tr class="first" v-for="deployDetail in deviceDeployDetail">
+                <td>{{deployDetail.componentEntity.name}}</td>
+                <td>
+                  {{deployDetail.componentDetailEntity.name}}
+                </td>
+                <td>
+                  <span class="label danger" v-if="!deployDetail.state">部署失败</span>
+                  <span class="label label-success" v-else>部署成功</span>
+                </td>
+
+
+              </tr>
+
+              <!-- row -->
+
+              </tbody>
+            </table>
+
+            <!--<br/>
+            <div class="pull-right">
+              <button type="submit" class="btn-flat primary" @click="deployDetails2($event)">确认</button>
+              <button type="submit" class="btn-flat primary" @click="formReset">取消</button>
+            </div>-->
+
+          </div>
+        </div>
+      </div>
+    </div>
 
   </div>
 </template>
@@ -99,9 +168,16 @@
 
         selected: "",
         deployplanId: '',    //所选择的部署设计的id
-        deployplanInfos: []
+        deployplanInfos: [],
+
+        errorDetails: [],      //部署失败的文件
+        completedDeatils: [],  //部署成功的文件
+        deployDetailInfo: {},   //部署详情
+        deployDetailInfo2: [],   //部署详情
+        deviceDeployDetail: []  //某设备的部署详情
       }
-    }, created() {
+    },
+    created() {
       var projectId = this.getCookie('projectId');
       let username = this.getCookie('username');
       let password = this.getCookie('password');
@@ -188,8 +264,8 @@
 
           let online = false;
 
-          for(let i=0;i<this.devices.length;i++){
-            if(this.devices[i].id == id){
+          for (let i = 0; i < this.devices.length; i++) {
+            if (this.devices[i].id == id) {
               online = this.devices[i].online;
               break;
 
@@ -212,11 +288,90 @@
                       username: username,
                       password: password
                     }
-                  }).then(res => {
-                  /*layer.msg("部署成功");*/
+                  })
+                  .then(res => {
+                    console.log("部署后信息-------");
+                    console.log(res.data.data);
 
-                }).catch(err => {
-                  layer.msg("部署失败！");
+                    let resp = res.data.data;
+                    if(resp.length != 0){
+                      console.log("赋值---------");
+                      console.log(resp);
+                      for(let i=0;i<resp.length;i++){
+
+                        if(resp[i].errorFileList.length != 0){
+                          for(let x=0;x<resp[i].errorFileList.length;x++){
+                            this.errorDetails.push(resp[i].errorFileList[x]);
+                          }
+
+                        }
+
+                        if(resp[i].completedFileList != 0){
+                          for(let y=0;y<resp[i].completedFileList.length;y++){
+                            this.completedDeatils.push(resp[i].completedFileList[y]);
+                          }
+                        }
+
+                      }
+                    }
+
+                    console.log("失败成功文件------");
+                    console.log(this.errorDetails);
+                    console.log(this.completedDeatils);
+
+                    if(this.errorDetails.length != 0){
+                      for (let i = 0; i < this.errorDetails.length; i++) {
+                        this.errorDetails[i].state = false;
+                      }
+                    }
+
+                    if(this.completedDeatils.length != 0){
+                      for (let i = 0; i < this.completedDeatils.length; i++) {
+                        this.completedDeatils[i].state = true;
+                      }
+                    }
+
+                    console.log(this.completedDeatils);
+
+                    this.deployDetailInfo.deviceId = '';
+                    this.deployDetailInfo.deployPlanId = '';
+                    this.deployDetailInfo.info = [];
+
+                    this.deployDetailInfo.deviceId = id;
+                    this.deployDetailInfo.deployPlanId = this.deployplanId;
+
+
+                    console.log("失败文件------------");
+                    console.log(this.errorDetails.length);
+                    if(this.errorDetails.length != 0){
+                      for(let j=0;j<this.errorDetails.length;j++){
+                        this.deployDetailInfo.info.push(this.errorDetails[j]);
+                      }
+                      console.log("aaaaaaaaaaaaaaa");
+                    }
+
+                    if(this.completedDeatils.length != 0){
+                      for(let k=0;k<this.completedDeatils.length;k++){
+                        this.deployDetailInfo.info.push(this.completedDeatils[k]);
+                      }
+
+                    }
+
+
+                    this.deployDetailInfo2.push(this.deployDetailInfo);
+
+
+                    console.log("部署详情-------------");
+                    console.log(this.deployDetailInfo);
+                    console.log(this.deployDetailInfo2);
+
+                  }).catch(err => {
+                  console.log("提示---------");
+                  console.log(err.response.data.data);
+                  if(err.response.data.data.length != 0){
+
+                    layer.msg(err.response.data.data);
+                  }
                 })
 
               } else {
@@ -231,7 +386,127 @@
         }
 
 
-      }
+      },
+
+      formReset: function () {
+        $("#input-path").val('');
+        $("#modal-select").modal('hide');
+      },
+
+      deployDetails: function (event) {
+
+        this.deviceDeployDetail.splice(0, this.deviceDeployDetail.length);    //清空某设备的部署详情数组
+
+        let e = event || window.event;
+
+        let target = e.target || e.srcElement;
+
+        let ifexist = false;      //设备是否部署，false为未部署
+
+
+        if (target.parentNode.parentNode.parentNode.tagName.toLowerCase() == "td") {
+          //alert("C");
+          var rowIndex = target.parentNode.parentNode.parentNode.parentNode.rowIndex;
+          //alert(rowIndex);
+          var id = document.getElementById("table_value").rows[rowIndex].cells[0].innerHTML;
+          //alert(id);
+          var qs = require('qs');
+
+          let i = 0;
+
+          console.log("详情部署信息------------");
+          console.log(id);
+          console.log(this.deployDetailInfo2);
+          console.log(this.deployDetailInfo2.length);
+          for (i = 0; i < this.deployDetailInfo2.length; i++) {
+            console.log(this.deployDetailInfo2[i]);
+            console.log(this.deployDetailInfo2[i].deviceId);
+            if (id == this.deployDetailInfo2[i].deviceId) {
+
+              ifexist = true;           //设备已部署
+              break;
+            }
+          }
+          console.log(ifexist);
+
+          if (ifexist == true) {
+
+            this.deviceDeployDetail = this.deployDetailInfo2[i].info;
+
+            console.log("已部署的设备的信息-----------------");
+            console.log(this.deviceDeployDetail);
+
+            $("#modal-select").modal('show');
+
+          } else {
+            layer.msg("请先部署！");
+          }
+
+          console.log(this.deviceDeployDetail);
+        }
+
+
+      },
+
+      /*deployDetails2: function () {
+
+        console.log($("input[id='input-path']").val());
+        console.log(this.devname);
+        console.log(this.devip);
+
+        if ($("input[id='input-path']").val() != null) {
+
+          let qs = require('qs');
+          let projectId = this.getCookie('projectId');
+          let username = this.getCookie('username');
+          let password = this.getCookie('password');
+
+
+          this.$axios.post(this.getIP() + 'projects/' + projectId + '/devices', qs.stringify({
+            "name": this.devname,
+            "ip": this.devip,
+            "deployPath": $("input[id='input-path']").val()
+          }), {
+
+            //设置头
+            headers: {
+              'content-type': 'application/x-www-form-urlencoded'
+            },
+            auth: {
+              username: username,
+              password: password
+            }
+          }).then(res => {
+            //this.users = res.data.data
+            //console.log(res);
+            layer.msg('上报成功！');
+
+            $("#modal-select").modal('hide');
+
+            //成功后重新查询
+            this.$axios.get(this.getIP() + 'projects/' + projectId + '/devices', {
+              //设置头
+              headers: {
+                'content-type': 'application/x-www-form-urlencoded'
+              },
+              auth: {
+                username: username,
+                password: password
+              }
+            }).then(res => {
+              this.devices = res.data.data
+            })
+              .catch(err => {
+                console.log(err);
+              })
+          })
+            .catch(err => {
+              layer.msg('上报失败！');
+            })
+        } else {
+          layer.msg("请输入路径！");
+        }
+      }*/
 
 
     },
@@ -247,6 +522,10 @@
   }
 </script>
 <style>
+  .label-danger, .badge-info {
+    background-color: #b94a48;
+  }
+
   .tabletable {
     height: 400px;
     overflow-y: auto;
