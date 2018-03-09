@@ -46,7 +46,7 @@
                     <option selected="selected"></option>
                     <option>部署成功</option>
                     <option>进行中</option>
-                    <option>部署失败</option>
+                    <option>部署异常</option>
 
                   </select>
                 </div>
@@ -249,7 +249,7 @@
         let state = this.selected;
 
         if (state.length > 0) {
-          if (state == "部署失败") {
+          if (state == "部署异常") {
             this.compState = 0;
           } else if (state == "进行中") {
             this.compState = 1;
@@ -262,20 +262,24 @@
 
         let searchObj = {};
 
-        searchObj.componentEntity = {};
 
         if (this.deviceIP.length != 0) {
           formData.append('ip', this.deviceIP);
           searchObj.ip = this.deviceIP;
         }
-        if (this.compName.length != 0) {
-          formData.append('componentEntity.name', this.compName);
-          searchObj.componentEntity.name = this.compName;
+
+        if (this.compName.length != 0 || this.compSize.length != 0) {
+          //searchObj.componentEntity = {};
+          if (this.compName.length != 0) {
+            formData.append('componentEntity.name', this.compName);
+            searchObj.componentName = this.compName;
+          }
+          if (this.compSize.length != 0) {
+            formData.append('componentEntity.size', this.compSize);
+            searchObj.componentEntity.size = this.compSize;
+          }
         }
-        if (this.compSize.length != 0) {
-          formData.append('componentEntity.size', this.compSize);
-          searchObj.componentEntity.size = this.compSize;
-        }
+
         if (this.compState.length != 0) {
           formData.append('state', this.compState);
           searchObj.state = this.compState;
@@ -292,6 +296,7 @@
 
         console.log(searchObj);
         this.$axios.get(this.getIP() + 'deploylogs', {
+
           params: searchObj,
           //设置头
           headers: {
