@@ -15,7 +15,9 @@
 
             <el-upload style="float: right;"
                        class="upload-demo"
-                       action="components/import"
+                       action=""
+                       :file-list="fileList"
+                       :httpRequest="uploadCom"
                        multiple>
               <el-button class="icon-cloud-download" size="small" type="primary"
                          style="height: 35px;width: 70px;margin-right: 10px;"
@@ -126,7 +128,11 @@
       return {
         components: [],
         searchQuery: '',
-        exportUrl: ''               //导出地址
+        exportUrl: '',               //导出地址
+
+        fileList: [],
+
+        fileObj: []
       }
     },
     created() {
@@ -252,48 +258,66 @@
 
       },*/
 
-      /*exportComp: function (event){
-          //alert("A");
-          var e = event || window.event;
-          //alert("B");
-          var target = e.target || e.srcElement;
-          if (target.parentNode.parentNode.parentNode.tagName.toLowerCase() == "td") {
-              //alert("C");
-              var rowIndex = target.parentNode.parentNode.parentNode.parentNode.rowIndex;
-             // alert(rowIndex);
-              var id = document.getElementById("table_value").rows[rowIndex].cells[0].innerHTML;
-             // alert(id);
-              var qs = require('qs');
 
-              this.exportUrl = this.getIP() +'components/'+id+'/export';
-              alert("ffff");
-              //console.log(this.exportUrl);
-              window.open(this.exportUrl);
-              //http://192.168.0.108:8080/components/478bf833-0a1c-400f-aad4-19f4983fdc1d/export
-            //this.$router.path = this.getIP() +'components/'+id+'/export';
-            //http://localhost:8888/#/
-            //this.$router.push({ path: this.exportUrl});
-              /!*this.$axios.get(this.getIP() +'components/'+id+'/export',{
+    uploadCom: function (file) {
+      let username = this.getCookie('username');
+      let password = this.getCookie('password');
 
-                  //设置头
-                  headers:{
-                      'content-type':'application/x-www-form-urlencoded'
-                  },
-                  auth: {
-                      username: 'admin',
-                      password: 'admin'
-                  }
-              }).then(res=>{
-                  //this.users = res.data.data
-                  //console.log(res);
-                  layer.msg("导出成功！");
-                  this.$router.replace({ path: '/components'})
-              }).catch(err=>{
-                  layer.msg("导出失败！");
-              })*!/
-          }
+      let formData = new FormData();
 
-      },*/
+      console.log("导入组件文件----------");
+      console.log(file);
+
+      formData.append('importComponents', file.file);
+
+      /*for (var i = 0; i < file.length; i++) {
+
+        formData.append('importComponents', file[i].file);
+
+        console.log(file[i].file);
+
+      }*/
+
+
+      this.$axios.post(this.getIP() + "components/import", formData,{
+        //设置头
+        headers: {
+          'content-type': 'application/x-www-form-urlencoded'
+        },
+        auth: {
+          username: username,
+          password: password
+        }
+      }).then(res => {
+        layer.msg("导入成功！");
+
+        //导入成功后再次查询
+        this.$axios.get(this.getIP() + 'components',
+
+          {
+            params: {  //get请求在第二个位置，post在第三个位置
+              isShowHistory: false
+            },
+            //设置头
+            headers: {
+              'content-type': 'application/x-www-form-urlencoded'
+            },
+            auth: {
+              username: username,
+              password: password
+            }
+          }).then(res => {
+          this.components = res.data.data;
+
+        })
+          .catch(err => {
+            console.log(err);
+          })
+      })
+        .catch(err => {
+          console.log(err);
+        })
+    },
 
       copyComp: function (event) {
         var e = event || window.event;
