@@ -18,6 +18,7 @@
                        action=""
                        :file-list="fileList"
                        :httpRequest="uploadCom"
+                       :show-file-list="false"
                        multiple>
               <el-button class="icon-cloud-download" size="small" type="primary"
                          style="height: 35px;width: 70px;margin-right: 10px;"
