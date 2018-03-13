@@ -143,14 +143,14 @@
       </div>
 
     </div>
-    <hr/>
+    <!--<hr/>
     <div>
       {{value4}}
     </div>
     <hr/>
     <div>
       {{startTimeTemp}}
-    </div>
+    </div>-->
   </div>
 </template>
 
