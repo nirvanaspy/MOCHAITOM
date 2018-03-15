@@ -127,21 +127,24 @@
 
     created() {
 
-      $(".signin").css("background-image", "url('img/bgs/10.jpg')");
+      //$(".signin").css("background-image", "url('img/bgs/10.jpg')");
 
-      if (this.getCookie('ip')) {
+/*      if (this.getCookie('ip')) {
 
         this.info.ip = this.getCookie('ip');
 
         console.log(this.info);
 
-      }
+      }*/
 
     }
 
   };
 
 </script>
-<style>
-
+<style scoped>
+.signin{
+  background-image: url('../../img/bgs/10.jpg');
+  height: 100%;
+}
 </style>

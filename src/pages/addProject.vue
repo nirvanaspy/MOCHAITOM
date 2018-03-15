@@ -1,5 +1,5 @@
 <template>
-    <div id="addUser">
+    <div id="addUser" class="signin">
 
 
         <div class="container-fluid" style="height:window.innerWidth">
@@ -57,7 +57,7 @@
         },
         created() {
 
-          $("body").css("background-image", "url('img/bgs/10.jpg')");
+          //$("body").css("background-image", "url('img/bgs/10.jpg')");
 
         },
         methods: {
@@ -96,7 +96,13 @@
         }
     }
 </script>
-<style>
+<style scoped>
+
+  .signin{
+    background-image: url('../../img/bgs/10.jpg');
+    height: 100%;
+  }
+
     .muststar{
         margin-left: 10px;
         color: red;
