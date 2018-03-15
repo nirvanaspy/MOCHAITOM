@@ -1,5 +1,6 @@
 <template>
-  <div style="background: url(../../img/bgs/10.jpg) no-repeat;">
+  <!--style="background: url(../../img/bgs/10.jpg) no-repeat;"-->
+  <div class="signin">
     <div class="row-fluid login-wrapper">
       <a href="#" style="text-decoration:none">
         <!-- <img class="logo" src="img/logo-white.png" /> -->
@@ -12,7 +13,19 @@
           <h6>登录</h6>
           <input id="username" class="span12" type="text" placeholder="用户名"/>
           <input id="password" class="span12" type="password" placeholder="密码"/>
-          <input id="ip" class="span12" type="text" placeholder="请输入IP" :value="info.ip"/>
+          <div class="span12" style="margin-left: 0;">
+            <div class="span8">
+              <input id="ip" class="span12" type="text" placeholder="请输入IP" :value="info.ip"/>
+            </div>
+            <div class="span1" style="margin-top: 5px;">
+              ：
+            </div>
+            <div class="span3">
+              <input id="port" class="span12" type="text" placeholder="端口号" :value="info.port"/>
+            </div>
+
+          </div>
+
           <!--<a href="#" class="forgot">忘记密码?</a>
           <div class="remember">
               <input id="remember-me" type="checkbox" />
@@ -51,9 +64,10 @@
         //alert(this.getIP());
 
         //debugger;
-        var username = $("input#username").val();
-        var password = $("input#password").val();
-        var ip = $("input#ip").val();
+        let username = $("input#username").val();
+        let password = $("input#password").val();
+        let ip = $("input#ip").val();
+        let port = $("input#port").val();
 
         let expireDays = 1000 * 60 * 60 * 24 * 15;
 
@@ -76,6 +90,14 @@
         } else {
           this.setCookie('ip', ip, expireDays);
         }
+
+        if (port.length == 0) {
+          layer.msg('请输入端口号！');
+          return;
+        } else {
+          this.setCookie('port', port, expireDays);
+        }
+
 //alert(this.getIP());
         this.$axios.get(this.getIP() + "users/login",
           {
@@ -93,6 +115,7 @@
             this.setCookie('password', password, expireDays);
             this.setCookie('userId', res.data.data.id, expireDays);
             this.setCookie('ip', ip, expireDays);
+            this.setCookie('port', port, expireDays);
 
           })
           .catch(function (error) {
@@ -104,7 +127,7 @@
 
     created() {
 
-      $("body").css("background-image", "url('img/bgs/10.jpg')");
+      $(".signin").css("background-image", "url('img/bgs/10.jpg')");
 
       if (this.getCookie('ip')) {
 

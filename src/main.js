@@ -18,7 +18,7 @@ Vue.prototype.GLOBAL = global;
 Vue.use(Popper);
 
 Vue.prototype.getIP = function() {
-  let ip = 'http://' + this.getCookie('ip') + ":8080/";
+  let ip = 'http://' + this.getCookie('ip') + ":" + this.getCookie('port') + '/';
   return ip;
 };
 
