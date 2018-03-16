@@ -32,7 +32,7 @@
                 <label>相对路径:</label>
                 <input class="span9" type="text" name="add-deployPath"/>
                 <span class="muststar">*</span>
-                <span>(如:/test/)</span>
+                <!--<span>(如:/test/)</span>-->
               </div>
 
               <div class="span12 field-box">
@@ -95,6 +95,14 @@
             </div>
           </div>
 
+          <!-- side right column -->
+          <div class="span2 form-sidebar pull-right">
+
+            <h6>路径填写说明：</h6>
+            <p>无路径时填入： / </p>
+            <p>有路径时如： /test/ </p>
+
+          </div>
 
         </div>
       </div>
