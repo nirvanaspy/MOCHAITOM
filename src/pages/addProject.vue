@@ -99,7 +99,7 @@
 <style scoped>
 
   .signin{
-    background-image: url('../../img/bgs/10.jpg');
+    background-image: url('../../static/img/bgs/10.jpg');
     height: 100%;
   }
 
