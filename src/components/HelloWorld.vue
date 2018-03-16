@@ -1,7 +1,9 @@
 <template>
+  <!--style="height: 100%"-->
   <div class="hello" style="height: 100%">
     <!-- navbar -->
-    <div class="navbar navbar-inverse" style="height: 50px">
+    <!--style="height: 50px"-->
+    <div class="navbar navbar-inverse" >
       <div class="navbar-inner">
         <button type="button" class="btn btn-navbar visible-phone" id="menu-toggler">
           <span class="icon-bar"></span>
@@ -25,8 +27,10 @@
       </div>
     </div>
     <!-- sidebar -->
-    <div id="sidebar-nav" style="background-color: #f8f8f8;top: 50px;bottom:0px">
-      <ul id="dashboard-menu" style="background-color: #f8f8f8;">
+    <!--style="background-color: #f8f8f8;top: 50px;bottom:0px"-->
+    <div id="sidebar-nav">
+      <!--style="background-color: #f8f8f8;"-->
+      <ul id="dashboard-menu">
         <li class="active">
           <div class="pointer">
             <div class="arrow"></div>
@@ -87,9 +91,23 @@
         </li>
 
          <li>
-          <router-link to="/deploy">
+          <router-link to="/newdeploy">
             <i class="icon-magnet"></i>
             <span>部署</span>
+          </router-link>
+        </li>
+
+        <li>
+          <router-link to="/softpackage">
+            <i class="icon-briefcase"></i>
+            <span>软件包</span>
+          </router-link>
+        </li>
+
+        <li>
+          <router-link to="/baseline">
+            <i class="icon-tasks"></i>
+            <span>基线</span>
           </router-link>
         </li>
 

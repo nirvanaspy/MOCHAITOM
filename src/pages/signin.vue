@@ -1,32 +1,45 @@
 <template>
-  <div style="background: url(../../img/bgs/10.jpg) no-repeat;">
-      <div class="row-fluid login-wrapper">
-          <a href="#" style="text-decoration:none">
-              <!-- <img class="logo" src="img/logo-white.png" /> -->
-              <h1 style="color:white;">一体化运维管理平台</h1>
-          </a>
-          <br/><br/>
+  <!--style="background: url(../../img/bgs/10.jpg) no-repeat;"-->
+  <div class="signin">
+    <div class="row-fluid login-wrapper">
+      <a href="#" style="text-decoration:none">
+        <!-- <img class="logo" src="img/logo-white.png" /> -->
+        <h1 style="color:white;">一体化运维管理平台</h1>
+      </a>
+      <br/><br/>
 
-          <div class="span4 box">
-              <div class="content-wrap">
-                  <h6>登录</h6>
-                  <input id ="username" class="span12" type="text" placeholder="用户名" />
-                  <input id ="password" class="span12" type="password" placeholder="密码"/>
-                  <input id ="ip" class="span12" type="text" placeholder="请输入IP" :value="info.ip" />
-                  <a href="#" class="forgot">忘记密码?</a>
-                  <div class="remember">
-                      <input id="remember-me" type="checkbox" />
-                      <label for="remember-me">记住我</label>
-                  </div>
-          <button class="btn-glow primary" style="width: 100px;" v-on:click="login">登录</button>
-              </div>
+      <div class="span4 box">
+        <div class="content-wrap">
+          <h6>登录</h6>
+          <input id="username" class="span12" type="text" placeholder="用户名"/>
+          <input id="password" class="span12" type="password" placeholder="密码"/>
+          <div class="span12" style="margin-left: 0;">
+            <div class="span8">
+              <input id="ip" class="span12" type="text" placeholder="请输入IP" :value="info.ip"/>
+            </div>
+            <div class="span1" style="margin-top: 5px;">
+              ：
+            </div>
+            <div class="span3">
+              <input id="port" class="span12" type="text" placeholder="端口号" :value="info.port"/>
+            </div>
+
           </div>
 
-          <!-- <div class="span4 no-account">
-
-              <a href="signup.html">注册</a>
-          </div> -->
+          <!--<a href="#" class="forgot">忘记密码?</a>
+          <div class="remember">
+              <input id="remember-me" type="checkbox" />
+              <label for="remember-me">记住我</label>
+          </div>-->
+          <button class="btn-glow primary" style="width: 100px;margin-top: 30px;" v-on:click="login">登录</button>
+        </div>
       </div>
+
+      <!-- <div class="span4 no-account">
+
+          <a href="signup.html">注册</a>
+      </div> -->
+    </div>
   </div>
 </template>
 
@@ -39,21 +52,22 @@
 
 
       return {
-        info:{}
+        info: {}
 
       };
-    },created(){
+    }, created() {
 
     },
     methods: {
-      login: function() {
+      login: function () {
 
         //alert(this.getIP());
 
         //debugger;
-        var username = $("input#username").val();
-        var password = $("input#password").val();
-        var ip = $("input#ip").val();
+        let username = $("input#username").val();
+        let password = $("input#password").val();
+        let ip = $("input#ip").val();
+        let port = $("input#port").val();
 
         let expireDays = 1000 * 60 * 60 * 24 * 15;
 
@@ -61,23 +75,31 @@
           //alert("请输入正确的用户名或密码。");
           layer.msg('请输入正确的用户名或密码！');
           return;
-        }else{
+        } else {
           this.setCookie('username', username, expireDays);
           this.setCookie('password', password, expireDays);
         }
 
         //ip地址
-        var exp=/^(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/;
+        var exp = /^(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/;
         var reg = ip.match(exp);
-        if(reg==null){
+        if (reg == null) {
           //alert("IP地址不合法！");
           layer.msg('IP地址不合法！');
           return;
-        }else{
+        } else {
           this.setCookie('ip', ip, expireDays);
         }
+
+        if (port.length == 0) {
+          layer.msg('请输入端口号！');
+          return;
+        } else {
+          this.setCookie('port', port, expireDays);
+        }
+
 //alert(this.getIP());
-        this.$axios.post(this.getIP() + "users/login",{},
+        this.$axios.get(this.getIP() + "users/login",
           {
             auth: {
               username: username,
@@ -85,39 +107,44 @@
             }
           }
         )
-          .then(response => {
-          this.$router.replace({ path: "/selectProject" });
-        //将用户名、密码的值存入cookie中
+          .then(res => {
+            this.$router.replace({path: "/selectProject"});
+            //将用户名、密码的值存入cookie中
 
-        this.setCookie('username', username, expireDays);
-        this.setCookie('password', password, expireDays);
-        this.setCookie('ip', ip, expireDays);
+            this.setCookie('username', username, expireDays);
+            this.setCookie('password', password, expireDays);
+            this.setCookie('userId', res.data.data.id, expireDays);
+            this.setCookie('ip', ip, expireDays);
+            this.setCookie('port', port, expireDays);
 
-      })
-      .catch(function(error) {
-          //alert("请输入正确的用户名或密码。");
-          layer.msg('请输入正确的用户名或密码！');
-        });
+          })
+          .catch(function (error) {
+            //alert("请输入正确的用户名或密码。");
+            layer.msg('请输入正确的用户名或密码！');
+          });
       }
     },
 
     created() {
 
-      $("body").css("background-image", "url('img/bgs/10.jpg')");
+      //$(".signin").css("background-image", "url('img/bgs/10.jpg')");
 
-      if(this.getCookie('ip')){
+/*      if (this.getCookie('ip')) {
 
-        this.info.ip=this.getCookie('ip');
+        this.info.ip = this.getCookie('ip');
 
         console.log(this.info);
 
-      }
+      }*/
 
     }
 
   };
 
 </script>
-<style>
-
+<style scoped>
+.signin{
+  background-image: url('../../img/bgs/10.jpg');
+  height: 100%;
+}
 </style>

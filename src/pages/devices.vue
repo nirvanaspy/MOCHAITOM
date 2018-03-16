@@ -6,10 +6,9 @@
         <div class="row-fluid header">
           <h3>设备</h3>
           <div class="span10 pull-right">
-            <input class="search" type="text" placeholder="搜索设备.." v-model="searchQuery"/>
+            <input class="search" type="text" placeholder="设备名称.." v-model="searchQuery"/>
 
-
-            <div class="ui-dropdown">
+            <!--<div class="ui-dropdown">
               <div class="head" data-toggle="tooltip" title="Click me!">
                 Filter devices
                 <i class="arrow-down"></i>
@@ -53,7 +52,7 @@
                   </div>
                 </div>
               </div>
-            </div>
+            </div>-->
 
             <router-link to="/addDevice" class="btn-flat success pull-right">
               <span>&#43;</span>
@@ -96,7 +95,7 @@
               <td>{{device.name}}</td>
               <td>{{device.ip}}</td>
               <td>
-                {{device.path}}
+                {{device.deployPath}}
               </td>
               <td>
                 <span class="label label-primary" v-if="!device.online">离线</span>
@@ -140,18 +139,7 @@
           <!--<hr/>
           {{devices}}-->
         </div>
-        <div class="pagination pull-right">
-          <ul>
-            <li><a href="#">&#8249;</a></li>
-            <li><a class="active" href="#">1</a></li>
-            <li><a href="#">2</a></li>
-            <li><a href="#">3</a></li>
-            <li><a href="#">4</a></li>
-            <li><a href="#">5</a></li>
-            <li><a href="#">&#8250;</a></li>
-          </ul>
-        </div>
-        <!-- end users table -->
+
       </div>
     </div>
 
@@ -165,15 +153,16 @@
           </div>
           <div class="modal-body">
             <!-- form start -->
-            <form class="form-horizontal">
-              <div style="margin-top: 23px;margin-left: 30px;">
+            <form class="form-horizontal"/>
+              <div style="margin-top: 23px;">
                 <span>绝对路径:</span>
-                <input type="text" id="input-path" name='input-path' style="height:20px">(例如:D:/test/)
+                <input type="text" id="input-path" style="height:20px">(例如:D:/test/)
               </div>
 
-              <div style="margin-left: 148px;margin-top: 22px;">
-                <button type="submit" class="btn-glow flat" @click="report2($event)">确认</button>
-                <button type="submit" class="btn-glow flat" @click="formReset">取消</button>
+              <br/>
+              <div class="pull-right">
+                <button type="submit" class="btn-flat primary" @click="report2($event)">确认</button>
+                <button type="submit" class="btn-flat primary" @click="formReset">取消</button>
               </div>
             </form>
 
@@ -198,10 +187,10 @@
         devip: ''
       }
     }, created() {
-      var projectId = this.getCookie('projectId');
-      var username = this.getCookie('username');
-      var password = this.getCookie('password');
-      this.$axios.get(this.getIP() + 'project/' + projectId + '/device', {
+      let projectId = this.getCookie('projectId');
+      let username = this.getCookie('username');
+      let password = this.getCookie('password');
+      this.$axios.get(this.getIP() + 'projects/' + projectId + '/devices', {
         //设置头
         headers: {
           'content-type': 'application/x-www-form-urlencoded'
@@ -221,6 +210,9 @@
     methods: {
 
       deleteDevice: function (event) {
+        let username = this.getCookie('username');
+        let password = this.getCookie('password');
+
         //alert("A");
         var e = event || window.event;
         //alert("B");
@@ -243,17 +235,17 @@
                 'content-type': 'application/x-www-form-urlencoded'
               },
               auth: {
-                username: 'admin',
-                password: 'admin'
+                username: username,
+                password: password
               }
             }).then(res => {
               layer.msg("删除成功");
 
               //删除完再次查询
-              var projectId = this.getCookie('projectId');
-              var username = this.getCookie('username');
-              var password = this.getCookie('password');
-              this.$axios.get(this.getIP() + 'project/' + projectId + '/device', {
+              let projectId = this.getCookie('projectId');
+              let username = this.getCookie('username');
+              let password = this.getCookie('password');
+              this.$axios.get(this.getIP() + 'projects/' + projectId + '/devices', {
                 //设置头
                 headers: {
                   'content-type': 'application/x-www-form-urlencoded'
@@ -270,7 +262,7 @@
                 })
 
             }).catch(err => {
-              alert("删除失败！");
+              layer.msg("删除失败！");
             })
           }
 
@@ -300,7 +292,7 @@
         var password = this.getCookie('password');
 
         var qs = require('qs');
-        this.$axios.post(this.getIP() + 'devices/copy/' + id,
+        this.$axios.post(this.getIP() + 'devices/' + id + '/copy',
           qs.stringify({
             "name": $("input[name='add-name']").val(),
 
@@ -316,7 +308,7 @@
             }
           }).then(res => {
           layer.msg("复制成功");
-          this.$axios.get(this.getIP() + 'project/' + projectId + '/device', {
+          this.$axios.get(this.getIP() + 'projects/' + projectId + '/devices', {
             //设置头
             headers: {
               'content-type': 'application/x-www-form-urlencoded'
@@ -340,7 +332,7 @@
 
       formReset: function () {
         $("#input-path").val('');
-        $("#modal-path").modal('hide');
+        $("#modal-select").modal('hide');
       },
 
       report: function (event) {
@@ -364,11 +356,11 @@
       },
       report2: function () {
 
-        console.log($("input[name='input-path']").val());
+        console.log($("input[id='input-path']").val());
         console.log(this.devname);
         console.log(this.devip);
 
-        if ($("input[name='input-path']").val() != null) {
+        if ($("input[id='input-path']").val() != null) {
 
           let qs = require('qs');
           let projectId = this.getCookie('projectId');
@@ -376,10 +368,10 @@
           let password = this.getCookie('password');
 
 
-          this.$axios.post(this.getIP() + 'project/' + projectId + '/device', qs.stringify({
+          this.$axios.post(this.getIP() + 'projects/' + projectId + '/devices', qs.stringify({
             "name": this.devname,
             "ip": this.devip,
-            "path": $("input[name='input-path']").val()
+            "deployPath": $("input[id='input-path']").val()
           }), {
 
             //设置头
@@ -398,7 +390,7 @@
             $("#modal-select").modal('hide');
 
             //成功后重新查询
-            this.$axios.get(this.getIP() + 'project/' + projectId + '/device', {
+            this.$axios.get(this.getIP() + 'projects/' + projectId + '/devices', {
               //设置头
               headers: {
                 'content-type': 'application/x-www-form-urlencoded'
@@ -426,7 +418,7 @@
     },
     computed: {
       devicesA: function () {
-        var self = this;
+        let self = this;
         return self.devices.filter(function (item) {
           return item.name.toLowerCase().indexOf(self.searchQuery.toLowerCase()) !== -1;
         })
@@ -435,9 +427,9 @@
     }
   }
 </script>
-<style>
+<style scoped>
   .tabletable {
-    height: 400px;
+    height: 600px;
     overflow-y: auto;
     margin-top: -35px;
   }

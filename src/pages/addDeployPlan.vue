@@ -61,7 +61,7 @@ let projectId = "2ec24245-0f8d-4db5-9d9b-1726ed727057";*/
                 var projectId = this.getCookie('projectId');
                 var username = this.getCookie('username');
                 var password = this.getCookie('password');
-                this.$axios.post(this.getIP() +'project/'+projectId+'/deployplan',qs.stringify({
+                this.$axios.post(this.getIP() +'projects/'+projectId+'/deploymentdesigns',qs.stringify({
                     "name": $("input[name='add-name']").val(),
                     "description": $("input[name='add-des']").val()
                 }),{
@@ -82,12 +82,13 @@ let projectId = "2ec24245-0f8d-4db5-9d9b-1726ed727057";*/
                     this.$router.replace({ path: '/deployplan'})
                 })
                     .catch(err=>{
-                      layer.msg("请重新输入名称！");
+                      layer.msg("请输入名称！");
                     })
             },
 
             formReset: function(){
                 $("input").val('');
+                this.$router.replace({ path: '/deployplan'});
             }
 
         }

@@ -1,5 +1,5 @@
 <template>
-  <div :style="{backgroundImage: 'url(img/bgs/10.jpg)' }">
+  <div class="signin">
 
     <div class="row-fluid login-wrapper">
       <a href="#">
@@ -7,93 +7,16 @@
               <h1 style="color:white;">一体化运维管理平台</h1>
       </a>
 
-      <!--  <div class="span4 box choosePro">
-            <div class="content-wrap project-panel">
-                头
-                <p class="project-header">
-                    <span class="project-title">
-                        选择工程
-                    </span>
-                    <h6>选择工程</h6>
-                </p>
-
-                内容
-                <div class="project-body">
-                    <div class="addPro" id="todo-list-example">
-                        增加pproject的输入框
-                                    <input class="addInput"
-                                        v-model="newTodoText"
-                                        v-on:keyup.enter="addNewTodo"
-                                        placeholder="Add a project"
-                                    >
-
-                                    <div>
-                                        <table class="table table-hover" id="table_value">
-                                            <thead>
-                                            <tr>
-                                                <th></th>
-                                                <th class="span4 sortable">
-                                                   工程名
-                                                </th>
-                                                <th>操作</th>
-
-
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                            row
-                                            <tr class="first" v-for="(todo, index) in todos" :key="index">
-                                                <td style="display:none" id="id">{{todo.id}}</td>
-                                                <td>
-                                                    <input type="checkbox">
-                                                </td>
-                                                <td>
-                                                   {{todo.title}}
-                                                </td>
-                                                <td>
-                                                    <input type="button" class="btn-flat primary" value="移除" @click="deleteDevice($event)"/>
-                                                </td>
-
-                                            </tr>
-
-
-                                            </tbody>
-                                        </table>
-                                    </div>
-
-                                  <ul class="ulPro">
-                                      <label class="labelPro label2">
-                                          <li class="liPro"
-                                                                    is="todo-item"
-                                                                    v-for="(todo, index) in todos"
-                                                                    v-bind:key="todo.id"
-                                                                    v-bind:title="todo.title"
-                                                                    v-on:remove="todos.splice(index, 1)"
-                                                                  >
-                                                                      <span>{{todo.title}}</span>
-                                                                  </li>
-                                      </label>
-
-                                  </ul>
-                                </div>
-                </div>
-
-
-
-                <a class="btn-glow primary login" href="index.html">进入系统</a>
-            </div>
-        </div> -->
-
       <div id="your_pros" class="span4 box" style="height:374px;margin-top: 39px;background: rgba(255, 255, 255, 0.65);">
         <div class="content-wrap">
           <!-- 按钮 -->
-          <div>
+          <div style="height: 30px;">
             <h4 style="float:left">
               项目
               <span class="Counter">{{length}}</span>
             </h4>
             <div class="boxed-group-action" >
-              <router-link to="/addProject" class="btn-flat success pull-right" style="margin: -10px -10px 0 0;height: 28px;">
+              <router-link to="/addProject" class="btn-flat success pull-right" style="margin: -10px -10px 0 0;height: 28px;color: white;">
                 <span>&#43;</span>
                 新增
               </router-link>
@@ -124,10 +47,7 @@
         </div>
       </div>
 
-  <!--     <div class="span4 no-account">
-    <p>Don't have an account?</p>
-    <a href="signup.html">注册</a>
-  </div> -->
+
     </div>
 
   </div>
@@ -177,20 +97,20 @@
       var projectId = this.getCookie('projectId');
       var username = this.getCookie('username');
       var password = this.getCookie('password');
-      this.$axios.get(this.getIP() + 'project/', {
+      this.$axios.get(this.getIP() + 'projects', {
         //设置头
         headers: {
           'content-type': 'application/x-www-form-urlencoded'
         },
         auth: {
-          username: 'admin',
-          password: 'admin'
+          username: username,
+          password: password
         }
       }).then(res => {
         this.projectInfo = res.data.data;
         this.length=res.data.data.length;
 
-        $("body").css("background-image", "url('img/bgs/10.jpg')");
+       // $("body").css("background-image", "url('img/bgs/10.jpg')");
         //alert("hh");
         var ul = document.getElementById('ulId');
         console.log(ul);
@@ -218,13 +138,13 @@
         }
     } ,
     methods: {
-      addNewTodo: function () {
+      /*addNewTodo: function () {
         this.todos.push({
           id: this.nextTodoId++,
           title: this.newTodoText
         })
         this.newTodoText = ''
-      },
+      },*/
       clicked: function (event) {
         var event = event || window.event;
         var target = event.target || event.srcElement;
@@ -238,7 +158,13 @@
   }
 </script>
 
-<style>
+<style scoped>
+
+  .signin{
+    background-image: url('../../img/bgs/10.jpg');
+    height: 100%;
+  }
+
 	*{
 		box-sizing: border-box;
 	}
@@ -483,7 +409,7 @@
     li {
     display: list-item;
     text-align: -webkit-match-parent;
-    line-height: 30px;
+    line-height: 20px;
     }
     .mini-repo-list-item .repo {
     font-weight: 600;

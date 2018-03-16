@@ -14,35 +14,35 @@
               <form class="new_user_form inline-input">
 
 
-                  <div class="span12 field-box">
-                    <label>设备名:</label>
-                    <input class="span9" type="text" id="edit-name"/>
-                    <span class="muststar">*</span>
-                  </div>
+                <div class="span12 field-box">
+                  <label>设备名:</label>
+                  <input class="span9" type="text" id="edit-name"/>
+                  <span class="muststar">*</span>
+                </div>
 
-                  <div class="span12 field-box">
-                    <label>IP:</label>
-                    <input class="span9" type="text" id="edit-ip"/>
-                    <span class="muststar">*</span>
-                  </div>
+                <div class="span12 field-box">
+                  <label>IP:</label>
+                  <input class="span9" type="text" id="edit-ip"/>
+                  <span class="muststar">*</span>
+                </div>
 
-                  <div class="span12 field-box">
-                    <label>路径:</label>
-                    <input class="span9" type="text" id="edit-path"/>
-                    <span class="muststar">*</span>
-                  </div>
+                <div class="span12 field-box">
+                  <label>路径:</label>
+                  <input class="span9" type="text" id="edit-path"/>
+                  <span class="muststar">*</span>
+                </div>
 
-                  <div class="span12 field-box">
-                    <label>描述:</label>
-                    <input class="span9" type="text" id="edit-des"/>
-                  </div>
+                <div class="span12 field-box">
+                  <label>描述:</label>
+                  <input class="span9" type="text" id="edit-des"/>
+                </div>
 
-                  <div class="span7 field-box actions">
+                <div class="span7 field-box actions">
 
-                    <button type="submit" class="btn-glow primary" @click="modifyDevice">保存</button>
-                    <!--<input type="button" class="btn-glow primary" value="保存" style="width: 100px;" @click="modifyDevice"/>-->
-                    <button type="submit" class="btn-glow primary" @click="formReset">取消</button>
-                  </div>
+                  <button type="submit" class="btn-glow primary" @click="modifyDevice">保存</button>
+                  <!--<input type="button" class="btn-glow primary" value="保存" style="width: 100px;" @click="modifyDevice"/>-->
+                  <button type="submit" class="btn-glow primary" @click="formReset">取消</button>
+                </div>
 
               </form>
             </div>
@@ -56,96 +56,99 @@
 </template>
 
 <script>
-/* eslint-disable */
-export default{
+  /* eslint-disable */
+  export default {
 
-        data(){
-            return{
-                device:[]
-            }
+    data() {
+      return {
+        device: []
+      }
+    },
+    created() {
+      let username = this.getCookie('username');
+      let password = this.getCookie('password');
+
+      var deviceId = this.$route.params.id;  //所选择的部署设计的id
+      console.log(deviceId);
+
+      this.$axios.get(this.getIP() + 'devices/' + deviceId, {
+        //设置头
+        headers: {
+          'content-type': 'application/x-www-form-urlencoded'
         },
-        created(){
-            var deviceId = this.$route.params.id;  //所选择的部署设计的id
-            console.log(deviceId);
-
-            this.$axios.get(this.getIP() + 'devices/' + deviceId,{
-                //设置头
-                headers:{
-                    'content-type':'application/x-www-form-urlencoded'
-                },
-                auth: {
-                    username: 'admin',
-                    password: 'admin'
-                }
-            }).then(res=>{
-                this.device = res.data.data;
-
-                document.getElementById("edit-name").value = res.data.data.name;
-                document.getElementById("edit-ip").value = res.data.data.ip;
-                document.getElementById("edit-path").value = res.data.data.path;
-                document.getElementById("edit-des").value = res.data.data.description;
-            })
-            .catch(err=>{
-                console.log(err);
-            })
-
-        },
-        methods: {
-
-            modifyDevice: function (){
-                let deviceId = this.$route.params.id;
-
-                let username = this.getCookie('username');
-                let password = this.getCookie('password');
-
-                let qs = require('qs');
-
-                let name = $("input[id='edit-name']").val();
-                let ip = $("input[id='edit-ip']").val();
-                let path = $("input[id='edit-path']").val();
-                let description = $("input[id='edit-des']").val();
-
-                //debugger;
-
-                if((name.length != 0) && (ip.length != 0) && (path.length != 0)){
-                  this.$axios.patch(this.getIP() + 'devices/' + deviceId ,qs.stringify({
-
-                    "name": name,
-                    "ip": ip,
-                    "path": path,
-                    "description": description
-                  }),{
-
-                    //设置头
-                    headers:{
-                      'content-type':'application/x-www-form-urlencoded'
-                    },
-                    auth: {
-                      username: username,
-                      password: password
-                    }
-                  }).then(res=>{
-                    layer.msg("保存成功！");
-                    this.$router.replace({ path: '/devices'})
-                  }).catch(err=>{
-                    alert("修改失败, 请检查ip是否重复！");
-                  })
-                }else{
-                  alert("请输入必填项");
-                }
-
-            },
-
-            formReset: function(){
-              $("input").val('');
-              this.$router.replace({ path: '/devices'})
-
-            }
+        auth: {
+          username: username,
+          password: password
         }
+      }).then(res => {
+        this.device = res.data.data;
+
+        document.getElementById("edit-name").value = res.data.data.name;
+        document.getElementById("edit-ip").value = res.data.data.ip;
+        document.getElementById("edit-path").value = res.data.data.deployPath;
+        document.getElementById("edit-des").value = res.data.data.description;
+      })
+        .catch(err => {
+          console.log(err);
+        })
+
+    },
+    methods: {
+
+      modifyDevice: function () {
+        let deviceId = this.$route.params.id;
+
+        let username = this.getCookie('username');
+        let password = this.getCookie('password');
+
+        let qs = require('qs');
+
+        let name = $("input[id='edit-name']").val();
+        let ip = $("input[id='edit-ip']").val();
+        let path = $("input[id='edit-path']").val();
+        let description = $("input[id='edit-des']").val();
+
+        //debugger;
+
+        if ((name.length != 0) && (ip.length != 0) && (path.length != 0)) {
+          this.$axios.patch(this.getIP() + 'devices/' + deviceId, qs.stringify({
+
+            "name": name,
+            "ip": ip,
+            "deployPath": path,
+            "description": description
+          }), {
+
+            //设置头
+            headers: {
+              'content-type': 'application/x-www-form-urlencoded'
+            },
+            auth: {
+              username: username,
+              password: password
+            }
+          }).then(res => {
+            layer.msg("保存成功！");
+            this.$router.replace({path: '/devices'})
+          }).catch(err => {
+            alert("修改失败, 请检查ip是否重复！");
+          })
+        } else {
+          alert("请输入必填项");
+        }
+
+      },
+
+      formReset: function () {
+        $("input").val('');
+        this.$router.replace({path: '/devices'})
+
+      }
     }
+  }
 </script>
 <style>
-  .muststar{
+  .muststar {
     margin-left: 10px;
     color: red;
   }
