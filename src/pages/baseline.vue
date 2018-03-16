@@ -223,6 +223,12 @@
   }
 </script>
 <style>
+  .tabletable {
+    height: 600px;
+    overflow-y: auto;
+    margin-top: -35px;
+  }
+
   .ulactions {
     margin: 5px 0 0 0;
   }

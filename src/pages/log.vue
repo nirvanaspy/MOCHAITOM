@@ -80,7 +80,7 @@
 
 
         <!-- Users table -->
-        <div class="row-fluid table" style="margin-top: -20px;">
+        <div class="row-fluid table tabletable" style="margin-top: -20px;">
           <table class="table table-hover" id="table_value">
             <thead>
             <tr>
@@ -321,6 +321,12 @@
   }
 </script>
 <style>
+  .tabletable {
+    height: 500px;
+    overflow-y: auto;
+    margin-top: -35px;
+  }
+
   .label-danger, .badge-info {
     background-color: #b94a48;
   }

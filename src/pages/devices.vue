@@ -429,7 +429,7 @@
 </script>
 <style scoped>
   .tabletable {
-    height: 400px;
+    height: 600px;
     overflow-y: auto;
     margin-top: -35px;
   }
