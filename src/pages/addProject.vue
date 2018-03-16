@@ -10,7 +10,7 @@
 
                 <div class="row-fluid form-wrapper">
                     <!-- left column -->
-                    <div class="span10 with-sidebar">
+                    <div class="span10">
                         <div class="container">
                             <form class="new_user_form inline-input" />
                                 <div class="span12 field-box">
@@ -99,7 +99,7 @@
 <style scoped>
 
   .signin{
-    background-image: url('../../img/bgs/10.jpg');
+    background-image: url('/static/img/bgs/10.jpg');
     height: 100%;
   }
 
