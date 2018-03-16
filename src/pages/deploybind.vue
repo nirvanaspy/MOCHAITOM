@@ -97,7 +97,7 @@
                        style="margin-top: 40px;text-align: center;margin-left: -5px;">
 
                     <div>
-                      <img src="../../img/files.png" style="height: 90px;"/>
+                      <img src="../../static/img/files.png" style="height: 90px;"/>
                     </div>
 
                     <!-- <br/> -->
@@ -123,7 +123,7 @@
                        style="margin-top: 40px;text-align: center;margin-left: -5px;">
 
                     <div>
-                      <img src="../../img/computers.jpg" style="height: 80px;"/>
+                      <img src="../../static/img/computers.jpg" style="height: 80px;"/>
                     </div>
 
                     <!-- <br/> -->
