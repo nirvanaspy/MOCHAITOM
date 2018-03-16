@@ -270,7 +270,7 @@ export default{
             if(this.name.length==0){
               layer.msg("请输入设备名！");
             }else if(this.path.length==0){
-              layer.msg("请输入路径！");
+              layer.msg("请输入描述信息！");
             }else {
 
               this.$axios.post(this.getIP() +'deploymentdesigns/'+this.depid+'/deploymentdesignsnapshots',qs.stringify({
