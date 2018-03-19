@@ -28,7 +28,7 @@
 
                 <div class="span12 field-box">
                   <label>路径:</label>
-                  <input class="span9" type="text" id="edit-path"/>
+                  <input class="span9" type="text" id="edit-path" placeholder="只填写盘符如： F:/ ； 填写盘符加文件夹如： F:/test/"/>
                   <span class="muststar">*</span>
                 </div>
 

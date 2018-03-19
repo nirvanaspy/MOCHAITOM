@@ -28,7 +28,7 @@
 
               <div class="span12 field-box">
                 <label>路径:</label>
-                <input class="span9" type="text" name="add-path"/>
+                <input class="span9" type="text" name="add-path" placeholder="只填写盘符如： F:/ ； 填写盘符加文件夹如： F:/test/"/>
                 <span class="muststar">*</span>
 
               </div>
@@ -82,13 +82,13 @@
           </div>
 
           <!-- side right column -->
-          <div class="span2 form-sidebar pull-right">
+          <!--<div class="span2 form-sidebar pull-right">
 
             <h6>路径填写说明：</h6>
             <p>只填写盘符如： F:/ </p>
             <p>填写盘符加文件夹： F:/test/ </p>
 
-          </div>
+          </div>-->
 
 
         </div>

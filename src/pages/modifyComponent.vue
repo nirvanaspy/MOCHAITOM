@@ -30,7 +30,7 @@
                 <div class="span12 field-box">
 
                   <label>相对路径:</label>
-                  <input class="span9" type="text" id="add-deployPath"/>
+                  <input class="span9" type="text" id="add-deployPath" placeholder="无路径时填入： / ； 有路径时如： /test/ "/>
                   <span class="muststar">*</span>
                 </div>
 

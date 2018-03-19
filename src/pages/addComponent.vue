@@ -30,7 +30,7 @@
               <div class="span12 field-box">
                 <!--<label style="margin-left:-120px;">(如:/test/)</label>-->
                 <label>相对路径:</label>
-                <input class="span9" type="text" name="add-deployPath"/>
+                <input class="span9" type="text" name="add-deployPath" placeholder="无路径时填入： / ； 有路径时如： /test/ "/>
                 <span class="muststar">*</span>
                 <!--<span>(如:/test/)</span>-->
               </div>
@@ -96,13 +96,13 @@
           </div>
 
           <!-- side right column -->
-          <div class="span2 form-sidebar pull-right">
+          <!--<div class="span2 form-sidebar pull-right">
 
             <h6>路径填写说明：</h6>
             <p>无路径时填入： / </p>
             <p>有路径时如： /test/ </p>
 
-          </div>
+          </div>-->
 
         </div>
       </div>
