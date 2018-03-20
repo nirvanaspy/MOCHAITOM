@@ -5,16 +5,22 @@
       <div id="pad-wrapper" class="users-list">
         <div class="row-fluid header">
           <h3>部署</h3>
-          <div class="span10 pull-right">
-            <select v-model="selected" style="height: 26px;width: 233px; margin-top: 5px; margin-left: 7px;"
-                    @change="changeDeployPlan">
-              <!-- v-model="selected" -->
-              <option v-for="deployplan in deployplanInfos" v-bind:value="deployplan.id">
-                {{ deployplan.name }}
-              </option>
-            </select>
+          <div class="span4" style="float: right;">
+            <div class="span3" style="margin-top: 10px;">
+              部署设计:
+            </div>
+            <div class="span9" style="float: right;">
+              <select class="span12" v-model="selected" style="height: 26px;margin-top: 5px; "
+                      @change="changeDeployPlan">
+                <!-- v-model="selected" -->
+                <option v-for="deployplan in deployplanInfos" v-bind:value="deployplan.id">
+                  {{ deployplan.name }}
+                </option>
+              </select>
 
+            </div>
           </div>
+
         </div>
 
         <!-- Users table -->
