@@ -167,6 +167,13 @@
               <button class="btn-glow" style="width:130px" @click="scanQuick1()"><i class="icon-bolt"></i>快速扫描
               </button>
 
+
+            </div>
+
+            <div class="btn-group pull-right" style="margin-top: 20px;">
+              <button class="btn-glow success" style="width:130px"><i class="icon-cloud-upload"></i>上传
+              </button>
+
             </div>
 
           </div>
