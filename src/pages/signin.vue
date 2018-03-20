@@ -69,7 +69,8 @@
         let ip = $("input#ip").val();
         let port = $("input#port").val();
 
-        let expireDays = 1000 * 60 * 60 * 24 * 15;
+        //let expireDays = 1000 * 60 * 60 * 24 * 15;
+        let expireDays = 30;        //天数
 
         if (username.length == 0 || password.length == 0) {
           //alert("请输入正确的用户名或密码。");
@@ -117,6 +118,7 @@
             this.setCookie('ip', ip, expireDays);
             this.setCookie('port', port, expireDays);
 
+
           })
           .catch(function (error) {
             //alert("请输入正确的用户名或密码。");
@@ -129,13 +131,19 @@
 
       //$(".signin").css("background-image", "url('img/bgs/10.jpg')");
 
-/*      if (this.getCookie('ip')) {
+           if (this.getCookie('ip')) {
 
-        this.info.ip = this.getCookie('ip');
+              this.info.ip = this.getCookie('ip');
 
-        console.log(this.info);
+              console.log(this.info);
 
-      }*/
+            }
+
+          if (this.getCookie('port')) {         //记录上次输入端口号
+
+            this.info.port = this.getCookie('port');
+
+          }
 
     }
 
@@ -143,8 +151,8 @@
 
 </script>
 <style scoped>
-.signin{
-  background-image: url('../../img/bgs/10.jpg');
-  height: 100%;
-}
+  .signin {
+    background-image: url('../../img/bgs/10.jpg');
+    height: 100%;
+  }
 </style>
