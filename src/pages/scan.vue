@@ -30,13 +30,19 @@
 
                 <br/>-->
                 <div class="row-fluid table devcompchose">
-                  <select v-model="selected" style="height: 26px;width: 233px; margin-top: 5px; margin-left: 7px;"
-                          @change="changeDeployPlan">
-                    <!-- v-model="selected" -->
-                    <option v-for="deployplan in deployplanInfos" v-bind:value="deployplan.id">
-                      {{ deployplan.name }}
-                    </option>
-                  </select>
+                  <div class="span3" style="margin-left: 7px;margin-top: 10px;">
+                    部署设计:
+                  </div>
+                  <div class="span8">
+                    <select class="span12" v-model="selected" style="height: 26px; margin-top: 5px; "
+                            @change="changeDeployPlan">
+                      <!-- v-model="selected" -->
+                      <option v-for="deployplan in deployplanInfos" v-bind:value="deployplan.id">
+                        {{ deployplan.name }}
+                      </option>
+                    </select>
+                  </div>
+
                   <table class="table table-hover" style="margin-top: 10px">
                     <thead>
                     <tr>
