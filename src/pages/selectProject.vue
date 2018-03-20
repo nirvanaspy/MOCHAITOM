@@ -150,7 +150,7 @@
         var target = event.target || event.srcElement;
         projectId = target.id;
         //将projectId的值存入cookie中
-        let expireDays = 1000 * 60 * 60 * 24 * 15;
+        let expireDays = 30;
         Vue.prototype.setCookie('projectId', projectId, expireDays);
         console.log(Vue.prototype.getCookie('projectId'));
       }

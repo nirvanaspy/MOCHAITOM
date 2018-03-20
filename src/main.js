@@ -25,15 +25,8 @@ Vue.prototype.getIP = function() {
 //设置cookie
 Vue.prototype.setCookie = (c_name, value, expiredays) => {
   let exdate = new Date();
-  console.log(exdate.getDate());
-  console.log(expiredays);
-  console.log(exdate.getDate() + expiredays);
   exdate.setDate(exdate.getDate() + expiredays);
-  console.log(exdate.getDate());　　
   document.cookie = c_name + "=" + escape(value) + ((expiredays == null) ? "" : ";expires=" + exdate.toUTCString());
-  console.log("--------------");
-  console.log(exdate);
-  console.log(exdate.toUTCString());
 };
 
 //获取cookie、
