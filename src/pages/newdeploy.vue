@@ -142,16 +142,10 @@
 
               </tr>
 
-              <!-- row -->
 
               </tbody>
             </table>
 
-            <!--<br/>
-            <div class="pull-right">
-              <button type="submit" class="btn-flat primary" @click="deployDetails2($event)">确认</button>
-              <button type="submit" class="btn-flat primary" @click="formReset">取消</button>
-            </div>-->
 
           </div>
         </div>
@@ -300,7 +294,7 @@
                     console.log(res.data.data);
 
                     let resp = res.data.data;
-                    if(resp.length != 0){
+                    /*if(resp.length != 0){
                       console.log("赋值---------");
                       console.log(resp);
                       for(let i=0;i<resp.length;i++){
@@ -369,7 +363,7 @@
 
                     console.log("部署详情-------------");
                     console.log(this.deployDetailInfo);
-                    console.log(this.deployDetailInfo2);
+                    console.log(this.deployDetailInfo2);*/
 
                   }).catch(err => {
                   console.log("提示---------");
@@ -400,6 +394,128 @@
       },
 
       deployDetails: function (event) {
+
+        this.deviceDeployDetail.splice(0, this.deviceDeployDetail.length);    //清空某设备的部署详情数组
+
+        let e = event || window.event;
+
+        let target = e.target || e.srcElement;
+
+        let ifexist = false;      //设备是否部署，false为未部署
+
+
+        if (target.parentNode.parentNode.parentNode.tagName.toLowerCase() == "td") {
+          var rowIndex = target.parentNode.parentNode.parentNode.parentNode.rowIndex;
+          var id = document.getElementById("table_value").rows[rowIndex].cells[0].innerHTML;
+
+          let i = 0;
+
+          console.log("详情部署信息------------");
+          console.log(id);
+          console.log(this.devices);
+          console.log(this.devices.length);
+
+          if(this.devices.length > 0){
+            for (i = 0; i < this.devices.length; i++) {      //循环结果数组，找到点击的设备对应的数据
+              if (id == this.devices[i].id) {
+                console.log(this.devices[i].id);
+                console.log(this.devices[i].progress);
+                if(this.devices[i].progress != 0){      //判断此设备是否已部署，进度不为0则已部署
+
+                  if(this.devices[i].errorFileList.length != 0){                         //未成功文件存入失败详情数组
+                    for(let x=0;x<this.devices[i].errorFileList.length;x++){
+                      this.errorDetails.push(this.devices[i].errorFileList[x]);
+                    }
+
+                  }
+
+                  if(this.devices[i].completedFileList != 0){                           //成功文件存入完成详情数组
+                    for(let y=0;y<this.devices[i].completedFileList.length;y++){
+                      this.completedDeatils.push(this.devices[i].completedFileList[y]);
+                    }
+                  }
+
+                  ifexist = true;           //设备已部署
+                  break;
+                }
+              }
+            }
+          }
+
+          console.log("失败成功文件------");
+          console.log(this.errorDetails);
+          console.log(this.completedDeatils);
+
+          if(this.errorDetails.length != 0){
+            for (let i = 0; i < this.errorDetails.length; i++) {
+              this.errorDetails[i].state = false;
+            }
+          }
+
+          if(this.completedDeatils.length != 0){
+            for (let i = 0; i < this.completedDeatils.length; i++) {
+              this.completedDeatils[i].state = true;
+            }
+          }
+
+          console.log(this.completedDeatils);
+
+          this.deployDetailInfo.info = [];
+
+          console.log("失败文件------------");
+          console.log(this.errorDetails.length);
+          if(this.errorDetails.length != 0){
+            for(let j=0;j<this.errorDetails.length;j++){
+              this.deployDetailInfo.info.push(this.errorDetails[j]);
+            }
+          }
+
+          if(this.completedDeatils.length != 0){
+            for(let k=0;k<this.completedDeatils.length;k++){
+              this.deployDetailInfo.info.push(this.completedDeatils[k]);
+            }
+
+          }
+
+          this.deployDetailInfo2.push(this.deployDetailInfo);
+
+          console.log("部署详情-------------");
+          console.log(this.deployDetailInfo);
+          console.log(this.deployDetailInfo2);
+
+
+
+          /*for (i = 0; i < this.deployDetailInfo2.length; i++) {
+            console.log(this.deployDetailInfo2[i]);
+            console.log(this.deployDetailInfo2[i].deviceId);
+            if (id == this.deployDetailInfo2[i].deviceId) {
+
+              ifexist = true;           //设备已部署
+              break;
+            }
+          }*/
+          console.log(ifexist);
+
+          if (ifexist == true) {
+
+            this.deviceDeployDetail = this.deployDetailInfo2[i].info;
+
+            console.log("已部署的设备的信息-----------------");
+            console.log(this.deviceDeployDetail);
+
+            $("#modal-select").modal('show');
+
+          } else {
+            layer.msg("请先部署！");
+          }
+
+          console.log(this.deviceDeployDetail);
+        }
+
+
+      },
+
+      deployDetails1: function (event) {
 
         this.deviceDeployDetail.splice(0, this.deviceDeployDetail.length);    //清空某设备的部署详情数组
 
