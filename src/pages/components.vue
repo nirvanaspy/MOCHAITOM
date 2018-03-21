@@ -8,7 +8,7 @@
           <div class="span10 pull-right">
             <input class="search" type="text" placeholder="组件名称.." v-model="searchQuery"/>
 
-            <router-link to="/addComponent" class="btn-flat success pull-right" style="float: right;">
+            <router-link to="/addComponent1" class="btn-flat success pull-right" style="float: right;">
               <span>&#43;</span>
               新增
             </router-link>

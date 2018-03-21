@@ -12,6 +12,9 @@ import 'element-ui/lib/theme-chalk/index.css'
 import Popper from 'vue-popperjs';
 import 'vue-popperjs/dist/css/vue-popper.css';
 
+import uploader from 'vue-simple-uploader'
+Vue.use(uploader);
+
 Vue.use(ElementUI);
 Vue.prototype.GLOBAL = global;
 

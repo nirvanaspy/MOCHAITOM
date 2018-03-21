@@ -4,6 +4,7 @@ import main from '@/components/HelloWorld'
 import users from '@/pages/users'
 import components from '@/pages/components'
 import addComponent from '@/pages/addComponent'
+import addComponent1 from '@/pages/addComponent1'
 import addUser from '@/pages/addUser'
 import uploadtest from '@/pages/uploadtest'
 import devices from '@/pages/devices'
@@ -105,6 +106,11 @@ export default new Router({
                     path: '/addComponent',
                     name: 'addComponent',
                     component: addComponent
+                },
+                {
+                  path: '/addComponent1',
+                  name: 'addComponent1',
+                  component: addComponent1
                 },
 
                 {
