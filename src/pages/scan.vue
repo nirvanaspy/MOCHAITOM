@@ -395,6 +395,12 @@
 
             onClick: this.zTreeOnClick,
             onDblClick: this.zTreeOnDblClick
+          },
+          check: {                                 //树上加CheckBox
+            autoCheckTrigger: false,
+            chkboxType: { "Y": "ps", "N": "ps" },
+            chkStyle: "checkbox",
+            enable: true
           }
         };
 
@@ -416,19 +422,15 @@
 
           for (let j = 0; j < deployPlanDetailEntities.length; j++) {
 
-
             let deviceNode = {};//设备
             let componentNode = {};//组件
 
             deviceNode.id = deployPlanDetailEntities[j].deviceEntity.id;
             deviceNode.state = deployPlanDetailEntities[j].deviceEntity.online;
 
-            componentNode.id =
-              deployPlanDetailEntities[j].componentEntity.id;
-            componentNode.name =
-              deployPlanDetailEntities[j].componentEntity.name;
-            componentNode.deviceId =
-              deployPlanDetailEntities[j].deviceEntity.id;
+            componentNode.id = deployPlanDetailEntities[j].componentEntity.id;
+            componentNode.name = deployPlanDetailEntities[j].componentEntity.name;
+            componentNode.deviceId = deployPlanDetailEntities[j].deviceEntity.id;
             componentNode.componentNodeInfo = deployPlanDetailEntities[j].componentEntity.componentDetailEntities;
             componentNode.state = "--";
 
@@ -471,8 +473,9 @@
                 var ary = deviceNode.name.split(")");
                 deviceNode.name = deviceNode.name.replace(')', ')           ');
 
-
                 deviceNode.deployPlanId = deployplanZtreeId;
+
+                deviceNode.nocheck = true;                 //去掉设备后的CheckBox
 
                 let children = [];
                 children.push(componentNode);
@@ -494,6 +497,8 @@
               var ary = deviceNode.name.split(")");
               deviceNode.name = deviceNode.name.replace(')', ')           ');
               deviceNode.deployPlanId = deployplanZtreeId;
+
+              deviceNode.nocheck = true;                   //去掉设备后的CheckBox
 
               let children = [];
               children.push(componentNode);
