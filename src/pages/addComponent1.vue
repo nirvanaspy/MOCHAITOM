@@ -43,7 +43,15 @@
               <div class="span12 field-box">
                 <label>上传文件:</label>
                 <div class="span9 uploadfile" style="margin-left: -1px;">
-                  <uploader :options="options" class="span12 uploader-example">
+                  <uploader :autoStart="autoStart"
+                            :file-status-text="statusText"
+                            :started="started"
+
+                            :progress="progress"
+                            :progress-style="progressStyle"
+                            :progressing-class="progressingClass"
+                            ref="uploader"
+                            class="span12 uploader-example">
                     <uploader-unsupport></uploader-unsupport>
                     <uploader-drop>
                       <p>拖拽文件到此处或</p>
@@ -95,7 +103,7 @@
 
 <script>
   /* eslint-disable */
-  import Vue from 'vue'
+  import uploader from 'vue-simple-uploader'
 
   let folders = [];   //上传文件夹的数组
   let files = [];     //上传文件的数组
@@ -129,141 +137,48 @@
           target: '//localhost:3000/upload',
           testChunks: false
         },
+
+        statusText: {
+          success: '成功了',
+          error: '出错了',
+          uploading: '上传中',
+          paused: '暂停中',
+          waiting: '等待中'
+        },
+
+        progress: 0,
+        progressingClass: '',
+
+        started: false,
+
+        autoStart: false,
+
+        fileAll: [],
+
         attrs: {
           accept: 'image/*'
         }
       }
     },
+/*
+    created(){
+      this.$refs.uploader.uploader.on('uploadStart', this.uploadStart);
+     },
+*/
+
+    watch: {
+      status (newStatus, oldStatus) {
+        if (oldStatus && newStatus === 'uploading' && oldStatus !== 'uploading') {
+          this.tid = setTimeout(() => {
+            this.progressingClass = 'uploader-file-progressing'
+          }, 200)
+        } else {
+          clearTimeout(this.tid)
+          this.progressingClass = ''
+        }
+      }
+    },
     methods: {
-      getFolder(event) {
-        //debugger;
-        //this.sv1 = event.target.files;
-        //console.log(this.sv1.length);
-        console.log("hhhh");
-        //console.log(this.sv1);
-
-       /* this.sv1 = $("input[name='file']").val();
-        if (this.sv1.length != 0) {
-          this.folders.push(this.sv1);
-
-          this.allArr.push(this.sv1);
-          var obj = document.getElementById('fileupload');
-          obj.outerHTML = obj.outerHTML;
-        } else {
-          alert("请选择文件夹");
-        }*/
-      },
-      getFile(event) {
-        this.sv2 = event.target.files[0];
-        //console.log(this.sv2.length);
-        console.log(this.sv2);
-      },
-      folderclick(event) {
-        //alert(this.sv);
-        //this.sv1 = event.target.files[0];;
-        event.preventDefault();
-        //alert(this.sv1);
-        //alert(this.sv1.name);
-        //alert(this.sv1.webkitRelativePath);
-        //alert("xy");
-        //this.sv1 = event.target.files;
-
-        console.log("文件夹------------------")
-        let sv11 = document.getElementById("folderupload");
-        console.log(sv11);
-        this.fieList = sv11.files;
-        let folderPath = this.fieList[0].webkitRelativePath; //拿到第一个文件的路径
-        let index = folderPath.indexOf("/");
-        let foldername = folderPath.substring(0,index);
-        //console.log(foldername);
-        /*alert(fileList);
-        alert(fileList.length);*/
-
-        if (this.fieList.length != 0) {
-
-          this.folders.push(foldername);
-          this.allArr.push(this.fieList);
-          console.log(this.fieList);
-
-          console.log(Object.prototype.toString.call(this.fieList));
-          /*console.log(Object.prototype.toString.call(this.sv1) == "[object FileList]");
-          console.log(Object.prototype.toString.call(this.sv1) == FileList);*/
-
-          console.log(this.folders);
-          console.log(this.allArr);
-
-          //alert(fieList);
-          var obj = document.getElementById('folderupload');
-          //alert("ffff");
-          obj.outerHTML = obj.outerHTML;
-          //alert("vvvv");
-          //alert(fieList);
-          //this.getFolder(event);
-        } else {
-          alert("请选择文件夹");
-        }
-
-        /*if(this.sv1.length != 0){*/
-        //this.sv1.push(this.sv1.files);
-        /*for(var s1=0; s1<this.sv1.length;s1++){
-            this.folders.push(this.sv1);
-            this.allArr.push(this.sv1);
-        }*/
-        /*var foldersNum = this.sv1.length + "个文件";
-        this.folders.push(foldersNum);
-        this.allArr.push(this.sv1);
-        console.log(this.sv1);
-
-        console.log(Object.prototype.toString.call(this.sv1));
-        console.log(Object.prototype.toString.call(this.sv1) == "[object FileList]");
-        console.log(Object.prototype.toString.call(this.sv1) == FileList);
-        //console.log(typeof(this.sv1));
-
-        console.log(this.folders);
-        console.log(this.allArr);
-
-       // alert(this.sv1);
-        var obj = document.getElementById('folderupload') ;
-       // alert("ffff");
-        obj.outerHTML=obj.outerHTML;
-       // alert("vvvv");
-       // alert(this.sv1);
-        //this.getFolder(event);
-    }else{
-        alert("请选择文件夹");
-    }*/
-
-
-      },
-
-      fileclick(event) {
-        event.preventDefault();
-
-        // alert("xy");
-
-        var sv12 = document.getElementById("fileupload");
-        this.fieList2 = sv12.files;
-
-        if (this.fieList2.length != 0) {
-
-          this.files.push(this.fieList2[0].name);
-          this.allArr.push(this.fieList2);
-          //console.log(fieList);
-
-          /*console.log(Object.prototype.toString.call(fieList));*/
-          //console.log(typeof(this.sv1));
-
-          console.log(this.files);
-          console.log(this.allArr);
-
-          //alert(fieList2);
-          var obj = document.getElementById('fileupload');
-
-          obj.outerHTML = obj.outerHTML;
-        } else {
-          alert("请选择文件");
-        }
-      },
 
       folderClear: function () {
         this.folders.splice(0, this.folders.length);   //清空文件夹
@@ -308,14 +223,42 @@
         }*/
       },
 
+
+      uploadStart: function () {
+        this.started = true
+      },
+
+      progressStyle: function () {
+        const progress = Math.floor(this.progress * 100);
+        const style = `translateX(${Math.floor(progress - 100)}%)`;
+        console.log(progress);
+        return {
+          progress: `${progress}%`,
+          webkitTransform: style,
+          mozTransform: style,
+          msTransform: style,
+          transform: style
+        }
+      },
+
       addComp(event) {
-        var username = this.getCookie('username');
-        var password = this.getCookie('password');
+        let username = this.getCookie('username');
+        let password = this.getCookie('password');
         // alert("A");
         this.name = $("input[name='add-name']").val();
         this.version = $("input[name='add-version']").val();
         this.describle = $("input[name='add-describle']").val();
         this.deployPath = $("input[name='add-deployPath']").val();
+
+
+        this.fileAll = this.$refs.uploader.uploader.files;
+
+        console.log("上传列表-----------------");
+
+        console.log(this.fileAll);
+        console.log(this.$refs.uploader.uploader.files);
+        console.log(this.$refs.uploader.uploader.fileList);
+
 
         if(this.name.length==0){
           layer.msg("请输入组件名！");
@@ -324,7 +267,7 @@
         }else if(this.deployPath.length==0){
           layer.msg("请输入路径！");
         }else {
-          layer.load();
+          //layer.load();
           event.preventDefault();
           let formData = new FormData();
 
@@ -336,23 +279,25 @@
 
           formData.append('enctype', "multipart/form-data");
 
-          for (var i = 0; i < this.allArr.length; i++) {
+
+          for (var i = 0; i < this.fileAll.length; i++) {
             //判断数组里是文件夹还是文件
-            for (var j = 0; j < this.allArr[i].length; j++) {
-              formData.append('componentfiles', this.allArr[i][j]);
-            }
+            formData.append('componentfiles', this.fileAll[i].file);
+            /*for (var j = 0; j < this.fileAll[i].length; j++) {
+              formData.append('componentfiles', this.fileAll[i][j]);
+            }*/
 
           }
 
           //formData.append('componentfile', this.allArr);
-          console.log(this.allArr.length);
-          console.log(this.allArr);
+          console.log(this.fileAll.length);
+          console.log(this.fileAll);
 
           let config = {
             headers: {
               'Content-Type': 'multipart/form-data'
             }
-          }
+          };
 
           this.$axios.post(this.getIP() + 'components', formData, {
             config,
@@ -364,11 +309,12 @@
             //this.users = res.data.data
             //console.log(res);
             //alert("添加成功");
-            layer.closeAll('loading');
+
+            //layer.closeAll('loading');
 
             this.$router.replace({path: '/components'})
           }).catch(err => {
-            layer.closeAll('loading');
+            //layer.closeAll('loading');
             layer.msg("添加失败！");
 
 
