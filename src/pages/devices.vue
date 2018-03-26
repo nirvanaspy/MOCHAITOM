@@ -8,51 +8,6 @@
           <div class="span10 pull-right">
             <input class="search" type="text" placeholder="设备名称.." v-model="searchQuery"/>
 
-            <!--<div class="ui-dropdown">
-              <div class="head" data-toggle="tooltip" title="Click me!">
-                Filter devices
-                <i class="arrow-down"></i>
-              </div>
-              <div class="dialog">
-                <div class="pointer">
-                  <div class="arrow"></div>
-                  <div class="arrow_border"></div>
-                </div>
-                <div class="body">
-                  <p class="title">
-                    Show users where:
-                  </p>
-                  <div class="form">
-                    <select>
-                      <option/>
-                      Name
-                      <option/>
-                      Email
-                      <option/>
-                      Number of orders
-                      <option/>
-                      Signed up
-                      <option/>
-                      Last seen
-                    </select>
-                    <select>
-                      <option/>
-                      is equal to
-                      <option/>
-                      is not equal to
-                      <option/>
-                      is greater than
-                      <option/>
-                      starts with
-                      <option/>
-                      contains
-                    </select>
-                    <input type="text"/>
-                    <a class="btn-flat small">Add filter</a>
-                  </div>
-                </div>
-              </div>
-            </div>-->
 
             <router-link to="/addDevice" class="btn-flat success pull-right">
               <span>&#43;</span>
@@ -67,20 +22,29 @@
           <table class="table table-hover" id="table_value">
             <thead>
             <tr>
-              <th class="span4 sortable">
+              <th class="span3 sortable">
                 设备名
               </th>
-              <th class="span3 sortable">
+              <th class="span2 sortable">
                 <span class="line"></span>IP
               </th>
               <th class="span3 sortable">
                 <span class="line"></span>路径
               </th>
+              <th class="span2 sortable">
+                <span class="line"></span>CPU
+              </th>
+              <th class="span2 sortable">
+                <span class="line"></span>内存总大小
+              </th>
               <th class="span2">
                 <span class="line"></span>状态
               </th>
-              <th class="span3">
+              <!--<th class="span3">
                 <span class="line"></span>设备详情
+              </th>-->
+              <th class="span3">
+                <span class="line"></span>查看
               </th>
 
               <th class="span4">
@@ -98,12 +62,42 @@
                 {{device.deployPath}}
               </td>
               <td>
+                --
+              </td>
+              <td>
+                --
+              </td>
+              <td>
                 <span class="label label-primary" v-if="!device.online">离线</span>
                 <span class="label label-success" v-else>在线</span>
               </td>
-              <td class="description">
+              <!--<td class="description">
                 {{device.description}}
+              </td>-->
+
+              <td>
+                <ul class="ulactions" v-if="!device.online">
+                  <li>
+                    <input type="button" class="btn-flat primary" value="进程" data-toggle="modal"
+                           disabled="disabled"/>
+                  </li>
+                  <li class="last">
+                    <input type="button" class="btn-flat primary" value="磁盘" data-toggle="modal"
+                           disabled="disabled"/>
+                  </li>
+                </ul>
+                <ul class="ulactions" v-else>
+                  <li>
+                    <input type="button" class="btn-flat primary" value="进程" data-toggle="modal"
+                           @click="processDetails($event)"/>
+                  </li>
+                  <li class="last">
+                    <input type="button" class="btn-flat primary" value="磁盘" data-toggle="modal"
+                           @click="diskDetails($event)"/>
+                  </li>
+                </ul>
               </td>
+
               <td v-if="!device.virtual">
                 <ul class="ulactions">
                   <li>
@@ -172,6 +166,64 @@
     </div>
 
 
+    <div class="modal fade" id="modal-process">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="formReset2">
+              <span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">查看进程：</h4>
+          </div>
+          <div class="modal-body">
+            <!-- form start -->
+            <form class="form-horizontal"/>
+            <!--<div style="margin-top: 23px;">
+              <span>绝对路径:</span>
+              <input type="text" id="input-path" style="height:20px">(例如:D:/test/)
+            </div>-->
+
+            <br/>
+            <div class="pull-right">
+              <button type="submit" class="btn-flat primary" @click="report2($event)">确认</button>
+              <button type="submit" class="btn-flat primary" @click="formReset2">取消</button>
+            </div>
+            </form>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="modal fade" id="modal-disk">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="formReset3">
+              <span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">查看磁盘信息：</h4>
+          </div>
+          <div class="modal-body">
+            <!-- form start -->
+            <form class="form-horizontal"/>
+            <!--<div style="margin-top: 23px;">
+              <span>绝对路径:</span>
+              <input type="text" id="input-path" style="height:20px">(例如:D:/test/)
+            </div>
+-->
+            <br/>
+            <div class="pull-right">
+              <button type="submit" class="btn-flat primary" @click="report2($event)">确认</button>
+              <button type="submit" class="btn-flat primary" @click="formReset3">取消</button>
+            </div>
+            </form>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+
   </div>
 </template>
 
@@ -204,7 +256,24 @@
       })
         .catch(err => {
           console.log(err);
-        })
+        });
+
+      setInterval(() => {
+        this.$axios.get(this.getIP() + 'projects/' + projectId + '/devices', {
+          //设置头
+          headers: {
+            'content-type': 'application/x-www-form-urlencoded'
+          },
+          auth: {
+            username: username,
+            password: password
+          }
+        }).then(res => {
+          this.devices = res.data.data
+        }).catch(err => {
+          console.log(err);
+        });
+      }, 10 * 1000);
 
     },
     methods: {
@@ -330,9 +399,40 @@
           })
       },
 
+      processDetails: function (event) {            //查看进程
+
+        let e = event || window.event;
+
+        let target = e.target || e.srcElement;
+
+        $("#modal-process").modal('show');
+      },
+
+      diskDetails: function (event) {            //查看磁盘
+
+        let e = event || window.event;
+
+        let target = e.target || e.srcElement;
+
+        $("#modal-disk").modal('show');
+      },
+
       formReset: function () {
         $("#input-path").val('');
         $("#modal-select").modal('hide');
+
+        $("#modal-process").modal('hide');
+        $("#modal-disk").modal('hide');
+      },
+
+      formReset2: function () {
+
+        $("#modal-process").modal('hide');
+      },
+
+      formReset3: function () {
+
+        $("#modal-disk").modal('hide');
       },
 
       report: function (event) {
