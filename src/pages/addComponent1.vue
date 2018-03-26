@@ -46,10 +46,6 @@
                   <uploader :autoStart="autoStart"
                             :file-status-text="statusText"
                             :started="started"
-
-                            :progress="progress"
-                            :progress-style="progressStyle"
-                            :progressing-class="progressingClass"
                             ref="uploader"
                             class="span12 uploader-example">
                     <uploader-unsupport></uploader-unsupport>
@@ -134,10 +130,12 @@
 
         options: {
           // 可通过 https://github.com/simple-uploader/Uploader/tree/develop/samples/Node.js 示例启动服务
-          target: '//localhost:3000/upload',
+          //target: '//localhost:3000/upload',
           testChunks: false
         },
-
+        attrs: {
+          accept: 'image/*'
+        },
         statusText: {
           success: '成功了',
           error: '出错了',
@@ -146,38 +144,22 @@
           waiting: '等待中'
         },
 
-        progress: 0,
-        progressingClass: '',
-
         started: false,
 
-        autoStart: false,
+        autoStart: '',
 
-        fileAll: [],
+        fileAll: []
 
-        attrs: {
-          accept: 'image/*'
-        }
       }
     },
-/*
+
     created(){
-      this.$refs.uploader.uploader.on('uploadStart', this.uploadStart);
-     },
-*/
+      this.autoStart = false;
 
-    watch: {
-      status (newStatus, oldStatus) {
-        if (oldStatus && newStatus === 'uploading' && oldStatus !== 'uploading') {
-          this.tid = setTimeout(() => {
-            this.progressingClass = 'uploader-file-progressing'
-          }, 200)
-        } else {
-          clearTimeout(this.tid)
-          this.progressingClass = ''
-        }
-      }
-    },
+      $(".uploader-file-actions").children(".uploader-file-pause").removeClass("uploader-file-pause");
+      //this.$refs.uploader.uploader.on('uploadStart', this.uploadStart);
+     },
+
     methods: {
 
       folderClear: function () {
@@ -224,7 +206,7 @@
       },
 
 
-      uploadStart: function () {
+      /*uploadStart: function () {
         this.started = true
       },
 
@@ -239,7 +221,7 @@
           msTransform: style,
           transform: style
         }
-      },
+      },*/
 
       addComp(event) {
         let username = this.getCookie('username');
@@ -250,7 +232,9 @@
         this.describle = $("input[name='add-describle']").val();
         this.deployPath = $("input[name='add-deployPath']").val();
 
-
+        //console.log(this.autoStart);
+       // console.log(this.statusText);
+        console.log(this.$refs.uploader.uploader.started);
         this.fileAll = this.$refs.uploader.uploader.files;
 
         console.log("上传列表-----------------");
@@ -258,6 +242,14 @@
         console.log(this.fileAll);
         console.log(this.$refs.uploader.uploader.files);
         console.log(this.$refs.uploader.uploader.fileList);
+
+
+        /*this.started = true;
+        this.autoStart = true;
+        console.log("是否开始-------------------");
+        console.log(this.autoStart);
+        console.log(this.statusText);
+        console.log(this.started);*/
 
 
         if(this.name.length==0){
@@ -279,13 +271,18 @@
 
           formData.append('enctype', "multipart/form-data");
 
+          //this.started = true;
+          this.$refs.uploader.uploader.upload();
+
+          //开始上传后去掉暂停和删除按钮
+          $(".uploader-file-actions").children(".uploader-file-pause").removeClass("uploader-file-pause");
+          $(".uploader-file-actions").children(".uploader-file-remove").removeClass("uploader-file-remove");
+
+
 
           for (var i = 0; i < this.fileAll.length; i++) {
             //判断数组里是文件夹还是文件
             formData.append('componentfiles', this.fileAll[i].file);
-            /*for (var j = 0; j < this.fileAll[i].length; j++) {
-              formData.append('componentfiles', this.fileAll[i][j]);
-            }*/
 
           }
 
@@ -299,6 +296,12 @@
             }
           };
 
+          this.autoStart = true;
+          console.log("是否开始-------------------");
+          console.log(this.autoStart);
+          console.log(this.statusText);
+          console.log(this.started);
+
           this.$axios.post(this.getIP() + 'components', formData, {
             config,
             auth: {
@@ -306,9 +309,6 @@
               password: password
             }
           }).then(res => {
-            //this.users = res.data.data
-            //console.log(res);
-            //alert("添加成功");
 
             //layer.closeAll('loading');
 
@@ -327,6 +327,14 @@
         this.$router.replace({path: '/components'});
       }
 
+    },
+    mounted () {
+      this.$nextTick(() => {
+        //this.autoStart = true;
+        //window.uploader = this.$refs.uploader.uploader
+        $(".uploader-file-actions").children(".uploader-file-pause").removeClass("uploader-file-pause");
+
+      })
     }
   }
 
