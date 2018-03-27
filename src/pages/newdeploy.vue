@@ -4,7 +4,10 @@
     <div class="container-fluid">
       <div id="pad-wrapper" class="users-list">
         <div class="row-fluid header">
-          <h3>部署</h3>
+          <a class="header-wrapper">
+            <span class="text">部署</span>
+            <i class="icon icon-magnet"></i>
+          </a>
           <div class="span4" style="float: right;">
             <div class="span3" style="margin-top: 10px;">
               部署设计:

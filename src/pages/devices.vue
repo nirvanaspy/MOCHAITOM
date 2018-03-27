@@ -4,7 +4,10 @@
     <div class="container-fluid">
       <div id="pad-wrapper" class="users-list">
         <div class="row-fluid header">
-          <h3>设备</h3>
+          <a class="header-wrapper">
+            <span class="text">设备</span>
+            <i class="icon icon-laptop"></i>
+          </a>
           <div class="span10 pull-right">
             <input class="search" type="text" placeholder="设备名称.." v-model="searchQuery"/>
 
@@ -102,16 +105,16 @@
                 <ul class="ulactions">
                   <li>
                     <router-link :to='{name:"modifyDevice",params:{id:device.id}}'>
-                      <input type="button" class="btn-flat primary" value="修改"/>
+                      <input type="button" class="btn-flat success" value="修改"/>
                     </router-link>
                   </li>
                   <li>
                     <!-- <router-link to="/devices" @click="deleteDevice">删除</router-link>  -->
-                    <input type="button" class="btn-flat primary" value="删除" @click="deleteDevice($event)"/>
+                    <input type="button" class="btn-flat danger" value="删除" @click="deleteDevice($event)"/>
                   </li>
                   <li class="last">
                     <!-- <router-link to="/devices" @click="deleteDevice">删除</router-link>  -->
-                    <input type="button" class="btn-flat primary" value="复制" @click="copyDevice($event)"/>
+                    <input type="button" class="btn-flat gray" value="复制" @click="copyDevice($event)"/>
                   </li>
                 </ul>
               </td>

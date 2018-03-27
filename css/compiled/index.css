@@ -157,6 +157,55 @@
   .table-products .pagination {
     float: right;
     margin-top: 35px; }
+  /*3.27 style change*/
+#pad-wrapper .header .header-wrapper {
+  position:relative;
+  display:inline-block;
+  box-sizing: border-box;
+  width:120px;
+  height:60px;
+  padding:20px 14px;
+  font-size:20px;
+  color:#fff;
+  border-radius:4px;
+  background-color: #f56954
+}
+#pad-wrapper .header .header-wrapper .text{
+  position: absolute;
+  left:16px;
+}
+#pad-wrapper .header .icon{
+  position: absolute;
+  right: 14px;
+}
+#pad-wrapper .header a:hover .icon {
+  top:16px;
+  font-size: 24px;
+  text-decoration:none;
+}
+#pad-wrapper .header .span10 {
+  margin-top:26px;
+}
+#pad-wrapper .header .span10 .search {
+  margin-right:40px;
+}
+.tabletable {
+  height: 600px;
+  border:1px solid #75b9e6;
+  border-top: none;
+  border-radius:3px;
+  overflow-y: auto;
+  margin-top: -35px;
+}
+#table_value thead {
+  box-sizing: border-box;
+  height: 20px;
+  background-color: #75b9e6;
+  color:#fff;
+}
+#table_value thead th {
+  padding-bottom: 5px;
+}
 
 /* responsive */
 @media (max-width: 767px) {

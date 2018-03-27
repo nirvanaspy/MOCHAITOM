@@ -4,7 +4,10 @@
     <div class="container-fluid">
       <div id="pad-wrapper" class="users-list">
         <div class="row-fluid header">
-          <h3>组件</h3>
+          <a class="header-wrapper">
+            <span class="text">组件</span>
+            <i class="icon icon-cogs"></i>
+          </a>
           <div class="span10 pull-right">
             <input class="search" type="text" placeholder="组件名称.." v-model="searchQuery"/>
 
@@ -86,11 +89,11 @@
                         <input type="button" class="btn-glow primary" value="修改" @click="modifyComp($event)"/>
                     </router-link> -->
                     <router-link :to='{name:"modifyComponent1",params:{id:component.id}}'>
-                      <input type="button" class="btn-flat primary" value="修改"/>
+                      <input type="button" class="btn-flat success" value="修改"/>
                     </router-link>
                   </li>
                   <li>
-                    <input type="button" class="btn-flat primary" value="删除" @click="deleteComp($event)"/>
+                    <input type="button" class="btn-flat danger" value="删除" @click="deleteComp($event)"/>
                   </li>
                   <li>
                     <a @click="exportLink($event)">
@@ -102,7 +105,7 @@
                   </li>
                   <li class="last">
                     <!-- <router-link to="/devices" @click="deleteDevice">删除</router-link>  -->
-                    <input type="button" class="btn-flat primary" value="复制" @click="copyComp($event)"/>
+                    <input type="button" class="btn-flat gray" value="复制" @click="copyComp($event)"/>
                   </li>
                 </ul>
               </td>

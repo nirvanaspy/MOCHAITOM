@@ -4,7 +4,10 @@
         <div class="container-fluid">
             <div id="pad-wrapper" class="users-list">
                 <div class="row-fluid header">
-                    <h3>部署设计</h3>
+                  <a class="header-wrapper">
+                    <span class="text">设计</span>
+                    <i class="icon icon-sitemap"></i>
+                  </a>
                     <div class="span10 pull-right">
                         <input class="search" type="text" placeholder="部署设计名称.." v-model="searchQuery"/>
 
@@ -63,11 +66,11 @@
                                     </li>
                                     <li>
                                         <router-link :to='{name:"modifyDeploy",params:{id:deployplan.id}}'>
-                                         <input type="button" class="btn-flat primary" value="修改"/>
+                                         <input type="button" class="btn-flat success" value="修改"/>
                                         </router-link>
                                     </li>
                                     <li>
-                                        <input type="button" class="btn-flat primary" value="删除" @click="deleteDeploy($event)"/>
+                                        <input type="button" class="btn-flat danger" value="删除" @click="deleteDeploy($event)"/>
                                     </li>
                                     <li class="last">
                                       <!--<input type="button" class="btn-flat primary" value="基线" @click="makeBaseline($event)"/>-->

@@ -4,7 +4,10 @@
     <div class="container-fluid">
       <div id="pad-wrapper" class="users-list">
         <div class="row-fluid header">
-          <h3>软件包</h3>
+          <a class="header-wrapper">
+            <span class="text">软件包</span>
+            <i class="icon icon-briefcase"></i>
+          </a>
           <div class="span10 pull-right">
             <input class="search" type="text" placeholder="搜索软件包.." v-model="searchQuery"/>
 
@@ -76,12 +79,12 @@
                 <ul class="ulactions">
                   <li>
                     <router-link :to='{name:"modifySoftpackage",params:{id:baseline.id}}'>
-                      <input type="button" class="btn-flat primary" value="修改"/>
+                      <input type="button" class="btn-flat success" value="修改"/>
                     </router-link>
                   </li>
 
                   <li class="last">
-                    <input type="button" class="btn-flat primary" value="删除" @click="deleteBaseline($event)"/>
+                    <input type="button" class="btn-flat danger" value="删除" @click="deleteBaseline($event)"/>
                   </li>
 
                 </ul>

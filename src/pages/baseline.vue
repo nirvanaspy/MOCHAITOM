@@ -4,7 +4,10 @@
     <div class="container-fluid">
       <div id="pad-wrapper" class="users-list">
         <div class="row-fluid header">
-          <h3>基线</h3>
+          <a class="header-wrapper">
+            <span class="text">基线</span>
+            <i class="icon icon-tasks"></i>
+          </a>
           <div class="span10 pull-right">
             <input class="search" type="text" placeholder="搜索基线.." v-model="searchQuery"/>
 
@@ -39,8 +42,8 @@
               </td>
               <td>
                 <ul class="ulactions">
-                  <li>
-                    <input type="button" class="btn-flat primary" value="删除" @click="deleteBaseline($event)"/>
+                  <li style="margin-right: 50px">
+                    <input type="button" class="btn-flat danger" value="删除" @click="deleteBaseline($event)"/>
                   </li>
 
                   <li class="last">

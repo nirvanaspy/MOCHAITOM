@@ -17,7 +17,7 @@ h1,h2,h3,h4,h5,h6{
 }
 
 /* alerts */
-.alert [class^="icon-"], 
+.alert [class^="icon-"],
 .alert [class*=" icon-"] {
 	font-size: 27px;
 	position: relative;
@@ -27,15 +27,15 @@ h1,h2,h3,h4,h5,h6{
 	display: inline-block;
 	color: #f1c359;
 }
-.alert-success [class^="icon-"], 
+.alert-success [class^="icon-"],
 .alert-success [class*=" icon-"] {
 	color: #81ad53;
 }
-.alert-info [class^="icon-"], 
+.alert-info [class^="icon-"],
 .alert-info [class*=" icon-"] {
 	color: #4993c6;
 }
-.alert-error [class^="icon-"], 
+.alert-error [class^="icon-"],
 .alert-error [class*=" icon-"] {
 	color: #d5393e;
 }
@@ -56,7 +56,7 @@ textarea {
 }
 input[type="text"],
 input[type="password"],
-textarea {	
+textarea {
 	font-size: 13px;
 	-webkit-box-shadow: inset 0 0px 1px rgba(0, 0, 0, 0.075);
 	   -moz-box-shadow: inset 0 0px 1px rgba(0, 0, 0, 0.075);
@@ -101,7 +101,7 @@ input[type="password"].inline-input:hover {
 
 input[type="text"]:focus,
 input[type="password"]:focus,
-textarea:focus{	
+textarea:focus{
 	border-color: #A2CEF0;
 	-webkit-box-shadow: inset 0 0px 1px rgba(0, 0, 0, 0.075), 0 0 4px rgba(82, 168, 236, 0.6);
 	   -moz-box-shadow: inset 0 0px 1px rgba(0, 0, 0, 0.075), 0 0 4px rgba(82, 168, 236, 0.6);
@@ -165,13 +165,13 @@ textarea::-webkit-input-placeholder {
 
 
 /* PREPEND & APPEND INPUT */
-.input-append input, 
-.input-prepend input, 
-.input-append .uneditable-input, 
+.input-append input,
+.input-prepend input,
+.input-append .uneditable-input,
 .input-prepend .uneditable-input {
 	border: 1px solid #d6e2eb;
 }
-.input-append .add-on, 
+.input-append .add-on,
 .input-prepend .add-on {
 	background-color: #f2f5f9;
 	border: 1px solid #d6e2eb;
@@ -186,16 +186,25 @@ textarea::-webkit-input-placeholder {
 }
 .navbar-inverse .navbar-inner {
 	border-radius: 0px;
-	border-bottom: 1px solid #191e23;
+	/*border-bottom: 1px solid #191e23;*/
+	border-bottom: 1px solid #399bff;
 
-	background: #2c3742; /* Old browsers */
-	background: -moz-linear-gradient(top,  #2c3742 0%, #28303a 100%); /* FF3.6+ */
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#2c3742), color-stop(100%,#28303a)); /* Chrome,Safari4+ */
-	background: -webkit-linear-gradient(top,  #2c3742 0%,#28303a 100%); /* Chrome10+,Safari5.1+ */
-	background: -o-linear-gradient(top,  #2c3742 0%,#28303a 100%); /* Opera 11.10+ */
-	background: -ms-linear-gradient(top,  #2c3742 0%,#28303a 100%); /* IE10+ */
-	background: linear-gradient(to bottom,  #2c3742 0%,#28303a 100%); /* W3C */
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#2c3742', endColorstr='#28303a',GradientType=0 ); /* IE6-9 */
+/*	background: #2c3742; !* Old browsers *!
+	background: -moz-linear-gradient(top,  #2c3742 0%, #28303a 100%); !* FF3.6+ *!
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#2c3742), color-stop(100%,#28303a)); !* Chrome,Safari4+ *!
+	background: -webkit-linear-gradient(top,  #2c3742 0%,#28303a 100%); !* Chrome10+,Safari5.1+ *!
+	background: -o-linear-gradient(top,  #2c3742 0%,#28303a 100%); !* Opera 11.10+ *!
+	background: -ms-linear-gradient(top,  #2c3742 0%,#28303a 100%); !* IE10+ *!
+	background: linear-gradient(to bottom,  #2c3742 0%,#28303a 100%); !* W3C *!
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#2c3742', endColorstr='#28303a',GradientType=0 ); !* IE6-9 *!*/
+  background: #399bff;
+  background: -moz-linear-gradient(top,  #399bff 0%, #399bff 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#399bff), color-stop(100%,#399bff)); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top,  #399bff 0%,#399bff 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top,  #399bff 0%,#399bff 100%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(top,  #399bff 0%,#399bff 100%); /* IE10+ */
+  background: linear-gradient(to bottom,  #399bff 0%,#399bff 100%); /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#399bff', endColorstr='#399bff',GradientType=0 ); /* IE6-9 */
 }
 .navbar-inverse .btn-navbar {
 	float: left;
