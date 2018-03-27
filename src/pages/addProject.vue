@@ -1,5 +1,5 @@
 <template>
-    <div id="addUser">
+    <div id="addUser" class="signin">
 
 
         <div class="container-fluid" style="height:window.innerWidth">
@@ -10,7 +10,7 @@
 
                 <div class="row-fluid form-wrapper">
                     <!-- left column -->
-                    <div class="span10 with-sidebar">
+                    <div class="span10">
                         <div class="container">
                             <form class="new_user_form inline-input" />
                                 <div class="span12 field-box">
@@ -55,13 +55,18 @@
 
             }
         },
+        created() {
+
+          //$("body").css("background-image", "url('img/bgs/10.jpg')");
+
+        },
         methods: {
             addProject: function (){
                 var qs = require('qs');
                 var projectId = this.getCookie('projectId');
                 var username = this.getCookie('username');
                 var password = this.getCookie('password');
-                this.$axios.post(this.getIP() +'project/',qs.stringify({
+                this.$axios.post(this.getIP() +'projects',qs.stringify({
                     "name": $("input[name='add-name']").val(),
                     "description": $("input[name='add-des']").val()
                 }),{
@@ -71,8 +76,8 @@
                         'content-type':'application/x-www-form-urlencoded'
                     },
                     auth: {
-                        username: 'admin',
-                        password: 'admin'
+                        username: username,
+                        password: password
                     }
                 }).then(res=>{
                     layer.msg('添加成功！');
@@ -91,7 +96,13 @@
         }
     }
 </script>
-<style>
+<style scoped>
+
+  .signin{
+    background-image: url('../../img/bgs/10.jpg');
+    height: 100%;
+  }
+
     .muststar{
         margin-left: 10px;
         color: red;

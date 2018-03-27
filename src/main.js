@@ -9,20 +9,31 @@ import router from './router'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 
+import "babel-polyfill";
+
+import Popper from 'vue-popperjs';
+import 'vue-popperjs/dist/css/vue-popper.css';
+
+import uploader from 'vue-simple-uploader'
+Vue.use(uploader);
+
 Vue.use(ElementUI);
 Vue.prototype.GLOBAL = global;
 
+Vue.use(Popper);
+
 Vue.prototype.getIP = function() {
-  let ip = 'http://' + this.getCookie('ip') + ":8080/";
+  let ip = 'http://' + this.getCookie('ip') + ":" + this.getCookie('port') + '/';
   return ip;
 };
 
 //设置cookie
 Vue.prototype.setCookie = (c_name, value, expiredays) => {
-  var exdate = new Date();　　　　
-  exdate.setDate(exdate.getDate() + expiredays);　　　　
-  document.cookie = c_name + "=" + escape(value) + ((expiredays == null) ? "" : ";expires=" + exdate.toGMTString());
-}
+  let exdate = new Date();
+  exdate.setDate(exdate.getDate() + expiredays);
+  document.cookie = c_name + "=" + escape(value) + ((expiredays == null) ? "" : ";expires=" + exdate.toUTCString());
+};
+
 //获取cookie、
 function getCookie(name) {
   var arr, reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");

@@ -4,13 +4,17 @@ import main from '@/components/HelloWorld'
 import users from '@/pages/users'
 import components from '@/pages/components'
 import addComponent from '@/pages/addComponent'
+import addComponent1 from '@/pages/addComponent1'
 import addUser from '@/pages/addUser'
 import uploadtest from '@/pages/uploadtest'
 import devices from '@/pages/devices'
 import addDevice from '@/pages/addDevice'
 import modifyDevice from '@/pages/modifyDevice'
 import modifyComponent from '@/pages/modifyComponent'
+import modifyComponent1 from '@/pages/modifyComponent1'
 import modifyUser from '@/pages/modifyUser'
+import modifyPasswordAdmin from '@/pages/modifyPasswordAdmin'
+import modifyPasswordSelf from '@/pages/modifyPasswordSelf'
 import modifyDeploy from '@/pages/modifyDeploy'
 import deployplan from '@/pages/deployplan'
 import addDeployPlan from '@/pages/addDeployPlan'
@@ -22,6 +26,12 @@ import selectProject from '@/pages/selectProject'
 import addProject from '@/pages/addProject'
 import scan from '@/pages/scan'
 import deploy from '@/pages/deploy'
+import newdeploy from '@/pages/newdeploy'
+import softpackage from '@/pages/softpackage'
+import addSoftpackage from '@/pages/addSoftpackage'
+import baseline from '@/pages/baseline'
+import log from '@/pages/log'
+import modifySoftpackage from '@/pages/modifySoftpackage'
 
 /* eslint-disable */
 import Axios from 'axios'
@@ -84,9 +94,24 @@ export default new Router({
                     component: modifyUser
                 },
                 {
+                  path: '/modifyPasswordAdmin',
+                  name: 'modifyPasswordAdmin',
+                  component: modifyPasswordAdmin
+                },
+                {
+                  path: '/modifyPasswordSelf',
+                  name: 'modifyPasswordSelf',
+                  component: modifyPasswordSelf
+                },
+                {
                     path: '/addComponent',
                     name: 'addComponent',
                     component: addComponent
+                },
+                {
+                  path: '/addComponent1',
+                  name: 'addComponent1',
+                  component: addComponent1
                 },
 
                 {
@@ -113,6 +138,11 @@ export default new Router({
                     path: '/modifyComponent',
                     name: 'modifyComponent',
                     component: modifyComponent
+                },
+                {
+                  path: '/modifyComponent1',
+                  name: 'modifyComponent1',
+                  component: modifyComponent1
                 },
                 {
                     path: '/modifyDeploy',
@@ -154,6 +184,36 @@ export default new Router({
                     name: 'deploy',
                     component: deploy
                 },
+                {
+                  path: '/newdeploy',
+                  name: 'newdeploy',
+                  component: newdeploy
+                },
+                {
+                  path: '/softpackage',
+                  name: 'softpackage',
+                  component: softpackage
+                },
+                {
+                  path: '/addSoftpackage',
+                  name: 'addSoftpackage',
+                  component: addSoftpackage
+                },
+                {
+                  path: '/baseline',
+                  name: 'baseline',
+                  component: baseline
+                },
+                {
+                  path: '/log',
+                  name: 'log',
+                  component: log
+                },
+                {
+                  path: '/modifySoftpackage',
+                  name: 'modifySoftpackage',
+                  component: modifySoftpackage
+                }
             ]
         }
 

@@ -10,7 +10,7 @@
 
         <div class="row-fluid form-wrapper">
           <!-- left column -->
-          <div class="span10 with-sidebar">
+          <div class="span10">
             <div class="container">
               <form class="new_user_form inline-input" id="myForm"/>
               <div class="span12 field-box">
@@ -28,10 +28,38 @@
 
               <div class="span12 field-box">
                 <label>路径:</label>
-                <input class="span9" type="text" name="add-path"/>
+                <input class="span9" type="text" name="add-path" placeholder="只填写盘符如： F:/ ； 填写盘符加文件夹如： F:/test/"/>
                 <span class="muststar">*</span>
 
               </div>
+
+              <!--<div class="span12 field-box">
+                <label>CPU:</label>
+
+                <input class="span9" type="text" name="add-cpu"/>
+
+              </div>
+
+              <div class="span12 field-box">
+                <label>内存总大小:</label>
+
+                <input class="span9" type="text" name="add-storage"/>
+
+              </div>
+
+              <div class="span12 field-box">
+                <label>进程列表:</label>
+
+                <input class="span9" type="text" name="add-proli"/>
+
+              </div>
+
+              <div class="span12 field-box">
+                <label>磁盘信息:</label>
+
+                <input class="span9" type="text" name="add-des"/>
+
+              </div>-->
 
               <div class="span12 field-box">
                 <label>描述:</label>
@@ -52,6 +80,15 @@
               </form>
             </div>
           </div>
+
+          <!-- side right column -->
+          <!--<div class="span2 form-sidebar pull-right">
+
+            <h6>路径填写说明：</h6>
+            <p>只填写盘符如： F:/ </p>
+            <p>填写盘符加文件夹： F:/test/ </p>
+
+          </div>-->
 
 
         </div>
@@ -98,10 +135,10 @@
 
           formData.append('name', this.name);
           formData.append('ip', this.ip);
-          formData.append('path', this.path);
+          formData.append('deployPath', this.path);
           formData.append('description', this.description);
 
-          this.$axios.post(this.getIP() + 'project/' + projectId + '/device', formData, {
+          this.$axios.post(this.getIP() + 'projects/' + projectId + '/devices', formData, {
 
             //设置头
             headers: {
@@ -128,6 +165,7 @@
       formReset: function () {
         console.log(document.getElementById("myForm"));
         $("input").val('');
+        this.$router.replace({path: '/devices'});
         /*document.getElementById("myForm").reset()*/
       }
     },

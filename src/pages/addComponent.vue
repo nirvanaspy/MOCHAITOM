@@ -10,9 +10,9 @@
 
         <div class="row-fluid form-wrapper">
           <!-- left column -->
-          <div class="span10 with-sidebar">
+          <div class="span10">
             <div class="container">
-              <form class="new_user_form inline-input"/>
+              <form class="new_user_form inline-input" enctype="multipart/form-data"/>
               <div class="span12 field-box">
                 <label>组件名:</label>
                 <input class="span9" type="text" name="add-name"/>
@@ -30,9 +30,9 @@
               <div class="span12 field-box">
                 <!--<label style="margin-left:-120px;">(如:/test/)</label>-->
                 <label>相对路径:</label>
-                <input class="span9" type="text" name="add-deployPath"/>
+                <input class="span9" type="text" name="add-deployPath" placeholder="无路径时填入： / ； 有路径时如： /test/ "/>
                 <span class="muststar">*</span>
-                <span>(如:/test/)</span>
+                <!--<span>(如:/test/)</span>-->
               </div>
 
               <div class="span12 field-box">
@@ -57,13 +57,16 @@
                     </ul>
                   </div>
 
-                  <div class="upbtn">
+                  <div class="upbtn2">
                     <input type='file' name="folderin" id="folderupload" webkitdirectory @change="getFolder($event)">
                     <!-- <input type='file' name="folderin" id="folderupload" webkitdirectory > -->
                     <!-- <input type='file' name="file"> -->
-                    <button v-on:click="folderclick($event)">提交</button>
+                    <button class="btn-flat success" v-on:click="folderclick($event)">提交</button>
+
+                    <button type="submit" class="btn-flat danger" style="margin-left: 10px;" @click="folderClear">清空</button>
                     <!-- <button v-on:click="folderclick">upload</button> -->
                   </div>
+
 
                   <!-- 列表2 文件 -->
                   <div id="todo-list-example" class="addli" style="height:50px;">
@@ -71,13 +74,14 @@
                       <li v-for="(file, index) in files" :key="index">
                         {{file}}
                       </li>
-                      <!-- <li is="todo-item" v-for="(file, index) in files"  v-text="sv2"></li> -->
                     </ul>
                   </div>
 
-                  <div class="upbtn">
+                  <div class="upbtn2">
                     <input type='file' name="filein" id="fileupload" @change="getFile($event)">
-                    <button v-on:click="fileclick($event)">提交</button>
+                    <button class="btn-flat success" v-on:click="fileclick($event)">提交</button>
+
+                    <button type="submit" class="btn-flat danger" style="margin-left: 10px;" @click="fileClear">清空</button>
                   </div>
                 </div>
               </div>
@@ -91,6 +95,14 @@
             </div>
           </div>
 
+          <!-- side right column -->
+          <!--<div class="span2 form-sidebar pull-right">
+
+            <h6>路径填写说明：</h6>
+            <p>无路径时填入： / </p>
+            <p>有路径时如： /test/ </p>
+
+          </div>-->
 
         </div>
       </div>
@@ -144,7 +156,10 @@
         allArr: [],
         sv1: [],
         sv2: '',
-        fileList2: []
+        fileList2: [],
+
+        fieList: [],    //上传的文件夹内容
+        fieList2: [],    //上传的文件内容
       }
     },
     methods: {
@@ -184,21 +199,21 @@
         console.log("文件夹------------------")
         let sv11 = document.getElementById("folderupload");
         console.log(sv11);
-        let fieList = sv11.files;
-        let folderPath = fieList[0].webkitRelativePath; //拿到第一个文件的路径
+        this.fieList = sv11.files;
+        let folderPath = this.fieList[0].webkitRelativePath; //拿到第一个文件的路径
         let index = folderPath.indexOf("/");
         let foldername = folderPath.substring(0,index);
         //console.log(foldername);
         /*alert(fileList);
         alert(fileList.length);*/
 
-        if (fieList.length != 0) {
+        if (this.fieList.length != 0) {
 
           this.folders.push(foldername);
-          this.allArr.push(fieList);
-          console.log(fieList);
+          this.allArr.push(this.fieList);
+          console.log(this.fieList);
 
-          console.log(Object.prototype.toString.call(fieList));
+          console.log(Object.prototype.toString.call(this.fieList));
           /*console.log(Object.prototype.toString.call(this.sv1) == "[object FileList]");
           console.log(Object.prototype.toString.call(this.sv1) == FileList);*/
 
@@ -255,12 +270,12 @@
         // alert("xy");
 
         var sv12 = document.getElementById("fileupload");
-        var fieList2 = sv12.files;
+        this.fieList2 = sv12.files;
 
-        if (fieList2.length != 0) {
+        if (this.fieList2.length != 0) {
 
-          this.files.push(fieList2[0].name);
-          this.allArr.push(fieList2);
+          this.files.push(this.fieList2[0].name);
+          this.allArr.push(this.fieList2);
           //console.log(fieList);
 
           /*console.log(Object.prototype.toString.call(fieList));*/
@@ -278,7 +293,52 @@
         }
       },
 
+      folderClear: function () {
+        this.folders.splice(0, this.folders.length);   //清空文件夹
+
+        this.allArr.splice(0, this.allArr.length);
+
+        var sv12 = document.getElementById("fileupload");
+        this.fieList2 = sv12.files;
+
+        this.allArr.push(this.fieList2);
+
+        /*for(let i=0;i<this.allArr.length;i++){
+          for(let j=0;j<this.fieList.length;j++){
+            if(this.allArr[i] == this.fieList[j]){
+              this.allArr.splice(i,1);
+              break;
+            }
+          }
+
+        }*/
+
+      },
+
+      fileClear: function () {
+        this.files.splice(0, this.files.length);   //清空文件夹
+
+        this.allArr.splice(0, this.allArr.length);
+
+        let sv11 = document.getElementById("folderupload");
+        this.fieList = sv11.files;
+
+        this.allArr.push(this.fieList);
+
+        /*for(let i=0;i<this.allArr.length;i++){
+          for(let j=0;j<this.fieList2.length;j++){
+            if(this.allArr[i] == this.fieList2[j]){
+              this.allArr.splice(i,1);
+              break;
+            }
+          }
+
+        }*/
+      },
+
       addComp(event) {
+        var username = this.getCookie('username');
+        var password = this.getCookie('password');
         // alert("A");
         this.name = $("input[name='add-name']").val();
         this.version = $("input[name='add-version']").val();
@@ -307,7 +367,7 @@
           for (var i = 0; i < this.allArr.length; i++) {
             //判断数组里是文件夹还是文件
             for (var j = 0; j < this.allArr[i].length; j++) {
-              formData.append('componentfile', this.allArr[i][j]);
+              formData.append('componentfiles', this.allArr[i][j]);
             }
 
           }
@@ -325,8 +385,8 @@
           this.$axios.post(this.getIP() + 'components', formData, {
             config,
             auth: {
-              username: 'admin',
-              password: 'admin'
+              username: username,
+              password: password
             }
           }).then(res => {
             //this.users = res.data.data
@@ -346,6 +406,7 @@
 
       formReset: function () {
         $("input").val('');
+        this.$router.replace({path: '/components'});
       }
 
     }
@@ -360,14 +421,14 @@
 
   }
 
-  .upbtn {
+  .upbtn2 {
     margin-top: 5px;
   }
 
   .addli {
-
     max-height: 90px;
     overflow: auto;
+    width: 100%;
   }
 
   .addul {
