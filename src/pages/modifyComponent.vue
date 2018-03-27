@@ -10,7 +10,7 @@
 
         <div class="row-fluid form-wrapper" style="margin-top:-27px">
           <!-- left column -->
-          <div class="span10 ">
+          <div class="span9 with-sidebar">
             <div class="with-sidebar">
               <form class="new_user_form inline-input">
                 <div class="span12 field-box">
@@ -86,20 +86,23 @@
                   </div>
                 </div>
 
-                <div style="height: 390px; border-left: 1px solid rgba(0, 0, 0, 0.32);margin-left: 829px;"></div>
-                <div class="span12 field-box with-sidebar "
-                     style="width: 229px;margin-left: 847px;margin-top: -432px;height: 405px;overflow-y: auto;">
-                  <span>组件详细信息</span>
-
-                  <ul id="treeDemo" class="ztree" style=""></ul>
-                </div>
-
 
                 <div class="span7 field-box actions" style="margin-top:-1px">
                   <button type="submit" class="btn-flat primary" @click="addComp($event)">修改</button>
                   <button type="submit" class="btn-flat primary" @click="formReset">取消</button>
                 </div>
               </form>
+            </div>
+          </div>
+
+          <div class="span3">
+            <label>组件详细信息</label>
+            <!--<div style="height: 390px; border-left: 1px solid rgba(0, 0, 0, 0.32);margin-left: 829px;"></div>-->
+            <div class=""
+                 style="width: 229px;height: 405px;overflow-y: auto;">
+
+
+              <ul id="treeDemo" class="ztree" style=""></ul>
             </div>
           </div>
 
