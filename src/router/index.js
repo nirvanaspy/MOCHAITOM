@@ -11,6 +11,7 @@ import devices from '@/pages/devices'
 import addDevice from '@/pages/addDevice'
 import modifyDevice from '@/pages/modifyDevice'
 import modifyComponent from '@/pages/modifyComponent'
+import modifyComponent1 from '@/pages/modifyComponent1'
 import modifyUser from '@/pages/modifyUser'
 import modifyPasswordAdmin from '@/pages/modifyPasswordAdmin'
 import modifyPasswordSelf from '@/pages/modifyPasswordSelf'
@@ -137,6 +138,11 @@ export default new Router({
                     path: '/modifyComponent',
                     name: 'modifyComponent',
                     component: modifyComponent
+                },
+                {
+                  path: '/modifyComponent1',
+                  name: 'modifyComponent1',
+                  component: modifyComponent1
                 },
                 {
                     path: '/modifyDeploy',

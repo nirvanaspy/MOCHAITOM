@@ -85,7 +85,7 @@
                     <!-- <router-link to="/modifyComponent">
                         <input type="button" class="btn-glow primary" value="修改" @click="modifyComp($event)"/>
                     </router-link> -->
-                    <router-link :to='{name:"modifyComponent",params:{id:component.id}}'>
+                    <router-link :to='{name:"modifyComponent1",params:{id:component.id}}'>
                       <input type="button" class="btn-flat primary" value="修改"/>
                     </router-link>
                   </li>
