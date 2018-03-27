@@ -3,8 +3,8 @@
   <div class="hello" style="height: 100%">
     <!-- navbar -->
     <!--style="height: 50px"-->
-    <div class="navbar navbar-inverse" >
-      <div class="navbar-inner">
+    <div class="navbar navbar-inverse">
+      <div class="navbar-inner" style="padding-top:10px;padding-bottom:10px">
         <button type="button" class="btn btn-navbar visible-phone" id="menu-toggler">
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
@@ -15,7 +15,7 @@
           <!-- <img src="img/logo.png" /> -->
           <div style="float:left;width:30px;">
             <!-- <img src="img/ico-mail.png" /> -->
-            <i class="icon-leaf" style="color:blue;"></i>
+            <i class="icon-leaf" style="color:white;"></i>
           </div>
 
           <div style="float:right;">
@@ -32,14 +32,14 @@
       <!--style="background-color: #f8f8f8;"-->
       <ul id="dashboard-menu">
         <li class="active">
-          <div class="pointer">
-            <div class="arrow"></div>
-            <div class="arrow_border"></div>
-          </div>
           <router-link to="/users">
             <i class="icon-group"></i>
             <span>用户管理</span>
           </router-link>
+          <div class="pointer">
+            <div class="arrow"></div>
+            <div class="arrow_border"></div>
+          </div>
           <!-- <a id="index.html">
             <i class="icon-home"></i>
             <span>Home</span>
@@ -50,6 +50,10 @@
             <i class="icon-cogs"></i>
             <span>组件管理</span>
           </router-link>
+          <div class="pointer">
+            <div class="arrow"></div>
+            <div class="arrow_border"></div>
+          </div>
           <!-- <a href="chart-showcase.html">
             <i class="icon-signal"></i>
             <span>Charts</span>
@@ -60,6 +64,10 @@
             <i class="icon-laptop"></i>
             <span>设备管理</span>
           </router-link>
+          <div class="pointer">
+            <div class="arrow"></div>
+            <div class="arrow_border"></div>
+          </div>
         </li>
 
         <!-- <li>
@@ -74,6 +82,10 @@
             <i class="icon-sitemap"></i>
             <span>部署设计</span>
           </router-link>
+          <div class="pointer">
+            <div class="arrow"></div>
+            <div class="arrow_border"></div>
+          </div>
         </li>
 
 <!--        <li>
@@ -88,6 +100,10 @@
             <i class="icon-headphones"></i>
             <span>在线监控</span>
           </router-link>
+          <div class="pointer">
+            <div class="arrow"></div>
+            <div class="arrow_border"></div>
+          </div>
         </li>
 
          <li>
@@ -95,6 +111,10 @@
             <i class="icon-magnet"></i>
             <span>部署</span>
           </router-link>
+          <div class="pointer">
+            <div class="arrow"></div>
+            <div class="arrow_border"></div>
+          </div>
         </li>
 
         <li>
@@ -102,6 +122,10 @@
             <i class="icon-briefcase"></i>
             <span>软件包</span>
           </router-link>
+          <div class="pointer">
+            <div class="arrow"></div>
+            <div class="arrow_border"></div>
+          </div>
         </li>
 
         <li>
@@ -109,6 +133,10 @@
             <i class="icon-tasks"></i>
             <span>基线</span>
           </router-link>
+          <div class="pointer">
+            <div class="arrow"></div>
+            <div class="arrow_border"></div>
+          </div>
         </li>
 
         <li>
@@ -116,6 +144,10 @@
             <i class="icon-edit"></i>
             <span>日志</span>
           </router-link>
+          <div class="pointer">
+            <div class="arrow"></div>
+            <div class="arrow_border"></div>
+          </div>
         </li>
 
       </ul>

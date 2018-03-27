@@ -3,9 +3,10 @@
     <div class="container-fluid">
       <div id="pad-wrapper">
         <div class="row-fluid header">
-          <div>
-            <h3>扫描</h3>
-          </div>
+          <a class="header-wrapper">
+            <span class="text">扫描</span>
+            <i class="icon icon-headphones"></i>
+          </a>
           <div class="pull-right">
             <div style="margin-bottom: -5px;margin-left: -40px;">
 
@@ -91,7 +92,7 @@
 
                 <!--<div style="height: 400px;overflow: auto;margin-top: 25px;">-->
                   <div class="row-fluid table devcompchose">
-                    <table class="table table-hover" id="table_value"  style="margin-top: 10px">
+                    <table class="table table-hover" id="table_value"  style="margin-left: 1px">
                       <thead>
                       <tr>
 
@@ -211,7 +212,7 @@
               </div>-->
 
               <div class="pull-right">
-                <button type="submit" class="btn-flat primary" @click="scanQuick">确认</button>
+                <button type="submit" class="btn-flat danger" @click="scanQuick">确认</button>
                 <button type="submit" class="btn-flat primary" @click="formReset">取消</button>
               </div>
 

@@ -4,7 +4,10 @@
     <div class="container-fluid">
       <div id="pad-wrapper" class="users-list">
         <div class="row-fluid header">
-          <h3>日志</h3>
+          <a class="header-wrapper">
+            <span class="text">日志</span>
+            <i class="icon icon-edit"></i>
+          </a>
           <!--<div class="span10 pull-right">
             <input class="search" type="text" placeholder="日志.." v-model="searchQuery"/>
 
@@ -68,7 +71,7 @@
                 </div>
 
                 <div class="span3 pull-right">
-                  <input type="button" class="span10 btn-flat primary" value="搜索" style="margin-left: 0;"
+                  <input type="button" class="span10 btn-flat primary" value="搜索" style="margin-left: 0;margin-top:0;"
                          @click="searchAll"/>
                 </div>
 

@@ -4,7 +4,10 @@
         <div class="container-fluid">
             <div id="pad-wrapper" class="users-list">
                 <div class="row-fluid header">
-                    <h3>用户</h3>
+                    <a class="header-wrapper">
+                      <span class="text">用户</span>
+                      <i class="icon icon-group"></i>
+                    </a>
                     <div class="span10 pull-right">
                       <input class="search" type="text" placeholder="用户名.." v-model="searchQuery"/>
 
@@ -80,7 +83,7 @@
                               </li>
                               <li v-else>
                                 <router-link :to='{name:"modifyPasswordAdmin",params:{id:user.id}}'>
-                                  <input type="button" class="btn-flat primary" value="修改" disabled="disabled"/>
+                                  <input type="button" class="btn-flat gray" value="修改" disabled="disabled"/>
                                 </router-link>
                               </li>
 
@@ -88,7 +91,7 @@
                                 <input type="button" class="btn-flat primary" value="删除" @click="deleteUser($event)"/>
                               </li>
                               <li v-else>
-                                <input type="button" class="btn-flat primary" value="删除" @click="deleteUser($event)" disabled="disabled"/>
+                                <input type="button" class="btn-flat gray" value="删除" @click="deleteUser($event)" disabled="disabled"/>
                               </li>
 
                             </ul>
@@ -255,12 +258,6 @@
     }
 </script>
 <style>
-  .tabletable {
-    height: 600px;
-    overflow-y: auto;
-    margin-top: -35px;
-  }
-
   .ulactions{
     margin: 5px 0 0 0;
   }
