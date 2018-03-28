@@ -1,7 +1,7 @@
 <template>
-  <div class="xx">
-    <router-view/>
-  </div>
+    <div class="xx" style="height: 100%">
+      <router-view/>
+    </div>
 </template>
 
 <script>

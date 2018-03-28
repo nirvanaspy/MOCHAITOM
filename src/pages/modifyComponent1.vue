@@ -11,7 +11,7 @@
         <div class="row-fluid form-wrapper" style="margin-top:-27px">
           <!-- left column -->
           <div class="span9 with-sidebar">
-            <div class="with-sidebar">
+            <div class="container">
               <form class="new_user_form inline-input">
                 <div class="span12 field-box">
                   <label>组件名:</label>
@@ -41,49 +41,23 @@
 
                 <div class="span12 field-box">
                   <label>上传文件:</label>
-                  <div class="span9 uploadfile" style="margin-left: -1px;">
-                    <div class=""
-                         style="background: rgba(255, 255, 255, 0.65);height:50px;overflow-y:auto;width: 100%;">
-                      <ul class="mini-repo-list" id="ulId" data-filterable-for="your-repos-filter"
-                          data-filterable-type="substring" style="background: rgba(255, 255, 255, 0.65);">
-                        <li class="pubic fork" v-for="folder in folderInfo">
-                          <span>{{folder.name}}</span>
-                        </li>
-                      </ul>
+
+                    <div class="span9 uploadfile" style="margin-left: -1px;">
+                      <uploader :autoStart="autoStart"
+                                :file-status-text="statusText"
+                                :started="started"
+                                ref="uploader"
+                                class="span12 uploader-example">
+                        <uploader-unsupport></uploader-unsupport>
+                        <uploader-drop>
+                          <p>拖拽文件到此处或</p>
+                          <uploader-btn>选择文件</uploader-btn>
+                          <uploader-btn :directory="true">选择文件夹</uploader-btn>
+                        </uploader-drop>
+                        <uploader-list></uploader-list>
+                      </uploader>
                     </div>
 
-
-                    <div class="upbtn">
-                      <input type='file' id="folderupload" webkitdirectory @change="getFolder($event)">
-
-                      <button class="btn-flat success" v-on:click="folderclick($event)">提交</button>
-                    </div>
-
-                    <div class="upbtn" style="float: none;">
-                      <button type="submit" class="btn-flat danger" @click="folderClear">清空</button>
-                    </div>
-
-                    <div class=""
-                         style="float: none;background: rgba(255, 255, 255, 0.65);height:50px;overflow-y:auto;width: 100%;">
-                      <ul class="mini-repo-list" id="ulId" data-filterable-for="your-repos-filter"
-                          data-filterable-type="substring" style="background: rgba(255, 255, 255, 0.65);">
-                        <li class="pubic fork" v-for="file in fileInfo">
-                          <span>{{file.name}}</span>
-                        </li>
-                      </ul>
-                    </div>
-
-
-                    <div class="upbtn">
-                      <input type='file' id="fileupload" @change="getFile($event)">
-                      <button class="btn-flat success" v-on:click="fileclick($event)">提交</button>
-                    </div>
-
-                    <div class="upbtn">
-                      <button type="submit" class="btn-flat danger" @click="fileClear">清空</button>
-                    </div>
-
-                  </div>
                 </div>
 
 
@@ -99,7 +73,7 @@
             <label>组件详细信息</label>
             <!--<div style="height: 390px; border-left: 1px solid rgba(0, 0, 0, 0.32);margin-left: 829px;"></div>-->
             <div class=""
-                 style="width: 229px;height: 405px;overflow-y: auto;">
+                 style="width: 230px;height: 410px;overflow-y: auto;">
 
 
               <ul id="treeDemo" class="ztree" style=""></ul>
@@ -149,10 +123,31 @@
         fieList2: [],               //文件内容
         folderClearData: [],        //文件夹需要清空的内容数组
         fileClearData: [],          //文件需要清空的内容数组
-        allClearData: []            //需要清空的内容的id数组
+        allClearData: [],           //需要清空的内容的id数组
+
+        fileAll: [],                //文件夹及文件的集合
+
+        attrs: {
+          accept: 'image/*'
+        },
+        statusText: {
+          success: '成功了',
+          error: '出错了',
+          uploading: '上传中',
+          paused: '暂停中',
+          waiting: '等待中'
+        },
+
+        started: false,
+
+        autoStart: ''
 
       }
-    }, created() {
+    },
+    created() {
+      this.autoStart = false;      //取消自动上传
+
+
       let username = this.getCookie('username');
       let password = this.getCookie('password');
 
@@ -298,106 +293,7 @@
         //tree.reAsyncChildNodes(null, "refresh");
 
       },
-      getFolder(event) {
-        //debugger;
-        this.sv1 = event.target.files;
 
-        //this.sv1 = $("input[name='file']").val();
-
-        if (this.sv1.length != 0) {
-          //this.folders.push(this.sv1);
-
-          this.allArr.push(this.sv1);
-          var obj = document.getElementById('fileupload');
-          obj.outerHTML = obj.outerHTML;
-        } else {
-          //alert("请选择文件夹");
-          layer.msg("请选择文件夹");
-        }
-      },
-
-      getFile(event) {
-        this.sv2 = event.target.files[0];
-        console.log("#######");
-        console.log(this.sv2);
-      },
-
-      folderclick(event) {
-        //this.sv1 = event.target.files[0];;
-
-        var sv11 = document.getElementById("folderupload");
-        this.fieList = sv11.files;
-
-        if (this.fieList.length != 0) {
-
-          var foldersNum = this.fieList.length + "个文件";
-          let foldersInfo = [];
-
-          for (let i = 0; i < this.fieList.length; i++) {
-            let path = this.fieList[i].webkitRelativePath.split('/');
-
-            if (foldersInfo.length > 0) {
-              for (let j = 0; j < foldersInfo.length; j++) {
-
-                if (foldersInfo[j].name == path[0]) {
-                  break;
-                } else {
-                  let info2 = {};
-                  info2.name = path[0];
-                  foldersInfo.push(info2);
-                }
-              }
-            } else {
-              let info2 = {};
-              info2.name = path[0];
-              foldersInfo.push(info2);
-            }
-          }
-
-          console.log(foldersInfo);
-          if (foldersInfo.length > 0) {
-            for (let j = 0; j < foldersInfo.length; j++) {
-              this.folderInfo.push(foldersInfo[j]);
-            }
-          }
-
-
-          this.folders.push(foldersNum);
-          this.allArr.push(this.fieList);
-
-
-          var obj = document.getElementById('folderupload');
-          obj.outerHTML = obj.outerHTML;
-
-        } else {
-          layer.msg("请选择文件夹");
-
-        }
-      },
-
-      fileclick(event) {
-        event.preventDefault();
-
-        var sv12 = document.getElementById("fileupload");
-        this.fieList2 = sv12.files;
-        console.log(this.fieList2[0]);
-
-        if (this.fieList2.length != 0) {
-          let files = [];
-
-          files.push({"name": this.fieList2[0].name});
-          this.fileInfo.push(files[0]);
-
-          this.allArr.push(this.fieList2);
-
-          var obj = document.getElementById('fileupload');
-
-          obj.outerHTML = obj.outerHTML;
-        } else {
-          layer.msg("请选择文件");
-
-        }
-      },
 
       addComp(event) {
         let username = this.getCookie('username');
@@ -408,6 +304,8 @@
         this.describle = $("input[id='add-describle']").val();
         this.deployPath = $("input[id='add-deployPath']").val();
 
+        this.fileAll = this.$refs.uploader.uploader.files;
+
 
         if (this.name.length == 0) {
           layer.msg("请输入组件名！");
@@ -416,7 +314,7 @@
         } else if (this.deployPath.length == 0) {
           layer.msg("请输入路径！");
         } else {
-          layer.load();
+          //layer.load();
           event.preventDefault();
           let formData = new FormData();
 
@@ -431,19 +329,17 @@
 
           formData.append('enctype', "multipart/form-data");
 
-          for (var i = 0; i < this.allArr.length; i++) {
+          this.$refs.uploader.uploader.upload();
+
+          //开始上传后去掉暂停和删除按钮
+          $(".uploader-file-actions").children(".uploader-file-pause").removeClass("uploader-file-pause");
+          $(".uploader-file-actions").children(".uploader-file-remove").removeClass("uploader-file-remove");
+
+          for (var i = 0; i < this.fileAll.length; i++) {
             //判断数组里是文件夹还是文件
-            for (var j = 0; j < this.allArr[i].length; j++) {
-              formData.append('componentfiles', this.allArr[i][j]);
-            }
+            formData.append('componentfiles', this.fileAll[i].file);
 
           }
-
-          console.log(formData);
-
-          //formData.append('componentfile', this.allArr);
-          //console.log(this.allArr.length);
-          //console.log(this.allArr);
 
           let config = {
             headers: {
@@ -459,16 +355,14 @@
               password: password
             }
           }).then(res => {
-            //this.users = res.data.data
-            //console.log(res);
-            //alert("添加成功");
+
             layer.closeAll('loading');
             layer.msg("修改成功!");
 
 
             this.$router.replace({path: '/components'})
           }).catch(err => {
-            // alert("添加失败！");
+
             layer.msg("修改失败！");
             layer.closeAll('loading');
           })
@@ -539,6 +433,23 @@
 
 </script>
 <style>
+  .uploader-example {
+    width: 880px;
+    padding: 15px;
+    /*margin: 40px auto 0;*/
+    font-size: 12px;
+    /* box-shadow: 0 0 10px rgba(0, 0, 0, .4);*/
+  }
+  .uploader-example .uploader-btn {
+    margin-right: 4px;
+  }
+  .uploader-example .uploader-list {
+    max-height: 300px;
+    overflow: auto;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
   .uploadfile {
     border: 1px solid #cccccc;
     border-radius: 4px;
