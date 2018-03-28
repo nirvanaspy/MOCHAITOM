@@ -156,8 +156,9 @@
     <!-- main container -->
     <div class="content">
       <!-- 路由出口 -->
-      <router-view></router-view>
-
+      <transition name="fade">
+        <router-view></router-view>
+      </transition>
     </div>
   </div>
 
@@ -165,24 +166,23 @@
 
 <script>
 /* eslint-disable */
-
 export default {
   data () {
     return {
     }
-  },
-  created(){
-
-      /*var projectId = this.$route.params.id;
-     // alert(projectId);
-      console.log(projectId);*/
   }
-
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
-
-
+  .fade-enter-active,.fade-leave-active{
+    transition: all .3s ease;
+  }
+  .fade-enter,.fade-leave-to {
+    opacity:0;
+  }
+  .fade-leave-to{
+    transform: translate3d(30%,0,0);
+  }
 </style>

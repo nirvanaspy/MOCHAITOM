@@ -61,15 +61,33 @@
     <!--[if lt IE 9]>
     <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
-
+    <!--<style>
+      body::-webkit-scrollbar{
+        display: none;
+      }
+      body .-o-scrollbar{
+        -moz-appearance: none !important;
+        background: rgba(0,255,0,0) !important;
+      }
+      body{
+        -ms-scroll-chaining: chained;
+        -ms-overflow-style: none;
+        -ms-content-zooming: zoom;
+        -ms-scroll-rails: none;
+        -ms-content-zoom-limit-min: 100%;
+        -ms-content-zoom-limit-max: 500%;
+        -ms-scroll-snap-type: proximity;
+        -ms-scroll-snap-points-x: snapList(100%, 200%, 300%, 400%, 500%);
+        -ms-overflow-style: none;
+        overflow: auto;
+      }
+    </style>-->
   </head>
 
   <!--style="height: 100%"-->
-  <body style="height: 100%">
-
-    <div id="app">
-    </div>
-
+  <body style="height:100%;">
+      <div id="app">
+      </div>
     <script type="text/javascript">
 
     </script>
@@ -77,6 +95,7 @@
 
     <!-- scripts -->
     <script src="js/jquery-latest.js"></script>
+    <script src="js/jquery.nicescroll.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/theme.js"></script>
     <script src="js/fuelux.wizard.js"></script>
@@ -101,4 +120,14 @@
 
 
   </body>
+  <script>
+    $(document).ready(
+      function () {
+        $('body').niceScroll({
+         /* autohidemode: 'cursor', */
+          cursoropacitymax: 0
+        })
+      }
+    )
+  </script>
 </html>
