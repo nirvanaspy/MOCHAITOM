@@ -5,7 +5,6 @@
       <div id="pad-wrapper" class="users-list">
         <div class="row-fluid header">
           <h3>部署</h3>
-
           <div class="span10 pull-right">
 
             <select v-model="selected" style="height: 26px;width: 233px; margin-top: 5px; margin-left: 7px;"

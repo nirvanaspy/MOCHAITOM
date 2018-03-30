@@ -1,13 +1,10 @@
 <template>
   <div id="addUser">
-
-
     <div class="container-fluid">
       <div id="pad-wrapper" class="new-user">
         <div class="row-fluid header">
-          <h3>创建一个新组件测试</h3>
+          <h3 class="header-wrapper-add">创建一个新组件测试</h3>
         </div>
-
         <div class="row-fluid form-wrapper">
           <!-- left column -->
           <div class="span10 with-sidebar">
@@ -17,16 +14,12 @@
                 <label>组件名:</label>
                 <input class="span9" type="text" name="add-name"/>
                 <span class="muststar">*</span>
-
               </div>
-
               <div class="span12 field-box">
-
                 <label>版本:</label>
                 <input class="span9" type="text" name="add-version"/>
                 <span class="muststar">*</span>
               </div>
-
               <div class="span12 field-box">
                 <!--<label style="margin-left:-120px;">(如:/test/)</label>-->
                 <label>相对路径:</label>
@@ -34,12 +27,10 @@
                 <span class="muststar">*</span>
                 <!--<span>(如:/test/)</span>-->
               </div>
-
               <div class="span12 field-box">
                 <label>描述信息:</label>
                 <input class="span9" type="text" name="add-describle"/>
               </div>
-
               <div class="span12 field-box">
                 <label>上传文件:</label>
                 <div class="span9 uploadfile" style="margin-left: -1px;">
@@ -64,7 +55,6 @@
                 <button type="submit" class="btn-glow primary" @click="formReset">取消</button>
                 <!-- <input type="button" class="btn-glow primary" value="添加组件" style="width: 100px;" @click="addComp($event)"/> -->
               </div>
-              </form>
             </div>
           </div>
 
@@ -381,5 +371,18 @@
   .muststar {
     margin-left: 10px;
     color: red;
+  }
+  #addUser h3.header-wrapper-add {
+    height:36px;
+    padding:2px 6px;
+    border-radius: 4px;
+    line-height: 36px;
+    text-align: center;
+    font-size: 24px;
+    background-color: #f56954;
+    color:#fff;
+  }
+  #addUser div.row-fluid.header {
+    margin-bottom:30px;
   }
 </style>

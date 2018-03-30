@@ -1,11 +1,11 @@
 <template>
   <div id="addUser">
-
-
     <div class="container-fluid">
       <div id="pad-wrapper" class="new-user">
         <div class="row-fluid header">
-          <h3>创建一个新设备</h3>
+          <h3 class="header-wrapper-add">
+            创建一个新设备
+          </h3>
         </div>
 
         <div class="row-fluid form-wrapper">
@@ -192,6 +192,16 @@
   }
 </script>
 <style>
+  #addUser h3.header-wrapper-add {
+    height:36px;
+    padding:2px 6px;
+    border-radius: 4px;
+    line-height: 36px;
+    text-align: center;
+    font-size: 24px;
+    background-color: #f56954;
+    color:#fff;
+  }
   .muststar {
     margin-left: 10px;
     color: red;

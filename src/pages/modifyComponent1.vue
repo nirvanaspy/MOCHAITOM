@@ -1,11 +1,9 @@
 <template>
   <div id="addUser">
-
-
     <div class="container-fluid">
       <div id="pad-wrapper" class="new-user">
         <div class="row-fluid header">
-          <h3>修改组件</h3>
+          <h3 class="header-wrapper-modify">修改组件</h3>
         </div>
 
         <div class="row-fluid form-wrapper" style="margin-top:-27px">
@@ -476,5 +474,21 @@
   .muststar {
     margin-left: 10px;
     color: red;
+  }
+  #addUser h3.header-wrapper-modify {
+    height:36px;
+    padding:2px 6px;
+    border-radius: 4px;
+    line-height: 36px;
+    text-align: center;
+    font-size: 24px;
+    background-color: #f56954;
+    color:#fff;
+  }
+  #addUser div.row-fluid.header {
+    margin-bottom:80px;
+  }
+  #addUser div.span7.field-box.actions {
+    padding-right: 64px;
   }
 </style>

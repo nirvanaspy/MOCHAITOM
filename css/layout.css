@@ -312,6 +312,18 @@ input.search{
 	left: 0;
 	margin-left: 45%;
 }
+@media(max-width: 1020px) {
+  #dashboard-menu .pointer .arrow,
+  #dashboard-menu .pointer .arrow_border{
+    display:none;
+  }
+  #dashboard-menu > li a {
+    margin-left: -30px;
+  }
+  #dashboard-menu > li a i {
+    left:-8px;
+  }
+}
 #dashboard-menu .pointer .arrow_border {
 	border-color: transparent rgb(192, 210, 221) transparent transparent;
 	border-width: 11px;
@@ -373,6 +385,10 @@ input.search{
 }
 #dashboard-menu > li.active i{
 	opacity: 1;
+}
+button#menu-toggler.btn.btn-navbar.visible-phone {
+  background-color: #1E9FFF;
+  background-image:linear-gradient(to bottom, #1E9FFF, #1E9FFF);
 }
 
 /* sidebar submenus */
@@ -509,6 +525,18 @@ input.search{
 	-ms-transition: width .2s;
 	-o-transition: width .2s;
 	transition: width .2s;
+}
+div.el-input.el-input--suffix input.el-input__inner{
+  height:30px;
+}
+span.el-input__suffix-inner {
+  top:0;
+}
+span.el-input__suffix {
+  top:-2px;
+}
+div.el-select-dropdown.el-popper {
+ margin-top:-4px;
 }
 /* end skin changer*/
 
