@@ -680,5 +680,6 @@
     #newdeploy div.newdeploy-select {
       margin-right:-68px;
     }
+
   }
 </style>
