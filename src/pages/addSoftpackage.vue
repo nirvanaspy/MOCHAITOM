@@ -5,7 +5,7 @@
     <div class="container-fluid">
       <div id="pad-wrapper" class="new-user">
         <div class="row-fluid header">
-          <h3>新增软件包</h3>
+          <h3 class="header-wrapper-add">新增软件包</h3>
         </div>
 
         <div class="row-fluid form-wrapper">
@@ -238,5 +238,15 @@
     border: 1px solid #cccccc;
     border-radius: 4px;
     height: 280px;
+  }
+  h3.header-wrapper-add {
+    height:36px;
+    padding:2px 6px;
+    border-radius: 4px;
+    line-height: 36px;
+    text-align: center;
+    font-size: 24px;
+    background-color: #f56954;
+    color:#fff;
   }
 </style>

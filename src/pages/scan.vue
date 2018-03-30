@@ -7,19 +7,16 @@
             <span class="text">扫描</span>
             <i class="icon icon-headphones"></i>
           </a>
-          <div class="pull-right">
-            <div style="margin-bottom: -5px;margin-left: -40px;">
-
-              <label style="float:left">文件名：</label>
-              <input class="search" type="text" placeholder="搜索.." v-model="searchQuery"
-                     style="float:left;width:160px;height:19px"/>
-
+          <div class="span10 pull-right scan-input">
+            <div>
+              <label>文件名</label>
+              <input class="search" type="text" placeholder="搜索.." v-model="searchQuery"/>
             </div>
           </div>
 
         </div>
         <div class="row-fluid form-wrapper">
-          <div class="span12" style="margin-top: -30px;">
+          <div class="span12" style="margin-top: -34px;">
 
             <div class="drag-content span12">
               <div class="span3" style="height: 480px;">
@@ -32,20 +29,30 @@
                 <br/>-->
                 <div class="row-fluid table devcompchose">
                   <div class="span3" style="margin-left: 7px;margin-top: 10px;">
-                    部署设计:
+                    部署设计
                   </div>
-                  <div class="span8">
-                    <select class="span12" v-model="selected" style="height: 26px; margin-top: 5px; "
+                  <div class="span8" id="scan-selection">
+                  <!--  <select class="span12" v-model="selected" style="height: 26px; margin-top: 5px; "
                             @change="changeDeployPlan">
-                      <!-- v-model="selected" -->
-                      <option v-for="deployplan in deployplanInfos" v-bind:value="deployplan.id">
+                      &lt;!&ndash; v-model="selected" &ndash;&gt;
+                      <option id="myoptions" v-for="deployplan in deployplanInfos" v-bind:value="deployplan.id">
                         {{ deployplan.name }}
                       </option>
-                    </select>
+                    </select>-->
+                    <el-select v-model="selected" placeholder="请选择"
+                               @change="changeDeployPlan"
+                               value-key="id">
+                      <el-option
+                        v-for="deployplan in deployplanInfos"
+                        :key="deployplan.id"
+                        :label="deployplan.name"
+                        :value="deployplan">
+                        {{ deployplan.name }}
+                      </el-option>
+                    </el-select>
                   </div>
-
-                  <table class="table table-hover" style="margin-top: 10px">
-                    <thead>
+                  <table class="table table-hover" style="margin-top:10px;">
+                    <thead style="border-top:none;">
                     <tr>
                       <th>
                         设备(IP)/软件名
@@ -78,7 +85,7 @@
 
               </div>
 
-              <div class="span9" style="height: 480px;border-left: 1px solid rgba(204, 204, 204, 1);">
+              <div class="span9" style="height: 480px;border-left: 2px solid rgb(117, 185, 230);">
                 <!--<div style="margin-bottom: -5px;margin-left: -40px;">
 
                   <label style="float:left">文件名：</label>
@@ -376,7 +383,8 @@
         let password = this.getCookie('password');
 
         zNodes.length = 0;
-        deployplanZtreeId = this.selected;
+        // deployplanZtreeId = this.selected
+        deployplanZtreeId = this.selected.id;
 
         setting = {
           view: {
@@ -1478,5 +1486,7 @@
     text-overflow: ellipsis;
     font-family: Verdana, Arial, Helvetica, AppleGothic, sans-serif;
   }
-
+  div#scan-selection.span8{
+    margin-top:4px;
+  }
 </style>

@@ -176,13 +176,13 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
-  .fade-enter-active,.fade-leave-active{
+ .fade-enter-active,.fade-leave-active{
     transition: all .3s ease;
   }
   .fade-enter,.fade-leave-to {
     opacity:0;
   }
-  .fade-leave-to{
+ /* .fade-leave-to{
     transform: translate3d(30%,0,0);
-  }
+  }*/
 </style>

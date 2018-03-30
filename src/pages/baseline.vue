@@ -8,9 +8,8 @@
             <span class="text">基线</span>
             <i class="icon icon-tasks"></i>
           </a>
-          <div class="span10 pull-right">
+          <div class="span10 pull-right baseline-input">
             <input class="search" type="text" placeholder="搜索基线.." v-model="searchQuery"/>
-
           </div>
         </div>
 
