@@ -1,14 +1,12 @@
 <template>
     <div id="addUser">
-
-
-
         <div class="container-fluid">
             <div id="pad-wrapper" class="new-user">
                 <div class="row-fluid header">
-                    <h3>创建一个新部署设计</h3>
+                  <h3 class="header-wrapper-add">
+                    创建一个新部署设计
+                  </h3>
                 </div>
-
                 <div class="row-fluid form-wrapper">
                     <!-- left column -->
                     <div class="span10">
@@ -19,25 +17,17 @@
                                 <input class="span9" type="text" name="add-name"/>
                                 <span class="muststar">*</span>
                             </div>
-
                             <div class="span12 field-box">
                                 <label>描述:</label>
-
                                 <input class="span9" type="text" name="add-des"/>
-
                             </div>
-
                             <div class="span7 field-box actions">
                                 <button type="submit" class="btn-glow primary" @click="addDeployPlan">创建</button>
                                 <button type="submit" class="btn-glow primary" @click="formReset">取消</button>
                                 <!-- <input type="button" class="btn-glow primary" value="创建" style="width: 100px;" @click="addDeployPlan"/> -->
                             </div>
-
-                            </form>
                         </div>
                     </div>
-
-
                 </div>
             </div>
         </div>
@@ -94,9 +84,31 @@ let projectId = "2ec24245-0f8d-4db5-9d9b-1726ed727057";*/
         }
     }
 </script>
-<style>
-.muststar{
+<style scoped>
+  .muststar{
     margin-left: 10px;
     color: red;
 }
+  #addUser h3.header-wrapper-add {
+    height:36px;
+    padding:2px 6px;
+    border-radius: 4px;
+    line-height: 36px;
+    text-align: center;
+    font-size: 24px;
+    background-color: #f56954;
+    color:#fff;
+  }
+  #addUser div.row-fluid.header {
+    margin-bottom:40px;
+  }
+  #addUser div.row-fluid label{
+    width:40px;
+    height:20px;
+    line-height:20px;
+    margin:2px 0 0 0;
+  }
+  #addUser div.row-fluid input{
+    width:84%;
+  }
 </style>

@@ -1,13 +1,10 @@
 <template>
   <div id="addUser">
-
-
     <div class="container-fluid">
       <div id="pad-wrapper" class="new-user">
         <div class="row-fluid header">
-          <h3>创建一个新用户</h3>
+          <h3 class="header-wrapper-add">创建一个新用户</h3>
         </div>
-
         <div class="row-fluid form-wrapper">
           <!-- left column -->
           <div class="span10">
@@ -26,7 +23,7 @@
               </div>
 
               <div class="span12 field-box" style="margin-top: -11px;">
-                <label>再次输入确认:</label>
+                <label>再次输入:</label>
                 <input class="span9" type="password" name="again-password"/>
                 <span class="muststar">*</span>
               </div>
@@ -35,7 +32,6 @@
                 <input type="button" class="btn-glow primary" value="创建" @click="addUser"/>
                 <button type="submit" class="btn-glow primary" @click="formReset">取消</button>
               </div>
-              </form>
             </div>
           </div>
 
@@ -99,21 +95,40 @@
 
         }
         ;
-
-
       },
       formReset: function () {
         $("input").val('');
         this.$router.replace({path: '/users'})
-
       },
-
-
     }
-
   }
 </script>
-<style>
+<style scoped>
+  #addUser h3.header-wrapper-add {
+    height:36px;
+    padding:2px 6px;
+    border-radius: 4px;
+    line-height: 36px;
+    text-align: center;
+    font-size: 24px;
+    background-color: #f56954;
+    color:#fff;
+  }
+  #addUser div.row-fluid.header {
+    margin-bottom:40px;
+  }
+  #addUser div.row-fluid label{
+    width:80px;
+    height:20px;
+    line-height:20px;
+    margin:2px 0 0 0;
+  }
+  #addUser div.row-fluid input.span9{
+    width:84%;
+  }
+  #addUser div.row-fluid div.actions {
+    padding-right: 50px;
+  }
   .muststar {
     margin-left: 10px;
     color: red;

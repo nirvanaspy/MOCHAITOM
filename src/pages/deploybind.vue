@@ -4,56 +4,44 @@
     <div class="container-fluid">
       <div id="pad-wrapper">
         <div class="row-fluid header">
-          <h3>设计</h3>
-
+          <a class="header-wrapper">
+            <span class="text">设计</span>
+            <i class="icon icon-sitemap"></i>
+          </a>
           <div class="span10 pull-right">
             <button type="button" class="btn-flat primary icon-magic pull-right" @click="submit()">
               保存
             </button>
-
             <button type="button" class="btn-flat default icon-check pull-right" @click="paste()">
               粘贴
             </button>
-
             <button type="button" class="btn-flat default icon-print pull-right" style="margin-right: 5px;"
                     @click="copy()">
               复制
             </button>
-
-
           </div>
-
         </div>
-
         <div class="row-fluid form-wrapper">
           <div class="span12" style="margin-top: -30px;">
-
             <div class="drag-content span12">
-
               <!-- 设备 -->
               <div class="span3" style="height: 480px;">
-
-
                 <div class="row-fluid table devcompchose">
 
                   <div class="devcompfind">
                     <input class="search" type="text" placeholder="设备名称.." style="width: 90%;"
                            v-model="searchQueryDev"/>
                   </div>
-
                   <br/>
-
-                  <table class="table table-hover" id="table_value">
+                  <table class="table table-hover" id="table_value" style="margin-top:-20px;">
                     <thead>
                     <tr>
                       <th class="span7 wrap">
                         设备名称
                       </th>
                       <th class="span5 sortable">
-                        <span class="line"></span>设备状态
+                        <span class="line"></span>状态
                       </th>
-
-
                     </tr>
                     </thead>
                     <tbody>
@@ -87,9 +75,8 @@
               <!-- 拖动区域 -->
               <div class="move span6" id="moveContent" style="height: 481px;margin-top: -1px;overflow: auto;">
                 <div v-if="leftClick">
-
                   <div style="margin-top:20px;text-align: center;">
-                    <h3>部署设计</h3>
+                    <h3 class="newdeploybind">部署设计</h3>
                     <br/>
                     <h2>{{deviceName}}</h2>
                   </div>
@@ -115,7 +102,7 @@
 
                 <div v-else>
                   <div style="margin-top:20px;text-align: center;">
-                    <h3>部署设计</h3>
+                    <h3 class="newdeploybind">部署设计</h3>
                     <br/>
                     <h2>{{compName}}</h2>
                   </div>
@@ -142,16 +129,13 @@
               </div>
 
               <!-- 组件 -->
-              <div class="span3" style="height: 480px;margin-left: 8px;">
+              <div class="span3" id="deploydetail" style="height:480px;">
 
                 <div class="row-fluid table devcompchose">
                   <div class="devcompfind">
                     <input class="search" type="text" placeholder="组件名称.." style="width: 90%;"
                            v-model="searchQueryComp"/>
                   </div>
-
-                  <br/>
-
                   <table class="table table-hover" id="table_value2">
                     <thead>
                     <tr>
@@ -1158,4 +1142,43 @@
     margin-bottom: 0;
     padding-right: 10px;
   }
+  div#moveContent h3.newdeploybind {
+    margin:-10px auto 0;
+    height:40px;
+    width:120px;
+    line-height: 40px;
+    border-radius: 4px;
+    background-color: #75b9e6;
+    color:#FFFFFF;
+  }
+  div#moveContent.move.span6 {
+    margin-left: 0;
+    border-color: #75b9e6;
+    border-bottom: none;
+  }
+  div#deploydetail.span3{
+    margin-left:0;
+    width:28%;
+  }
+  @media screen and (max-width:1200px){
+    div#deploydetail.span3 {
+      margin-left: 4px;
+      width: 27%;
+    }
+  }
+  table#table_value2.table.table-hover thead tr th{
+    text-align:left;
+    background-color: #75b9e6;
+    color:#fff;
+  }
+  .table th{
+    padding-bottom:0;
+  }
+  .table th, .table td{
+    padding:4px;
+  }
+  table th span.line{
+    border-left:none;
+  }
+
 </style>

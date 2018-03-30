@@ -1,6 +1,6 @@
 <template>
   <!-- main container -->
-  <div>
+  <div id="newdeploy">
     <div class="container-fluid">
       <div id="pad-wrapper" class="users-list">
         <div class="row-fluid header">
@@ -8,18 +8,29 @@
             <span class="text">部署</span>
             <i class="icon icon-magnet"></i>
           </a>
-          <div class="span4" style="float: right;">
-            <div class="span3" style="margin-top: 10px;">
-              部署设计:
+          <div class="span4 newdeploy-select" style="float: right;">
+            <div class="span3">
+              部署设计
             </div>
             <div class="span9" style="float: right;">
-              <select class="span12" v-model="selected" style="height: 26px;margin-top: 5px; "
+             <!-- <select class="span12" v-model="selected"
                       @change="changeDeployPlan">
-                <!-- v-model="selected" -->
+                &lt;!&ndash; v-model="selected" &ndash;&gt;
                 <option v-for="deployplan in deployplanInfos" v-bind:value="deployplan.id">
                   {{ deployplan.name }}
                 </option>
-              </select>
+              </select>-->
+              <el-select v-model="selected" placeholder="请选择"
+                         @change="changeDeployPlan"
+                         value-key="id">
+                <el-option
+                  v-for="deployplan in deployplanInfos"
+                  :key="deployplan.id"
+                  :label="deployplan.name"
+                  :value="deployplan">
+                  {{ deployplan.name }}
+                </el-option>
+              </el-select>
 
             </div>
           </div>
@@ -243,7 +254,8 @@
     methods: {
       //下拉框选择部署设计
       changeDeployPlan: function () {
-        this.deployplanId = this.selected;
+        this.deployplanId = this.selected.id;
+        /*this.deployplanId = this.selected;*/
 
       },
 
@@ -663,5 +675,10 @@
 
   .ulactions li {
     display: inline;
+  }
+  @media (min-width: 1200px) {
+    #newdeploy div.newdeploy-select {
+      margin-right:-68px;
+    }
   }
 </style>

@@ -4,7 +4,7 @@
     <div class="container-fluid">
       <div id="pad-wrapper" class="new-user">
         <div class="row-fluid header">
-          <h3>修改软件包信息</h3>
+          <h3 class="header-wrapper-modify">修改软件包信息</h3>
         </div>
 
         <div class="row-fluid form-wrapper">
@@ -33,7 +33,7 @@
                   <div class="span12 field-box">
                     <label>选择组件:</label>
 
-                    <div class="span9 selcomps" style="margin-left: 0;height: 260px;">
+                    <div class="span9 selcomps table-modifysoftware" style="margin-left: 0;height: 260px;">
                       <div class="table-wrapper" style="margin-top: 0;height: 250px;overflow: auto;">
                         <div class="row-fluid table">
                           <table class="table table-hover" id="table_value">
@@ -91,7 +91,7 @@
 
                   </div>
 
-                  <div class="span7 field-box actions">
+                  <div class="modifySoftPackage span7 field-box actions">
 
                     <button type="submit" class="btn-glow primary" @click="modifySoftPackage">保存</button>
                     <!--<input type="button" class="btn-glow primary" value="保存" style="width: 100px;" @click="modifyDevice"/>-->
@@ -286,5 +286,28 @@ export default{
   .muststar{
     margin-left: 10px;
     color: red;
+  }
+  #addUser h3.header-wrapper-modify {
+    height:36px;
+    padding:2px 6px;
+    border-radius: 4px;
+    line-height: 36px;
+    text-align: center;
+    font-size: 24px;
+    background-color: #f56954;
+    color:#fff;
+  }
+  #addUser .table-modifysoftware {
+    border: 1px solid #75b9e6;
+  }
+  #addUser div.row-fluid.header {
+    margin-bottom: 40px;
+  }
+  #addUser .span12 label {
+    width:60px;
+    padding: 4px 20px 0 0;
+  }
+  #addUser .modifySoftPackage {
+    padding-right: 120px;
   }
 </style>
