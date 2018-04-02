@@ -121,8 +121,17 @@
 
           })
           .catch(function (error) {
-            //alert("请输入正确的用户名或密码。");
-            layer.msg('请输入正确的用户名或密码！');
+            //console.log(res.data.data);
+            console.log(typeof(error.response));
+            if(typeof(error.response) == "undefined"){
+              layer.msg('请检查IP或端口号是否正确！');
+            }else{
+              layer.msg('请输入正确的用户名或密码！');
+              error.response.data.length = 0;
+            }
+            //console.log(error.response.data);
+
+
           });
       }
     },
