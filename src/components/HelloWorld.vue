@@ -170,7 +170,16 @@ export default {
   data () {
     return {
     }
+  },
+  mounted () {
+    this.$nextTick(() => {
+      $('html').niceScroll({
+        /* autohidemode: 'cursor', */
+        cursoropacitymax: 0
+      })
+    })
   }
+
 }
 </script>
 
