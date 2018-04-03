@@ -32,13 +32,13 @@
                     部署设计
                   </div>
                   <div class="span8" id="scan-selection">
-                  <!--  <select class="span12" v-model="selected" style="height: 26px; margin-top: 5px; "
-                            @change="changeDeployPlan">
-                      &lt;!&ndash; v-model="selected" &ndash;&gt;
-                      <option id="myoptions" v-for="deployplan in deployplanInfos" v-bind:value="deployplan.id">
-                        {{ deployplan.name }}
-                      </option>
-                    </select>-->
+                    <!--  <select class="span12" v-model="selected" style="height: 26px; margin-top: 5px; "
+                              @change="changeDeployPlan">
+                        &lt;!&ndash; v-model="selected" &ndash;&gt;
+                        <option id="myoptions" v-for="deployplan in deployplanInfos" v-bind:value="deployplan.id">
+                          {{ deployplan.name }}
+                        </option>
+                      </select>-->
                     <el-select v-model="selected" placeholder="请选择"
                                @change="changeDeployPlan"
                                value-key="id">
@@ -98,70 +98,69 @@
 
 
                 <!--<div style="height: 400px;overflow: auto;margin-top: 25px;">-->
-                  <div class="row-fluid table devcompchose">
-                    <table class="table table-hover" id="table_value"  style="margin-left: 1px">
-                      <thead>
-                      <tr>
+                <div class="row-fluid table devcompchose">
+                  <table class="table table-hover" id="table_value" style="margin-left: 1px">
+                    <thead>
+                    <tr>
 
-                        <th class="span2 wrap">
-                          文件名
-                        </th>
-                        <th class="span2">
-                          <span class="line"></span>路径
-                        </th>
-                        <th class="span2">
-                          <span class="line"></span>文件类型
-                        </th>
-                        <th class="span2">
-                          <span class="line"></span>修改日期
-                        </th>
+                      <th class="span2 wrap">
+                        文件名
+                      </th>
+                      <th class="span2">
+                        <span class="line"></span>路径
+                      </th>
+                      <th class="span2">
+                        <span class="line"></span>文件类型
+                      </th>
+                      <th class="span2">
+                        <span class="line"></span>修改日期
+                      </th>
 
-                        <th class="span2">
-                          <span class="line"></span>文件大小
-                        </th>
-                        <th class="span2">
-                          <span class="line"></span>版本状态
-                        </th>
+                      <th class="span2">
+                        <span class="line"></span>文件大小
+                      </th>
+                      <th class="span2">
+                        <span class="line"></span>版本状态
+                      </th>
 
-                      </tr>
-                      </thead>
-                      <tbody>
-                      <!-- row -->
-                      <tr class="first" v-for="(component,index) in componentEntityA" :key="index" id="tabel_info">
-                        <td style="display:none">{{component.id}}</td>
-                        <td class="span2 wrap" style="cursor: pointer;">
-                          <div class="wrap" :title="component.name">
-                            {{component.name}}
-                          </div>
-                        </td>
-                        <td class="span2 wrap" style="cursor: pointer;">
-                          <div class="wrap" :title="component.path">
-                            {{component.path}}
-                          </div>
-                        </td>
-                        <td class="span2">
-                          {{component.type}}
-                        </td>
-                        <td class="span2">
-                          {{component.createTime}}
-                        </td>
-                        <td class="span2">
-                          {{component.displaySize}}
-                        </td>
-                        <td class="span2">
-                          {{component.state}}
-                        </td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <!-- row -->
+                    <tr class="first" v-for="(component,index) in componentEntityA" :key="index" id="tabel_info">
+                      <td style="display:none">{{component.id}}</td>
+                      <td class="span2 wrap" style="cursor: pointer;">
+                        <div class="wrap" :title="component.name">
+                          {{component.name}}
+                        </div>
+                      </td>
+                      <td class="span2 wrap" style="cursor: pointer;">
+                        <div class="wrap" :title="component.path">
+                          {{component.path}}
+                        </div>
+                      </td>
+                      <td class="span2">
+                        {{component.type}}
+                      </td>
+                      <td class="span2">
+                        {{component.createTime}}
+                      </td>
+                      <td class="span2">
+                        {{component.displaySize}}
+                      </td>
+                      <td class="span2">
+                        {{component.state}}
+                      </td>
 
-                      </tr>
-                      <!-- row -->
+                    </tr>
+                    <!-- row -->
 
-                      </tbody>
-                    </table>
-                  </div>
+                    </tbody>
+                  </table>
+                </div>
                 <!--</div>-->
 
               </div>
-
 
 
             </div>
@@ -257,6 +256,8 @@
 
   let deviceAllId;
   let deployAllId;//扫描时用的变量
+
+  let deviceName; //扫描的设备名
 
   let deployPlanDetailEntities;
   let deployplanZtreeId;
@@ -407,7 +408,7 @@
           },
           check: {                                 //树上加CheckBox
             autoCheckTrigger: false,
-            chkboxType: { "Y": "ps", "N": "ps" },
+            chkboxType: {"Y": "ps", "N": "ps"},
             chkStyle: "checkbox",
             enable: true
           }
@@ -665,7 +666,7 @@
           }
         } else {//没有扫描之前的数据显示
 
-          this.componentEntity.splice(0,this.componentEntity.length);
+          this.componentEntity.splice(0, this.componentEntity.length);
 
           if (zTree.getSelectedNodes()[0].deviceId) {//有deviceId字段，说明是组件
             componentNodeId = zTree.getSelectedNodes()[0].id;
@@ -724,7 +725,7 @@
             });
           } else if (zTree.getSelectedNodes()[0].hasOwnProperty("children")) {//除设备和组件之外的文件夹
 
-            this.componentEntity.splice(0,this.componentEntity.length);
+            this.componentEntity.splice(0, this.componentEntity.length);
 
             for (let i = 0; i < zTree.getSelectedNodes()[0].children.length; i++) {
               if (zTree.getSelectedNodes()[0].children[i].hasOwnProperty("children") == false) {
@@ -745,7 +746,7 @@
 
           } else if (zTree.getSelectedNodes()[0].hasOwnProperty("children") == false) {//没有孩子的单个文件
 
-            this.componentEntity.splice(0,this.componentEntity.length);
+            this.componentEntity.splice(0, this.componentEntity.length);
 
             for (let j = 0; j < childrenInfo.length; j++) {
               if (childrenInfo[j].id == zTree.getSelectedNodes()[0].id) {
@@ -765,219 +766,246 @@
 
       zTreeOnClick: function (e, treeId, treeNode) {
         zTree = $.fn.zTree.getZTreeObj("treeDemo");
-        if (zTree.getSelectedNodes()[0].deviceId) {
+
+        console.log(zTree.getSelectedNodes());
+        console.log(zTree.getSelectedNodes()[0].deviceId);
+        if (zTree.getSelectedNodes()[0].deployPlanId) {
+          deviceAllId = zTree.getSelectedNodes()[0].id;
+          deployAllId = zTree.getSelectedNodes()[0].deployPlanId;
+
+          deviceName = zTree.getSelectedNodes()[0].name;
+
+          console.log(deviceName);
+        }else{
+          deviceName = "";
+        }
+        /*if (zTree.getSelectedNodes()[0].deviceId) {
         } else if (zTree.getSelectedNodes()[0].deployPlanId) {
           deviceAllId = zTree.getSelectedNodes()[0].id;
           deployAllId = zTree.getSelectedNodes()[0].deployPlanId;
-        }
+
+          deviceName = zTree.getSelectedNodes()[0].name;
+
+          console.log(deviceName);
+
+
+        }*/
       },
 
       scanAll: function () {
         let username = this.getCookie('username');
         let password = this.getCookie('password');
 
-        /* if (zTree.getSelectedNodes()[0].state == false) {//设备不在线，无法扫描
-           layer.msg("设备离线！");
-         } else {*/
-        layer.load();
 
-        this.$axios.get(
-          this.getIP() + "deploymentdesigns/" +
-          deployAllId +
-          "/devices/" +
-          deviceAllId + "/scan" + "?extensions",
-          {
-            //设置头
-            headers: {
-              "content-type": "application/x-www-form-urlencoded"
-            },
-            auth: {
-              username: username,
-              password: password
-            }
-          }).then(res => {
-          layer.closeAll('loading');
+        if (zTree.getSelectedNodes()[0].state == false) {//设备不在线，无法扫描
+          layer.msg("设备离线！");
+        }
+        else if (deviceName == "") {
+          layer.msg("请选择设备！");
+        }
+        else {
+           console.log(deviceAllId);
+           console.log(deployAllId);
 
-          //连续扫描，组件后面的软件状态会保留每次的结果，所以下次扫描后，先把上次的结果去掉
-          for (let i = 0; i < zNodes.length; i++) {
-            for (let j = 0; j < zNodes[i].children.length; j++) {
-              var regex = /\(/g;
-              var str = zNodes[i].children[j].name;
-              if (regex.test(str)) {
-                let zname = zNodes[i].children[j].name.split('(');
-                zNodes[i].children[j].name = zname[0];
+          layer.load();
+
+          this.$axios.get(
+            this.getIP() + "deploymentdesigns/" +
+            deployAllId +
+            "/devices/" +
+            deviceAllId + "/scan" + "?extensions",
+            {
+              //设置头
+              headers: {
+                "content-type": "application/x-www-form-urlencoded"
+              },
+              auth: {
+                username: username,
+                password: password
               }
-            }
-          }
+            }).then(res => {
+            layer.closeAll('loading');
 
-          let correct = [];
-          let unknown = [];
-          let modifyed = [];
-          let miss = [];
-          //上面四个数组存放扫描后的文件，排序使用
-
-          if (res.data.data.length > 0) {
-            for (let i = 0; i < res.data.data.length; i++) {
-              if (res.data.data[i].correctComponentFiles.length > 0) {
-                for (let j = 0; j < res.data.data[i].correctComponentFiles.length; j++) {
-
-                  for (let k = 0; k < this.componentEntity.length; k++) {
-
-                    if (res.data.data[i].correctComponentFiles[j].id == this.componentEntity[k].id) {
-                      this.componentEntity[k].state = '√';
-
-                      correct.push(this.componentEntity[k]);
-
-                      break;
-                    }
-                  }
-                }
-              }
-              ;
-
-              if (res.data.data[i].unknownFiles.length > 0) {
-                for (let j = 0; j < res.data.data[i].unknownFiles.length; j++) {
-
-                  for (let k = 0; k < this.componentEntity.length; k++) {
-
-                    if (res.data.data[i].unknownFiles[j].id == this.componentEntity[k].id) {
-                      this.componentEntity[k].state = '?';
-
-                      unknown.push(this.componentEntity[k]);
-                      break;
-
-                    }
-
-                  }
-
-                }
-              }
-              ;
-
-              if (res.data.data[i].modifyedComponentFiles.length > 0) {
-                for (let j = 0; j < res.data.data[i].modifyedComponentFiles.length; j++) {
-
-                  for (let k = 0; k < this.componentEntity.length; k++) {
-
-                    if (res.data.data[i].modifyedComponentFiles[j].id == this.componentEntity[k].id) {
-                      this.componentEntity[k].state = '×';
-                      modifyed.push(this.componentEntity[k]);
-                      break;
-                    }
-
-                  }
-
-                }
-
-              }
-              ;
-            }
-            ;
-
-            for (let k = 0; k < this.componentEntity.length; k++) {
-
-              if (this.componentEntity[k].state == "--") {
-
-                this.componentEntity[k].state = "!";
-                miss.push(this.componentEntity[k]);
-              }
-              ;
-
-            }
-            ;
-
-            //表格数据排序
-            this.componentEntity.splice(0, this.componentEntity.length);
-            for (let i = 0; i < unknown.length; i++) {
-              this.componentEntity.push(unknown[i]);
-              tempZtree.push(unknown[i]);
-            }
-
-            for (let i = 0; i < modifyed.length; i++) {
-              this.componentEntity.push(modifyed[i]);
-              tempZtree.push(modifyed[i]);
-            }
-
-            for (let i = 0; i < miss.length; i++) {
-              this.componentEntity.push(miss[i]);
-              tempZtree.push(miss[i]);
-            }
-
-            for (let i = 0; i < correct.length; i++) {
-              this.componentEntity.push(correct[i]);
-              tempZtree.push(correct[i]);
-            }
-
-
-          }
-          ;
-
-
-          //扫描完后，添加软件状态
-          for (let i = 0; i < zNodes.length; i++) {
-            if (zNodes[i].id == zTree.getSelectedNodes()[0].id) {
+            //连续扫描，组件后面的软件状态会保留每次的结果，所以下次扫描后，先把上次的结果去掉
+            for (let i = 0; i < zNodes.length; i++) {
               for (let j = 0; j < zNodes[i].children.length; j++) {
+                var regex = /\(/g;
+                var str = zNodes[i].children[j].name;
+                if (regex.test(str)) {
+                  let zname = zNodes[i].children[j].name.split('(');
+                  zNodes[i].children[j].name = zname[0];
+                }
+              }
+            }
 
-                for (let k = 0; k < res.data.data.length; k++) {
-                  if (zNodes[i].children[j].id == res.data.data[k].componentId) {
-                    if (res.data.data[k].hasCorrectComponentFiles == true && res.data.data[k].hasModifyedComponentFiles == false && res.data.data[k].hasUnknownFiles == false && res.data.data[k].hasMissingFile == false) {
-                      zNodes[i].children[j].name = zNodes[i].children[j].name + "(" + "√" + ")";
-                      zNodes[i].children[j].name = zNodes[i].children[j].name.replace('(', '           (');
-                    } else if (res.data.data[k].hasModifyedComponentFiles == true && res.data.data[k].hasUnknownFiles == false && res.data.data[k].hasMissingFile == false) {
-                      zNodes[i].children[j].name = zNodes[i].children[j].name + "(" + "×" + ")";
-                      zNodes[i].children[j].name = zNodes[i].children[j].name.replace('(', '           (');
-                    } else if (res.data.data[k].hasModifyedComponentFiles == false && res.data.data[k].hasUnknownFiles == true && res.data.data[k].hasMissingFile == false) {
-                      zNodes[i].children[j].name = zNodes[i].children[j].name + "(" + "?" + ")";
-                      zNodes[i].children[j].name = zNodes[i].children[j].name.replace('(', '           (');
-                    } else if (res.data.data[k].hasModifyedComponentFiles == false && res.data.data[k].hasUnknownFiles == false && res.data.data[k].hasMissingFile == true) {
-                      zNodes[i].children[j].name = zNodes[i].children[j].name + "(" + "!" + ")";
-                      zNodes[i].children[j].name = zNodes[i].children[j].name.replace('(', '           (');
-                    } else if (res.data.data[k].hasModifyedComponentFiles == true && res.data.data[k].hasUnknownFiles == true && res.data.data[k].hasMissingFile == false) {
-                      zNodes[i].children[j].name = zNodes[i].children[j].name + "(" + "×," + "?" + ")";
-                      zNodes[i].children[j].name = zNodes[i].children[j].name.replace('(', '           (');
-                    } else if (res.data.data[k].hasModifyedComponentFiles == true && res.data.data[k].hasUnknownFiles == false && res.data.data[k].hasMissingFile == true) {
-                      zNodes[i].children[j].name = zNodes[i].children[j].name + "(" + "×," + "!" + ")";
-                      zNodes[i].children[j].name = zNodes[i].children[j].name.replace('(', '           (');
-                    } else if (res.data.data[k].hasModifyedComponentFiles == false && res.data.data[k].hasUnknownFiles == true && res.data.data[k].hasMissingFile == true) {
-                      zNodes[i].children[j].name = zNodes[i].children[j].name + "(" + "?," + "!" + ")";
-                      zNodes[i].children[j].name = zNodes[i].children[j].name.replace('(', '           (');
-                    } else if (res.data.data[k].hasModifyedComponentFiles == true && res.data.data[k].hasUnknownFiles == true && res.data.data[k].hasMissingFile == true) {
-                      zNodes[i].children[j].name = zNodes[i].children[j].name + "(" + "×," + "?," + "!" + ")";
-                      zNodes[i].children[j].name = zNodes[i].children[j].name.replace('(', '           (');
+            let correct = [];
+            let unknown = [];
+            let modifyed = [];
+            let miss = [];
+            //上面四个数组存放扫描后的文件，排序使用
+
+            if (res.data.data.length > 0) {
+              for (let i = 0; i < res.data.data.length; i++) {
+                if (res.data.data[i].correctComponentFiles.length > 0) {
+                  for (let j = 0; j < res.data.data[i].correctComponentFiles.length; j++) {
+
+                    for (let k = 0; k < this.componentEntity.length; k++) {
+
+                      if (res.data.data[i].correctComponentFiles[j].id == this.componentEntity[k].id) {
+                        this.componentEntity[k].state = '√';
+
+                        correct.push(this.componentEntity[k]);
+
+                        break;
+                      }
+                    }
+                  }
+                }
+                ;
+
+                if (res.data.data[i].unknownFiles.length > 0) {
+                  for (let j = 0; j < res.data.data[i].unknownFiles.length; j++) {
+
+                    for (let k = 0; k < this.componentEntity.length; k++) {
+
+                      if (res.data.data[i].unknownFiles[j].id == this.componentEntity[k].id) {
+                        this.componentEntity[k].state = '?';
+
+                        unknown.push(this.componentEntity[k]);
+                        break;
+
+                      }
+
                     }
 
                   }
                 }
+                ;
+
+                if (res.data.data[i].modifyedComponentFiles.length > 0) {
+                  for (let j = 0; j < res.data.data[i].modifyedComponentFiles.length; j++) {
+
+                    for (let k = 0; k < this.componentEntity.length; k++) {
+
+                      if (res.data.data[i].modifyedComponentFiles[j].id == this.componentEntity[k].id) {
+                        this.componentEntity[k].state = '×';
+                        modifyed.push(this.componentEntity[k]);
+                        break;
+                      }
+
+                    }
+
+                  }
+
+                }
+                ;
+              }
+              ;
+
+              for (let k = 0; k < this.componentEntity.length; k++) {
+
+                if (this.componentEntity[k].state == "--") {
+
+                  this.componentEntity[k].state = "!";
+                  miss.push(this.componentEntity[k]);
+                }
+                ;
+
+              }
+              ;
+
+              //表格数据排序
+              this.componentEntity.splice(0, this.componentEntity.length);
+              for (let i = 0; i < unknown.length; i++) {
+                this.componentEntity.push(unknown[i]);
+                tempZtree.push(unknown[i]);
+              }
+
+              for (let i = 0; i < modifyed.length; i++) {
+                this.componentEntity.push(modifyed[i]);
+                tempZtree.push(modifyed[i]);
+              }
+
+              for (let i = 0; i < miss.length; i++) {
+                this.componentEntity.push(miss[i]);
+                tempZtree.push(miss[i]);
+              }
+
+              for (let i = 0; i < correct.length; i++) {
+                this.componentEntity.push(correct[i]);
+                tempZtree.push(correct[i]);
+              }
+
+
+            }
+            ;
+
+
+            //扫描完后，添加软件状态
+            for (let i = 0; i < zNodes.length; i++) {
+              if (zNodes[i].id == zTree.getSelectedNodes()[0].id) {
+                for (let j = 0; j < zNodes[i].children.length; j++) {
+
+                  for (let k = 0; k < res.data.data.length; k++) {
+                    if (zNodes[i].children[j].id == res.data.data[k].componentId) {
+                      if (res.data.data[k].hasCorrectComponentFiles == true && res.data.data[k].hasModifyedComponentFiles == false && res.data.data[k].hasUnknownFiles == false && res.data.data[k].hasMissingFile == false) {
+                        zNodes[i].children[j].name = zNodes[i].children[j].name + "(" + "√" + ")";
+                        zNodes[i].children[j].name = zNodes[i].children[j].name.replace('(', '           (');
+                      } else if (res.data.data[k].hasModifyedComponentFiles == true && res.data.data[k].hasUnknownFiles == false && res.data.data[k].hasMissingFile == false) {
+                        zNodes[i].children[j].name = zNodes[i].children[j].name + "(" + "×" + ")";
+                        zNodes[i].children[j].name = zNodes[i].children[j].name.replace('(', '           (');
+                      } else if (res.data.data[k].hasModifyedComponentFiles == false && res.data.data[k].hasUnknownFiles == true && res.data.data[k].hasMissingFile == false) {
+                        zNodes[i].children[j].name = zNodes[i].children[j].name + "(" + "?" + ")";
+                        zNodes[i].children[j].name = zNodes[i].children[j].name.replace('(', '           (');
+                      } else if (res.data.data[k].hasModifyedComponentFiles == false && res.data.data[k].hasUnknownFiles == false && res.data.data[k].hasMissingFile == true) {
+                        zNodes[i].children[j].name = zNodes[i].children[j].name + "(" + "!" + ")";
+                        zNodes[i].children[j].name = zNodes[i].children[j].name.replace('(', '           (');
+                      } else if (res.data.data[k].hasModifyedComponentFiles == true && res.data.data[k].hasUnknownFiles == true && res.data.data[k].hasMissingFile == false) {
+                        zNodes[i].children[j].name = zNodes[i].children[j].name + "(" + "×," + "?" + ")";
+                        zNodes[i].children[j].name = zNodes[i].children[j].name.replace('(', '           (');
+                      } else if (res.data.data[k].hasModifyedComponentFiles == true && res.data.data[k].hasUnknownFiles == false && res.data.data[k].hasMissingFile == true) {
+                        zNodes[i].children[j].name = zNodes[i].children[j].name + "(" + "×," + "!" + ")";
+                        zNodes[i].children[j].name = zNodes[i].children[j].name.replace('(', '           (');
+                      } else if (res.data.data[k].hasModifyedComponentFiles == false && res.data.data[k].hasUnknownFiles == true && res.data.data[k].hasMissingFile == true) {
+                        zNodes[i].children[j].name = zNodes[i].children[j].name + "(" + "?," + "!" + ")";
+                        zNodes[i].children[j].name = zNodes[i].children[j].name.replace('(', '           (');
+                      } else if (res.data.data[k].hasModifyedComponentFiles == true && res.data.data[k].hasUnknownFiles == true && res.data.data[k].hasMissingFile == true) {
+                        zNodes[i].children[j].name = zNodes[i].children[j].name + "(" + "×," + "?," + "!" + ")";
+                        zNodes[i].children[j].name = zNodes[i].children[j].name.replace('(', '           (');
+                      }
+
+                    }
+                  }
+                }
               }
             }
-          }
 
 
-          $.fn.zTree.init($("#treeDemo"), setting, zNodes);
+            $.fn.zTree.init($("#treeDemo"), setting, zNodes);
 
-          zTreeDblFlag = true;//代表扫描结束，树的双击事件信息显示由此判断
+            zTreeDblFlag = true;//代表扫描结束，树的双击事件信息显示由此判断
 
-          layer.msg("扫描结束");
+            layer.msg("扫描结束");
 
-          //扫描之后更新存放文件信息的数组childrenInfo
-          for (let i = 0; i < tempZtree.length; i++) {
-            for (let j = 0; j < childrenInfo.length; j++) {
-              if (childrenInfo[j].id == tempZtree[i].id) {
-                childrenInfo[j] = tempZtree[i];
+            //扫描之后更新存放文件信息的数组childrenInfo
+            for (let i = 0; i < tempZtree.length; i++) {
+              for (let j = 0; j < childrenInfo.length; j++) {
+                if (childrenInfo[j].id == tempZtree[i].id) {
+                  childrenInfo[j] = tempZtree[i];
+                }
               }
             }
-          }
 
-        }).catch(err => {
-          console.log(err);
-          layer.msg("完整扫描异常");
-          layer.closeAll('loading');
-
-
-        });
+          }).catch(err => {
+            console.log(err);
+            layer.msg("完整扫描异常");
+            layer.closeAll('loading');
 
 
-        //}
+          });
+
+
+        }
       },
       //扫描弹框的实现
       scanQuick1: function () {
@@ -1463,12 +1491,12 @@
     line-height: 26px;
   }
 
- /* .modal {
+  /* .modal {
 
-    left: 57%;
+     left: 57%;
 
-    width: 414px;
-  }*/
+     width: 414px;
+   }*/
 
   .level0 {
     width: 275px;
@@ -1486,7 +1514,8 @@
     text-overflow: ellipsis;
     font-family: Verdana, Arial, Helvetica, AppleGothic, sans-serif;
   }
-  div#scan-selection.span8{
-    margin-top:4px;
+
+  div#scan-selection.span8 {
+    margin-top: 4px;
   }
 </style>
