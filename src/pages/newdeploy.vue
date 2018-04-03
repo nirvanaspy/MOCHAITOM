@@ -10,12 +10,11 @@
           </a>
           <div class="span4 newdeploy-select" style="float: right;">
             <div class="span3">
-              部署设计
+              部署设计:
             </div>
             <div class="span9" style="float: right;">
-             <!-- <select class="span12" v-model="selected"
+             <!--<select class="span12" v-model="selected"
                       @change="changeDeployPlan">
-                &lt;!&ndash; v-model="selected" &ndash;&gt;
                 <option v-for="deployplan in deployplanInfos" v-bind:value="deployplan.id">
                   {{ deployplan.name }}
                 </option>
@@ -31,6 +30,7 @@
                   {{ deployplan.name }}
                 </el-option>
               </el-select>
+
 
             </div>
           </div>
@@ -67,7 +67,7 @@
             </thead>
             <tbody>
             <!-- row -->
-            <tr class="first" v-for="device in devicesA" :id="device.id">
+            <tr class="first" v-for="device in devicesA" :id="device.id" v-if="!device.virtual">
               <td style="display:none">{{device.id}}</td>
               <td>{{device.name}}</td>
               <td>{{device.ip}}</td>
@@ -255,7 +255,7 @@
       //下拉框选择部署设计
       changeDeployPlan: function () {
         this.deployplanId = this.selected.id;
-        /*this.deployplanId = this.selected;*/
+        //this.deployplanId = this.selected;
 
       },
 
@@ -411,6 +411,8 @@
       deployDetails: function (event) {
 
         this.deviceDeployDetail.splice(0, this.deviceDeployDetail.length);    //清空某设备的部署详情数组
+        this.errorDetails.splice(0, this.errorDetails.length);    //清空某设备的失败文件数组
+        this.completedDeatils.splice(0, this.completedDeatils.length);    //清空某设备的成功文件数组
 
         let e = event || window.event;
 
@@ -420,8 +422,8 @@
 
 
         if (target.parentNode.parentNode.parentNode.tagName.toLowerCase() == "td") {
-          var rowIndex = target.parentNode.parentNode.parentNode.parentNode.rowIndex;
-          var id = document.getElementById("table_value").rows[rowIndex].cells[0].innerHTML;
+          let rowIndex = target.parentNode.parentNode.parentNode.parentNode.rowIndex;
+          let id = document.getElementById("table_value").rows[rowIndex].cells[0].innerHTML;
 
           let i = 0;
 

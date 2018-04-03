@@ -130,7 +130,7 @@ export default new Router({
                     component: addDevice
                 },
                 {
-                    path: '/modifyDevice',
+                    path: '/modifyDevice/:id',
                     name: 'modifyDevice',
                     component: modifyDevice
                 },
@@ -140,7 +140,7 @@ export default new Router({
                     component: modifyComponent
                 },
                 {
-                  path: '/modifyComponent1',
+                  path: '/modifyComponent1/:id',
                   name: 'modifyComponent1',
                   component: modifyComponent1
                 },
@@ -165,7 +165,7 @@ export default new Router({
                     component: deployplanDetail
                 },
                 {
-                    path: '/deploybind',
+                    path: '/deploybind/:id',
                     name: 'deploybind',
                     component: deploybind
                 },
