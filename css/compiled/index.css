@@ -227,8 +227,9 @@
   border-radius:3px;
   line-height:28px;
   text-align: center;
-  background-color: #1c94c4;
-  color:#fff;
+  font-size: 14px;
+  /*background-color: #1c94c4;
+  color:#fff;*/
 }
 .tabletable {
   height: 600px;
