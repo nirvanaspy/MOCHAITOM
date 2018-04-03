@@ -165,7 +165,7 @@ export default new Router({
                     component: deployplanDetail
                 },
                 {
-                    path: '/deploybind',
+                    path: '/deploybind/:id',
                     name: 'deploybind',
                     component: deploybind
                 },
