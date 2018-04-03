@@ -33,7 +33,7 @@
                            v-model="searchQueryDev"/>
                   </div>
                   <br/>
-                  <table class="table table-hover" id="table_value" style="margin-top:-20px;">
+                  <table class="table table-hover" id="table_value" style="margin-top:-17px;">
                     <thead>
                     <tr>
                       <th class="span7 wrap">
@@ -78,7 +78,7 @@
                   <div style="margin-top:20px;text-align: center;">
                     <h3 class="newdeploybind">部署设计</h3>
                     <br/>
-                    <h2>{{deviceName}}</h2>
+                    <h2 class="devicename">{{deviceName}}</h2>
                   </div>
                   <div class="moveChild span4" v-for="(device,index) in devicecomps" :key="index"
                        style="margin-top: 40px;text-align: center;margin-left: -5px;">
@@ -104,7 +104,7 @@
                   <div style="margin-top:20px;text-align: center;">
                     <h3 class="newdeploybind">部署设计</h3>
                     <br/>
-                    <h2>{{compName}}</h2>
+                    <h2 class="devicename" v-show="compName">{{compName}}</h2>
                   </div>
                   <div class="moveChild span4" v-for="(comp,index) in compdevices" :key="index"
                        style="margin-top: 40px;text-align: center;margin-left: -5px;">
@@ -136,7 +136,7 @@
                     <input class="search" type="text" placeholder="组件名称.." style="width: 90%;"
                            v-model="searchQueryComp"/>
                   </div>
-                  <table class="table table-hover" id="table_value2">
+                  <table class="table table-hover" id="table_value2" style="margin-top:3px;">
                     <thead>
                     <tr>
                       <th class="span3 wrap2">
@@ -1179,6 +1179,17 @@
   }
   table th span.line{
     border-left:none;
+  }
+  h2.devicename{
+    display: inline-block;
+    margin: 0 auto;
+    height:30px;
+    line-height:30px;
+    padding:2px 4px;
+    border-radius:5px;
+    background-color: #cccccc;
+    color:#fff;
+    font-size: 16px;
   }
 
 </style>

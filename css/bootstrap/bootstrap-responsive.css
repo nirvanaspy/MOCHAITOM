@@ -251,6 +251,11 @@
     width: 74.35897435897436%;
     *width: 74.30578286961266%;
   }
+  div#scan .span9{
+    width:70.5%;
+    *width:70.5%;
+    margin-left:1px;
+  }
   .row-fluid .span8 {
     width: 65.81196581196582%;
     *width: 65.75877432260411%;
@@ -274,6 +279,10 @@
   .row-fluid .span3 {
     width: 23.076923076923077%;
     *width: 23.023731587561375%;
+  }
+  div#scan .span3 {
+    width:28.8%;
+    *width:28.8%;
   }
   .row-fluid .span2 {
     width: 14.52991452991453%;

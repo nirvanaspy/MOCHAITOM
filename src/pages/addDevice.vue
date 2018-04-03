@@ -69,15 +69,13 @@
               </div>
 
               <div class="span7 field-box actions">
-                <button type="submit" class="btn-glow primary" @click="addUser">创建</button>
-                <button type="submit" class="btn-glow primary" @click="formReset">取消</button>
+                <button type="submit" class="btn-flat primary" @click="addUser">创建</button>
+                <button type="submit" class="btn-flat danger" @click="formReset">取消</button>
                 <!-- <input type="button" class="btn-glow primary" value="创建" style="width: 100px;" @click="addUser"/>
                 <span>或</span>
                 <input type="button" class="btn-glow primary" value="取消" style="width: 100px;" @click="formReset"/> -->
                 <!-- <input type="reset" value="Cancel" class="reset" /> -->
               </div>
-
-              </form>
             </div>
           </div>
 

@@ -528,6 +528,7 @@ button#menu-toggler.btn.btn-navbar.visible-phone {
 }
 div.el-input.el-input--suffix input.el-input__inner{
   height:30px;
+  background-color: #fff;
 }
 span.el-input__suffix-inner {
   top:0;

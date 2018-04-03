@@ -59,7 +59,7 @@
                               </li>
 
                               <li>
-                                <input type="button" class="btn-flat primary" value="删除" @click="deleteUser($event)" disabled="disabled"/>
+                                <input type="button" class="btn-flat danger" value="删除" @click="deleteUser($event)" disabled="disabled"/>
                               </li>
 
                             </ul>
@@ -83,15 +83,15 @@
                               </li>
                               <li v-else>
                                 <router-link :to='{name:"modifyPasswordAdmin",params:{id:user.id}}'>
-                                  <input type="button" class="btn-flat gray" value="修改" disabled="disabled"/>
+                                  <input type="button" class="disabled-btn btn-flat gray" value="修改" disabled="disabled"/>
                                 </router-link>
                               </li>
 
                               <li v-if="user.username != 'admin'">
-                                <input type="button" class="btn-flat primary" value="删除" @click="deleteUser($event)"/>
+                                <input type="button" class="btn-flat danger" value="删除" @click="deleteUser($event)"/>
                               </li>
                               <li v-else>
-                                <input type="button" class="btn-flat gray" value="删除" @click="deleteUser($event)" disabled="disabled"/>
+                                <input type="button" class="disabled-btn btn-flat gray" value="删除" @click="deleteUser($event)" disabled="disabled"/>
                               </li>
 
                             </ul>
@@ -175,15 +175,12 @@
                 })
 
             }
-
-
-
         },
         methods:{
           deleteUser: function (event){
-                //alert("A");
+
                 var e = event || window.event;
-                //alert("B");
+
                 var target = e.target || e.srcElement;
 
                 var msg = "您确定删除吗？";
@@ -264,5 +261,8 @@
 
   .ulactions li{
     display: inline;
+  }
+  input.disabled-btn:hover{
+    color:rgb(177, 177, 177)
   }
 </style>

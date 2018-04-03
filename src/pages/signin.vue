@@ -31,7 +31,7 @@
               <input id="remember-me" type="checkbox" />
               <label for="remember-me">记住我</label>
           </div>-->
-          <button class="btn-glow primary" style="width: 100px;margin-top: 30px;" v-on:click="login">登录</button>
+          <button class="btn-flat primary" style="width: 100px;margin-top: 30px;" v-on:click="login">登录</button>
         </div>
       </div>
 
