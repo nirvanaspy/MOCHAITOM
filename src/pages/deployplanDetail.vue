@@ -4,10 +4,9 @@
         <div class="container-fluid">
             <div id="pad-wrapper" class="users-list">
                 <div class="row-fluid header">
-                    <h3>绑定信息</h3>
-                    <div class="span10 pull-right">
+                  <h3 class="header-wrapper">绑定详情</h3>
+                    <div class="span10 pull-right deployplan-input">
                         <input class="search" type="text" placeholder="搜索设备.." v-model="searchQuery"/>
-
                     </div>
                 </div>
 
@@ -59,18 +58,7 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="pagination pull-right">
-                    <ul>
-                        <li><a href="#">&#8249;</a></li>
-                        <li><a class="active" href="#">1</a></li>
-                        <li><a href="#">2</a></li>
-                        <li><a href="#">3</a></li>
-                        <li><a href="#">4</a></li>
-                        <li><a href="#">5</a></li>
-                        <li><a href="#">&#8250;</a></li>
-                    </ul>
-                </div>
-                <!-- end users table -->
+
             </div>
         </div>
         <!--<hr/>
@@ -135,5 +123,8 @@ export default{
     height: 600px;
     overflow-y: auto;
     margin-top: -35px;
+  }
+  #pad-wrapper .header .span10.deployplan-input{
+    margin-right:-100px;
   }
 </style>

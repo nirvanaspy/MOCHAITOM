@@ -1,21 +1,21 @@
 <template>
     <div >
-        <div>  
+        <div>
             <form>
                 <input type="text" value="" v-model="name" placeholder="请输入组件名"/>
                 <input type="text" value="" v-model="version" placeholder="请输入版本"/>
                 <!-- <input type="text" value="" v-model="age" placeholder="请输入年龄">  -->
                 <!-- <input type="file" @change="getFile($event)">  -->
-                
+
                 <br/>
-                <input type='file' name="folderin" id="folderupload1"  @change="getFile0($event)" webkitdirectory > 
-                
+                <input type='file' name="folderin" id="folderupload1"  @change="getFile0($event)" webkitdirectory >
+
                 <button @click="submitForm0($event)">提交0</button>
 
 
                 <br/>
-                <input type='file' name="folderin" id="folderupload2"  multiple="multiple" @change="getFile1($event)" webkitdirectory > 
-                
+                <input type='file' name="folderin" id="folderupload2"  multiple="multiple" @change="getFile1($event)" webkitdirectory >
+
                 <button @click="submitForm1($event)">提交List</button>
 
 
@@ -28,12 +28,12 @@
                 <input type='file' name="file">
                 <button @click="addComp($event)">upload</button>
             </form> -->
-            
+
         </div>
         <br/>
 
         <div class="span7 field-box actions">
-            <input type="button" class="btn-glow primary" value="添加组件" style="width: 100px;" @click="addComp($event)"/>
+            <input type="button" class="btn-flat primary" value="添加组件" style="width: 100px;" @click="addComp($event)"/>
         </div>
     </div>
 </template>
@@ -220,7 +220,7 @@
                             password: 'admin'
                         }
                 }).then(res=>{
-                    
+
                 })
                 .catch(err=>{
                     alert("失败！");

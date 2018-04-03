@@ -61,7 +61,7 @@
 
                 <div class="span7 field-box actions" style="margin-top:-1px">
                   <button type="submit" class="btn-flat primary" @click="addComp($event)">修改</button>
-                  <button type="submit" class="btn-flat primary" @click="formReset">取消</button>
+                  <button type="submit" class="btn-flat danger" @click="formReset">取消</button>
                 </div>
               </form>
             </div>

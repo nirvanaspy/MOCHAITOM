@@ -30,37 +30,34 @@
                                 </li> -->
                             </ul>
                         </div>
-                        <div class="step-content">
-                        	<div class="step-pane active" id="step1">
-                                <div class="row-fluid form-wrapper">
-                                    <div class="span8">
-                                        <form />
-                                        	<div>
-                                        		<h3>请选择要操作的部署设计：</h3>
-                                        	</div>
-                                        	<br/>
-                                            <div class="field-box" style="margin-top: 30px;">
-                                                <label>部署设计:</label>
-					                            <select v-model="selected" style="height:30px;" @change="changeDeployPlan">
-					                            	<!-- v-model="selected" -->
-					                                <option v-for="deployplan in deployplanInfos" v-bind:value="deployplan.id">
-					                                    {{ deployplan.name }}
-					                                </option>
-					                            </select>
-
-                                            </div>
-                                            
-                                        </form>
-                                    </div>
-                                </div>
+                      <div class="step-content">
+                        <div class="step-pane active" id="step1">
+                          <div class="row-fluid form-wrapper">
+                            <div class="span8">
+                              <form/>
+                              <div>
+                                <h3>请选择要操作的部署设计：</h3>
+                              </div>
+                              <br/>
+                              <div class="field-box" style="margin-top: 30px;">
+                                <label>部署设计:</label>
+                                <select v-model="selected" style="height:30px;" @change="changeDeployPlan">
+                                  <!-- v-model="selected" -->
+                                  <option v-for="deployplan in deployplanInfos" v-bind:value="deployplan.id">
+                                    {{ deployplan.name }}
+                                  </option>
+                                </select>
+                              </div>
                             </div>
+                          </div>
+                        </div>
                             <div class="step-pane" id="step2">
                                 <div class="row-fluid form-wrapper">
                                     <div class="span11">
 
                                         <div class="drag-content span12"  style="min-height: 400px;">
 
-                                        	
+
 
                                         	<div class="choice span5" style="min-height: 400px;">
                                         	 	<div class="tabbable" id="tabs-259071">
@@ -78,7 +75,7 @@
 															<br/><br/>
 
 															<div class="row-fluid table leftchose">
-																
+
 											                    <table class="table table-hover" id="table_value">
 											                        <thead>
 											                        <tr>
@@ -99,19 +96,19 @@
 											                        <tr class="first" v-for="(device,index) in devicesA" :key="index">
 											                        	<td style="display:none" id="id">{{device.id}}</td>
 											                            <td>
-											                               <i class="icon-laptop"></i>&nbsp;{{device.name}} 
+											                               <i class="icon-laptop"></i>&nbsp;{{device.name}}
 											                            </td>
-											                            <td>    
+											                            <td>
 											                               <span class="label label-primary" v-if="device.online == false">离线</span>
 											                               <span class="label label-success" v-if="device.online == true">在线</span>
 											                            </td>
 											                            <td>
 											                        		<div class="btn-group small" style="margin-right: 3px">
-											                        			<button class="btn-glow  icon-random" @click="moveDevice($event)">
+											                        			<button class="btn-flat  icon-random" @click="moveDevice($event)">
 											                        				<!-- <i class="icon-random"></i> -->
 											                        			</button>
 											                        		</div>
-											                        		
+
 											                        	</td>
 											                        </tr>
 
@@ -126,9 +123,9 @@
 											                         				<i class="icon-random"></i>
 											                         			</button>
 											                         		</div>
-											                         		
+
 											                         	</td>
-											                         </tr> 
+											                         </tr>
 											                         <tr>
 											                         	<td style="display:none" id="id">1002</td>
 											                         	<td><i class="icon-laptop"></i>&nbsp;设备2</td>
@@ -139,9 +136,9 @@
 											                         				<i class="icon-random"></i>
 											                         			</button>
 											                         		</div>
-											                         		
+
 											                         	</td>
-											                         </tr> --> 
+											                         </tr> -->
 
 											                        </tbody>
 											                    </table>
@@ -156,7 +153,7 @@
 															<br/><br/>
 
 															<div class="row-fluid table leftchose">
-																
+
 											                    <table class="table table-hover" id="table_value2">
 											                        <thead>
 											                        <tr>
@@ -187,13 +184,13 @@
 												                        <tr class="first" v-for="(component,index) in compsA" :key="index">
 												                            <td style="display:none">{{component.id}}</td>
 												                            <td>
-												                               <i class="icon-folder-close-alt"></i>&nbsp;{{component.name}} 
+												                               <i class="icon-folder-close-alt"></i>&nbsp;{{component.name}}
 												                            </td>
 												                            <td>
-												                               {{component.size}} 
+												                               {{component.size}}
 												                            </td>
 												                            <td>
-												                               {{component.version}} 
+												                               {{component.version}}
 												                            </td>
 												                            <td>
 												                        		<div class="btn-group small" style="margin-right: 3px">
@@ -201,9 +198,9 @@
 												                        				<!-- <i class="icon-random"></i> -->
 												                        			</button>
 												                        		</div>
-												                        		
+
 												                        	</td>
-												                           
+
 												                        </tr>
 
 											                        </tbody>
@@ -220,7 +217,7 @@
                                         			<br/>
                                         			<div class='select-device' draggable='true' @dragstart='drag($event)' v-for='device in devices'>{{device.name}}</div>
                                         		</div>
-                                        		                                        	
+
                                         		<br/><br/>
                                         		<div class="component">
                                         			<h4>组件</h4>
@@ -228,7 +225,7 @@
                                         			<div class='select-comp' draggable='true' @dragstart='drag($event)' v-for='component in comps'>{{component.name}}</div>
                                         		</div> -->
                                         	</div>
-                                        	
+
                                         	<!-- 部署设计拖动区域 -->
                                         	<div class="move span7" id="moveContent" style="min-height: 400px;">
                                         		<div style="margin-top:20px;margin-left: 30%;">
@@ -247,9 +244,9 @@
                                         			<div class="bindDevName">
                                         				{{device.name}}
                                         			</div>
-                                        			
+
                                         		</div>
-                                        	</div> 										  
+                                        	</div>
 										</div>
 
                                     </div>
@@ -279,13 +276,13 @@
 								                                </option>
 								                            </select>
 		                                                </div>
-		                                                
-							                            
+
+
 
 		                                            </div>
 						                            <!-- /.box-body -->
 						                            <div class="box-footer">
-						                                
+
 						                                <button type="submit" class="btn btn-info pull-right"  @click="moveSure">确定</button>
 						                            </div>
 						                            <!-- /.box-footer -->
@@ -330,8 +327,6 @@
                                                 <label>组件2路径:</label>
                                                 <input class="span8" type="text" id="path" name="deployPath" placeholder="路径"/>
                                             </div>
-                                            
-                                        </form>
                                     </div>
                                 </div>
                             </div>
@@ -343,11 +338,10 @@
 				                                <i class="icon-exclamation-sign"></i>
 				                                如确认无误，请提交您的部署方案(^_^)
 				                            </div>
-                                        </form>
                                     </div>
                                 </div>
                             </div>
-     
+
                         </div>
                         <div class="wizard-actions">
                             <button type="button" disabled="" class="btn-glow primary btn-prev">
@@ -374,7 +368,7 @@
 <!--<hr/>
  <div>
 	部署设计：{{deployplans}}
-</div> 
+</div>
 
 <hr/>
 <div>
@@ -452,7 +446,7 @@ data(){
 		deployplans:[],
 		deployplanInfos: [],    //部署设计信息
 	    devcomps: []  //设备上绑定的组件
-	  
+
     }
 },created(){
 	var projectId = this.getCookie('projectId');
@@ -478,7 +472,7 @@ data(){
     });
 
 	//获取组件
-    this.$axios.get('components',{           
+    this.$axios.get('components',{
         //设置头
         headers:{
             'content-type':'application/x-www-form-urlencoded'
@@ -494,7 +488,7 @@ data(){
         console.log(err);
     });
 
-    
+
 
 	//获取部署设计的相关信息
     this.$axios.get('project/'+projectId+'/deployplan',{
@@ -577,7 +571,7 @@ mounted: function(){
 methods: {
 	drag:function(event){
     	event=event||window.event;
-    	event.dataTransfer.effectAllowed = 'all'; 
+    	event.dataTransfer.effectAllowed = 'all';
     	dom = event.currentTarget;
     	//alert(dom);
 
@@ -602,7 +596,7 @@ methods: {
 	    if (target.parentNode.parentNode.tagName.toLowerCase() == "td") {
 	        var rowIndex = target.parentNode.parentNode.parentNode.rowIndex;
 	        //alert(rowIndex);
-	        
+
 	        name = document.getElementById("table_value").rows[rowIndex].cells[1].innerHTML;
 	        //alert(name);
 
@@ -610,10 +604,10 @@ methods: {
 	        //alert(id);
 
 	        //alert(name);
-	        
+
 	        //alert(deviceArr);
 	        deviceIdArr.push(id);
-	        
+
 	        //deviceArr.push(name.substring(33));
 	        //nameArr.push(name.substring(33));
 	        //$("#div2").remove(obj);
@@ -628,7 +622,7 @@ methods: {
 	    this.deviceArr = deviceArr;
 	    //this.nameArr = nameArr;
 
-	    
+
 	    //alert(deviceArr);
 	},
 	moveComp: function (event){
@@ -654,7 +648,7 @@ methods: {
 		*/
 
 		if(deviceArr.length != 0){
-			
+
 			var e = event || window.event;
 			//var nameArr = [];
 			var name;
@@ -667,7 +661,7 @@ methods: {
 		    if (target.parentNode.parentNode.tagName.toLowerCase() == "td") {
 		        var rowIndex = target.parentNode.parentNode.parentNode.rowIndex;
 		        //alert(rowIndex);
-		        
+
 		        name = document.getElementById("table_value2").rows[rowIndex].cells[1].innerHTML;
 		        //alert(name);
 
@@ -675,7 +669,7 @@ methods: {
 		        //alert(id);
 
 		        //alert(name);
-		        
+
 		        //alert(compArr);
 		        //debugger;
 		        compIddArr.push(id);                //要移动的组件的id
@@ -712,7 +706,7 @@ methods: {
 
 		}
 
-		
+
 	},
 	moveSure: function(){
 		//debugger;
@@ -733,7 +727,7 @@ methods: {
 				for(var j=0;j<this.compArr.length;j++){
 					this.deviceArr[i].comppp.push(this.compArr[j]);
 				}
-				
+
 			}
 
 			/*for(var j=0;j<this.deviceArr[i].comppp.length;j++){
@@ -748,7 +742,7 @@ methods: {
 
 		//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!第二次添加会有问题，不是在组件里再加组件。
 		//将设备的id、名称和组件加入设备数组中
-		this.devcomps.push({   
+		this.devcomps.push({
 			id: deviceId,  //设备的id
 			name: deviceName,  //设备的名称
 	        devcompBinds:compArr
@@ -774,7 +768,7 @@ console.log("---------------------------");
 	    this.$axios.put('deployplan/'+ deployplanId + "/devices/" + deviceIdArr[0] + "/components/" + compIddArr[0],qs.stringify({
 	        "deployPath": $("input[name='deployPath']").val()
 	    }),{
-	        
+
 	        //设置头
 	        headers:{
 	            'content-type':'application/x-www-form-urlencoded'
@@ -784,40 +778,40 @@ console.log("---------------------------");
                 password: password
 	        }
 	    }).then(res=>{
-	        
+
 	        this.$router.replace({ path: '/deployplan'})
 	    })
         .catch(err=>{
             alert("提交失败！");
         })
-	   
+
 	},
 	changeDevice: function() {
     	deviceId = this.selectedDev;
      	//alert(deviceId);
-        
+
     },
 	changeDeployPlan: function() {
     	deployplanId = this.selected;
     	//alert(deployplanId);
-        
+
     }
 
 },
-computed: {  
-    devicesA: function () {  
-        var self = this;  
-        return self.devices.filter(function (item) {  
-            return item.name.toLowerCase().indexOf(self.searchQuery.toLowerCase()) !== -1;  
-        })  
+computed: {
+    devicesA: function () {
+        var self = this;
+        return self.devices.filter(function (item) {
+            return item.name.toLowerCase().indexOf(self.searchQuery.toLowerCase()) !== -1;
+        })
     },
-    compsA: function () {  
-        var self = this;  
-        return self.comps.filter(function (item) {  
-            return item.name.toLowerCase().indexOf(self.searchQuery.toLowerCase()) !== -1;  
-        })  
-    }  
-} 
+    compsA: function () {
+        var self = this;
+        return self.comps.filter(function (item) {
+            return item.name.toLowerCase().indexOf(self.searchQuery.toLowerCase()) !== -1;
+        })
+    }
+}
 
 }
 
@@ -849,7 +843,7 @@ computed: {
 
     .bindDevName{
     	margin-left: 30%;
-    } 
+    }
 
 	.leftchose{
 		height: 240px;

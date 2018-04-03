@@ -29,8 +29,8 @@
               </div>
 
               <div class="span7 field-box actions">
-                <input type="button" class="btn-glow primary" value="创建" @click="addUser"/>
-                <button type="submit" class="btn-glow primary" @click="formReset">取消</button>
+                <input type="button" class="btn-flat primary" value="创建" @click="addUser"/>
+                <button type="submit" class="btn-flat danger" @click="formReset">取消</button>
               </div>
             </div>
           </div>

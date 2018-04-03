@@ -9,7 +9,8 @@
             <i class="icon icon-cogs"></i>
           </a>
           <div class="span10 pull-right components-input">
-            <input class="search" type="text" placeholder="组件名称.." v-model="searchQuery"/>
+
+            <input class="search" type="text" placeholder="组件名称.." v-model="searchQuery" style="margin-right: 150px;"/>
 
             <router-link to="/addComponent1" class="btn-flat success pull-right" style="float: right;">
               <span>&#43;</span>
@@ -31,6 +32,23 @@
               </el-button>
 
             </el-upload>
+
+            <el-button class="pull-right hitoryClass" id="history" type="danger" @click="showHistory">
+              <i class="icon-beaker" style="margin-right: 0;"></i>
+              历史组件
+            </el-button>
+            <!--style="float: right;margin-right: 10px;height: 33.5px;padding: 9px 20px;"-->
+            <el-button class="pull-right nowClass" id="now" type="warning" @click="showNow">
+              <i class="icon-bell" style="margin-right: 0;"></i>
+              现有组件
+            </el-button>
+
+            <!--<input type="button" class="btn-flat  info pull-right icon-beaker" style="float: right;margin-right: 10px;height: 20px;padding: 9px 20px;" value="查看历史" @click="showHistory"/>-->
+
+            <!--<router-link to="" class="btn-flat info pull-right icon-beaker" style="float: right;margin-right: 10px;text-decoration:none;" @click="showHistory">
+              <span></span>
+              查看历史
+            </router-link>-->
 
 
           </div>
@@ -82,12 +100,9 @@
                 {{component.description}}
               </td>
 
-              <td style="width:304px">
+              <td style="width:304px" v-if="!component.deleted">
                 <ul class="ulactions">
                   <li>
-                    <!-- <router-link to="/modifyComponent">
-                        <input type="button" class="btn-glow primary" value="修改" @click="modifyComp($event)"/>
-                    </router-link> -->
                     <router-link :to='{name:"modifyComponent1",params:{id:component.id}}'>
                       <input type="button" class="btn-flat success" value="修改"/>
                     </router-link>
@@ -97,20 +112,28 @@
                   </li>
                   <li>
                     <a @click="exportLink($event)">
-                      <!--<a href="'" + this.getIP() +'components/'+id+'/export'+"'">-->
                       <input type="button" class="btn-flat primary" value="导出" :id="component.id"/>
-                      <!--<input type="button" class="btn-flat primary" value="导出" @click="exportComp($event)"/>-->
                     </a>
 
                   </li>
                   <li class="last">
-                    <!-- <router-link to="/devices" @click="deleteDevice">删除</router-link>  -->
                     <input type="button" class="btn-flat gray" value="复制" @click="copyComp($event)"/>
                   </li>
                 </ul>
               </td>
+
+              <td style="width:304px" v-else>
+                <el-alert
+                  title="此组件已删除"
+                  type="error"
+                  :closable="false"
+                  show-icon
+                  style="width: 225px;"
+                >
+                </el-alert>
+
+              </td>
             </tr>
-            <!-- row -->
 
             </tbody>
           </table>
@@ -140,6 +163,7 @@
       }
     },
     created() {
+
 
       let username = this.getCookie('username');
       let password = this.getCookie('password');
@@ -174,6 +198,67 @@
 
     },
     methods: {
+      showHistory: function(){
+        let username = this.getCookie('username');
+        let password = this.getCookie('password');
+
+        this.$axios.get(this.getIP() + 'components',
+
+          {
+            params: {  //get请求在第二个位置，post在第三个位置
+              isShowHistory: true
+            },
+            //设置头
+            headers: {
+              'content-type': 'application/x-www-form-urlencoded'
+            },
+            auth: {
+              username: username,
+              password: password
+            }
+          }).then(res => {
+          this.components = res.data.data;
+
+            //隐藏历史按钮
+            $("#history").attr("style","display:none;");
+
+            $("#now").attr("style","display:block;");
+          })
+          .catch(err => {
+            console.log(err);
+          })
+      },
+
+      showNow: function(){
+        let username = this.getCookie('username');
+        let password = this.getCookie('password');
+
+        this.$axios.get(this.getIP() + 'components',
+
+          {
+            params: {  //get请求在第二个位置，post在第三个位置
+              isShowHistory: false
+            },
+            //设置头
+            headers: {
+              'content-type': 'application/x-www-form-urlencoded'
+            },
+            auth: {
+              username: username,
+              password: password
+            }
+          }).then(res => {
+          this.components = res.data.data;
+
+          //隐藏历史按钮
+          $("#now").attr("style","display:none;");
+
+          $("#history").attr("style","display:block;");
+        })
+          .catch(err => {
+            console.log(err);
+          })
+      },
 
       deleteComp: function (event) {
         //alert("A");
@@ -263,7 +348,7 @@
       },*/
 
 
-    uploadCom: function (file) {
+      uploadCom: function (file) {
       let username = this.getCookie('username');
       let password = this.getCookie('password');
 
@@ -393,10 +478,30 @@
           return item.name.toLowerCase().indexOf(self.searchQuery.toLowerCase()) !== -1;
         })
       }
+    },
+    mounted () {
+      this.$nextTick(() => {
+        //隐藏现有按钮
+        $("#now").attr("style","display:none;");
+      })
     }
   }
 </script>
 <style>
+  .nowClass{
+    float: right;
+    margin-right: 10px;
+    height: 33.5px;
+    padding: 9px 20px;
+  }
+
+  .hitoryClass{
+    float: right;
+    margin-right: 10px;
+    height: 33.5px;
+    padding: 9px 20px;
+  }
+
   .tabletable {
     height: 600px;
     overflow-y: auto;

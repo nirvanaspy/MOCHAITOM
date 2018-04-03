@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="scan">
     <div class="container-fluid">
       <div id="pad-wrapper">
         <div class="row-fluid header">
@@ -28,7 +28,7 @@
 
                 <br/>-->
                 <div class="row-fluid table devcompchose">
-                  <div class="span3" style="margin-left: 7px;margin-top: 10px;">
+                  <div style="float:left;margin: 10px 10px 0 8px;">
                     部署设计
                   </div>
                   <div class="span8" id="scan-selection">
@@ -71,7 +71,9 @@
                   </table>
 
                   <div id="areaTree"
-                       style="margin-left: -1px; height: 370px; overflow-y: auto;margin-top: -16px;white-space:pre;">
+                       style="height: 394px; overflow-y: auto;white-space:pre;">
+                    <!--<div id="areaTree"
+                         style="margin-left: -1px; height: 370px; overflow-y: auto;margin-top: -16px;white-space:pre;"> -->
                     <div class="tree-box">
                       <div class="zTreeDemoBackground left">
                         <ul id="treeDemo" class="ztree" style="white-space: nowrap;">
@@ -79,6 +81,15 @@
                       </div>
                     </div>
                   </div>
+                 <!-- <el-tree
+                    :data="zTree"
+                    show-checkbox
+                    node-key="zNodes"
+                    props=""
+                   >
+                  </el-tree>
+-->
+
 
                 </div>
 
@@ -103,7 +114,7 @@
                       <thead>
                       <tr>
 
-                        <th class="span2 wrap">
+                        <th class="span2">
                           文件名
                         </th>
                         <th class="span2">
@@ -170,16 +181,16 @@
             <!-- icon-bolt 快速-->
             <!-- icon-circle-blank 完整 -->
             <div class="btn-group" style="margin-top: 20px;">
-              <button class="btn-glow" style="width:130px" @click="scanAll()"><i class="icon-circle-blank"></i>完整扫描
+              <button class="btn-flat" style="width:130px;margin-right:4px;" @click="scanAll()"><i class="icon-circle-blank"></i>完整扫描
               </button>
-              <button class="btn-glow" style="width:130px" @click="scanQuick1()"><i class="icon-bolt"></i>快速扫描
+              <button class="btn-flat" style="width:130px" @click="scanQuick1()"><i class="icon-bolt"></i>快速扫描
               </button>
 
 
             </div>
 
             <div class="btn-group pull-right" style="margin-top: 20px;">
-              <button class="btn-glow success" style="width:130px"><i class="icon-cloud-upload"></i>上传
+              <button class="btn-flat success" style="width:130px"><i class="icon-cloud-upload"></i>上传
               </button>
 
             </div>
@@ -1488,5 +1499,28 @@
   }
   div#scan-selection.span8{
     margin-top:4px;
+  }
+  div#areaTree{
+    border:1px solid rgb(204, 204, 204);
+    margin-top:0px;
+    margin-left:1px;
+  }
+  table.table thead {
+    background-color: #75b9e6;
+  }
+  table.table thead th {
+    text-align: center;
+  }
+  table.table td {
+    text-align: center;
+  }
+  table.table.table-hover{
+    margin-top: 2px;
+    margin-bottom:0;
+   /* background-color: #75b9e6;*/
+    color:#fff;
+  }
+  table.table.table-hover th{
+    padding:5px;
   }
 </style>

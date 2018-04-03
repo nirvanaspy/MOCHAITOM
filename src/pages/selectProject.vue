@@ -36,12 +36,33 @@
                   <router-link to="/main" class="mini-repo-list-item">
                     <span v-bind:id="project.id" name='project.id' @click="clicked($event)">{{project.name}}</span>
                   </router-link>
+                  <button
+                    class="btn-flat danger project-delete"
+                    v-bind:id="project.id"
+                    @click="deleteProject(project.id)"
+                  >删除</button>
                 </li>
               </ul>
-
             </div>
+  <!--          <el-table
+              :data="projectInfoA"
+              stripe
+              style="width: 100%">
+              <el-table-column
+                prop="name"
+                label="日期"
+                width="180">
+              </el-table-column>
+              <el-table-column
+                prop=""
+                label="姓名"
+                width="180">
+              </el-table-column>
+            </el-table>-->
+
 
           </div>
+
 
 
         </div>
@@ -153,7 +174,49 @@
         let expireDays = 30;
         Vue.prototype.setCookie('projectId', projectId, expireDays);
         console.log(Vue.prototype.getCookie('projectId'));
-      }
+      },
+      deleteProject(id) {
+        var msg = "您确定删除吗？";
+
+        let username = this.getCookie('username');
+        let password = this.getCookie('password');
+
+        if (confirm(msg) == true) {
+            // var qs = require('qs');
+            this.$axios.delete(this.getIP() + 'projects/'+id,{
+              //设置头
+              headers:{
+                'content-type':'application/x-www-form-urlencoded'
+              },
+              auth: {
+                username: username,
+                password: password
+              }
+            }).then(res=>{
+              layer.msg("删除成功");
+
+              this.$axios.get(this.getIP() + 'projects',{
+
+                //设置头
+                headers:{
+                  'content-type':'application/x-www-form-urlencoded'
+                },
+                auth: {
+                  username: username,
+                  password: password
+                }
+              }).then(res=>{
+                this.projectInfo = res.data.data;
+                this.length=res.data.data.length
+              })
+                .catch(err=>{
+                  console.log(err);
+                })
+            }).catch(err=>{
+              alert("删除失败！");
+            })
+          }
+        },
     }
   }
 </script>
@@ -407,9 +470,11 @@
     background-color: #fff;
     }
     li {
+    position: relative;
     display: list-item;
-    text-align: -webkit-match-parent;
-    line-height: 20px;
+    text-align: left;
+    line-height: 40px;
+    height:40px;
     }
     .mini-repo-list-item .repo {
     font-weight: 600;
@@ -425,6 +490,15 @@
     padding: 6px 64px 6px 30px;
     font-size: 14px;
     border-top: 1px solid #d1d5da;
+    }
+    a.mini-repo-list-item {
+      position: absolute;
+      left:24px;
+    }
+    .project-delete{
+      position: absolute;
+      right:10px;
+      top:4px;
     }
 .btn-flat.success {
     background: #96bf48;

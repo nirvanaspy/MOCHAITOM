@@ -24,10 +24,9 @@
                                 </div>
 
                                 <div class="span7 field-box actions">
-                                		<input type="button" class="btn-glow primary" value="修改"  @click="modifyUser"/>
-                                    <input type="button" class="btn-glow primary" value="取消"  @click="formReset"/>
+                                		<input type="button" class="btn-flat primary" value="修改"  @click="modifyUser"/>
+                                    <input type="button" class="btn-flat danger" value="取消"  @click="formReset"/>
                                 </div>
-                            </form>
                         </div>
                     </div>
 
