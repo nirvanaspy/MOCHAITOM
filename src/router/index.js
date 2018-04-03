@@ -130,7 +130,7 @@ export default new Router({
                     component: addDevice
                 },
                 {
-                    path: '/modifyDevice',
+                    path: '/modifyDevice/:id',
                     name: 'modifyDevice',
                     component: modifyDevice
                 },
