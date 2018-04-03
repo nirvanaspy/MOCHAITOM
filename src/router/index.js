@@ -140,7 +140,7 @@ export default new Router({
                     component: modifyComponent
                 },
                 {
-                  path: '/modifyComponent1',
+                  path: '/modifyComponent1/:id',
                   name: 'modifyComponent1',
                   component: modifyComponent1
                 },

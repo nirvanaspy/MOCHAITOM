@@ -149,7 +149,9 @@
       let username = this.getCookie('username');
       let password = this.getCookie('password');
 
-      this.$axios.get(this.getIP() + 'components/' + this.$route.params.id, {
+      let compId = this.$route.params.id;
+
+      this.$axios.get(this.getIP() + 'components/' + compId, {
 
         //设置头
         headers: {
