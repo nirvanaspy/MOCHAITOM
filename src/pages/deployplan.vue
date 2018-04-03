@@ -115,9 +115,8 @@
 
                         <div class="pull-right">
                           <button type="submit" class="btn-flat primary" @click="makeBaseline2">确认</button>
-                          <button type="submit" class="btn-flat primary" @click="formReset">取消</button>
+                          <button type="submit" class="btn-flat danger" @click="formReset">取消</button>
                         </div>
-                      </form>
 
                     </div>
                   </div>

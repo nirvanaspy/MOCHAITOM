@@ -93,9 +93,9 @@
 
                   <div class="modifySoftPackage span7 field-box actions">
 
-                    <button type="submit" class="btn-glow primary" @click="modifySoftPackage">保存</button>
+                    <button type="submit" class="btn-flat primary" @click="modifySoftPackage">保存</button>
                     <!--<input type="button" class="btn-glow primary" value="保存" style="width: 100px;" @click="modifyDevice"/>-->
-                    <button type="submit" class="btn-glow primary" @click="formReset">取消</button>
+                    <button type="submit" class="btn-flat danger" @click="formReset">取消</button>
                   </div>
 
               </form>

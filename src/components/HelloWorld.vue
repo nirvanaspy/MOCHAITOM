@@ -11,7 +11,7 @@
           <span class="icon-bar"></span>
         </button>
 
-        <a class="brand" href="index.html">
+        <div class="brand">
           <!-- <img src="img/logo.png" /> -->
           <div style="float:left;width:30px;">
             <!-- <img src="img/ico-mail.png" /> -->
@@ -23,7 +23,14 @@
             <h4 style="color:white;font-weight:700;">一体化运维管理平台</h4>
           </div>
 
-        </a>
+        </div>
+        <div class="login-out pull-right" @click="signout">
+          <span class="text">退出</span>
+          <i class="icon icon-user"></i>
+        </div>
+        <div class="goback pull-right" @click="gobackToProject">
+          <span class="text">返回项目</span>
+        </div>
       </div>
     </div>
     <!-- sidebar -->
@@ -178,6 +185,14 @@ export default {
         cursoropacitymax: 0
       })
     })
+  },
+  methods: {
+    signout() {
+      this.$router.push('/')
+    },
+    gobackToProject() {
+      this.$router.push('/selectProject')
+    }
   }
 
 }
@@ -190,6 +205,29 @@ export default {
   }
   .fade-enter,.fade-leave-to {
     opacity:0;
+  }
+  .login-out{
+    position: relative;
+    top:8px;
+    right:22px;
+    font-size: 18px;
+    font-weight: 700;
+    height:40px;
+    color:#fff;
+    cursor: pointer
+  }
+  .login-out .icon{
+    font-size: 26px;
+    margin-left:6px;
+  }
+  .goback{
+    position: relative;
+    top:13px;
+    right:30px;
+    font-size:18px;
+    color:#fff;
+    cursor: pointer;
+    font-weight: 700;
   }
  /* .fade-leave-to{
     transform: translate3d(30%,0,0);

@@ -159,9 +159,8 @@
               <br/>
               <div class="pull-right">
                 <button type="submit" class="btn-flat primary" @click="report2($event)">确认</button>
-                <button type="submit" class="btn-flat primary" @click="formReset">取消</button>
+                <button type="submit" class="btn-flat danger" @click="formReset">取消</button>
               </div>
-            </form>
 
           </div>
         </div>
@@ -188,10 +187,8 @@
             <br/>
             <div class="pull-right">
               <button type="submit" class="btn-flat primary" @click="report2($event)">确认</button>
-              <button type="submit" class="btn-flat primary" @click="formReset2">取消</button>
+              <button type="submit" class="btn-flat danger" @click="formReset2">取消</button>
             </div>
-            </form>
-
           </div>
         </div>
       </div>
@@ -217,10 +214,8 @@
             <br/>
             <div class="pull-right">
               <button type="submit" class="btn-flat primary" @click="report2($event)">确认</button>
-              <button type="submit" class="btn-flat primary" @click="formReset3">取消</button>
+              <button type="submit" class="btn-flat danger" @click="formReset3">取消</button>
             </div>
-            </form>
-
           </div>
         </div>
       </div>

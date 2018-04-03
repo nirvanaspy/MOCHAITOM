@@ -3,7 +3,7 @@
     <div class="container-fluid">
       <div id="pad-wrapper" class="new-user">
         <div class="row-fluid header">
-          <h3 class="header-wrapper-add">创建一个新组件测试</h3>
+          <h3 class="header-wrapper-add">创建新组件</h3>
         </div>
         <div class="row-fluid form-wrapper">
           <!-- left column -->
@@ -51,8 +51,8 @@
               </div>
 
               <div class="span7 field-box actions">
-                <button type="submit" class="btn-glow primary" @click="addComp($event)">创建</button>
-                <button type="submit" class="btn-glow primary" @click="formReset">取消</button>
+                <button type="submit" class="btn-flat primary" @click="addComp($event)">创建</button>
+                <button type="submit" class="btn-flat danger" @click="formReset">取消</button>
                 <!-- <input type="button" class="btn-glow primary" value="添加组件" style="width: 100px;" @click="addComp($event)"/> -->
               </div>
             </div>

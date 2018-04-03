@@ -22,8 +22,8 @@
                                 <input class="span9" type="text" name="add-des"/>
                             </div>
                             <div class="span7 field-box actions">
-                                <button type="submit" class="btn-glow primary" @click="addDeployPlan">创建</button>
-                                <button type="submit" class="btn-glow primary" @click="formReset">取消</button>
+                                <button type="submit" class="btn-flat primary" @click="addDeployPlan">创建</button>
+                                <button type="submit" class="btn-flat danger" @click="formReset">取消</button>
                                 <!-- <input type="button" class="btn-glow primary" value="创建" style="width: 100px;" @click="addDeployPlan"/> -->
                             </div>
                         </div>

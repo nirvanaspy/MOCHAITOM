@@ -28,11 +28,10 @@
                                 </div>
 
                                 <div class="span7 field-box actions">
-                                    <button type="submit" class="btn-glow primary" @click="addProject($event)">创建</button>
-                                    <button type="submit" class="btn-glow primary" @click="formReset">取消</button>
+                                    <button type="submit" class="btn-flat primary" @click="addProject($event)">创建</button>
+                                    <button type="submit" class="btn-flat danger" @click="formReset">取消</button>
                                     <!-- <input type="button" class="btn-glow primary" value="添加组件" style="width: 100px;" @click="addComp($event)"/> -->
                                 </div>
-                            </form>
                         </div>
                     </div>
 
