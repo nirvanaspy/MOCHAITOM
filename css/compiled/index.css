@@ -252,7 +252,12 @@
 div.drag-content.span12 {
   border-color: #75b9e6;
 }
-
+div.row-fluid.table.tabletable{
+  border-top: 2px solid rgb(117, 185, 230);
+}
+.table thead {
+  border-top:none;
+}
 /* responsive */
 @media (max-width: 767px) {
   #main-stats {
