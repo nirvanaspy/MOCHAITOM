@@ -81,18 +81,25 @@
                                   <input type="button" class="btn-flat primary" value="修改"/>
                                 </router-link>
                               </li>
-                              <li v-else>
+                              <!--<li v-else>
                                 <router-link :to='{name:"modifyPasswordAdmin",params:{id:user.id}}'>
                                   <input type="button" class="disabled-btn btn-flat gray" value="修改" disabled="disabled"/>
                                 </router-link>
+                              </li>-->
+                              <li v-else>
+                                <el-alert class="admin-warning"
+                                  :closable="false"
+                                  title="管理员用户"
+                                  type="error">
+                                </el-alert>
                               </li>
 
                               <li v-if="user.username != 'admin'">
                                 <input type="button" class="btn-flat danger" value="删除" @click="deleteUser($event)"/>
                               </li>
-                              <li v-else>
+                              <!--<li v-else>
                                 <input type="button" class="disabled-btn btn-flat gray" value="删除" @click="deleteUser($event)" disabled="disabled"/>
-                              </li>
+                              </li>-->
 
                             </ul>
                           </td>
@@ -257,6 +264,11 @@
 <style>
   .ulactions{
     margin: 5px 0 0 0;
+  }
+  .admin-warning{
+    width:114px;
+    margin-left:-1px;
+    background-color: #ffe9e9;
   }
 
   .ulactions li{

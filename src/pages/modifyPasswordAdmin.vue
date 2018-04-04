@@ -70,6 +70,7 @@
         },
         methods:{
            modifyUser: function (){
+               let reg = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/;
                let userId = this.$route.params.id;
 
                let qs = require('qs');
@@ -85,7 +86,9 @@
                     layer.msg("请输入新密码！");
                 }else if(newPasswordAgain == ""){
                     layer.msg("请再次输入密码！");
-                }else if(newPassword !== newPasswordAgain){
+                }else if(!reg.test(newPassword)) {
+                    layer.msg("密码必须是大小写英文字母和数字混合，至少6位!");
+               } else if(newPassword !== newPasswordAgain){
                     layer.msg("两次输入密码不一致！");
                 }else{
 

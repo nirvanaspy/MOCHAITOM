@@ -479,6 +479,13 @@
         })
       }
     },
+    watch: {
+      componentsA() {
+        this.componentsA = this.componentsA.sort(
+          function(x,y){ return x['name'].localeCompare(y['name']) ;
+          })
+      }
+    },
     mounted () {
       this.$nextTick(() => {
         //隐藏现有按钮

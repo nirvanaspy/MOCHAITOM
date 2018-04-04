@@ -52,6 +52,8 @@
     methods: {
       addUser: function () {
         var qs = require('qs');
+        var reg1 = /^[a-zA-Z]{6,}$/;
+        var reg2 = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/;
 
         let username = $("input[name='add-name']").val();
         let password = $("input[name='add-password']").val();
@@ -66,7 +68,12 @@
           layer.msg("请再次输入密码！");
         } else if (password !== password2) {
           layer.msg("两次输入密码不一致！");
-        } else {
+        } else if (!reg1.test(username)) {
+          layer.msg("用户名必须是英文字母，至少6位")
+        } else if (!reg2.test(password)) {
+          layer.msg('密码必须是大小写英文字母和数字混合，至少6位！')
+        }
+          else {
           this.$axios.post(this.getIP() + 'users', qs.stringify({
             "username": $("input[name='add-name']").val(),
             "password": $("input[name='add-password']").val()
