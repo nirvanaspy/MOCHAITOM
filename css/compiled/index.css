@@ -258,7 +258,6 @@ div.row-fluid.table.tabletable{
 .table thead {
   border-top:none;
 }
-
 /* responsive */
 @media (max-width: 767px) {
   #main-stats {
