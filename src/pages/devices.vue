@@ -153,7 +153,7 @@
             <form class="form-horizontal"/>
               <div style="margin-top: 23px;">
                 <span>绝对路径:</span>
-                <input type="text" id="input-path" style="height:20px">(例如:D:/test/)
+                <input type="text" id="input-path" name="input-path" style="height:20px">(例如:D:/test/)
               </div>
 
               <br/>
@@ -186,7 +186,7 @@
 
             <br/>
             <div class="pull-right">
-              <button type="submit" class="btn-flat primary" @click="report2($event)">确认</button>
+              <button type="submit" class="btn-flat primary">确认</button>
               <button type="submit" class="btn-flat danger" @click="formReset2">取消</button>
             </div>
           </div>
@@ -213,7 +213,7 @@
 -->
             <br/>
             <div class="pull-right">
-              <button type="submit" class="btn-flat primary" @click="report2($event)">确认</button>
+              <button type="submit" class="btn-flat primary">确认</button>
               <button type="submit" class="btn-flat danger" @click="formReset3">取消</button>
             </div>
           </div>
@@ -453,12 +453,16 @@
 
       },
       report2: function () {
+        let pattern = /^([a-zA-Z]:(\\))([a-zA-Z]*)|(\/([a-zA-Z]+))*\/$/;
 
-        console.log($("input[id='input-path']").val());
-        console.log(this.devname);
-        console.log(this.devip);
+        let repPath = $("input[name='input-path']").val();
 
-        if ($("input[id='input-path']").val() != null) {
+        if (repPath == null) {
+          layer.msg("请输入路径！");
+
+        }else if (!((repPath).match(pattern))){
+          layer.msg("路径格式不正确!");
+        } else {
 
           let qs = require('qs');
           let projectId = this.getCookie('projectId');
@@ -507,8 +511,6 @@
             .catch(err => {
               layer.msg('上报失败！');
             })
-        } else {
-          layer.msg("请输入路径！");
         }
       }
 
