@@ -210,7 +210,7 @@ export default new Router({
                   component: log
                 },
                 {
-                  path: '/modifySoftpackage',
+                  path: '/modifySoftpackage/:id',
                   name: 'modifySoftpackage',
                   component: modifySoftpackage
                 }
