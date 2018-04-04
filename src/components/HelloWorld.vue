@@ -188,9 +188,14 @@ export default {
   },
   methods: {
     signout() {
-      this.$router.push('/')
+      var msg = "您确定退出登录吗？";
+      if (confirm(msg) == true){
+        this.$router.push('/')
+      }
     },
     gobackToProject() {
+      var msg = "您确定返回项目选择吗？";
+      if (confirm(msg) == true)
       this.$router.push('/selectProject')
     }
   }
