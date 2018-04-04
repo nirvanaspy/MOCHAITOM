@@ -184,34 +184,8 @@
 
         this.allArr.push(this.fieList);
 
-        /*for(let i=0;i<this.allArr.length;i++){
-          for(let j=0;j<this.fieList2.length;j++){
-            if(this.allArr[i] == this.fieList2[j]){
-              this.allArr.splice(i,1);
-              break;
-            }
-          }
-
-        }*/
       },
 
-
-      /*uploadStart: function () {
-        this.started = true
-      },
-
-      progressStyle: function () {
-        const progress = Math.floor(this.progress * 100);
-        const style = `translateX(${Math.floor(progress - 100)}%)`;
-        console.log(progress);
-        return {
-          progress: `${progress}%`,
-          webkitTransform: style,
-          mozTransform: style,
-          msTransform: style,
-          transform: style
-        }
-      },*/
 
       addComp(event) {
         let username = this.getCookie('username');
@@ -222,25 +196,10 @@
         this.describle = $("input[name='add-describle']").val();
         this.deployPath = $("input[name='add-deployPath']").val();
 
-        //console.log(this.autoStart);
-       // console.log(this.statusText);
         console.log(this.$refs.uploader.uploader.started);
         this.fileAll = this.$refs.uploader.uploader.files;
 
-        console.log("上传列表-----------------");
-
-        console.log(this.fileAll);
-        console.log(this.$refs.uploader.uploader.files);
-        console.log(this.$refs.uploader.uploader.fileList);
-
-
-        /*this.started = true;
-        this.autoStart = true;
-        console.log("是否开始-------------------");
-        console.log(this.autoStart);
-        console.log(this.statusText);
-        console.log(this.started);*/
-
+        let pattern = /^(\/([a-zA-Z]+))*\/$/;
 
         if(this.name.length==0){
           layer.msg("请输入组件名！");
@@ -248,6 +207,8 @@
           layer.msg("请输入版本！");
         }else if(this.deployPath.length==0){
           layer.msg("请输入路径！");
+        }else if (!((this.deployPath).match(pattern))){
+          layer.msg("路径格式不正确!");
         }else {
           //layer.load();
           event.preventDefault();

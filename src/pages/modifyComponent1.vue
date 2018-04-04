@@ -306,6 +306,8 @@
 
         this.fileAll = this.$refs.uploader.uploader.files;
 
+        let pattern = /^(\/([a-zA-Z]+))*\/$/;
+
 
         if (this.name.length == 0) {
           layer.msg("请输入组件名！");
@@ -313,6 +315,8 @@
           layer.msg("请输入版本！");
         } else if (this.deployPath.length == 0) {
           layer.msg("请输入路径！");
+        } else if (!((this.deployPath).match(pattern))){
+          layer.msg("路径格式不正确!");
         } else {
           //layer.load();
           event.preventDefault();

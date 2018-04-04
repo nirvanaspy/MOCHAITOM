@@ -104,33 +104,47 @@
         let path = $("input[id='edit-path']").val();
         let description = $("input[id='edit-des']").val();
 
+        let pattern = /^([a-zA-Z]:(\\))([a-zA-Z]*)|(\/([a-zA-Z]+))*\/$/;
+
+        //ip地址
+        let exp = /^(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/;
+        let reg = ip.match(exp);
+
         //debugger;
 
         if ((name.length != 0) && (ip.length != 0) && (path.length != 0)) {
-          this.$axios.patch(this.getIP() + 'devices/' + deviceId, qs.stringify({
 
-            "name": name,
-            "ip": ip,
-            "deployPath": path,
-            "description": description
-          }), {
+          if (!((path).match(pattern))){
+            layer.msg("路径格式不正确!");
+          }else if (reg == null) {
+            layer.msg('IP地址不合法！');
+          }else{
+            this.$axios.patch(this.getIP() + 'devices/' + deviceId, qs.stringify({
 
-            //设置头
-            headers: {
-              'content-type': 'application/x-www-form-urlencoded'
-            },
-            auth: {
-              username: username,
-              password: password
-            }
-          }).then(res => {
-            layer.msg("保存成功！");
-            this.$router.replace({path: '/devices'})
-          }).catch(err => {
-            alert("修改失败, 请检查ip是否重复！");
-          })
+              "name": name,
+              "ip": ip,
+              "deployPath": path,
+              "description": description
+            }), {
+
+              //设置头
+              headers: {
+                'content-type': 'application/x-www-form-urlencoded'
+              },
+              auth: {
+                username: username,
+                password: password
+              }
+            }).then(res => {
+              layer.msg("保存成功！");
+              this.$router.replace({path: '/devices'})
+            }).catch(err => {
+              layer.msg("修改失败, 请检查ip是否重复！");
+            })
+          }
+
         } else {
-          alert("请输入必填项");
+          layer.msg("请输入必填项");
         }
 
       },
