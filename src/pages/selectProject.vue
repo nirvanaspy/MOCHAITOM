@@ -34,7 +34,7 @@
                   data-filterable-type="substring" style="background: rgba(255, 255, 255, 0.65);">
                 <li class="pubic fork" v-for="project in projectInfoA">
                   <router-link to="/main" class="mini-repo-list-item">
-                    <span v-bind:id="project.id" name='project.id' @click="clicked($event)">{{project.name}}</span>
+                    <span class="project-name" v-bind:id="project.id" name='project.id' @click="clicked($event)">{{project.name}}</span>
                   </router-link>
                   <button
                     class="btn-flat danger project-delete"
@@ -507,4 +507,13 @@
     text-shadow: 1px 1px 0px rgba(0,0,0,0.3);
     font-weight: 600;
 }
+  span.project-name{
+    display:inline-block;
+    width:300px;
+    height: 30px;
+    font-weight:700;
+    padding:0px 40px 2px 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 </style>
