@@ -11,17 +11,20 @@
       <div class="span4 box">
         <div class="content-wrap">
           <h6>登录</h6>
-          <input id="username" class="span12" type="text" placeholder="用户名"/>
-          <input id="password" class="span12" type="password" placeholder="密码"/>
+          <input id="username" class="span12" type="text" placeholder="用户名"
+                 @keyup.enter="login"/>
+          <input id="password" class="span12" type="password" placeholder="密码" @keyup.enter="login"/>
           <div class="span12" style="margin-left: 0;">
             <div class="span8">
-              <input id="ip" class="span12" type="text" placeholder="请输入IP" :value="info.ip"/>
+              <input id="ip" class="span12" type="text" placeholder="请输入IP" :value="info.ip"
+                     @keyup.enter="login"/>
             </div>
             <div class="span1" style="margin-top: 5px;">
               ：
             </div>
             <div class="span3">
-              <input id="port" class="span12" type="text" placeholder="端口号" :value="info.port"/>
+              <input id="port" class="span12" type="text" placeholder="端口号" :value="info.port"
+                     @keyup.enter="login"/>
             </div>
 
           </div>
@@ -31,7 +34,10 @@
               <input id="remember-me" type="checkbox" />
               <label for="remember-me">记住我</label>
           </div>-->
-          <button class="btn-flat primary" style="width: 100px;margin-top: 30px;" v-on:click="login">登录</button>
+          <button class="btn-flat primary" style="width: 100px;margin-top: 30px;"
+                  v-on:click="login"
+                  ref="loginBtn"
+          >登录</button>
         </div>
       </div>
 
