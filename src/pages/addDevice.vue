@@ -116,17 +116,28 @@
         var username = this.getCookie('username');
         var password = this.getCookie('password');
 
+        let pattern = /^([a-zA-Z]:(\\))([a-zA-Z]*)|(\/([a-zA-Z]+))*\/$/;
+
+        //ip地址
+        let exp = /^(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/;
+
         this.name = $("input[name='add-name']").val();
         this.ip = $("input[name='add-ip']").val();
         this.path = $("input[name='add-path']").val();
         this.description = $("input[name='add-des']").val();
 
+        let reg = this.ip.match(exp);
+
         if(this.name.length==0){
           layer.msg("请输入设备名！");
         }else if(this.ip.length==0){
           layer.msg("请输入IP！");
+        }else if (reg == null) {
+          layer.msg('IP地址不合法！');
         }else if(this.path.length==0){
           layer.msg("请输入路径！");
+        }else if (!((this.path).match(pattern))){
+          layer.msg("路径格式不正确!");
         }else {
 
           let formData = new FormData();
