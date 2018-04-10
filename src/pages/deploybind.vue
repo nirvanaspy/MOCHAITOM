@@ -81,7 +81,9 @@
                     <h2 class="devicename">{{deviceName}}</h2>
                   </div>
                   <div class="moveChild span4" v-for="(device,index) in devicecomps" :key="index"
-                       style="margin-top: 40px;text-align: center;margin-left: -5px;">
+                       style="margin-top: 40px;text-align: center;margin-left: -5px;"
+                       @click="selectMoveChild(device)"
+                  >
 
                     <div>
                       <img src="../../img/files.png" style="height: 90px;"/>
@@ -159,7 +161,11 @@
                     </thead>
                     <tbody>
 
-                    <tr class="first" style="cursor: pointer;" v-for="(component,index) in compsA" :id="component.id">
+                    <tr class="first" style="cursor: pointer;" v-for="(component,index) in compsA"
+                        :id="component.id"
+                        v-if="!component.deleted"
+                        :class="{'isBinded': component.isBind === true}"
+                    >
                       <td style="display:none">{{component.id}}</td>
 
                       <td class="wrap2" @click="compClick($event)" :id="component.id">
@@ -184,15 +190,89 @@
                         <div class="btn-group small" style="margin-right: 3px">
                           <button class="btn-glow icon-reply moveInOut" @click="moveComp($event)" value="aa">
                             <!-- <i class="icon-random"></i> -->
+                            <!--:class="{'btn-color': component.selected === true}"-->
                           </button>
                         </div>
 
                       </td>
+                      <td v-if="component.isBind">
+                        <div class="btn-group small" style="margin-right: 3px;">
+
+                          <button class="btn-glow icon-trash moveInOut"
+                                  @click="moveoutComp($event)">
+
+                          </button>
+                        </div>
+
+                      </td>
+                      <td v-else>
+                        <div class="btn-group small" style="margin-right: 3px">
+                          <button class="btn-glow icon-trash moveInOut" @click="moveoutComp($event)">
+                          </button>
+
+                        </div>
+
+                      </td>
+
+                    </tr>
+                    <tr class="first historyComponents" style="cursor: pointer;" v-for="(component,index) in compsA"
+                        :id="component.id"
+                        v-if="component.deleted"
+                        :class="{'isBinded': component.isBind === true}"
+                    >
+                      <td style="display:none">{{component.id}}</td>
+
+                      <td class="wrap2" @click="compClick($event)" :id="component.id">
+                        <div class="wrap2" :id="component.id" :title="component.name">
+                          <i class="icon-folder-close-alt"></i>&nbsp;
+                          {{component.name}}
+                        </div>
+
+                      </td>
+                      <td class="wrap2" @click="compClick($event)" :id="component.id">
+                        <div class="wrap2" :id="component.id" :title="component.displaySize">
+                          {{component.displaySize}}
+                        </div>
+                      </td>
+                      <td @click="compClick($event)" :id="component.id">
+                        <div :id="component.id">
+                          {{component.version}}
+                        </div>
+                      </td>
+
                       <td>
+                        <div class="btn-group small" style="margin-right: 3px">
+                          <button class="btn-glow icon-info-sign moveInOut"  @click="bindDisabled" value="aa">
+                            <!-- <i class="icon-random"></i> -->
+                            <!--:class="{'btn-color': component.selected === true}"-->
+                          </button>
+                        </div>
+
+                      </td>
+                      <!--<td>
                         <div class="btn-group small" style="margin-right: 3px">
                           <button class="btn-glow icon-trash moveInOut" @click="moveoutComp($event)">
 
                           </button>
+                        </div>
+
+                      </td>-->
+
+                      <td v-if="component.isBind">
+                        <div class="btn-group small" style="margin-right: 3px;">
+
+                          <button class="btn-glow icon-trash moveInOut"
+                                  @click="moveoutComp($event)">
+
+                          </button>
+                        </div>
+
+                      </td>
+                      <td v-else>
+                        <div class="btn-group small" style="margin-right: 3px">
+                          <button class="btn-glow icon-trash moveInOut" @click="moveoutComp($event)">
+                          </button>
+
                         </div>
 
                       </td>
@@ -217,6 +297,7 @@
 
       </div>
     </div>
+
 
     <!--<div>
         设备上的原有的组件：{{compdevices}}
@@ -323,7 +404,8 @@
 
 
       }
-    }, created() {
+    },
+    created() {
       var projectId = this.getCookie('projectId');
       var username = this.getCookie('username');
       var password = this.getCookie('password');
@@ -349,7 +431,8 @@
       //获取组件
       this.$axios.get(this.getIP() + 'components', {
         params: {  //get请求在第二个位置，post在第三个位置
-          isShowHistory: false
+          /*isShowHistory: false*/
+          isShowHistory: true
         },
         //设置头
         headers: {
@@ -362,9 +445,12 @@
       }).then(res => {
 
         this.comps = res.data.data;
-        /*for (var j = 0; j < this.comps.length; j++) {
-          this.comps[j].size = this.comps[j].size.toFixed(5);
-        }*/
+
+        /*this.findIndex(this.comps,this.devicecomps)*/
+        for (var j = 0; j < this.comps.length; j++) {
+          this.comps[j].isBind = "";
+          this.comps[j].isBind = "false";
+        }
 
 
       })
@@ -399,9 +485,28 @@
         .catch(err => {
           console.log("hhh");
         });
+      /*    let compsArray = this.comps;
+          let devicecompsArray = this.devicecomps;
+          for(var i = 0;i < compsArray.length; i++) {
+            for (var j = 0; j<devicecompsArray.length; j++) {
+              if (devicecompsArray[j].id === compsArray[j].id) {
+                compsArray[i].selected = true
+              }
+            }
+          }*/
 
     },
     methods: {
+      /*findIndex(A,B) {
+        A.findIndex((item) => {
+          if (item.id === B.id) {
+            item.getElementsByTagName('td').style.color = "blue"
+          }
+        })
+      },*/
+      bindDisabled: function () {
+        layer.msg("历史组件无法绑定！")
+      },
       drag: function (event) {
         event = event || window.event;
         event.dataTransfer.effectAllowed = 'all';
@@ -454,11 +559,32 @@
             password: password
           }
         }).then(res => {
-          this.devicecomps = res.data.data
+          this.devicecomps = res.data.data;
+
+          //点击后重新获取组件
+          //this.comps.splice(0,this.comps.length);
+
+          //判断是否绑定 初始化
+          for(var j=0;j<this.comps.length;j++){
+            this.comps[j].isBind = false;
+          }
+
+          //为是否绑定赋值
+          for(var i=0;i<this.devicecomps.length;i++){
+            for(var j=0;j<this.comps.length;j++){
+              if(this.devicecomps[i].componentEntity.id == this.comps[j].id){//判断id是否相等
+                this.comps[j].isBind = true;
+                break;
+              }
+            }
+          }
+
         })
           .catch(err => {
             console.log(err);
           })
+
+
 
       },
 
@@ -1008,6 +1134,9 @@
         deployplanId = this.selected;
         //alert(deployplanId);
 
+      },
+      selectMoveChild: function (targets) {
+        targets.selected = true;
       }
 
     },
@@ -1020,6 +1149,7 @@
       },
       compsA: function () {
         let self = this;
+        console.log(this.comps)
         return self.comps.filter(function (item) {
           return item.name.toLowerCase().indexOf(self.searchQueryComp.toLowerCase()) !== -1;
         })
@@ -1160,6 +1290,9 @@
     margin-left:0;
     width:28%;
   }
+  .btn-color {
+    color:blue;
+  }
   @media screen and (max-width:1200px){
     div#deploydetail.span3 {
       margin-left: 4px;
@@ -1190,6 +1323,14 @@
     background-color: #cccccc;
     color:#fff;
     font-size: 16px;
+  }
+  .historyComponents {
+    background: #ffe9e9;
+  }
+  .historyComponents td {
+  }
+  tr.isBinded {
+    background: #E6E6FA;
   }
 
 </style>

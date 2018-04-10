@@ -87,11 +87,14 @@
                                 </router-link>
                               </li>-->
                               <li v-else>
-                                <el-alert class="admin-warning"
+                                <!--<el-alert class="admin-warning"
                                   :closable="false"
                                   title="管理员用户"
                                   type="error">
-                                </el-alert>
+                                </el-alert>-->
+                                <span class="admin-warning" id="adminWarning">
+                                管理员用户
+                                </span>
                               </li>
 
                               <li v-if="user.username != 'admin'">
@@ -265,10 +268,22 @@
   .ulactions{
     margin: 5px 0 0 0;
   }
-  .admin-warning{
-    width:114px;
+ /* div.el-alert.admin-warning {
+    width:114px ;
     margin-left:-1px;
     background-color: #ffe9e9;
+  }*/
+  span#adminWarning{
+    display:inline-block;
+    box-sizing:border-box;
+    width:114px;
+    margin-left:-1px;
+    height:36px;
+    line-height:36px;
+    border-radius:4px;
+    background-color: #ffe9e9;
+    color:#f56c6c;
+    text-align:center;
   }
 
   .ulactions li{

@@ -43,7 +43,8 @@
             <i class="icon-group"></i>
             <span>用户管理</span>
           </router-link>
-          <div class="pointer">
+          <div class="pointer"
+          >
             <div class="arrow"></div>
             <div class="arrow_border"></div>
           </div>

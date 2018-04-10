@@ -1,6 +1,6 @@
 <template>
   <!-- main container -->
-  <div>
+  <div id="components">
     <div class="container-fluid">
       <div id="pad-wrapper" class="users-list">
         <div class="row-fluid header">
@@ -33,15 +33,24 @@
 
             </el-upload>
 
-            <el-button class="pull-right hitoryClass" id="history" type="danger" @click="showHistory">
+          <!--  <el-button class="pull-right hitoryClass" id="history" type="danger" @click="showHistory">
               <i class="icon-beaker" style="margin-right: 0;"></i>
               历史组件
             </el-button>
-            <!--style="float: right;margin-right: 10px;height: 33.5px;padding: 9px 20px;"-->
+            &lt;!&ndash;style="float: right;margin-right: 10px;height: 33.5px;padding: 9px 20px;"&ndash;&gt;
             <el-button class="pull-right nowClass" id="now" type="warning" @click="showNow">
               <i class="icon-bell" style="margin-right: 0;"></i>
               现有组件
-            </el-button>
+            </el-button>-->
+            <span class="pull-right hitoryClass" id="history" type="danger"
+                  @click="showHistory">
+                  <i class="icon-beaker" style="margin-right: 0;"></i>
+                  历史组件
+                </span>
+            <span class="pull-right nowClass" id="now" type="warning" @click="showNow">
+                  <i class="icon-bell" style="margin-right: 0;"></i>
+                  现有组件
+            </span>
 
             <!--<input type="button" class="btn-flat  info pull-right icon-beaker" style="float: right;margin-right: 10px;height: 20px;padding: 9px 20px;" value="查看历史" @click="showHistory"/>-->
 
@@ -117,12 +126,16 @@
 
                   </li>
                   <li class="last">
-                    <input type="button" class="btn-flat gray" value="复制" @click="copyComp($event)"/>
+                    <input type="button" class="btn-flat gray" value="复制"
+                           @click="copyComp($event)"
+                    />
+                    <!--:disabled="{'disabled':copyBtnState === false}"-->
                   </li>
                 </ul>
               </td>
 
               <td style="width:304px" v-else>
+
                 <el-alert
                   title="此组件已删除"
                   type="error"
@@ -409,6 +422,8 @@
     },
 
       copyComp: function (event) {
+        /*this.copyBtnState = false;*/
+       /* this.$refs.copyBtn.disabled = true;*/
         var e = event || window.event;
 
         var name;
@@ -445,6 +460,8 @@
             }
           }).then(res => {
           layer.msg("复制成功");
+          /*this.copyBtnState = true;*/
+          /*this.$refs.copyBtn.disabled = false;*/
           this.$axios.get(this.getIP() + 'components', {
             params: {  //get请求在第二个位置，post在第三个位置
               isShowHistory: false
@@ -459,7 +476,7 @@
               password: password
             }
           }).then(res => {
-            this.components = res.data.data
+            this.components = res.data.data;
           })
             .catch(err => {
               console.log(err);
@@ -495,7 +512,7 @@
   }
 </script>
 <style>
-  .nowClass{
+/*  .nowClass{
     float: right;
     margin-right: 10px;
     height: 33.5px;
@@ -507,6 +524,34 @@
     margin-right: 10px;
     height: 33.5px;
     padding: 9px 20px;
+  }*/
+  #components #now{
+    float: right;
+    margin-right: 10px;
+    height: 33.5px;
+    padding: 9px 20px;
+    background-color:#e6a23c;
+    cursor:pointer;
+    box-sizing:border-box;
+    color:#fff;
+    border-radius:4px;
+  }
+  #components #history{
+    float: right;
+    margin-right: 10px;
+    height: 33.5px;
+    padding: 7px 20px;
+    background-color:#f56c6c;
+    cursor:pointer;
+    box-sizing:border-box;
+    color:#fff;
+    border-radius:4px;
+  }
+  #components span#now:hover{
+    background-color:#ebb563;
+  }
+  #components span#history:hover{
+    background-color:#f78989;
   }
 
   .tabletable {
